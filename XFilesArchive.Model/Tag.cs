@@ -9,7 +9,6 @@ namespace XFilesArchive.Model
         {
             this.ArchiveEntities = new HashSet<ArchiveEntity>();
         }
-
         [Key]
         public int TagKey { get; set; }
 
