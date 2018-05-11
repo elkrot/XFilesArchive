@@ -13,41 +13,18 @@ namespace XFilesArchive.UI.ViewModel
     {
         private IArchiveDataService _archiveDataService;
 
-        public ObservableCollection<Drive> Drives { get; set; }
-        private Drive _selectedDrive;
+        public INavigationViewModel NavigationViewModel { get; set; }
 
-        public Drive SelectedDrive
-        {
-            get { return _selectedDrive; }
-            set
-            {
-                _selectedDrive = value;
-                OnPropertyChanged();
-            }
-        }
-        public void Load()
-        {
-            var drives = _archiveDataService.GetAllDrives();
-            foreach (var drive in drives)
-            {
-                Drives.Add(drive);
-            }
-        }
         public async Task LoadAsync()
         {
-            var drives =await _archiveDataService.GetAllDrivesAsync();
-
-            foreach (var drive in drives)
-            {
-                Drives.Add(drive);
-            }
+            await NavigationViewModel.LoadAsync();
         }
 
-        public MainViewModel(IArchiveDataService archiveDataService)
+        public MainViewModel(INavigationViewModel navigationViewModel)
         {
-            _archiveDataService = archiveDataService;
-            Drives = new ObservableCollection<Drive>();
-            SelectedDrive = new Drive();
+            NavigationViewModel = navigationViewModel;
+
         }
+
     }
 }

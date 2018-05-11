@@ -4,26 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XFilesArchive.UI"
+        xmlns:view="clr-namespace:XFilesArchive.UI.View"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <ListView Grid.Column="0" ItemsSource="{Binding Drives}" SelectedItem="{Binding SelectedDrive,Mode=TwoWay}" 
-                  DisplayMemberPath="Title" Background="AliceBlue"/>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-
-            </Grid.RowDefinitions>
-            <Label Content="Title"/>
-            <TextBox Grid.Row="1" Text="{Binding SelectedDrive.Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-        </Grid>
+        <view:NavigationView DataContext="{Binding NavigationViewModel}"/>
     </Grid>
 
 </Window>

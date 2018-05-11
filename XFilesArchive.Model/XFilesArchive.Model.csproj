@@ -45,6 +45,7 @@
     <Compile Include="Category.cs" />
     <Compile Include="Drive.cs" />
     <Compile Include="Image.cs" />
+    <Compile Include="LookupItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tag.cs" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using XFilesArchive.DataAccess;
 using XFilesArchive.UI.Services;
+using XFilesArchive.UI.Services.Data;
 using XFilesArchive.UI.ViewModel;
 
 namespace XFilesArchive.UI.Startup
@@ -13,6 +14,8 @@ namespace XFilesArchive.UI.Startup
             builder.RegisterType<MainViewModel>().AsSelf();
             builder.RegisterType<ArchiveDataService>().As<IArchiveDataService>();
             builder.RegisterType<XFilesArchiveDataContext>().AsSelf();
+            builder.RegisterType<LookupDataService>().AsImplementedInterfaces();
+
             return builder.Build();
         }
 
