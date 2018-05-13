@@ -5,10 +5,76 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XFilesArchive.UI"
         xmlns:view="clr-namespace:XFilesArchive.UI.View"
+       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+         xmlns:viewModel="clr-namespace:XFilesArchive.UI.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <view:NavigationView DataContext="{Binding NavigationViewModel}"/>
-    </Grid>
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:DriveDetailViewModel}">
+            <view:DetailView/>
+        </DataTemplate>
 
+        <DataTemplate DataType="{x:Type viewModel:MeetingDetailViewModel}">
+            <view:MeetingDetailView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:ProgrammingLanguageDetailViewModel}">
+            <view:ProgrammingLanguageDetailView/>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+
+        </Grid.ColumnDefinitions>
+        <Menu Grid.ColumnSpan="2" FontSize="20">
+            <MenuItem Header="Create">
+                <MenuItem Header="New Drive" Command="{Binding CreateNewCommand}"
+                          CommandParameter="{x:Type viewModel:DriveDetailViewModel}"/>
+                <MenuItem Header="New Category" Command="{Binding CreateNewCommand}"
+                          CommandParameter="{x:Type viewModel:MeetingDetailViewModel}"/>
+
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Prog Leng" Command="{Binding OpenSingleDetailViewCommand}"
+                          CommandParameter="{x:Type viewModel:ProgrammingLanguageDetailViewModel}"/>
+            </MenuItem>
+        </Menu>
+        <view:NavigationView DataContext="{Binding NavigationViewModel}" Grid.Row="1"/>
+        <TabControl Grid.Column="1" Grid.Row="1" 
+                    ItemsSource="{Binding DetailViewModels}"
+                    SelectedItem="{Binding SelectedDetailViewModel,Mode=TwoWay}">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}"                    
+                       >
+                    <Setter Property="Background" Value="#333333"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                </Style>
+
+            </TabControl.ItemContainerStyle>
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}"/>
+                        <TextBlock Text="*" Visibility="{Binding HasChanges,
+                        Converter={StaticResource booleanToVisibilityConverter}}"/>
+                        <Button Content="X" VerticalAlignment="Top" Margin="2 0 2 2"
+                                Command="{Binding CloseDetailViewModelCommand}" 
+                                Style="{StaticResource ChromelessButtonStyle}"
+                                FontSize="20"/>
+                    </StackPanel>
+                </DataTemplate>
+
+            </TabControl.ItemTemplate>
+
+        </TabControl>
+
+
+    </Grid>
 </Window>

@@ -1,30 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+﻿using Prism.Commands;
+using Prism.Events;
+using System;
 using System.Threading.Tasks;
-using XFilesArchive.Model;
-using XFilesArchive.UI.Services;
+using System.Windows;
+using System.Windows.Input;
+using XFilesArchive.UI.Event;
+using XFilesArchive.UI.View.Services;
 
 namespace XFilesArchive.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private IArchiveDataService _archiveDataService;
+        private IEventAggregator _eventAggregator;
 
-        public INavigationViewModel NavigationViewModel { get; set; }
+        public INavigationViewModel NavigationViewModel { get; }
+        private Func<IDriveDetailViewModel> _driveDetailViewModelCreator { get; }
+        private IDriveDetailViewModel _driveDetailViewModel;
+
+        public IDriveDetailViewModel DriveDetailViewModel
+        {
+            get { return _driveDetailViewModel; }
+            private set
+            {
+                _driveDetailViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public async Task LoadAsync()
         {
             await NavigationViewModel.LoadAsync();
         }
 
-        public MainViewModel(INavigationViewModel navigationViewModel)
+        private IMessageDialogService _messageDialogService;
+        public MainViewModel(
+                    INavigationViewModel navigationViewModel
+                    , Func<IDriveDetailViewModel> driveDetailViewModelCreator
+                    , IEventAggregator eventAggregator
+                    , IMessageDialogService messageDialogService)
         {
-            NavigationViewModel = navigationViewModel;
+            _messageDialogService = messageDialogService;
 
+
+            _driveDetailViewModelCreator = driveDetailViewModelCreator;
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<OpenDriveDetailViewEvent>().Subscribe(OnOpenDriveDetailView);
+            CreateNewDriveCommand = new DelegateCommand(OnCreateNewDriveExecute);
+            NavigationViewModel = navigationViewModel;
+        }
+        private async void OnOpenDriveDetailView(int? id)
+        {
+            if (DriveDetailViewModel != null && DriveDetailViewModel.HasChanges)
+            {
+                var result = _messageDialogService.ShowOKCancelDialog("?", "Q");
+                if (result == MessageDialogResult.Cancel)
+                {
+                    return;
+                }
+
+            }
+            DriveDetailViewModel = _driveDetailViewModelCreator();
+            await DriveDetailViewModel.LoadAsync(id);
         }
 
+
+        public ICommand CreateNewDriveCommand { get; }
+        
+private void OnCreateNewDriveExecute()
+        {
+            OnOpenDriveDetailView(null);
+        }
+
+
     }
+
 }

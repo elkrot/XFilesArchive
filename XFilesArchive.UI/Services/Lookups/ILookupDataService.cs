@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using XFilesArchive.Model;
 
-namespace XFilesArchive.UI.Services.Data
+namespace XFilesArchive.UI.Services.Lookups
 {
     public interface ILookupDataService
     {
