@@ -1,8 +1,6 @@
 ﻿using Autofac;
 using Prism.Events;
 using XFilesArchive.DataAccess;
-using XFilesArchive.UI.Services;
-using XFilesArchive.UI.Services.Data;
 using XFilesArchive.UI.Services.Lookups;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel;

@@ -2,8 +2,8 @@
 
 namespace XFilesArchive.UI.ViewModel
 {
-    public interface IDriveDetailViewModel
+    public interface IDriveDetailViewModel : IDetailViewModel
     {
-        Task LoadAsync(int Id);
+        
     }
 }

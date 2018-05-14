@@ -6,6 +6,6 @@ namespace XFilesArchive.UI.Services.Lookups
 {
     public interface ICategoryLookupDataService
     {
-        Task<List<LookupItem>> GetCategoryLookupAsync();
+        Task<IEnumerable<LookupItem>> GetCategoryLookupAsync();
     }
 }

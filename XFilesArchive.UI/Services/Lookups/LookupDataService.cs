@@ -39,7 +39,7 @@ namespace XFilesArchive.UI.Services.Lookups
             }
         }
 
-        public async Task<List<LookupItem>> GetTagLookupAsync()
+        public async Task<IEnumerable<LookupItem>> GetTagLookupAsync()
         {
             using (var context = _contextCreator())
             {
