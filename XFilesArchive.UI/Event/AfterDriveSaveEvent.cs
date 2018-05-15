@@ -6,10 +6,5 @@ namespace XFilesArchive.UI.Event
     {
     }
 
-    public class AfterDriveSavedEventArgs
-    {
-        public int Id { get; set; }
-        public string DisplayMember { get; set; }
 
-    }
 }

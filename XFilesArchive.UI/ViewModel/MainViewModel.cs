@@ -1,6 +1,9 @@
-﻿using Prism.Commands;
+﻿using Autofac.Features.Indexed;
+using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -14,15 +17,21 @@ namespace XFilesArchive.UI.ViewModel
         private IEventAggregator _eventAggregator;
 
         public INavigationViewModel NavigationViewModel { get; }
-        private Func<IDriveDetailViewModel> _driveDetailViewModelCreator { get; }
-        private IDriveDetailViewModel _driveDetailViewModel;
 
-        public IDriveDetailViewModel DriveDetailViewModel
+        private IDetailViewModel _selectedDetailViewModel;
+        private IMessageDialogService _messageDialogService;
+
+        private IIndex<string, IDetailViewModel> _detailViewModelCreator;
+
+
+        public ObservableCollection<IDetailViewModel> DetailViewModels { get; }
+        private int nextNewItemId = 0;
+        public IDetailViewModel SelectedDetailViewModel
         {
-            get { return _driveDetailViewModel; }
-            private set
+            get { return _selectedDetailViewModel; }
+            set
             {
-                _driveDetailViewModel = value;
+                _selectedDetailViewModel = value;
                 OnPropertyChanged();
             }
         }
@@ -33,46 +42,95 @@ namespace XFilesArchive.UI.ViewModel
             await NavigationViewModel.LoadAsync();
         }
 
-        private IMessageDialogService _messageDialogService;
         public MainViewModel(
-                    INavigationViewModel navigationViewModel
-                    , Func<IDriveDetailViewModel> driveDetailViewModelCreator
-                    , IEventAggregator eventAggregator
-                    , IMessageDialogService messageDialogService)
+            INavigationViewModel navigationViewModel
+            , IIndex<string, IDetailViewModel> detailViewModelCreator
+            , IEventAggregator eventAggregator
+            , IMessageDialogService messageDialogService)
         {
             _messageDialogService = messageDialogService;
 
-
-            _driveDetailViewModelCreator = driveDetailViewModelCreator;
+            _detailViewModelCreator = detailViewModelCreator;
+            DetailViewModels = new ObservableCollection<IDetailViewModel>();
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<OpenDriveDetailViewEvent>().Subscribe(OnOpenDriveDetailView);
-            CreateNewDriveCommand = new DelegateCommand(OnCreateNewDriveExecute);
+
+            _eventAggregator.GetEvent<OpenDetailViewEvent>()
+    .Subscribe(OnOpenDetailView);
+
+            _eventAggregator.GetEvent<AfterDeletedEvent>()
+    .Subscribe(OnAfterDeleted);
+
+            _eventAggregator.GetEvent<AfterDetailClosedEvent>()
+    .Subscribe(OnAfterDetailClosed);
+
+            CreateNewCommand = new DelegateCommand<Type>(OnCreateNewExecute);
+            OpenSingleDetailViewCommand = new DelegateCommand<Type>(OnOpenSingleDetailViewExecute);
+
             NavigationViewModel = navigationViewModel;
         }
-        private async void OnOpenDriveDetailView(int? id)
+
+        private void OnOpenSingleDetailViewExecute(Type viewModelType)
         {
-            if (DriveDetailViewModel != null && DriveDetailViewModel.HasChanges)
+            OnOpenDetailView(new OpenDetailViewEventArgs
+            { Id = -1, ViewModelName = viewModelType.Name });
+        }
+
+        private void OnAfterDetailClosed(AfterDtailClosedEventArgs args)
+        {
+            RemoveDetailViewModel(args.Id, args.ViewModelName);
+        }
+
+        private void OnAfterDeleted(AfterDeletedEventArgs args)
+        {
+            RemoveDetailViewModel(args.Id, args.ViewModelName);
+        }
+
+        private void RemoveDetailViewModel(int? id, string viewModelName)
+        {
+
+            var detailViewModel = DetailViewModels
+                .SingleOrDefault(vm => vm.Id == id
+                && vm.GetType().Name == viewModelName);
+
+            if (detailViewModel != null)
             {
-                var result = _messageDialogService.ShowOKCancelDialog("?", "Q");
-                if (result == MessageDialogResult.Cancel)
+                DetailViewModels.Remove(detailViewModel);
+            }
+        }
+
+        private void OnCreateNewExecute(Type viewModelType)
+        {
+            OnOpenDetailView(new OpenDetailViewEventArgs
+            { Id = nextNewItemId--, ViewModelName = viewModelType.Name });
+        }
+
+        public ICommand CreateNewCommand { get; }
+
+        public ICommand OpenSingleDetailViewCommand { get; }
+
+        private async void OnOpenDetailView(OpenDetailViewEventArgs args)
+        {
+            var detailViewModel = DetailViewModels
+                 .SingleOrDefault(vm => vm.Id == args.Id
+                 && vm.GetType().Name == args.ViewModelName);
+
+            if (detailViewModel == null)
+            {
+                detailViewModel = _detailViewModelCreator[args.ViewModelName];
+                try
                 {
+                    await detailViewModel.LoadAsync(args.Id);
+                }
+                catch
+                {
+                    await _messageDialogService.ShowInfoDialogAsync("Info");
+                    await NavigationViewModel.LoadAsync();
                     return;
                 }
 
+                DetailViewModels.Add(detailViewModel);
             }
-            DriveDetailViewModel = _driveDetailViewModelCreator();
-            await DriveDetailViewModel.LoadAsync(id);
+            SelectedDetailViewModel = detailViewModel;
         }
-
-
-        public ICommand CreateNewDriveCommand { get; }
-        
-private void OnCreateNewDriveExecute()
-        {
-            OnOpenDriveDetailView(null);
-        }
-
-
     }
-
 }

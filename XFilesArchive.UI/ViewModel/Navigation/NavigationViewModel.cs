@@ -26,7 +26,7 @@ namespace XFilesArchive.UI.ViewModel
             _lookupDataService = lookupDataService;
 
             _categoryLookupDataService = categoryLookupDataService;
-            Meetings = new ObservableCollection<NavigationItemViewModel>();
+            Categories = new ObservableCollection<NavigationItemViewModel>();
 
             Drives = new ObservableCollection<NavigationItemViewModel>();
             _eventAggregator.GetEvent<AfterSaveEvent>().Subscribe(AfterSaved);
@@ -41,9 +41,9 @@ namespace XFilesArchive.UI.ViewModel
                 case nameof(DriveDetailViewModel):
                     AfterDetailDelited(Drives, args);
                     break;
-                case nameof(CategoryDetailViewModel):
-                    AfterDetailDelited(Categories, args);
-                    break;
+                //case nameof(CategoryDetailViewModel):
+                //    AfterDetailDelited(Categories, args);
+                //    break;
             }
         }
 
@@ -64,9 +64,9 @@ namespace XFilesArchive.UI.ViewModel
                 case nameof(DriveDetailViewModel):
                     AfterDetailSaved(Drives, args);
                     break;
-                case nameof(CategoryDetailViewModel):
-                    AfterDetailSaved(Categories, args);
-                    break;
+                //case nameof(CategoryDetailViewModel):
+                //    AfterDetailSaved(Categories, args);
+                //    break;
             }
 
         }
@@ -101,8 +101,8 @@ namespace XFilesArchive.UI.ViewModel
             Categories.Clear();
             foreach (var item in lookup)
             {
-                Categories.Add(new NavigationItemViewModel(item.Id,
-                    item.DisplayMember, nameof(CategoryDetailViewModel), _eventAggregator));
+                //Categories.Add(new NavigationItemViewModel(item.Id,
+                //    item.DisplayMember, nameof(CategoryDetailViewModel), _eventAggregator));
             }
 
 

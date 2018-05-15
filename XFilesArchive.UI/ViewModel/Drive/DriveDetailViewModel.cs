@@ -1,8 +1,8 @@
 ﻿using Prism.Commands;
 using Prism.Events;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using XFilesArchive.Model;
@@ -27,9 +27,7 @@ namespace XFilesArchive.UI.ViewModel
             eventAggregator.GetEvent<AfterCollectionSavedEvent>().Subscribe(AfterCollectionSaved);
             AddArchiveEntityCommand = new DelegateCommand(OnAddArchiveEntityExecute);
             RemoveArchiveEntityCommand = new DelegateCommand(OnRemoveArchiveEntityExecute,
-                OnRemoveArchiveEntityCanExecute);
-
-
+            OnRemoveArchiveEntityCanExecute);
         }
 
         private async void AfterCollectionSaved(AfterCollectionSavedEventArgs args)
@@ -50,7 +48,7 @@ namespace XFilesArchive.UI.ViewModel
             SelectedArchiveEntity.PropertyChanged -= Wrapper_PropertyChanged;
             _repository.RemoveFile(SelectedArchiveEntity.Model);
             Drive.Model.ArchiveEntities.Remove(SelectedArchiveEntity.Model);
-            ArchiveEntitys.Remove(SelectedArchiveEntity);
+            ArchiveEntities.Remove(SelectedArchiveEntity);
             SelectedArchiveEntity = null;
             HasChanges = _repository.HasChanges();
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
@@ -68,22 +66,18 @@ namespace XFilesArchive.UI.ViewModel
 
         protected override async void OnDeleteExecute()
         {
-            if (await _repository.HasMeetingAsync(Drive.DriveId))
-            {
-                await MessageDialogService.ShowInfoDialogAsync("!!!");
-                return;
-            }
-
+            //if (await _repository.HasMeetingAsync(Drive.DriveId))
+            //{
+            //    await MessageDialogService.ShowInfoDialogAsync("!!!");
+            //    return;
+            //}
             var result = await MessageDialogService.ShowOKCancelDialogAsync("?", "title");
-
             if (result == MessageDialogResult.OK)
             {
                 _repository.Remove(Drive.Model);
                 await _repository.SaveAsync();
                 RaiseDetailDelitedEvent(Drive.DriveId);
-
             }
-
         }
 
         private bool OnDeleteCanExecute()
@@ -115,7 +109,7 @@ namespace XFilesArchive.UI.ViewModel
 
 
 
-        
+
         public ObservableCollection<LookupItem> ProgrammingLanguages { get; }
         public ObservableCollection<ArchiveEntityWrapper> ArchiveEntities { get; }
 
@@ -166,7 +160,7 @@ namespace XFilesArchive.UI.ViewModel
                 wrapper.PropertyChanged -= Wrapper_PropertyChanged;
             }
             ArchiveEntities.Clear();
-            foreach (var ArchiveEntity in ArchiveEntities)
+            foreach (var ArchiveEntity in archiveEntities)
             {
                 var wrapper = new ArchiveEntityWrapper(ArchiveEntity);
                 ArchiveEntities.Add(wrapper);
