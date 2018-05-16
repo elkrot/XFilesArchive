@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using MahApps.Metro.Controls;
+using System.Windows;
 using XFilesArchive.UI.ViewModel;
 
 namespace XFilesArchive.UI
@@ -6,7 +7,7 @@ namespace XFilesArchive.UI
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow :  MetroWindow
     {
         private MainViewModel _viewModel;
 

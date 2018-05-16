@@ -140,6 +140,11 @@
     <Compile Include="Wrapper\DriveWrapper.cs" />
     <Compile Include="Wrapper\ModelWrapper.cs" />
     <Compile Include="Wrapper\NotifyDataErrorInfoBase.cs" />
+    <Compile Include="XFilesArchiveDataContextDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>XFilesArchiveDataContextDataSet.xsd</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -187,6 +192,17 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="XFilesArchiveDataContextDataSet.xsc">
+      <DependentUpon>XFilesArchiveDataContextDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="XFilesArchiveDataContextDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>XFilesArchiveDataContextDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XFilesArchiveDataContextDataSet.xss">
+      <DependentUpon>XFilesArchiveDataContextDataSet.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
