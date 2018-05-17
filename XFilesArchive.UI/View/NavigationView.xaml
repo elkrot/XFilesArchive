@@ -12,7 +12,7 @@
             <ItemsControl Grid.Column="0" ItemsSource="{Binding Drives}" >
                 <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding DisplayMember}" Command="{Binding OpenDriveDetailViewCommand}"/>
+                    <Button Content="{Binding DisplayMember}" Command="{Binding OpenDetailViewCommand}"/>
                 </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

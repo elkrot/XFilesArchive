@@ -103,8 +103,11 @@ namespace XFilesArchive.UI.ViewModel
         protected override bool OnSaveCanExecute()
         {
             return Drive != null && !Drive.HasErrors
-                && ArchiveEntities.All(q => !q.HasErrors)
                 && HasChanges;
+
+
+//&& ArchiveEntities.All(q => !q.HasErrors)
+
         }
 
 
@@ -149,8 +152,8 @@ namespace XFilesArchive.UI.ViewModel
 
             Id = id;
             InitializedDrive(drive);
-            InitializeArchiveEntitys(Drive.Model.ArchiveEntities);
-            await LoadProgrammingLanguagesLookup();
+     //       InitializeArchiveEntitys(Drive.Model.ArchiveEntities);
+       //     await LoadProgrammingLanguagesLookup();
         }
 
         private void InitializeArchiveEntitys(ICollection<ArchiveEntity> archiveEntities)

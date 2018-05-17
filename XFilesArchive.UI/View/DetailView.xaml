@@ -17,9 +17,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Content="Title"/>
-        <TextBox Grid.Row="1" Text="{Binding Drive.TTitle,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="1" Text="{Binding Drive.Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Grid.Row="2" Content="Favourite Language" Margin="10 0"/>
+        <!--<Label Grid.Row="2" Content="Favourite Language" Margin="10 0"/>
         <ComboBox Grid.Row="3" Margin="10 0 10 0"
                   ItemsSource="{Binding ProgrammingLanguages}"
                   DisplayMemberPath="DisplayMember"
@@ -44,7 +44,7 @@
                                         EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
                 </DataGrid.Columns>
             </DataGrid>
-        </DockPanel>
+        </DockPanel>-->
 
         <StackPanel Grid.Row="6" Orientation="Horizontal">
             <Button Content="Save" Command="{Binding SaveCommand}" Width="125" Margin="10"/>

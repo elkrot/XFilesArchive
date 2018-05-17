@@ -11,9 +11,9 @@ namespace XFilesArchive.DataAccess
 
         static XFilesArchiveDataContext()
         {
-            Database.SetInitializer<XFilesArchiveDataContext>(new CreateDatabaseIfNotExists<XFilesArchiveDataContext>());
+            Database.SetInitializer<XFilesArchiveDataContext>(null);
         }
-
+//new CreateDatabaseIfNotExists<XFilesArchiveDataContext>()
         public DbSet<ArchiveEntity> ArchiveEntities { get; set; }
         public DbSet<Category> Categories { get; set; } 
         public DbSet<Drive> Drives { get; set; }
