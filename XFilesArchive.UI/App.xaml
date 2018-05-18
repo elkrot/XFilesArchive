@@ -15,8 +15,8 @@
                     <!-- Accent and AppTheme setting -->
                     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
-
-                    <ResourceDictionary>
+                <ResourceDictionary x:Name="IconsDictionary" Source="Icons.xaml" />
+                <ResourceDictionary>
                         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                             <Setter Property="FontSize" Value="12"/>
                         </Style>

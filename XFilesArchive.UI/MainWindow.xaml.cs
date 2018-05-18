@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using System.Windows;
+using System.Windows.Input;
 using XFilesArchive.UI.ViewModel;
 
 namespace XFilesArchive.UI
@@ -23,6 +24,16 @@ namespace XFilesArchive.UI
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
            await _viewModel.LoadAsync();
+        }
+
+
+        void HelpCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+        void HelpExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("notepad.exe");
         }
     }
 }
