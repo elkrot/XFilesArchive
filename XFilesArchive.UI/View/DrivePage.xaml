@@ -1,0 +1,45 @@
+﻿<Page x:Class="XFilesArchive.UI.View.DrivePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:XFilesArchive.UI.View"
+      xmlns:view="clr-namespace:XFilesArchive.UI.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="DrivePage">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <view:NavigationView DataContext="{Binding NavigationViewModel}" />
+        <TabControl Grid.Column="1" 
+                    ItemsSource="{Binding DetailViewModels}"
+                    SelectedItem="{Binding SelectedDetailViewModel,Mode=TwoWay}">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}"                    
+                       >
+                    <Setter Property="Background" Value="#333333"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                </Style>
+
+            </TabControl.ItemContainerStyle>
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Drive.Title}"/>
+                        <TextBlock Text="*" Visibility="{Binding HasChanges,
+                        Converter={StaticResource booleanToVisibilityConverter}}"/>
+                        <Button Content="X" VerticalAlignment="Top" Margin="2 0 2 2"
+                                Command="{Binding CloseDetailViewModelCommand}" 
+                                Style="{StaticResource ChromelessButtonStyle}"
+                                FontSize="14"/>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </TabControl>
+    </Grid>
+</Page>

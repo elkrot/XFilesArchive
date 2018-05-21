@@ -39,43 +39,12 @@
             <RowDefinition Height="60"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
 
-        <view:Menu  Grid.ColumnSpan="2"/>
-        
-        <view:Toolbar  Grid.ColumnSpan="2" Grid.Row="1"/>
+        <view:Menu  />
 
-        <!--<Frame x:Name="Main" Margin="0,0,0,0" Grid.Row="2"/>-->
-        
-        <view:NavigationView DataContext="{Binding NavigationViewModel}" Grid.Row="2"/>
-        <TabControl Grid.Column="1" Grid.Row="2" 
-                    ItemsSource="{Binding DetailViewModels}"
-                    SelectedItem="{Binding SelectedDetailViewModel,Mode=TwoWay}">
-            <TabControl.ItemContainerStyle>
-                <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}"                    
-                       >
-                    <Setter Property="Background" Value="#333333"/>
-                    <Setter Property="BorderBrush" Value="Transparent"/>
-                    <Setter Property="BorderThickness" Value="2"/>
-                </Style>
+        <view:Toolbar   Grid.Row="1"/>
 
-            </TabControl.ItemContainerStyle>
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Drive.Title}"/>
-                        <TextBlock Text="*" Visibility="{Binding HasChanges,
-                        Converter={StaticResource booleanToVisibilityConverter}}"/>
-                        <Button Content="X" VerticalAlignment="Top" Margin="2 0 2 2"
-                                Command="{Binding CloseDetailViewModelCommand}" 
-                                Style="{StaticResource ChromelessButtonStyle}"
-                                FontSize="14"/>
-                    </StackPanel>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-        </TabControl>
+        <Frame x:Name="Main" Margin="0,0,0,0" Grid.Row="2"/>
+      
     </Grid>
 </Controls:MetroWindow>

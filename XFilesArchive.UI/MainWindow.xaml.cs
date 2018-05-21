@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using System.Windows;
 using System.Windows.Input;
+using XFilesArchive.UI.View;
 using XFilesArchive.UI.ViewModel;
 
 namespace XFilesArchive.UI
@@ -14,11 +15,12 @@ namespace XFilesArchive.UI
 
         public MainWindow(MainViewModel viewModel)
         {
-            _viewModel = viewModel;
+         /*   _viewModel = viewModel;
             DataContext = _viewModel;
-            Loaded += MainWindow_Loaded;
+            Loaded += MainWindow_Loaded;*/
 
             InitializeComponent();
+            Main.Content = new DrivePage(viewModel);
         }
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
