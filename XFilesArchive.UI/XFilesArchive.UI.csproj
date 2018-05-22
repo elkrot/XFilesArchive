@@ -99,6 +99,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppConfig.cs" />
     <Compile Include="Event\AfterCollectionSavedEvent.cs" />
     <Compile Include="Event\AfterDeletedEvent.cs" />
     <Compile Include="Event\AfterDetailClosedEvent.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Services\Repositories\IGenericRepository.cs" />
     <Compile Include="Services\Repositories\DriveRepository.cs" />
     <Compile Include="Services\Repositories\IDriveRepository.cs" />
+    <Compile Include="SettingBindingExtension.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="ViewModel\Base\DetailViewModelBase.cs" />
     <Compile Include="ViewModel\Drive\DriveDetailViewModel.cs" />
@@ -194,6 +196,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Toolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Wizard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

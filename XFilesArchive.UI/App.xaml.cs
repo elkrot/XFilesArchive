@@ -2,6 +2,7 @@
 using Autofac;
 using System;
 using System.Windows;
+using XFilesArchive.UI.Properties;
 using XFilesArchive.UI.Startup;
 
 namespace XFilesArchive.UI
@@ -25,6 +26,17 @@ namespace XFilesArchive.UI
                Environment.NewLine + e.Exception.Message, "UnexpectedError");
             e.Handled = true;
 
+
+
+
+        }
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            if (Settings.Default.Config == null)
+            {
+                Settings.Default.Config = new AppConfig();
+            }
+            base.OnStartup(e);
         }
     }
 }

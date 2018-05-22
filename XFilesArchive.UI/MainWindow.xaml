@@ -9,8 +9,16 @@
          xmlns:viewModel="clr-namespace:XFilesArchive.UI.ViewModel"
         mc:Ignorable="d"
         Icon="/XFilesArchive.UI;component/appico.ico"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" 
+    Width="{local:SettingBinding MainWindow.Width}"
+    Height="{local:SettingBinding MainWindow.Height}"
+    Top="{local:SettingBinding MainWindow.Top}"
+    Left="{local:SettingBinding MainWindow.Left}"
+    WindowState="{local:SettingBinding MainWindow.WindowState}">
     <Window.Resources>
+        
+        <ResourceDictionary Source="Wizard.xaml" />
+        
         <DataTemplate DataType="{x:Type viewModel:DriveDetailViewModel}">
             <view:DetailView/>
         </DataTemplate>
