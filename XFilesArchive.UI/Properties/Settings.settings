@@ -10,8 +10,7 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=(local)\ITLOCAL2014;Initial Catalog=XFilesArchiveDataContext;Integrated Security=True</Value>
     </Setting>
-    <Setting Name="Config" Type="(Connection string)" Scope="Application">
-      <DesignTimeValue Profile="(Default)" />
+    <Setting Name="Config" Type="XFilesArchive.UI.AppConfig" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

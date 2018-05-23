@@ -32,11 +32,20 @@ namespace XFilesArchive.UI
         }
         protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
+            var commandLineArgs = System.Environment.GetCommandLineArgs();
             if (Settings.Default.Config == null)
             {
                 Settings.Default.Config = new AppConfig();
             }
-            base.OnStartup(e);
+
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+            var commandLineArgs = System.Environment.GetCommandLineArgs();
+            Settings.Default.Save();
         }
     }
 }

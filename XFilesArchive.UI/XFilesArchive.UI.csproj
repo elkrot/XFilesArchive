@@ -99,7 +99,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppConfig.cs" />
     <Compile Include="Event\AfterCollectionSavedEvent.cs" />
     <Compile Include="Event\AfterDeletedEvent.cs" />
     <Compile Include="Event\AfterDetailClosedEvent.cs" />
@@ -150,6 +149,8 @@
     <Compile Include="View\Toolbar.xaml.cs">
       <DependentUpon>Toolbar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WizardData.cs" />
+    <Compile Include="Worker.cs" />
     <Compile Include="Wrapper\ArchiveEntityWrapper.cs" />
     <Compile Include="Wrapper\DriveWrapper.cs" />
     <Compile Include="Wrapper\ModelWrapper.cs" />
@@ -199,10 +200,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Wizard.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -246,6 +243,10 @@
     <ProjectReference Include="..\XFilesArchive.DataAccess\XFilesArchive.DataAccess.csproj">
       <Project>{9280afaf-7fbd-40cc-89bd-a04f3b848a18}</Project>
       <Name>XFilesArchive.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XFilesArchive.Infrastructure\XFilesArchive.Infrastructure.csproj">
+      <Project>{b8fe85fa-910a-41c5-982d-4adf148cdad9}</Project>
+      <Name>XFilesArchive.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\XFilesArchive.Model\XFilesArchive.Model.csproj">
       <Project>{979ab583-300e-4e02-a45a-3503fc4b7416}</Project>
