@@ -1,0 +1,162 @@
+﻿<UserControl x:Class="XFilesArchive.UI.View.FilesOnDriveView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:view="clr-namespace:XFilesArchive.UI.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="50"/>
+    </Grid.RowDefinitions>
+
+    <TabControl Grid.Row="0">
+        <TabItem Header="Инфа  файла">
+            <StackPanel>
+                <TextBlock Text="{Binding ArchiveEntity.FileInfo[Length]}" />
+                <TextBlock Text="{Binding ArchiveEntity.FileInfo[CreationTime]}" />
+                <TextBlock Text="{Binding ArchiveEntity.FileInfo[LastWriteTime]}" />
+                <TextBlock Text="{Binding ArchiveEntity.FileInfo[Extension]}" />
+                <TextBlock Text="{Binding ArchiveEntity.FileInfo[FullName]}" />
+                <TextBlock Text="{Binding ArchiveEntity.FileInfo[Name]}" />
+                <TextBlock Text="{Binding ArchiveEntity.FileInfo[CreationTime]}" />
+            </StackPanel>
+
+        </TabItem>
+
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel>
+                    <TextBlock Foreground="Green">Медиа Инфа</TextBlock>
+                </StackPanel>
+            </TabItem.Header>
+            <Grid>
+                <view:MediaInfoView DataContext="{Binding ArchiveEntity}" Grid.Row="0" Margin="0,10,0,0"/>
+
+            </Grid>
+        </TabItem>
+
+
+
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel>
+                    <TextBlock Foreground="Red">Метки</TextBlock>
+                </StackPanel>
+            </TabItem.Header>
+
+            <StackPanel Orientation="Vertical" Height="Auto">
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Name="TagValue" Width="300" Margin="10"/>
+                    <Button Content="+" Command="{Binding AddTagCommand}" 
+                                    CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
+                    <Button Content="-" Command="{Binding DeleteTagCommand}" 
+                                    CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
+                </StackPanel>
+                <!---->
+                    <view:TagsView DataContext="{Binding ArchiveEntity}" 
+                                   RemoveItem="{Binding Path = DataContext.DeleteTagCommand, 
+                        ElementName=rootFileEdit}" Margin="0,10,0,0"/>
+                </StackPanel>
+
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel>
+                        <TextBlock Foreground="Red">Категории</TextBlock>
+                    </StackPanel>
+
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="34*"  />
+                        <ColumnDefinition Width="11*"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="45*"  />
+                    </Grid.ColumnDefinitions>
+
+                    <!--<view:CategoriesView DataContext="{Binding CategoryNavigationViewModel}"  Margin="0,0,0,0" Grid.Column="0" 
+                                         />-->
+
+                <TreeView x:Name="CategoriesTreeView"
+                   
+                  ItemsSource="{Binding Path=CategoryNavigationViewModel.NavigationItems}"
+                  SelectedValuePath="CategoryKey" Grid.ColumnSpan="2">
+
+                    <TreeView.ItemTemplate >
+                        <HierarchicalDataTemplate ItemsSource="{Binding Path=NavigationItems}">
+
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding ImagePath}" Width="50" Margin="0"/>
+                                <TextBlock Text="{Binding DisplayValue}" />
+
+                            </StackPanel>
+
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                    <TreeView.ContextMenu>
+                        <ContextMenu>
+                            <!--{Binding CategoriesTreeView.SelectedValue}-->
+                            <MenuItem Header="Добавить" Command="{Binding AddNewCategoryCommand}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, 
+                                    Path=PlacementTarget.SelectedValue}"/>
+                            <MenuItem Header="Удалить"/>
+                        </ContextMenu>
+                    </TreeView.ContextMenu>
+                </TreeView>
+
+
+                <Button Content="+>>" Command="{Binding AddCategoryCommand}" 
+                            CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"
+                            Width="30" Grid.Column="2" Margin="5,0"/>
+                <view:CategoryToEntitiesView DataContext="{Binding ArchiveEntity}" 
+                                 RemoveItem="{Binding Path = DataContext.DeleteCategoryToEntityCommand, 
+                        ElementName=rootFileEdit}"                 
+                                                 Margin="0,10,0,0" Grid.Column="3"/>
+                </Grid>
+
+        </TabItem>
+        <TabItem Header="Картинки">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+
+                </Grid.RowDefinitions>
+
+                <Button Command="{Binding OpenFileDialogCommand}" Width="Auto" Grid.Row="0">Добавить</Button>
+                <view:ImagesView DataContext="{Binding ArchiveEntity}"
+                               RemoveItem="{Binding Path = DataContext.DeleteImageCommand, 
+                        ElementName=rootFileEdit}"       
+                                     Margin="0,10,0,0" Height="Auto" Grid.Row="1"/>
+
+            </Grid>
+        </TabItem>
+        <TabItem Header="Описание">
+            <StackPanel>
+
+                <xctk:RichTextBox x:Name="_richTextBox" Grid.Row="1" Margin="10" Padding="10"
+                                     Text="{Binding ArchiveEntity.Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <xctk:RichTextBox.TextFormatter>
+                        <xctk:XamlFormatter />
+                    </xctk:RichTextBox.TextFormatter>
+                    <xctk:RichTextBoxFormatBarManager.FormatBar>
+                        <xctk:RichTextBoxFormatBar />
+                    </xctk:RichTextBoxFormatBarManager.FormatBar>
+                </xctk:RichTextBox>
+
+
+            </StackPanel>
+        </TabItem>
+    </TabControl>
+    <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" 
+                    VerticalAlignment="Bottom" Height="40" Width="Auto" Grid.Row="1">
+        <Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="5" Width="100"/>
+        <Button Content="Отменить" Command="{Binding ResetCommand}" Margin="5" Width="100"/>
+        <Button Content="Удалить" Command="{Binding DeleteCommand}" Margin="5" Width="100"/>
+    </StackPanel>
+    </Grid>
+</UserControl>

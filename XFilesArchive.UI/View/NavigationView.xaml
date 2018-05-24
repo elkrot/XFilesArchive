@@ -9,13 +9,36 @@
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto">
-            <ItemsControl Grid.Column="0" ItemsSource="{Binding Drives}" >
-                <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button Content="{Binding DisplayMember}" Command="{Binding OpenDetailViewCommand}"/>
-                </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition  Height="30"/>
+                </Grid.RowDefinitions>
+                <TextBox Grid.Row="0" Text="{Binding FilterText,UpdateSourceTrigger=PropertyChanged}"/>
+                <ItemsControl Grid.Column="0" ItemsSource="{Binding Drives}" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding DisplayMember}" Command="{Binding OpenDetailViewCommand}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Grid.Row="2">
+                    <Button Command="{Binding FirstPageCommand}" Width="30">
+                        <ContentControl Content="{StaticResource First}" Margin="0" />
+                    </Button>
+                    <Button Command="{Binding PrevPageCommand}" Width="30" >
+                        <ContentControl Content="{StaticResource Previous}"   />
+                    </Button>
+                    <TextBox Width="30" Height="30" Text="{Binding CurrentPage,UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Command="{Binding NextPageCommand}" Width="30">
+                        <ContentControl Content="{StaticResource Next}" Margin="0" />
+                    </Button>
+                    <Button Command="{Binding LastPageCommand}" Width="30">
+                        <ContentControl Content="{StaticResource Last}" Margin="0" />
+                    </Button>
+                </StackPanel>
+            </Grid>
         </ScrollViewer>
     </Grid>
 </UserControl>
