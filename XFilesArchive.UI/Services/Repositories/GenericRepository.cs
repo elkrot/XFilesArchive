@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace XFilesArchive.UI.Services.Repositories
@@ -45,6 +47,37 @@ namespace XFilesArchive.UI.Services.Repositories
         {
             await Context.SaveChangesAsync();
         }
+
+        public IEnumerable<TEntity> GetWithInclude(Func<TEntity, bool> predicate,
+           params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            var query = Include(includeProperties);
+            return query.Where(predicate).ToList();
+        }
+
+        IQueryable<TEntity> Include(params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            IQueryable<TEntity> query = Context.Set<TEntity>();
+            return includeProperties
+                .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+        }
+
+
+        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate
+            , Expression<Func<TEntity, object>> orderby)
+        {
+            IQueryable<TEntity> ret;
+
+            ret = Context.Set<TEntity>();
+
+            if (orderby != null)
+                ret = ret.OrderBy(orderby);
+
+            return ret.Where(predicate);
+        }
+
+
+
     }
 
 }

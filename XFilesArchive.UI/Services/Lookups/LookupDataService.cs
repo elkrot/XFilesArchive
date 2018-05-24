@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using XFilesArchive.DataAccess;
@@ -29,6 +30,44 @@ namespace XFilesArchive.UI.Services.Lookups
         }
 
 
+
+
+        public async Task<IEnumerable<Drive>> GetDrivesByConditionAsync(
+           Expression<Func<Drive, bool>> where
+           , Expression<Func<Drive, object>> orderby
+           )
+        {
+            using (var context = _contextCreator())
+            {
+                {
+                    return await context.Drives.Where(where).OrderBy(orderby).ToListAsync<Drive>();
+                }
+            }
+        }
+
+        public async Task<IEnumerable<Drive>> GetDrivesByConditionAsync(
+            Expression<Func<Drive, bool>> where
+            , Expression<Func<Drive, object>> orderby
+            , bool isDescending, int index, int length)
+        {
+            using (var context = _contextCreator())
+            {
+                {
+                    var skip = (index - 1) * length;
+                    return await context.Drives.Where(where).OrderBy(orderby).Skip(skip).Take(length).ToListAsync<Drive>();
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
         public async Task<IEnumerable<LookupItem>> GetCategoryLookupAsync()
         {
             using (var context = _contextCreator())
@@ -49,6 +88,14 @@ namespace XFilesArchive.UI.Services.Lookups
             }
         }
 
-
+        public async Task<int> GetDrivesCountByConditionAsync(Expression<Func<Drive, bool>> where, Expression<Func<Drive, object>> orderby, bool isDescending, int index, int length)
+        {
+            using (var context = _contextCreator())
+            {
+                {
+                    return await context.Drives.Where(where).OrderBy(orderby).CountAsync<Drive>();
+                }
+            }
+        }
     }
 }
