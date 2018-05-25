@@ -53,6 +53,7 @@ namespace XFilesArchive.UI.ViewModel
             NextPageCommand = new DelegateCommand(NextPageCommandExecute);
             LastPageCommand = new DelegateCommand(LastPageCommandExecute);
 
+            CurrentPage = 1;
         }
 
 
@@ -203,7 +204,8 @@ namespace XFilesArchive.UI.ViewModel
             //var lookup = await _lookupDataService.GetDriveLookupAsync();
 
 
-            itemsCount = await _lookupDataService.GetDrivesCountByConditionAsync(x => x.Title.Contains(FilterText), x => x.DriveCode
+            itemsCount =  _lookupDataService
+                .GetDrivesCountByCondition(x => x.Title.Contains(FilterText), x => x.DriveCode
                 , false, 1, int.MaxValue);
 
             var lookup = await _lookupDataService.GetDrivesByConditionAsync(x => x.Title.Contains(FilterText), x => x.DriveCode

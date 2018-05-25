@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:XFilesArchive.UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Background="AntiqueWhite">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Content="Title"/>
+        <Label Content="Название"/>
         <TextBox Grid.Row="1" Text="{Binding Drive.Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
 
         <!--<Label Grid.Row="2" Content="Favourite Language" Margin="10 0"/>

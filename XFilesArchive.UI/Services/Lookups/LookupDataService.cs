@@ -93,7 +93,28 @@ namespace XFilesArchive.UI.Services.Lookups
             using (var context = _contextCreator())
             {
                 {
-                    return await context.Drives.Where(where).OrderBy(orderby).CountAsync<Drive>();
+                    return await context.Drives.Where(where).OrderBy(orderby).CountAsync();
+                }
+            }
+        }
+
+        public IEnumerable<Drive> GetDrivesByCondition(Expression<Func<Drive, bool>> where, Expression<Func<Drive, object>> orderby, bool isDescending, int index, int length)
+        {
+            using (var context = _contextCreator())
+            {
+                {
+                    var skip = (index - 1) * length;
+                    return  context.Drives.Where(where).OrderBy(orderby).Skip(skip).Take(length).ToList();
+                }
+            }
+        }
+
+        public int GetDrivesCountByCondition(Expression<Func<Drive, bool>> where, Expression<Func<Drive, object>> orderby, bool isDescending, int index, int length)
+        {
+            using (var context = _contextCreator())
+            {
+                {
+                    return  context.Drives.Where(where).OrderBy(orderby).Count();
                 }
             }
         }
