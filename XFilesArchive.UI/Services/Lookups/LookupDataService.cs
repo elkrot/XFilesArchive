@@ -118,5 +118,15 @@ namespace XFilesArchive.UI.Services.Lookups
                 }
             }
         }
+
+        public IEnumerable<ArchiveEntity> GetAllFilesOnDrive(int id)
+        {
+            using (var context = _contextCreator())
+            {
+                {
+                    return context.ArchiveEntities.Where(x=>x.DriveId==id);
+                }
+            }
+        }
     }
 }

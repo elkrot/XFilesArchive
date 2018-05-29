@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Prism.Events;
 using XFilesArchive.DataAccess;
+using XFilesArchive.Model;
 using XFilesArchive.UI.Services.Lookups;
 using XFilesArchive.UI.Services.Repositories;
 using XFilesArchive.UI.View.Services;
@@ -24,7 +25,7 @@ namespace XFilesArchive.UI.Startup
             builder.RegisterType<DriveDetailViewModel>()
                 .Keyed<IDetailViewModel>(nameof(DriveDetailViewModel));
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
-
+            builder.RegisterType<FilesOnDriveLookupProvider>().As<ITreeViewLookupProvider<ArchiveEntity>>();
             //builder.RegisterType<MeetingDetailViewModel>()
             //    .Keyed<IDetailViewModel>(nameof(MeetingDetailViewModel));
             builder.RegisterType<DriveRepository>().As<IDriveRepository>();

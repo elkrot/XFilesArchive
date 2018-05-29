@@ -25,6 +25,8 @@ namespace XFilesArchive.UI.Services.Lookups
     , Expression<Func<Drive, object>> orderby
     , bool isDescending, int index, int length);
 
+        IEnumerable<ArchiveEntity> GetAllFilesOnDrive(int id);
+
         int GetDrivesCountByCondition(Expression<Func<Drive, bool>> where
     , Expression<Func<Drive, object>> orderby
     , bool isDescending, int index, int length);

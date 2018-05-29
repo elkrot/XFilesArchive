@@ -59,6 +59,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -106,12 +107,18 @@
     <Compile Include="Event\AfterDetailSavedEvent.cs" />
     <Compile Include="Event\AfterDriveSaveEvent.cs" />
     <Compile Include="Event\AfterSaveEvent.cs" />
+    <Compile Include="Event\FileOnDriveDeletedEvent.cs" />
+    <Compile Include="Event\FileOnDriveSavedEvent.cs" />
     <Compile Include="Event\OpenDetailViewEvent.cs" />
     <Compile Include="Event\OpenDriveDetailViewEvent.cs" />
+    <Compile Include="Event\SelectedItemChangedEvent.cs" />
+    <Compile Include="Services\Lookups\FilesOnDriveLookupProvider.cs" />
     <Compile Include="Services\Lookups\ILookupDataService.cs" />
     <Compile Include="Services\Lookups\ICategoryLookupDataService.cs" />
     <Compile Include="Services\Lookups\ITagLookupDataService.cs" />
     <Compile Include="Services\Lookups\LookupDataService.cs" />
+    <Compile Include="Services\Lookups\LookupItem.cs" />
+    <Compile Include="Services\Lookups\TreeViewLookupProvider.cs" />
     <Compile Include="Services\Repositories\CategoryRepository.cs" />
     <Compile Include="Services\Repositories\GenericRepository.cs" />
     <Compile Include="Services\Repositories\ICategoryRepository.cs" />
@@ -124,11 +131,13 @@
     <Compile Include="ViewModel\Drive\DriveDetailViewModel.cs" />
     <Compile Include="ViewModel\Base\IDetailViewModel.cs" />
     <Compile Include="ViewModel\Drive\IDriveDetailViewModel.cs" />
+    <Compile Include="ViewModel\Navigation\FilesOnDriveNavigationViewModel.cs" />
     <Compile Include="ViewModel\Navigation\INavigationViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\Navigation\NavigationItemViewModel.cs" />
     <Compile Include="ViewModel\Navigation\NavigationViewModel.cs" />
     <Compile Include="ViewModel\Base\ViewModelBase.cs" />
+    <Compile Include="ViewModel\Observable.cs" />
     <Compile Include="View\DetailView.xaml.cs">
       <DependentUpon>DetailView.xaml</DependentUpon>
     </Compile>
@@ -137,6 +146,9 @@
     </Compile>
     <Compile Include="View\DrivePage.xaml.cs">
       <DependentUpon>DrivePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FilesOnDriveNavigationView.xaml.cs">
+      <DependentUpon>FilesOnDriveNavigationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FilesOnDriveView.xaml.cs">
       <DependentUpon>FilesOnDriveView.xaml</DependentUpon>
@@ -188,6 +200,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DrivePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FilesOnDriveNavigationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
