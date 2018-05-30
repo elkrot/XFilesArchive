@@ -9,6 +9,7 @@ using XFilesArchive.Model;
 using XFilesArchive.UI.Event;
 using XFilesArchive.UI.Services.Repositories;
 using XFilesArchive.UI.View.Services;
+using XFilesArchive.UI.ViewModel.Navigation;
 using XFilesArchive.UI.Wrapper;
 
 namespace XFilesArchive.UI.ViewModel
@@ -24,6 +25,7 @@ namespace XFilesArchive.UI.ViewModel
 
         {
             _repository = repository;
+            ArchiveEntities = new ObservableCollection<ArchiveEntityWrapper>();
             eventAggregator.GetEvent<AfterCollectionSavedEvent>().Subscribe(AfterCollectionSaved);
             AddArchiveEntityCommand = new DelegateCommand(OnAddArchiveEntityExecute);
             RemoveArchiveEntityCommand = new DelegateCommand(OnRemoveArchiveEntityExecute,
@@ -152,7 +154,7 @@ namespace XFilesArchive.UI.ViewModel
 
             Id = id;
             InitializedDrive(drive);
-     //       InitializeArchiveEntitys(Drive.Model.ArchiveEntities);
+            InitializeArchiveEntitys(Drive.Model.ArchiveEntities);
        //     await LoadProgrammingLanguagesLookup();
         }
 
@@ -169,6 +171,23 @@ namespace XFilesArchive.UI.ViewModel
                 ArchiveEntities.Add(wrapper);
                 wrapper.PropertyChanged += Wrapper_PropertyChanged;
             }
+
+
+
+            NavigationItems.Clear();
+            foreach (var driveLookupItem in
+                archiveEntities)
+            {
+                NavigationItems.Add(
+                  new NavigationTreeItemViewModel(
+                    driveLookupItem,
+                    _eventAggregator));
+            }
+
+
+
+
+
         }
 
         private void Wrapper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -233,5 +252,34 @@ namespace XFilesArchive.UI.ViewModel
             _repository.Add(drive);
             return drive;
         }
+
+
+public ObservableCollection<NavigationTreeItemViewModel> NavigationItems { get; set; }
+
+
+
+        /*
+                 public void Load(int? DriveId = default(int?))
+        {
+            IEnumerable<LookupItemNode> items;
+
+            items = _fileOnDriveLookupProvider.GetLookup(DriveId);
+
+            NavigationItems.Clear();
+            foreach (var driveLookupItem in
+                items)
+            {
+                NavigationItems.Add(
+                  new NavigationTreeItemViewModel(
+                    driveLookupItem,
+                    _eventAggregator));
+            }
+        }
+        
+         
+         */
+
+
+
     }
 }

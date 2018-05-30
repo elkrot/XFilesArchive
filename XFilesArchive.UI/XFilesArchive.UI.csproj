@@ -135,6 +135,7 @@
     <Compile Include="ViewModel\Navigation\INavigationViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\Navigation\NavigationItemViewModel.cs" />
+    <Compile Include="ViewModel\Navigation\NavigationTreeItemViewModel.cs" />
     <Compile Include="ViewModel\Navigation\NavigationViewModel.cs" />
     <Compile Include="ViewModel\Base\ViewModelBase.cs" />
     <Compile Include="ViewModel\Observable.cs" />
