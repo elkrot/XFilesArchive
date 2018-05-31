@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using XFilesArchive.Model;
 
 namespace XFilesArchive.UI.Services.Repositories
@@ -10,7 +11,6 @@ namespace XFilesArchive.UI.Services.Repositories
 
         void RemoveFile(ArchiveEntity model);
         Task<bool> HasFileAsync(int id);
-       
-
+        IEnumerable<ArchiveEntity> GetAllFilesOnDriveById(int id);
     }
 }

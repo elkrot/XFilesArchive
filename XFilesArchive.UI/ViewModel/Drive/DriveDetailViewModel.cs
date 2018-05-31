@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using XFilesArchive.Model;
 using XFilesArchive.UI.Event;
+using XFilesArchive.UI.Services.Lookups;
 using XFilesArchive.UI.Services.Repositories;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel.Navigation;
@@ -19,13 +20,14 @@ namespace XFilesArchive.UI.ViewModel
         private IDriveRepository _repository;
 
         private DriveWrapper _drive;
-
+        private IEnumerable<ArchiveEntity> _allFilesOnDrive;
         public DriveDetailViewModel(IDriveRepository repository, IEventAggregator eventAggregator
             , IMessageDialogService messageService) : base(eventAggregator, messageService)
 
         {
             _repository = repository;
             ArchiveEntities = new ObservableCollection<ArchiveEntityWrapper>();
+            _allFilesOnDrive = new List<ArchiveEntity>();
             eventAggregator.GetEvent<AfterCollectionSavedEvent>().Subscribe(AfterCollectionSaved);
             AddArchiveEntityCommand = new DelegateCommand(OnAddArchiveEntityExecute);
             RemoveArchiveEntityCommand = new DelegateCommand(OnRemoveArchiveEntityExecute,
@@ -115,7 +117,7 @@ namespace XFilesArchive.UI.ViewModel
 
 
 
-        public ObservableCollection<LookupItem> ProgrammingLanguages { get; }
+      //  public ObservableCollection<LookupItem> ProgrammingLanguages { get; }
         public ObservableCollection<ArchiveEntityWrapper> ArchiveEntities { get; }
 
         protected override async void OnSaveExecute()
@@ -151,7 +153,7 @@ namespace XFilesArchive.UI.ViewModel
             var drive = id > 0 ?
                 await _repository.GetByIdAsync(id) :
                 CreateNewDrive();
-
+            _allFilesOnDrive = _repository.GetAllFilesOnDriveById(id);
             Id = id;
             InitializedDrive(drive);
             InitializeArchiveEntitys(Drive.Model.ArchiveEntities);
@@ -160,28 +162,25 @@ namespace XFilesArchive.UI.ViewModel
 
         private void InitializeArchiveEntitys(ICollection<ArchiveEntity> archiveEntities)
         {
-            foreach (var wrapper in ArchiveEntities)
-            {
-                wrapper.PropertyChanged -= Wrapper_PropertyChanged;
-            }
-            ArchiveEntities.Clear();
-            foreach (var ArchiveEntity in archiveEntities)
-            {
-                var wrapper = new ArchiveEntityWrapper(ArchiveEntity);
-                ArchiveEntities.Add(wrapper);
-                wrapper.PropertyChanged += Wrapper_PropertyChanged;
-            }
+            //foreach (var wrapper in ArchiveEntities)
+            //{
+            //    wrapper.PropertyChanged -= Wrapper_PropertyChanged;
+            //}
+            //ArchiveEntities.Clear();
+            //foreach (var ArchiveEntity in archiveEntities)
+            //{
+            //    var wrapper = new ArchiveEntityWrapper(ArchiveEntity);
+            //    ArchiveEntities.Add(wrapper);
+            //    wrapper.PropertyChanged += Wrapper_PropertyChanged;
+            //}
 
-
+            var lookup = GetLookup();
 
             NavigationItems.Clear();
-            foreach (var driveLookupItem in
-                archiveEntities)
+            foreach (var driveLookupItem in lookup)
             {
-                NavigationItems.Add(
-                  new NavigationTreeItemViewModel(
-                    driveLookupItem,
-                    _eventAggregator));
+                NavigationItems.Add( new NavigationTreeItemViewModel(driveLookupItem,
+                    EventAggregator));
             }
 
 
@@ -189,6 +188,49 @@ namespace XFilesArchive.UI.ViewModel
 
 
         }
+
+
+
+
+
+        private ObservableCollection<LookupItemNode> GetNodesById(int archiveEntityKey)
+        {
+
+            return new ObservableCollection<LookupItemNode>(
+                _allFilesOnDrive.Where(x => x.ParentEntityKey == archiveEntityKey)
+                .OrderBy(l => l.EntityType)
+                .Select(
+                f => new LookupItemNode
+                {
+                    Id = f.ArchiveEntityKey,
+                    DisplayMember = string.Format("{0}", f.Title),
+                    Nodes = GetNodesById(f.ArchiveEntityKey),
+                    EntityType = f.EntityType
+                }
+                ).ToList());
+
+        }
+
+        public IEnumerable<LookupItemNode> GetLookup()
+        {
+
+
+            var ret = _allFilesOnDrive.Where(x => x.ParentEntityKey == null)
+            .OrderBy(l => l.EntityType)
+                    .Select(f => new LookupItemNode
+                    {
+                        Id = f.ArchiveEntityKey,
+                        DisplayMember = string.Format("{0}", f.Title),
+                        Nodes = GetNodesById(f.ArchiveEntityKey),
+                        EntityType = f.EntityType
+                    })
+                    .ToList();
+            return ret;
+
+        }
+
+
+
 
         private void Wrapper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

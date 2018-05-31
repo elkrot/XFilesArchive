@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +12,11 @@ namespace XFilesArchive.UI.Services.Repositories
     {
         public DriveRepository(XFilesArchiveDataContext context) : base(context)
         {
+        }
+
+        public IEnumerable<ArchiveEntity> GetAllFilesOnDriveById(int id)
+        {
+            return Context.ArchiveEntities.Where(t => t.DriveId == id).ToList();
         }
 
         public override async Task<Drive> GetByIdAsync(int id)

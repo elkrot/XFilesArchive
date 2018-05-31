@@ -101,8 +101,6 @@ namespace XFilesArchive.UI.ViewModel.Navigation
 
 
 
-
-
     }
     //--------------------------------------------------------------------
     
