@@ -7,6 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="AntiqueWhite">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -18,17 +22,10 @@
         </Grid.RowDefinitions>
         <Label Content="Название"/>
         <TextBox Grid.Row="1" Text="{Binding Drive.Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-        <!--<local:FilesOnDriveNavigationView Grid.Row="2"/>-->
+       <local:FilesOnDriveNavigationView Grid.Row="2"/>
 
+        <local:FilesOnDriveView DataContext="{Binding FilesOnDriveViewModel}" Grid.Row="2" Grid.Column="1" Margin="0,10,0,0"/>
 
-        <ItemsControl ItemsSource="{Binding ArchiveEntities}" Grid.Row="2" >
-
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button Content="{Binding Title}"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
 
 
         <!--<Label Grid.Row="2" Content="Favourite Language" Margin="10 0"/>

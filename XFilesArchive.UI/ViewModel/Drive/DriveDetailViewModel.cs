@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Autofac;
+using Prism.Commands;
 using Prism.Events;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,6 +10,7 @@ using XFilesArchive.Model;
 using XFilesArchive.UI.Event;
 using XFilesArchive.UI.Services.Lookups;
 using XFilesArchive.UI.Services.Repositories;
+using XFilesArchive.UI.Startup;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel.Navigation;
 using XFilesArchive.UI.Wrapper;
@@ -21,11 +23,20 @@ namespace XFilesArchive.UI.ViewModel
 
         private DriveWrapper _drive;
         private IEnumerable<ArchiveEntity> _allFilesOnDrive;
+        private FilesOnDriveViewModel _filesOnDriveViewModel;
+
+        public FilesOnDriveViewModel FilesOnDriveViewModel
+        {
+            get { return _filesOnDriveViewModel; }
+        }
+
+
         public DriveDetailViewModel(IDriveRepository repository, IEventAggregator eventAggregator
             , IMessageDialogService messageService) : base(eventAggregator, messageService)
 
         {
             _repository = repository;
+            NavigationItems = new ObservableCollection<NavigationTreeItemViewModel>();
             ArchiveEntities = new ObservableCollection<ArchiveEntityWrapper>();
             _allFilesOnDrive = new List<ArchiveEntity>();
             eventAggregator.GetEvent<AfterCollectionSavedEvent>().Subscribe(AfterCollectionSaved);
@@ -156,12 +167,21 @@ namespace XFilesArchive.UI.ViewModel
             _allFilesOnDrive = _repository.GetAllFilesOnDriveById(id);
             Id = id;
             InitializedDrive(drive);
-            InitializeArchiveEntitys(Drive.Model.ArchiveEntities);
-       //     await LoadProgrammingLanguagesLookup();
+            InitializeArchiveEntitys();
+
+            var bootstrapper = new Bootstrapper();
+            IContainer container = bootstrapper.Bootstrap();
+
+            _filesOnDriveViewModel = container.Resolve<FilesOnDriveViewModel>();
+           // _filesOnDriveViewModel.Load(Id);
+
+
+            //     await LoadProgrammingLanguagesLookup();Drive.Model.ArchiveEntities
         }
 
-        private void InitializeArchiveEntitys(ICollection<ArchiveEntity> archiveEntities)
+        private void InitializeArchiveEntitys()
         {
+            //ICollection<ArchiveEntity> archiveEntities
             //foreach (var wrapper in ArchiveEntities)
             //{
             //    wrapper.PropertyChanged -= Wrapper_PropertyChanged;

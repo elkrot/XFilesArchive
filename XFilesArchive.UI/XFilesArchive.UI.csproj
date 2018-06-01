@@ -130,6 +130,7 @@
     <Compile Include="ViewModel\Base\DetailViewModelBase.cs" />
     <Compile Include="ViewModel\Drive\DriveDetailViewModel.cs" />
     <Compile Include="ViewModel\Base\IDetailViewModel.cs" />
+    <Compile Include="ViewModel\Drive\FilesOnDriveViewModel.cs" />
     <Compile Include="ViewModel\Drive\IDriveDetailViewModel.cs" />
     <Compile Include="ViewModel\Navigation\FilesOnDriveNavigationViewModel.cs" />
     <Compile Include="ViewModel\Navigation\INavigationViewModel.cs" />

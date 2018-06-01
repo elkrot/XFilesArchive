@@ -28,6 +28,8 @@ namespace XFilesArchive.UI.Startup
             builder.RegisterType<FilesOnDriveLookupProvider>().As<ITreeViewLookupProvider<ArchiveEntity>>();
             //builder.RegisterType<MeetingDetailViewModel>()
             //    .Keyed<IDetailViewModel>(nameof(MeetingDetailViewModel));
+            builder.RegisterType<FilesOnDriveViewModel>().AsSelf();
+
             builder.RegisterType<DriveRepository>().As<IDriveRepository>();
             builder.RegisterType<CategoryRepository>().As<ICategoryRepository>();
 
