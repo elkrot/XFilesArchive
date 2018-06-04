@@ -1,8 +1,10 @@
-﻿namespace XFilesArchive.UI.ViewModel
+﻿using Prism.Events;
+using System;
+using XFilesArchive.UI.View.Services;
+
+namespace XFilesArchive.UI.ViewModel
 {
-    public class FilesOnDriveViewModel
-    {
-    }/*
+
     
       public class FilesOnDriveViewModel : Observable
     {
@@ -74,5 +76,5 @@
      
 
     }
-     */
+     
 }
