@@ -14,6 +14,7 @@ using XFilesArchive.UI.Startup;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel.Navigation;
 using XFilesArchive.UI.Wrapper;
+using System;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -30,6 +31,7 @@ namespace XFilesArchive.UI.ViewModel
             get { return _filesOnDriveViewModel; }
         }
 
+        public ICommand  SelectedItemChangedCommand { get; }
 
         public DriveDetailViewModel(IDriveRepository repository, IEventAggregator eventAggregator
             , IMessageDialogService messageService) : base(eventAggregator, messageService)
@@ -43,6 +45,18 @@ namespace XFilesArchive.UI.ViewModel
             AddArchiveEntityCommand = new DelegateCommand(OnAddArchiveEntityExecute);
             RemoveArchiveEntityCommand = new DelegateCommand(OnRemoveArchiveEntityExecute,
             OnRemoveArchiveEntityCanExecute);
+
+            SelectedItemChangedCommand = new DelegateCommand<int?>(OnSelectedItemChangedExecute,OnSelectedItemChangedCanExecute);
+        }
+
+        private bool OnSelectedItemChangedCanExecute(int? arg)
+        {
+            return true;
+        }
+
+        private void OnSelectedItemChangedExecute(int? arg)
+        {
+            EventAggregator.GetEvent<SelectedItemChangedEvent>().Publish(arg??0);
         }
 
         private async void AfterCollectionSaved(AfterCollectionSavedEventArgs args)

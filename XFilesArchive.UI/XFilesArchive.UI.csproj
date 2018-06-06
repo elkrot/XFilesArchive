@@ -119,8 +119,10 @@
     <Compile Include="Services\Lookups\LookupDataService.cs" />
     <Compile Include="Services\Lookups\LookupItem.cs" />
     <Compile Include="Services\Lookups\TreeViewLookupProvider.cs" />
+    <Compile Include="Services\Repositories\ArchiveEntityRepository.cs" />
     <Compile Include="Services\Repositories\CategoryRepository.cs" />
     <Compile Include="Services\Repositories\GenericRepository.cs" />
+    <Compile Include="Services\Repositories\IArchiveEntityRepository.cs" />
     <Compile Include="Services\Repositories\ICategoryRepository.cs" />
     <Compile Include="Services\Repositories\IGenericRepository.cs" />
     <Compile Include="Services\Repositories\DriveRepository.cs" />

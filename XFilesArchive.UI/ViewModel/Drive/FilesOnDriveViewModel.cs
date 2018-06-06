@@ -1,5 +1,6 @@
 ﻿using Prism.Events;
-using System;
+using XFilesArchive.UI.Event;
+using XFilesArchive.UI.Services.Repositories;
 using XFilesArchive.UI.View.Services;
 
 namespace XFilesArchive.UI.ViewModel
@@ -8,30 +9,20 @@ namespace XFilesArchive.UI.ViewModel
     
       public class FilesOnDriveViewModel : Observable
     {
-        private readonly IFilesOnDriveDataProvider _fileOnDriveDataProvider;
+        private readonly IArchiveEntityRepository _repository;
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
-        private IFilesOnDriveEditViewModel _selectedFilesOnDriveEditViewModel;
-        private Func<IFilesOnDriveEditViewModel> _fileOnDriveEditViewModelCreator;
+        
 
         #region Конструктор
         public FilesOnDriveViewModel(IEventAggregator eventAggregator,
                    IMessageDialogService messageDialogService,
-                   IFilesOnDriveNavigationViewModel fileOnDriveNavigationViewModel,
-                   Func<IFilesOnDriveEditViewModel> fileOnDriveEditViewModelCreator,
-                   IFilesOnDriveDataProvider fileOnDriveDataProvider)
+                   IArchiveEntityRepository _repository)
         {
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
-
             _eventAggregator.GetEvent<SelectedItemChangedEvent>().Subscribe(OnSelectedItemChanged);
-
-            FileOnDriveNavigationViewModel = fileOnDriveNavigationViewModel;
-
-            _fileOnDriveEditViewModelCreator = fileOnDriveEditViewModelCreator;
-            _fileOnDriveDataProvider = fileOnDriveDataProvider;
-
-            
+          
         }
 
         private void OnSelectedItemChanged(int obj)
@@ -42,35 +33,26 @@ namespace XFilesArchive.UI.ViewModel
                 int ArchiveEntityKey = 0;
                 int.TryParse(obj.ToString(), out ArchiveEntityKey);
 
-                IFilesOnDriveEditViewModel fileOnDriveVm = _fileOnDriveEditViewModelCreator();
-                fileOnDriveVm.Load(ArchiveEntityKey);
+               
+                Load(ArchiveEntityKey);
 
-                SelectedFileOnDriveEditViewModel = fileOnDriveVm;
+                
             }
         }
         #endregion
 
 
-        public IFilesOnDriveEditViewModel SelectedFileOnDriveEditViewModel
-        {
-            get { return _selectedFilesOnDriveEditViewModel; }
-            set
-            {
-                _selectedFilesOnDriveEditViewModel = value;
-                OnPropertyChanged();
-            }
-        }
+
 
 
 
         public void Load(int? DriveId = default(int?))
         {
-            FileOnDriveNavigationViewModel.Load(DriveId);
+            
         }
 
 
 
- public IFilesOnDriveNavigationViewModel FileOnDriveNavigationViewModel { get; private set; }
 
 
      
