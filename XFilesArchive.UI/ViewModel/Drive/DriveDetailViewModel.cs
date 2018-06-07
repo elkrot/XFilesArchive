@@ -39,7 +39,7 @@ namespace XFilesArchive.UI.ViewModel
         {
             _repository = repository;
             NavigationItems = new ObservableCollection<NavigationTreeItemViewModel>();
-            ArchiveEntities = new ObservableCollection<ArchiveEntityWrapper>();
+        //    ArchiveEntities = new ObservableCollection<ArchiveEntityWrapper>();
             _allFilesOnDrive = new List<ArchiveEntity>();
             eventAggregator.GetEvent<AfterCollectionSavedEvent>().Subscribe(AfterCollectionSaved);
             AddArchiveEntityCommand = new DelegateCommand(OnAddArchiveEntityExecute);
@@ -56,6 +56,7 @@ namespace XFilesArchive.UI.ViewModel
 
         private void OnSelectedItemChangedExecute(int? arg)
         {
+            FilesOnDriveViewModel.Load(arg);
             EventAggregator.GetEvent<SelectedItemChangedEvent>().Publish(arg??0);
         }
 
@@ -77,7 +78,7 @@ namespace XFilesArchive.UI.ViewModel
             SelectedArchiveEntity.PropertyChanged -= Wrapper_PropertyChanged;
             _repository.RemoveFile(SelectedArchiveEntity.Model);
             Drive.Model.ArchiveEntities.Remove(SelectedArchiveEntity.Model);
-            ArchiveEntities.Remove(SelectedArchiveEntity);
+         //   ArchiveEntities.Remove(SelectedArchiveEntity);
             SelectedArchiveEntity = null;
             HasChanges = _repository.HasChanges();
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
@@ -87,7 +88,7 @@ namespace XFilesArchive.UI.ViewModel
         {
             var newArchiveEntity = new ArchiveEntityWrapper(new ArchiveEntity());
             newArchiveEntity.PropertyChanged += Wrapper_PropertyChanged;
-            ArchiveEntities.Add(newArchiveEntity);
+            //ArchiveEntities.Add(newArchiveEntity);
             Drive.Model.ArchiveEntities.Add(newArchiveEntity.Model);
             newArchiveEntity.Title = "";
 
@@ -143,7 +144,7 @@ namespace XFilesArchive.UI.ViewModel
 
 
       //  public ObservableCollection<LookupItem> ProgrammingLanguages { get; }
-        public ObservableCollection<ArchiveEntityWrapper> ArchiveEntities { get; }
+     //   public ObservableCollection<ArchiveEntityWrapper> ArchiveEntities { get; }
 
         protected override async void OnSaveExecute()
         {

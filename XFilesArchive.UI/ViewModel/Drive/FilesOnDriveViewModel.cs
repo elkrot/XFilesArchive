@@ -48,7 +48,7 @@ namespace XFilesArchive.UI.ViewModel
 
         public void Load(int? DriveId = default(int?))
         {
-            
+            var x = "";
         }
 
 
