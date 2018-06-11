@@ -6,17 +6,18 @@
              xmlns:view="clr-namespace:XFilesArchive.UI.View"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Background="AliceBlue">
     <Grid>
         <Grid.RowDefinitions>
         <RowDefinition Height="*"/>
         <RowDefinition Height="50"/>
     </Grid.RowDefinitions>
 
-    <TabControl Grid.Row="0">
+        <TabControl Grid.Row="0"  Background="Aquamarine">
         <TabItem Header="Инфа  файла">
             <StackPanel>
                 <TextBlock Text="{Binding ArchiveEntity.FileInfo[Length]}" />
+                    <TextBlock Text="{Binding ArchiveEntity.Title}"/>
                 <TextBlock Text="{Binding ArchiveEntity.FileInfo[CreationTime]}" />
                 <TextBlock Text="{Binding ArchiveEntity.FileInfo[LastWriteTime]}" />
                 <TextBlock Text="{Binding ArchiveEntity.FileInfo[Extension]}" />

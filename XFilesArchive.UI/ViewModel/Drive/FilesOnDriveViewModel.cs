@@ -5,6 +5,7 @@ using XFilesArchive.UI.Services.Repositories;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.Wrapper;
 using XFilesArchive.Model;
+using System.Threading.Tasks;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -30,7 +31,7 @@ namespace XFilesArchive.UI.ViewModel
           
         }
 
-        private void OnSelectedItemChanged(int obj)
+        private async void OnSelectedItemChanged(int obj)
         {
 
             if (obj != 0)
@@ -39,7 +40,7 @@ namespace XFilesArchive.UI.ViewModel
                 int.TryParse(obj.ToString(), out ArchiveEntityKey);
 
                
-                Load(ArchiveEntityKey);
+               await Load(ArchiveEntityKey);
 
                 
             }
@@ -51,7 +52,7 @@ namespace XFilesArchive.UI.ViewModel
 
 
 
-        public void Load(int? FileOnDriveId = default(int?))
+        public async Task Load(int? FileOnDriveId = default(int?))
         {
             ArchiveEntityLoad(FileOnDriveId);
         }
