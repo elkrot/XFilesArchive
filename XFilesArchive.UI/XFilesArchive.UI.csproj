@@ -145,9 +145,6 @@
     <Compile Include="View\DetailView.xaml.cs">
       <DependentUpon>DetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DriveDetailView.xaml.cs">
-      <DependentUpon>DriveDetailView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\DrivePage.xaml.cs">
       <DependentUpon>DrivePage.xaml</DependentUpon>
     </Compile>
@@ -196,10 +193,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\DetailView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\DriveDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
