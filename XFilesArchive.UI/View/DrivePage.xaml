@@ -6,16 +6,21 @@
       xmlns:local="clr-namespace:XFilesArchive.UI.View"
       xmlns:view="clr-namespace:XFilesArchive.UI.View"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="300" d:DesignWidth="600"
       Title="DrivePage">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="3"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <view:NavigationView DataContext="{Binding NavigationViewModel}" />
-        <TabControl Grid.Column="1" 
+
+        <GridSplitter Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" 
+                      Width="3" Background="#FF95DAF3" HorizontalAlignment="Center"/>
+
+        <TabControl Grid.Column="2" 
                     ItemsSource="{Binding DetailViewModels}"
                     SelectedItem="{Binding SelectedDetailViewModel,Mode=TwoWay}">
             <TabControl.ItemContainerStyle>

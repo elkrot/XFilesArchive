@@ -154,6 +154,9 @@
     <Compile Include="View\FilesOnDriveView.xaml.cs">
       <DependentUpon>FilesOnDriveView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\MediaInfoView.xaml.cs">
+      <DependentUpon>MediaInfoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>
     </Compile>
@@ -162,15 +165,23 @@
     </Compile>
     <Compile Include="View\Services\IMessageDialogService.cs" />
     <Compile Include="View\Services\MessageDialogService.cs" />
+    <Compile Include="View\TagsView.xaml.cs">
+      <DependentUpon>TagsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Toolbar.xaml.cs">
       <DependentUpon>Toolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="WizardData.cs" />
     <Compile Include="Worker.cs" />
     <Compile Include="Wrapper\ArchiveEntityWrapper.cs" />
+    <Compile Include="Wrapper\Base\ChangeTrackingCollection.cs" />
+    <Compile Include="Wrapper\Base\IValidatableTrackingObject.cs" />
+    <Compile Include="Wrapper\CategoryWrapper.cs" />
     <Compile Include="Wrapper\DriveWrapper.cs" />
-    <Compile Include="Wrapper\ModelWrapper.cs" />
-    <Compile Include="Wrapper\NotifyDataErrorInfoBase.cs" />
+    <Compile Include="Wrapper\ImageWrapper.cs" />
+    <Compile Include="Wrapper\Base\ModelWrapper.cs" />
+    <Compile Include="Wrapper\Base\NotifyDataErrorInfoBase.cs" />
+    <Compile Include="Wrapper\TagWrapper.cs" />
     <Compile Include="XFilesArchiveDataContextDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -208,11 +219,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\MediaInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Menu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\NavigationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TagsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

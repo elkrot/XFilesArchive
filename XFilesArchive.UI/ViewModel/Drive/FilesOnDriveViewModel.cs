@@ -54,27 +54,17 @@ namespace XFilesArchive.UI.ViewModel
 
         public async Task Load(int? FileOnDriveId = default(int?))
         {
-            ArchiveEntityLoad(FileOnDriveId);
-        }
+          
 
-        private async void ArchiveEntityLoad(int? FileOnDriveId)
-        {
-            var _archEntity =  FileOnDriveId.HasValue ?
+var _archEntity =  FileOnDriveId.HasValue ?
                await  _repository.GetByIdAsync((int)FileOnDriveId) :
                  new ArchiveEntity();
 
             _archiveEntity = new ArchiveEntityWrapper(_archEntity);
-
-
-            //_archiveEntity.PropertyChanged += (s, e) =>
-            //{
-            //    if (e.PropertyName == nameof(_archiveEntity.IsChanged)
-            //    || e.PropertyName == nameof(_archiveEntity.IsValid))
-            //    {
-            //        InvalidateCommands();
-            //    }
-            //};
+            OnPropertyChanged("ArchiveEntity");
         }
+
+
 
         private void InvalidateCommands()
         {

@@ -75,6 +75,7 @@
             <RowDefinition Height="22"/>
             <RowDefinition Height="60"/>
             <RowDefinition/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
         <view:Menu  />
@@ -82,6 +83,13 @@
         <view:Toolbar   Grid.Row="1"/>
 
         <Frame x:Name="Main" Margin="0,0,0,0" Grid.Row="2"/>
-      
+        <StatusBar Grid.Row="3">
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <ProgressBar Name="progressBar" Height="Auto" Width="180" Margin="10" />
+                    <Button >Отмена</Button>
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Controls:MetroWindow>

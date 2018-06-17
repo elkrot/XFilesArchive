@@ -6,21 +6,27 @@
              xmlns:view="clr-namespace:XFilesArchive.UI.View"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="AliceBlue">
+             d:DesignHeight="450" d:DesignWidth="600" >
     <Grid>
         <Grid.RowDefinitions>
         <RowDefinition Height="*"/>
         <RowDefinition Height="50"/>
     </Grid.RowDefinitions>
 
-        <TabControl Grid.Row="0"  Background="Aquamarine">
-        <TabItem Header="Инфа  файла">
-            <StackPanel>
+        <TabControl Grid.Row="0" >
+        <TabItem>
+                <TabItem.Header>
+                    <StackPanel>
+                        <TextBlock >Инфа  файла</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <StackPanel>
                 <TextBlock Text="{Binding ArchiveEntity.FileInfo[Length]}" />
-                    <TextBlock Text="{Binding ArchiveEntity.Title}"/>
+                    <TextBlock Text="{Binding ArchiveEntity.Title}" Background="Gray"/>
                 <TextBlock Text="{Binding ArchiveEntity.FileInfo[CreationTime]}" />
                 <TextBlock Text="{Binding ArchiveEntity.FileInfo[LastWriteTime]}" />
-                <TextBlock Text="{Binding ArchiveEntity.FileInfo[Extension]}" />
+                    <TextBlock Text="--------"/>
+                    <TextBlock Text="{Binding ArchiveEntity.FileInfo[Extension]}" />
                 <TextBlock Text="{Binding ArchiveEntity.FileInfo[FullName]}" />
                 <TextBlock Text="{Binding ArchiveEntity.FileInfo[Name]}" />
                 <TextBlock Text="{Binding ArchiveEntity.FileInfo[CreationTime]}" />
@@ -31,11 +37,11 @@
         <TabItem>
             <TabItem.Header>
                 <StackPanel>
-                    <TextBlock Foreground="Green">Медиа Инфа</TextBlock>
+                    <TextBlock >Медиа Инфа</TextBlock>
                 </StackPanel>
             </TabItem.Header>
             <Grid>
-                <!--<view:MediaInfoView DataContext="{Binding ArchiveEntity}" Grid.Row="0" Margin="0,10,0,0"/>-->
+                <view:MediaInfoView DataContext="{Binding ArchiveEntity}" Grid.Row="0" Margin="0,10,0,0"/>
 
             </Grid>
         </TabItem>
@@ -45,7 +51,7 @@
         <TabItem>
             <TabItem.Header>
                 <StackPanel>
-                    <TextBlock Foreground="Red">Метки</TextBlock>
+                    <TextBlock >Метки</TextBlock>
                 </StackPanel>
             </TabItem.Header>
 
@@ -58,16 +64,16 @@
                                     CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
                 </StackPanel>
                 <!---->
-                    <!--<view:TagsView DataContext="{Binding ArchiveEntity}" 
+                    <view:TagsView DataContext="{Binding ArchiveEntity}" 
                                    RemoveItem="{Binding Path = DataContext.DeleteTagCommand, 
-                        ElementName=rootFileEdit}" Margin="0,10,0,0"/>-->
+                        ElementName=rootFileEdit}" Margin="0,10,0,0"/>
                 </StackPanel>
 
             </TabItem>
             <TabItem>
                 <TabItem.Header>
                     <StackPanel>
-                        <TextBlock Foreground="Red">Категории</TextBlock>
+                        <TextBlock >Категории</TextBlock>
                     </StackPanel>
 
                 </TabItem.Header>
@@ -120,8 +126,13 @@
                 </Grid>
 
         </TabItem>
-        <TabItem Header="Картинки">
-            <Grid>
+        <TabItem >
+                <TabItem.Header>
+                    <StackPanel>
+                        <TextBlock >Картинки</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="*"/>
@@ -136,8 +147,13 @@
 
             </Grid>
         </TabItem>
-        <TabItem Header="Описание">
-            <StackPanel>
+        <TabItem>
+                <TabItem.Header>
+                    <StackPanel>
+                        <TextBlock >Описание</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <StackPanel>
 
                 <xctk:RichTextBox x:Name="_richTextBox" Grid.Row="1" Margin="10" Padding="10"
                                      Text="{Binding ArchiveEntity.Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
