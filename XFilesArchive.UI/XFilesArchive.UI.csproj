@@ -134,6 +134,7 @@
     <Compile Include="ViewModel\Base\IDetailViewModel.cs" />
     <Compile Include="ViewModel\Drive\FilesOnDriveViewModel.cs" />
     <Compile Include="ViewModel\Drive\IDriveDetailViewModel.cs" />
+    <Compile Include="ViewModel\Drive\IFilesOnDriveViewModel.cs" />
     <Compile Include="ViewModel\Navigation\FilesOnDriveNavigationViewModel.cs" />
     <Compile Include="ViewModel\Navigation\INavigationViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -294,6 +295,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="AppIco.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Wrapper\Generated\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

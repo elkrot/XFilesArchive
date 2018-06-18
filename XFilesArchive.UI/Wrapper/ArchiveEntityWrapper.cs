@@ -192,43 +192,43 @@ namespace XFilesArchive.UI.Wrapper
 
         #endregion
 
-        public ChangeTrackingCollection<CategoryWrapper> Categories { get; private set; }
+        //public ChangeTrackingCollection<CategoryWrapper> Categories { get; private set; }
 
-        public ChangeTrackingCollection<ImageWrapper> Images { get; private set; }
+        //public ChangeTrackingCollection<ImageWrapper> Images { get; private set; }
 
-        public ChangeTrackingCollection<TagWrapper> Tags { get; private set; }
+        //public ChangeTrackingCollection<TagWrapper> Tags { get; private set; }
 
 
-        protected override void InitializeCollectionProperties(ArchiveEntity model)
-        {
-            if (model.Images == null)
-            {
-                throw new ArgumentException("Images cannot be null");
-            }
+        //protected override void InitializeCollectionProperties(ArchiveEntity model)
+        //{
+        //    if (model.Images == null)
+        //    {
+        //        throw new ArgumentException("Images cannot be null");
+        //    }
 
-            Images = new ChangeTrackingCollection<ImageWrapper>(
-              model.Images.Select(e => new ImageWrapper(e)));
-            RegisterCollection(Images, model.Images.ToList());
+        //    Images = new ChangeTrackingCollection<ImageWrapper>(
+        //      model.Images.Select(e => new ImageWrapper(e)));
+        //    RegisterCollection(Images, model.Images.ToList());
 
-            if (model.Tags == null)
-            {
-                throw new ArgumentException("Tags cannot be null");
-            }
+        //    if (model.Tags == null)
+        //    {
+        //        throw new ArgumentException("Tags cannot be null");
+        //    }
 
-            Tags = new ChangeTrackingCollection<TagWrapper>(
-              model.Tags.Select(e => new TagWrapper(e)));
-            RegisterCollection(Tags, model.Tags.ToList());
+        //    Tags = new ChangeTrackingCollection<TagWrapper>(
+        //      model.Tags.Select(e => new TagWrapper(e)));
+        //    RegisterCollection(Tags, model.Tags.ToList());
 
-            if (model.Categories == null)
-            {
-                throw new ArgumentException("Categorys cannot be null");
-            }
+        //    if (model.Categories == null)
+        //    {
+        //        throw new ArgumentException("Categorys cannot be null");
+        //    }
 
-            Categories = new ChangeTrackingCollection<CategoryWrapper>(
-              model.Categories.Select(e => new CategoryWrapper(e)));
-            RegisterCollection(Categories, model.Categories.ToList());
+        //    Categories = new ChangeTrackingCollection<CategoryWrapper>(
+        //      model.Categories.Select(e => new CategoryWrapper(e)));
+        //    RegisterCollection(Categories, model.Categories.ToList());
 
-        }
+        //}
 
 
 
