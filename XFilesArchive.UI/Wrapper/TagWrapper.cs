@@ -12,5 +12,11 @@ namespace XFilesArchive.UI.Wrapper
         public TagWrapper(Tag model) : base(model)
         {
         }
+
+        public System.String TagTitle
+        {
+            get { return GetValue<System.String>(); }
+            set { SetValue(value); }
+        }
     }
 }

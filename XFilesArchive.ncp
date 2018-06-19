@@ -1,0 +1,180 @@
+<Project>
+  <Name>XFilesArchive</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Wrapper</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>ModelWrapper&lt;T&gt;</Name>
+        <Access>Public</Access>
+        <Location left="82" top="42" />
+        <Size width="428" height="181" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public readonly T Model</Member>
+        <Member type="Constructor">public ModelWrapper(T model)</Member>
+        <Member type="Method">protected void GetValue&lt;TValue&gt;(string propertyName)</Member>
+        <Member type="Method">protected void SetValue&lt;TValue&gt;(TValue value, string propertyName)</Member>
+        <Member type="Method">private void ValidatePropertyInternal(string propertyName)</Member>
+        <Member type="Method">protected IEnumerable&lt;string&gt; ValidateProperty(string propertyName)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>NotifyDataErrorInfoBase</Name>
+        <Access>Public</Access>
+        <Location left="117" top="281" />
+        <Size width="418" height="200" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public bool HasErrors</Member>
+        <Member type="Field">private Dictionary&lt;string, List&lt;string&gt;&gt; _errorsByPropertyName</Member>
+        <Member type="Method">public IEnumerable GetErrors(string propertyName)</Member>
+        <Member type="Method">protected virtual void OnErrorChanged(string propertyName)</Member>
+        <Member type="Method">protected void AddError(string propertyName, string error)</Member>
+        <Member type="Method">protected void ClearErrors(string propertyName)</Member>
+        <Member type="Event">public event EventHandler&lt;DataErrorsChangedEventArgs&gt; ErrorsChanged</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ViewModelBase</Name>
+        <Access>Public</Access>
+        <Location left="606" top="213" />
+        <Size width="341" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Event">public event PropertyChangedEventHandler PropertyChanged</Member>
+        <Member type="Method">public virtual void OnPropertyChanged(string propertyNamel)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>INotifyDataErrorInfo</Name>
+        <Access>Public</Access>
+        <Location left="117" top="525" />
+        <Size width="215" height="61" />
+        <Collapsed>False</Collapsed>
+      </Entity>
+      <Entity type="Class">
+        <Name>DependencyObject</Name>
+        <Access>Public</Access>
+        <Location left="586" top="64" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>INotifyPropertyChanged</Name>
+        <Access>Public</Access>
+        <Location left="798" top="98" />
+        <Size width="194" height="61" />
+        <Collapsed>False</Collapsed>
+      </Entity>
+      <Entity type="Class">
+        <Name>DetailViewModelBase</Name>
+        <Access>Public</Access>
+        <Location left="606" top="491" />
+        <Size width="307" height="423" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private bool _hasChanges</Member>
+        <Member type="Field">protected readonly IEventAggregator EventAggregator</Member>
+        <Member type="Field">private int _id</Member>
+        <Member type="Field">private string _title</Member>
+        <Member type="Property">public ICommand CloseDetailViewModelCommand { get; private set; }</Member>
+        <Member type="Method">protected abstract void OnSaveExecute()</Member>
+        <Member type="Method">protected virtual void RaiseDetailSavedEvent(int modelId, string displayMember)</Member>
+        <Member type="Property">public string Title { get; set; }</Member>
+        <Member type="Property">public ICommand SaveCommand { get; private set; }</Member>
+        <Member type="Property">public ICommand DeleteCommand { get; private set; }</Member>
+        <Member type="Property">public IMessageDialogService MessageDialogService { get; }</Member>
+        <Member type="Constructor">public DetailViewModelBase(IEventAggregator eventAggregator, IMessageDialogService _messageDialogService)</Member>
+        <Member type="Method">protected virtual void OnCloseDetailViewExecute()</Member>
+        <Member type="Method">public abstract Task LoadAsync(int id)</Member>
+        <Member type="Method">protected abstract void OnDeleteExecute()</Member>
+        <Member type="Method">protected abstract bool OnSaveCanExecute()</Member>
+        <Member type="Property">public bool HasChanges { get; set; }</Member>
+        <Member type="Property">public int Id { get; set; }</Member>
+        <Member type="Method">protected Task SaveWithOptimisticConcurrencyAsync(Func&lt;Task&gt; saveFunc, Action afterSaveAction)</Member>
+        <Member type="Method">protected virtual void RaiseCollectionSavedEvent()</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IDetailViewModel</Name>
+        <Access>Public</Access>
+        <Location left="254" top="656" />
+        <Size width="223" height="119" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">Task LoadAsync(int id)</Member>
+        <Member type="Property">bool HasChanges { get; }</Member>
+        <Member type="Property">int Id { get; }</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>FilesOnDriveViewModel</Name>
+        <Access>Public</Access>
+        <Location left="63" top="948" />
+        <Size width="605" height="362" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private readonly IArchiveEntityRepository _repository</Member>
+        <Member type="Field">private readonly IEventAggregator _eventAggregator</Member>
+        <Member type="Field">private readonly IMessageDialogService _messageDialogService</Member>
+        <Member type="Field">private ArchiveEntityWrapper _archiveEntity</Member>
+        <Member type="Constructor">FilesOnDriveViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService, IArchiveEntityRepository repository, ICategoryNavigationViewModel categoryNavigationViewModel, ICategoryDataProvider categoryDataProvider)</Member>
+        <Member type="Method">private void OnSelectedItemChanged(int obj)</Member>
+        <Member type="Property">public ObservableCollection&lt;TagWrapper&gt; Tags { get; }</Member>
+        <Member type="Method">private void InitializeTags(ICollection&lt;Tag&gt; tags)</Member>
+        <Member type="Method">private void Wrapper_PropertyChanged(object sender, PropertyChangedEventArgs e)</Member>
+        <Member type="Method">private void InvalidateCommands()</Member>
+        <Member type="Method">public override Task LoadAsync(int id)</Member>
+        <Member type="Method">protected override void OnDeleteExecute()</Member>
+        <Member type="Method">protected override bool OnSaveCanExecute()</Member>
+        <Member type="Method">protected override void OnSaveExecute()</Member>
+        <Member type="Property">public ArchiveEntityWrapper ArchiveEntity { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IFilesOnDriveViewModel</Name>
+        <Access>Public</Access>
+        <Location left="746" top="1176" />
+        <Size width="162" height="61" />
+        <Collapsed>False</Collapsed>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Generalization" first="0" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="1" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="1" second="2">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="2" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Dependency" first="2" second="5">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="6" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>768</X>
+          <Y>358</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Realization" first="6" second="7">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="8" second="6">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="8" second="9">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>

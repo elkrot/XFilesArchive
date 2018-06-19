@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Prism.Commands;
+using XFilesArchive.UI.ViewModel.Drive;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -22,14 +23,23 @@ namespace XFilesArchive.UI.ViewModel
         private readonly IMessageDialogService _messageDialogService;
         private ArchiveEntityWrapper _archiveEntity;
 
+        private readonly ICategoryDataProvider _categoryDataProvider;
+        private ICategoryNavigationViewModel _categoryNavigationViewModel;
+
         public FilesOnDriveViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
-                   IArchiveEntityRepository repository) : base(eventAggregator, messageDialogService)
-        { 
+                   IArchiveEntityRepository repository
+                   , ICategoryNavigationViewModel categoryNavigationViewModel
+            , ICategoryDataProvider categoryDataProvider
+            ) : base(eventAggregator, messageDialogService)
+        {
+            _categoryDataProvider = categoryDataProvider;
+            _categoryNavigationViewModel = categoryNavigationViewModel;
+
             _repository = repository;
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _eventAggregator.GetEvent<SelectedItemChangedEvent>().Subscribe(OnSelectedItemChanged);
-
+            Tags = new ObservableCollection<TagWrapper>();
         }
 
 
@@ -56,7 +66,7 @@ namespace XFilesArchive.UI.ViewModel
 
 
         public ObservableCollection<TagWrapper> Tags { get; }
-
+        public ObservableCollection<CategoryWrapper> Categories { get; }
 
 
         private void InitializeTags(ICollection<Tag> tags)
@@ -104,17 +114,16 @@ namespace XFilesArchive.UI.ViewModel
 
         protected override void OnDeleteExecute()
         {
-            throw new NotImplementedException();
-        }
+                   }
 
         protected override bool OnSaveCanExecute()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         protected override void OnSaveExecute()
         {
-            throw new NotImplementedException();
+            
         }
 
         public ArchiveEntityWrapper ArchiveEntity

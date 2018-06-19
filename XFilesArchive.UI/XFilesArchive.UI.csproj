@@ -130,6 +130,7 @@
     <Compile Include="SettingBindingExtension.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="ViewModel\Base\DetailViewModelBase.cs" />
+    <Compile Include="ViewModel\Drive\CategoryNavigationViewModel.cs" />
     <Compile Include="ViewModel\Drive\DriveDetailViewModel.cs" />
     <Compile Include="ViewModel\Base\IDetailViewModel.cs" />
     <Compile Include="ViewModel\Drive\FilesOnDriveViewModel.cs" />
@@ -143,6 +144,9 @@
     <Compile Include="ViewModel\Navigation\NavigationViewModel.cs" />
     <Compile Include="ViewModel\Base\ViewModelBase.cs" />
     <Compile Include="ViewModel\Observable.cs" />
+    <Compile Include="View\CategoriesView.xaml.cs">
+      <DependentUpon>CategoriesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DetailView.xaml.cs">
       <DependentUpon>DetailView.xaml</DependentUpon>
     </Compile>
@@ -204,6 +208,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\CategoriesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\DetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
