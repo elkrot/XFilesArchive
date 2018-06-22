@@ -23,16 +23,16 @@ namespace XFilesArchive.UI.ViewModel
         private readonly IMessageDialogService _messageDialogService;
         private ArchiveEntityWrapper _archiveEntity;
 
-        private readonly ICategoryDataProvider _categoryDataProvider;
+        private readonly ICategoryRepository _categoryRepository;
         private ICategoryNavigationViewModel _categoryNavigationViewModel;
 
         public FilesOnDriveViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
                    IArchiveEntityRepository repository
                    , ICategoryNavigationViewModel categoryNavigationViewModel
-            , ICategoryDataProvider categoryDataProvider
+            , ICategoryRepository categoryRepository
             ) : base(eventAggregator, messageDialogService)
         {
-            _categoryDataProvider = categoryDataProvider;
+            _categoryRepository = categoryRepository;
             _categoryNavigationViewModel = categoryNavigationViewModel;
 
             _repository = repository;
@@ -48,16 +48,11 @@ namespace XFilesArchive.UI.ViewModel
 
         private async void OnSelectedItemChanged(int obj)
         {
-
             if (obj != 0)
             {
                 int ArchiveEntityKey = 0;
                 int.TryParse(obj.ToString(), out ArchiveEntityKey);
-
-               
                await LoadAsync(ArchiveEntityKey);
-
-                
             }
         }
         #endregion
@@ -84,6 +79,24 @@ namespace XFilesArchive.UI.ViewModel
             }
         }
 
+
+        private void InitializeCategories(ICollection<Category> categories)
+        {
+            foreach (var wrapper in Categories)
+            {
+                wrapper.PropertyChanged -= Wrapper_PropertyChanged;
+            }
+            Categories.Clear();
+            foreach (var category in categories)
+            {
+                var wrapper = new CategoryWrapper(category);
+                Categories.Add(wrapper);
+                wrapper.PropertyChanged += Wrapper_PropertyChanged;
+            }
+        }
+
+
+
         private void Wrapper_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!HasChanges)
@@ -109,6 +122,7 @@ namespace XFilesArchive.UI.ViewModel
 
             _archiveEntity = new ArchiveEntityWrapper(_archEntity);
             InitializeTags(_archEntity.Tags);
+            InitializeCategories(_archEntity.Categories);
             OnPropertyChanged("ArchiveEntity");
         }
 

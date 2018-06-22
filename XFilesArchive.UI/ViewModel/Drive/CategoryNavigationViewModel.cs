@@ -36,6 +36,7 @@ namespace XFilesArchive.UI.ViewModel.Drive
             items = _categoryLookupProvider.GetLookup();
 
             NavigationItems.Clear();
+
             foreach (var categoryLookupItem in
                 items)
             {
@@ -62,14 +63,8 @@ namespace XFilesArchive.UI.ViewModel.Drive
             CategoryKey = itemNode.Id;
             DisplayValue = itemNode.DisplayMember;
             NavigationItems = GetItems(itemNode.Nodes);
-            ImagePath = itemNode.EntityType == 1 ? "/HomeArchiveX.WpfUI;component/img/folder.png"
-                : "/HomeArchiveX.WpfUI;component/img/document_empty.png";
-            //;
             _eventAggregator = eventAggregator;
             //OpenFileOnDriveEditViewCommand = new DelegateCommand(OpenFileOnDriveEditViewExecute);
-
-
-
         }
 
         private ObservableCollection<NavigationCategoryTreeItemViewModel> GetItems(ObservableCollection<LookupItemNode> nodes)

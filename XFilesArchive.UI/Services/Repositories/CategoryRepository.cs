@@ -14,7 +14,13 @@ namespace XFilesArchive.UI.Services.Repositories
         public CategoryRepository(XFilesArchiveDataContext context) : base(context)
         {
         }
-        
+
+
+        public List<Category> GetAllCategories()
+        {
+            return  Context.Set<Category>().ToList();
+        }
+
 
         public async Task<List<Drive>> GetAllDriveAsync()
         {

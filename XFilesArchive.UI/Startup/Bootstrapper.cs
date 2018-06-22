@@ -6,6 +6,7 @@ using XFilesArchive.UI.Services.Lookups;
 using XFilesArchive.UI.Services.Repositories;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel;
+using XFilesArchive.UI.ViewModel.Drive;
 
 namespace XFilesArchive.UI.Startup
 {
@@ -26,6 +27,8 @@ namespace XFilesArchive.UI.Startup
                 .Keyed<IDetailViewModel>(nameof(DriveDetailViewModel));
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
             builder.RegisterType<FilesOnDriveLookupProvider>().As<ITreeViewLookupProvider<ArchiveEntity>>();
+            builder.RegisterType<CategoryLookupProvider>().As<ITreeViewLookupProvider<Category>>();
+          
             //builder.RegisterType<MeetingDetailViewModel>()
             //    .Keyed<IDetailViewModel>(nameof(MeetingDetailViewModel));
             builder.RegisterType<FilesOnDriveViewModel>().AsSelf();
@@ -33,7 +36,7 @@ namespace XFilesArchive.UI.Startup
             builder.RegisterType<DriveRepository>().As<IDriveRepository>();
             builder.RegisterType<ArchiveEntityRepository>().As<IArchiveEntityRepository>();
             builder.RegisterType<CategoryRepository>().As<ICategoryRepository>();
-
+            builder.RegisterType<CategoryNavigationViewModel>().As<ICategoryNavigationViewModel>();
             //builder.RegisterType<ProgrammingLanguageRepository>().As<IProgrammingLanguageRepository>();
 
             return builder.Build();

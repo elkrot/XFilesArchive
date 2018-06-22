@@ -279,7 +279,7 @@ namespace XFilesArchive.UI.ViewModel
             }
         }
 
-        private void InitializedDrive(Drive drive)
+        private void InitializedDrive(Model.Drive drive)
         {
             Drive = new DriveWrapper(drive);
             Drive.PropertyChanged += (s, e) =>
@@ -323,9 +323,9 @@ namespace XFilesArchive.UI.ViewModel
             //}
         }
 
-        private Drive CreateNewDrive()
+        private Model.Drive CreateNewDrive()
         {
-            var drive = new Drive();
+            var drive = new Model.Drive();
             _repository.Add(drive);
             return drive;
         }
