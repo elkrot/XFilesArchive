@@ -135,9 +135,12 @@
                 </Grid.RowDefinitions>
 
                 <Button Command="{Binding OpenFileDialogCommand}" Width="Auto" Grid.Row="0">Добавить</Button>
+                    <view:ImagesView 
+                               RemoveItem="{Binding Path = DataContext.DeleteImageCommand, 
+                        ElementName=rootFileEdit}"       
+                                     Margin="0,10,0,0" Height="Auto" Grid.Row="1"/>
 
-
-            </Grid>
+                </Grid>
         </TabItem>
         <TabItem>
                 <TabItem.Header>

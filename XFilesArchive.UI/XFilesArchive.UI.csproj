@@ -76,6 +76,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=1.4.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\WpfAnimatedGif.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock, Version=3.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>..\packages\Extended.Wpf.Toolkit.3.3.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
@@ -160,6 +164,9 @@
     <Compile Include="View\FilesOnDriveView.xaml.cs">
       <DependentUpon>FilesOnDriveView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ImagesView.xaml.cs">
+      <DependentUpon>ImagesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MediaInfoView.xaml.cs">
       <DependentUpon>MediaInfoView.xaml</DependentUpon>
     </Compile>
@@ -226,6 +233,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FilesOnDriveView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ImagesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -310,6 +321,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Wrapper\Generated\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WpfAnimatedGif.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
