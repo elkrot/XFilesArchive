@@ -11,6 +11,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Prism.Commands;
 using XFilesArchive.UI.ViewModel.Drive;
+using System.Windows.Input;
+using XFilesArchive.Infrastructure;
+using System.Linq;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -47,7 +50,7 @@ namespace XFilesArchive.UI.ViewModel
             Categories = new ObservableCollection<CategoryWrapper>();
             Images = new ObservableCollection<ImageWrapper>();
             CategoryNavigationViewModel.Load();
-
+            AddTagCommand = new DelegateCommand(OnAddTagExecute, OnAddTagCanExecute);
 
         }
 
@@ -174,8 +177,220 @@ namespace XFilesArchive.UI.ViewModel
         }
 
 
+        public ICommand OpenFileDialogCommand { get; private set; }
 
+        public ICommand AddTagCommand { get; private set; }
+
+        public ICommand AddCategoryCommand { get; private set; }
+
+        public ICommand AddNewCategoryCommand { get; private set; }
+
+        public ICommand DeleteTagCommand { get; private set; }
+
+        public ICommand DeleteImageCommand { get; private set; }
+
+        public ICommand DeleteCategoryToEntityCommand { get; private set; }
+
+
+
+
+
+
+        private bool OnDeleteCategoryToEntityCanExecute(object arg)
+        {
+            return true;
+        }
+        delegate MethodResult<int> RemoveEntityCollectionItem(int ArchiveEntityKey, int CollectionKey);
+
+        private async void RemoveItemFromEntityCollection(RemoveEntityCollectionItem action, int CollectionKey)
+        {
+            var saveRet = action(ArchiveEntity.ArchiveEntityKey, CollectionKey);
+
+            if (!saveRet.Success)
+            {
+                 await _messageDialogService.ShowInfoDialogAsync(
+   
+    string.Format("Во время сохранения записи {0}{2} возникла исключительная ситуация{2}  {1}"
+    , ArchiveEntity.Title, saveRet.Messages.FirstOrDefault(), Environment.NewLine));
+              //  ArchiveEntity.RejectChanges();
+            }
+            else
+            {
+              //  ArchiveEntity.AcceptChanges();
+            }
+            _eventAggregator.GetEvent<FileOnDriveSavedEvent>().Publish(ArchiveEntity.Model);
+            InvalidateCommands();
+        }
+
+        private void OnDeleteCategoryToEntityExecute(object obj)
+        {
+            int CategoryKey = (int)obj;
+            CategoryWrapper categoryW = ArchiveEntity.Categories.Where(x => x.CategoryKey == CategoryKey).First();
+            ArchiveEntity.Categories.Remove(categoryW);
+            RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveCategoryFromEntity, CategoryKey);
+        }
+
+        private bool OnDeleteImageCanExecute(object arg)
+        {
+            return true;
+        }
+
+        private void OnDeleteImageExecute(object obj)
+        {
+            int ImageKey = (int)obj;
+            ImageWrapper image = ArchiveEntity.Images.Where(x => x.ImageKey == ImageKey).First();
+            ArchiveEntity.Images.Remove(image);
+            ///   Дописать удаление файла !!!!!!!!!!!!
+            RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveImageFromEntity, ImageKey);
+
+        }
+
+        private bool OnAddNewCategoryCanExecute(object arg)
+        {
+            return true;
+        }
+
+        private void OnAddNewCategoryExecute(object obj)
+        {
+            var strkey = obj.ToString();
+
+            AddCategoryViewModel vm = new AddCategoryViewModel();
+            vm.CategoryTitle = "Новая категория";
+            int parentKey = 0;
+
+            int.TryParse(strkey, out parentKey);
+
+
+            AddCategoryDialog dlg = new AddCategoryDialog();
+            dlg.DataContext = vm;
+
+            var result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                Category category = new Category() { CategoryTitle = vm.CategoryTitle };
+                if (parentKey > 0)
+                {
+                    category.ParentCategoryKey = parentKey;
+                }
+
+                _categoryDataProvider.AddCategory(category);
+                CategoryNavigationViewModel.Load();
+            }
+
+        }
+
+        #region OnOpenFileDialog
+        /// <summary>
+        /// Добавление картинки к сущности
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OnOpenFileDialogExecute(object obj)
+        {
+            OpenFileDialog myDialog = new OpenFileDialog();
+            myDialog.Filter = "Картинки(*.JPG;*.GIF;*.PNG)|*.JPG;*.GIF;*.PNG" + "|Все файлы (*.*)|*.* ";
+            myDialog.CheckFileExists = true;
+            myDialog.Multiselect = true;
+            if (myDialog.ShowDialog() == true)
+            {
+                var ret = _fileOnDriveDataProvider.AddImageToFileOnDrive(ArchiveEntity.Model.ArchiveEntityKey
+                    , myDialog.FileName, (int)ArchiveEntity.Model.DriveId);
+
+                var imageKey = ret.Result;
+
+                if (ret.Success)
+                {
+
+                    var img = _fileOnDriveDataProvider.GetImageToEntityById(ArchiveEntity.Model.ArchiveEntityKey,
+                        ret.Result);
+                    var imgw = new ImageWrapper(img);
+                    ArchiveEntity.Images.Add(imgw);
+                    ArchiveEntity.Images.AcceptChanges();
+                }
+            }
+        }
+
+        private bool OnOpenFileDialogCanExecute(object arg)
+        {//errrororororor
+            return true;
+        }
+
+        #endregion
+
+
+        #region OnAddTag
+        private void OnAddTagExecute(object obj)
+        {
+            var ret = _fileOnDriveDataProvider.AddTagToEntity(ArchiveEntity.Model.ArchiveEntityKey
+                , obj.ToString());
+
+            if (ret.Success)
+            {
+                var tag = _fileOnDriveDataProvider.GetTagToEntityById(ArchiveEntity.Model.ArchiveEntityKey,
+                    ret.Result);
+                if (tag != null)
+                {
+                    var tagw = new TagWrapper(tag);
+
+                    ArchiveEntity.Tags.Add(tagw);
+                    ArchiveEntity.Tags.AcceptChanges();
+                }
+
+
+            }
+        }
+
+
+        private bool OnAddTagCanExecute(object arg)
+        {//errrororororor
+            return true;
+        }
+        #endregion
+
+        #region OnDeleteTag
+        private void OnDeleteTagExecute(object obj)
+        {
+            var TagKey = (int)obj;
+            TagWrapper tag = ArchiveEntity.Tags.Where(x => x.TagKey == TagKey).First();
+            ArchiveEntity.Tags.Remove(tag);
+            RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveTagFromEntity, TagKey);
+        }
+        private bool OnDeleteTagCanExecute(object arg)
+        {//errrororororor
+            return true;
+        }
+        #endregion
+
+        #region OnAddCategory
+        private void OnAddCategoryExecute(object obj)
+        {
+            var CategoryId = 0;
+            Int32.TryParse(obj.ToString(), out CategoryId);
+            var category = _fileOnDriveDataProvider.GetCategoryToEntityById(ArchiveEntity.Model.ArchiveEntityKey,
+                    CategoryId);
+
+            if (category == null)
+            {
+                var ret = _fileOnDriveDataProvider.AddCategoryToEntity(ArchiveEntity.Model.ArchiveEntityKey
+                    , CategoryId);
+
+                if (ret.Success)
+                {
+                    category = _fileOnDriveDataProvider.GetCategoryToEntityById(ArchiveEntity.Model.ArchiveEntityKey,
+                       ret.Result);
+                }
+            }
+            var categoryew = new CategoryWrapper(category);
+            ArchiveEntity.Categories.Add(categoryew);
+            ArchiveEntity.Categories.AcceptChanges();
+        }
+
+        private bool OnAddCategoryCanExecute(object arg)
+        {//errrororororor
+            return true;
+        }
+        #endregion
 
     }
-     
+
 }
