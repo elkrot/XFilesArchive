@@ -15,6 +15,7 @@ using System.Windows.Input;
 using XFilesArchive.Infrastructure;
 using System.Linq;
 using Microsoft.Win32;
+using XFilesArchive.UI.ViewModel.Services;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -228,7 +229,7 @@ namespace XFilesArchive.UI.ViewModel
             int CategoryKey = (int)obj;
             CategoryWrapper categoryW = ArchiveEntity.Categories.Where(x => x.CategoryKey == CategoryKey).First();
             ArchiveEntity.Categories.Remove(categoryW);
-            RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveCategoryFromEntity, CategoryKey);
+          //  RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveCategoryFromEntity, CategoryKey);
         }
 
         private bool OnDeleteImageCanExecute(object arg)
@@ -242,7 +243,7 @@ namespace XFilesArchive.UI.ViewModel
             ImageWrapper image = ArchiveEntity.Images.Where(x => x.ImageKey == ImageKey).First();
             ArchiveEntity.Images.Remove(image);
             ///   Дописать удаление файла !!!!!!!!!!!!
-            RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveImageFromEntity, ImageKey);
+         //   RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveImageFromEntity, ImageKey);
 
         }
 
@@ -275,7 +276,7 @@ namespace XFilesArchive.UI.ViewModel
                     category.ParentCategoryKey = parentKey;
                 }
 
-                _categoryDataProvider.AddCategory(category);
+              //  _categoryDataProvider.AddCategory(category);
                 CategoryNavigationViewModel.Load();
             }
 
