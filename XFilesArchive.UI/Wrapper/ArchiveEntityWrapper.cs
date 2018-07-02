@@ -22,9 +22,9 @@ namespace XFilesArchive.UI.Wrapper
             set { SetValue(value); }
         }
 
-        //public System.Int32 ArchiveEntityKeyOriginalValue => GetOriginalValue<System.Int32>(nameof(ArchiveEntityKey));
+        public System.Int32 ArchiveEntityKeyOriginalValue => GetOriginalValue<System.Int32>(nameof(ArchiveEntityKey));
 
-        //public bool ArchiveEntityKeyIsChanged => GetIsChanged(nameof(ArchiveEntityKey));
+        public bool ArchiveEntityKeyIsChanged => GetIsChanged(nameof(ArchiveEntityKey));
 
         #endregion
 
@@ -35,9 +35,9 @@ namespace XFilesArchive.UI.Wrapper
             set { SetValue(value); }
         }
 
-        //public System.Nullable<System.Int32> ParentEntityKeyOriginalValue => GetOriginalValue<System.Nullable<System.Int32>>(nameof(ParentEntityKey));
+        public System.Nullable<System.Int32> ParentEntityKeyOriginalValue => GetOriginalValue<System.Nullable<System.Int32>>(nameof(ParentEntityKey));
 
-        //public bool ParentEntityKeyIsChanged => GetIsChanged(nameof(ParentEntityKey));
+        public bool ParentEntityKeyIsChanged => GetIsChanged(nameof(ParentEntityKey));
         #endregion
 
         #region DriveId
@@ -47,9 +47,9 @@ namespace XFilesArchive.UI.Wrapper
             set { SetValue(value); }
         }
 
-        //public System.Nullable<System.Int32> DriveIdOriginalValue => GetOriginalValue<System.Nullable<System.Int32>>(nameof(DriveId));
+        public System.Nullable<System.Int32> DriveIdOriginalValue => GetOriginalValue<System.Nullable<System.Int32>>(nameof(DriveId));
 
-        //public bool DriveIdIsChanged => GetIsChanged(nameof(DriveId));
+        public bool DriveIdIsChanged => GetIsChanged(nameof(DriveId));
         #endregion
 
         #region Title
@@ -59,9 +59,9 @@ namespace XFilesArchive.UI.Wrapper
             set { SetValue(value); }
         }
 
-        //public System.String TitleOriginalValue => GetOriginalValue<System.String>(nameof(Title));
+        public System.String TitleOriginalValue => GetOriginalValue<System.String>(nameof(Title));
 
-        //public bool TitleIsChanged => GetIsChanged(nameof(Title));
+        public bool TitleIsChanged => GetIsChanged(nameof(Title));
         #endregion
 
         #region EntityType
@@ -71,9 +71,9 @@ namespace XFilesArchive.UI.Wrapper
             set { SetValue(value); }
         }
 
-        //public System.Byte EntityTypeOriginalValue => GetOriginalValue<System.Byte>(nameof(EntityType));
+        public System.Byte EntityTypeOriginalValue => GetOriginalValue<System.Byte>(nameof(EntityType));
 
-        //public bool EntityTypeIsChanged => GetIsChanged(nameof(EntityType));
+        public bool EntityTypeIsChanged => GetIsChanged(nameof(EntityType));
         #endregion
 
         #region EntityPath
@@ -83,9 +83,9 @@ namespace XFilesArchive.UI.Wrapper
             set { SetValue(value); }
         }
 
-        //public System.String EntityPathOriginalValue => GetOriginalValue<System.String>(nameof(EntityPath));
+        public System.String EntityPathOriginalValue => GetOriginalValue<System.String>(nameof(EntityPath));
 
-        //public bool EntityPathIsChanged => GetIsChanged(nameof(EntityPath));
+        public bool EntityPathIsChanged => GetIsChanged(nameof(EntityPath));
         #endregion
 
         #region EntityExtension
@@ -95,9 +95,9 @@ namespace XFilesArchive.UI.Wrapper
             set { SetValue(value); }
         }
 
-        //public System.String EntityExtensionOriginalValue => GetOriginalValue<System.String>(nameof(EntityExtension));
+        public System.String EntityExtensionOriginalValue => GetOriginalValue<System.String>(nameof(EntityExtension));
 
-        //public bool EntityExtensionIsChanged => GetIsChanged(nameof(EntityExtension));
+        public bool EntityExtensionIsChanged => GetIsChanged(nameof(EntityExtension));
         #endregion
 
         #region Description
@@ -107,9 +107,9 @@ namespace XFilesArchive.UI.Wrapper
             set { SetValue(value); }
         }
 
-        //public System.String DescriptionOriginalValue => GetOriginalValue<System.String>(nameof(Description));
+        public System.String DescriptionOriginalValue => GetOriginalValue<System.String>(nameof(Description));
 
-        //public bool DescriptionIsChanged => GetIsChanged(nameof(Description));
+        public bool DescriptionIsChanged => GetIsChanged(nameof(Description));
         #endregion
 
         #region FileSize
@@ -119,9 +119,9 @@ namespace XFilesArchive.UI.Wrapper
             set { SetValue(value); }
         }
 
-        //public System.Nullable<long> FileSizeOriginalValue => GetOriginalValue<System.Nullable<long>>(nameof(FileSize));
+        public System.Nullable<long> FileSizeOriginalValue => GetOriginalValue<System.Nullable<long>>(nameof(FileSize));
 
-        //public bool FileSizeIsChanged => GetIsChanged(nameof(FileSize));
+        public bool FileSizeIsChanged => GetIsChanged(nameof(FileSize));
         #endregion
 
         #region CreatedDate
@@ -131,9 +131,9 @@ namespace XFilesArchive.UI.Wrapper
             set { SetValue(value); }
         }
 
-        //public System.DateTime CreatedDateOriginalValue => GetOriginalValue<System.DateTime>(nameof(CreatedDate));
+        public System.DateTime CreatedDateOriginalValue => GetOriginalValue<System.DateTime>(nameof(CreatedDate));
 
-        //public bool CreatedDateIsChanged => GetIsChanged(nameof(CreatedDate));
+        public bool CreatedDateIsChanged => GetIsChanged(nameof(CreatedDate));
         #endregion
 
         #region Checksum
@@ -143,9 +143,9 @@ namespace XFilesArchive.UI.Wrapper
             set { SetValue(value); }
         }
 
-        //public System.String ChecksumOriginalValue => GetOriginalValue<System.String>(nameof(Checksum));
+        public System.String ChecksumOriginalValue => GetOriginalValue<System.String>(nameof(Checksum));
 
-        //public bool ChecksumIsChanged => GetIsChanged(nameof(Checksum));
+        public bool ChecksumIsChanged => GetIsChanged(nameof(Checksum));
         #endregion
 
         private byte[] EntityInfo { get { return GetValue<byte[]>(); } }
@@ -192,43 +192,43 @@ namespace XFilesArchive.UI.Wrapper
 
         #endregion
 
-        //public ChangeTrackingCollection<CategoryWrapper> Categories { get; private set; }
+        public ChangeTrackingCollection<CategoryWrapper> Categories { get; private set; }
 
-        //public ChangeTrackingCollection<ImageWrapper> Images { get; private set; }
+        public ChangeTrackingCollection<ImageWrapper> Images { get; private set; }
 
-        //public ChangeTrackingCollection<TagWrapper> Tags { get; private set; }
+        public ChangeTrackingCollection<TagWrapper> Tags { get; private set; }
 
 
-        //protected override void InitializeCollectionProperties(ArchiveEntity model)
-        //{
-        //    if (model.Images == null)
-        //    {
-        //        throw new ArgumentException("Images cannot be null");
-        //    }
+        protected override void InitializeCollectionProperties(ArchiveEntity model)
+        {
+            if (model.Images == null)
+            {
+                throw new ArgumentException("Images cannot be null");
+            }
 
-        //    Images = new ChangeTrackingCollection<ImageWrapper>(
-        //      model.Images.Select(e => new ImageWrapper(e)));
-        //    RegisterCollection(Images, model.Images.ToList());
+            Images = new ChangeTrackingCollection<ImageWrapper>(
+              model.Images.Select(e => new ImageWrapper(e)));
+            RegisterCollection(Images, model.Images.ToList());
 
-        //    if (model.Tags == null)
-        //    {
-        //        throw new ArgumentException("Tags cannot be null");
-        //    }
+            if (model.Tags == null)
+            {
+                throw new ArgumentException("Tags cannot be null");
+            }
 
-        //    Tags = new ChangeTrackingCollection<TagWrapper>(
-        //      model.Tags.Select(e => new TagWrapper(e)));
-        //    RegisterCollection(Tags, model.Tags.ToList());
+            Tags = new ChangeTrackingCollection<TagWrapper>(
+              model.Tags.Select(e => new TagWrapper(e)));
+            RegisterCollection(Tags, model.Tags.ToList());
 
-        //    if (model.Categories == null)
-        //    {
-        //        throw new ArgumentException("Categorys cannot be null");
-        //    }
+            if (model.Categories == null)
+            {
+                throw new ArgumentException("Categorys cannot be null");
+            }
 
-        //    Categories = new ChangeTrackingCollection<CategoryWrapper>(
-        //      model.Categories.Select(e => new CategoryWrapper(e)));
-        //    RegisterCollection(Categories, model.Categories.ToList());
+            Categories = new ChangeTrackingCollection<CategoryWrapper>(
+              model.Categories.Select(e => new CategoryWrapper(e)));
+            RegisterCollection(Categories, model.Categories.ToList());
 
-        //}
+        }
 
 
 

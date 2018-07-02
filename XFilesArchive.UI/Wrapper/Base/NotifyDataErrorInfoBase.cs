@@ -11,6 +11,9 @@ namespace XFilesArchive.UI.Wrapper
     {
         private Dictionary<string, List<string>> _errorsByPropertyName = new Dictionary<string, List<string>>();
 
+        protected Dictionary<string, List<string>> Errors { get { return _errorsByPropertyName; } }
+
+
         public bool HasErrors => _errorsByPropertyName.Any();
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
@@ -50,6 +53,15 @@ namespace XFilesArchive.UI.Wrapper
             if (_errorsByPropertyName.ContainsKey(propertyName))
             {
                 _errorsByPropertyName.Remove(propertyName);
+                OnErrorChanged(propertyName);
+            }
+        }
+
+        protected void ClearErrors()
+        {
+            foreach (var propertyName in Errors.Keys.ToList())
+            {
+                Errors.Remove(propertyName);
                 OnErrorChanged(propertyName);
             }
         }

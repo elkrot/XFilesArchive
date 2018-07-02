@@ -14,6 +14,7 @@ using XFilesArchive.UI.ViewModel.Drive;
 using System.Windows.Input;
 using XFilesArchive.Infrastructure;
 using System.Linq;
+using Microsoft.Win32;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -50,7 +51,7 @@ namespace XFilesArchive.UI.ViewModel
             Categories = new ObservableCollection<CategoryWrapper>();
             Images = new ObservableCollection<ImageWrapper>();
             CategoryNavigationViewModel.Load();
-            AddTagCommand = new DelegateCommand(OnAddTagExecute, OnAddTagCanExecute);
+            AddTagCommand = new DelegateCommand<int>(OnAddTagExecute, OnAddTagCanExecute);
 
         }
 
@@ -319,7 +320,7 @@ namespace XFilesArchive.UI.ViewModel
 
 
         #region OnAddTag
-        private void OnAddTagExecute(object obj)
+        private void OnAddTagExecute(int obj)
         {
             var ret = _fileOnDriveDataProvider.AddTagToEntity(ArchiveEntity.Model.ArchiveEntityKey
                 , obj.ToString());
@@ -341,7 +342,7 @@ namespace XFilesArchive.UI.ViewModel
         }
 
 
-        private bool OnAddTagCanExecute(object arg)
+        private bool OnAddTagCanExecute(int arg)
         {//errrororororor
             return true;
         }
