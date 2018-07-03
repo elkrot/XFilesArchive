@@ -148,7 +148,16 @@ namespace XFilesArchive.UI.Wrapper
 
             var results = new List<ValidationResult>();
             var context = new ValidationContext(this);
-            Validator.TryValidateObject(this, context, results, true);
+            try
+            {
+                Validator.TryValidateObject(this, context, results, true);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+           
 
             if (results.Any())
             {

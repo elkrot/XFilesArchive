@@ -17,7 +17,7 @@ namespace XFilesArchive.UI.Wrapper
         }
 
 
-        protected override IEnumerable<string> ValidateProperty(string propertyName)
+        protected override IEnumerable<string> ValidateProperty(string propertyName="")
         {
             switch (propertyName)
             {
