@@ -23,7 +23,7 @@ namespace XFilesArchive.UI.Wrapper
             Model = model;
             _originalValues = new Dictionary<string, object>();
             _trackingObjects = new List<IValidatableTrackingObject>();
-            InitializeComplexProperties(model);
+           InitializeComplexProperties(model);
             InitializeCollectionProperties(model);
             Validate();
         }
@@ -95,7 +95,7 @@ namespace XFilesArchive.UI.Wrapper
         {
         }
 
-       
+
 
         public bool IsChanged => _originalValues.Count > 0 || _trackingObjects.Any(t => t.IsChanged);
 
@@ -147,10 +147,10 @@ namespace XFilesArchive.UI.Wrapper
             ClearErrors();
 
             var results = new List<ValidationResult>();
-            var context = new ValidationContext(this);
+            var context = new ValidationContext(this.Model,null,null);
             try
             {
-                Validator.TryValidateObject(this, context, results, true);
+                Validator.TryValidateObject(this.Model, context, results, true);
             }
             catch (Exception ex)
             {
