@@ -20,10 +20,10 @@ namespace XFilesArchive.UI.ViewModel.Services
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged(string propertyName)
+        private void NotifyPropertyChanged(string _propertyName)
         {
             if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                PropertyChanged(this, new PropertyChangedEventArgs(_propertyName));
         }
         #endregion
 

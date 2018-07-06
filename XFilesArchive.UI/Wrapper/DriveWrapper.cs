@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using XFilesArchive.Model;
@@ -17,9 +18,9 @@ namespace XFilesArchive.UI.Wrapper
         }
 
 
-        protected override IEnumerable<string> ValidateProperty(string propertyName = "")
+        protected override IEnumerable<string> ValidateProperty([CallerMemberName]string _propertyName = "")
         {
-            switch (propertyName)
+            switch (_propertyName)
             {
                 case nameof(Title):
                     if (string.Equals(Title, "Test", StringComparison.OrdinalIgnoreCase))
@@ -31,7 +32,7 @@ namespace XFilesArchive.UI.Wrapper
         }
 
 
-
+        public virtual ICollection<ArchiveEntity> ArchiveEntities { get; set; }
 
         public System.Int32 DriveId
         {
@@ -98,7 +99,7 @@ namespace XFilesArchive.UI.Wrapper
         public System.Nullable<bool> IsSecretOriginalValue => GetOriginalValue<System.Nullable<bool>>(nameof(IsSecret));
 
         public bool IsSecretIsChanged => GetIsChanged(nameof(IsSecret));
-
+        
 
     }
 

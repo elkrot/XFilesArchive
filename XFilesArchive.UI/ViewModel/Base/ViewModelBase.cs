@@ -12,8 +12,8 @@ namespace XFilesArchive.UI.ViewModel
     public class ViewModelBase : DependencyObject, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public virtual void OnPropertyChanged([CallerMemberName] string propertyName =null) {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public virtual void OnPropertyChanged([CallerMemberName] string _propertyName =null) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(_propertyName));
         }
     }
 }

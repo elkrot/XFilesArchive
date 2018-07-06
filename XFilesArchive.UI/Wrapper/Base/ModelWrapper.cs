@@ -28,55 +28,56 @@ namespace XFilesArchive.UI.Wrapper
             Validate();
         }
         public T Model { get; }
-        protected virtual TValue GetValue<TValue>([CallerMemberName]string propertyName = null)
+        protected virtual TValue GetValue<TValue>([CallerMemberName]string _propertyName = null)
         {
-            return (TValue)typeof(T).GetProperty(propertyName).GetValue(Model); ;
+            return (TValue)typeof(T).GetProperty(_propertyName).GetValue(Model); ;
         }
-        //protected TValue GetValue<TValue>([CallerMemberName] string propertyName = null)
+        //protected TValue GetValue<TValue>([CallerMemberName] string _propertyName = null)
         //{
-        //    var propertyInfo = Model.GetType().GetProperty(propertyName);
+        //    var propertyInfo = Model.GetType().GetProperty(_propertyName);
         //    return (TValue)propertyInfo.GetValue(Model);
         //}
-        //protected virtual void SetValue<TValue>(TValue value, [CallerMemberName]string propertyName = null)
+        //protected virtual void SetValue<TValue>(TValue value, [CallerMemberName]string _propertyName = null)
         //{
-        //    typeof(T).GetProperty(propertyName).SetValue(Model, value);
-        //    OnPropertyChanged(propertyName);
-        //    ValidatePropertyInternal(propertyName);
+        //    typeof(T).GetProperty(_propertyName).SetValue(Model, value);
+        //    OnPropertyChanged(_propertyName);
+        //    ValidatePropertyInternal(_propertyName);
         //}
 
 
         protected void SetValue<TValue>(TValue newValue,
-         [CallerMemberName] string propertyName = null)
+         [CallerMemberName] string _propertyName = null)
         {
-            var propertyInfo = Model.GetType().GetProperty(propertyName);
+            var propertyInfo = Model.GetType().GetProperty(_propertyName);
             var currentValue = propertyInfo.GetValue(Model);
             if (!Equals(currentValue, newValue))
             {
-                UpdateOriginalValue(currentValue, newValue, propertyName);
+                UpdateOriginalValue(currentValue, newValue, _propertyName);
                 propertyInfo.SetValue(Model, newValue);
                 Validate();
-                OnPropertyChanged(propertyName);
-                OnPropertyChanged(propertyName + "IsChanged");
+                OnPropertyChanged(_propertyName);
+                OnPropertyChanged(_propertyName + "IsChanged");
+                ValidatePropertyInternal(_propertyName);
             }
         }
 
 
 
 
-        private void ValidatePropertyInternal(string propertyName)
+        private void ValidatePropertyInternal(string _propertyName)
         {
-            ClearErrors(propertyName);
-            var errors = ValidateProperty(propertyName);
+            ClearErrors(_propertyName);
+            var errors = ValidateProperty(_propertyName);
             if (errors != null)
             {
                 foreach (var error in errors)
                 {
-                    AddError(propertyName, error);
+                    AddError(_propertyName, error);
                 }
             }
         }
 
-        protected virtual IEnumerable<string> ValidateProperty(string propertyName)
+        protected virtual IEnumerable<string> ValidateProperty(string _propertyName)
         {
             return null;
         }
@@ -128,16 +129,16 @@ namespace XFilesArchive.UI.Wrapper
 
        
 
-        protected TValue GetOriginalValue<TValue>(string propertyName)
+        protected TValue GetOriginalValue<TValue>(string _propertyName)
         {
-            return _originalValues.ContainsKey(propertyName)
-              ? (TValue)_originalValues[propertyName]
-              : GetValue<TValue>(propertyName);
+            return _originalValues.ContainsKey(_propertyName)
+              ? (TValue)_originalValues[_propertyName]
+              : GetValue<TValue>(_propertyName);
         }
 
-        protected bool GetIsChanged(string propertyName)
+        protected bool GetIsChanged(string _propertyName)
         {
-            return _originalValues.ContainsKey(propertyName);
+            return _originalValues.ContainsKey(_propertyName);
         }
 
        
@@ -147,10 +148,10 @@ namespace XFilesArchive.UI.Wrapper
             ClearErrors();
 
             var results = new List<ValidationResult>();
-            var context = new ValidationContext(this.Model,null,null);
+            var context = new ValidationContext(this,null,null);
             try
             {
-                Validator.TryValidateObject(this.Model, context, results, true);
+                Validator.TryValidateObject(this, context, results, true);
             }
             catch (Exception ex)
             {
@@ -161,33 +162,33 @@ namespace XFilesArchive.UI.Wrapper
 
             if (results.Any())
             {
-                var propertyNames = results.SelectMany(r => r.MemberNames).Distinct().ToList();
+                var _propertyNames = results.SelectMany(r => r.MemberNames).Distinct().ToList();
 
-                foreach (var propertyName in propertyNames)
+                foreach (var _propertyName in _propertyNames)
                 {
-                    Errors[propertyName] = results
-                      .Where(r => r.MemberNames.Contains(propertyName))
+                    Errors[_propertyName] = results
+                      .Where(r => r.MemberNames.Contains(_propertyName))
                       .Select(r => r.ErrorMessage)
                       .Distinct()
                       .ToList();
-                    OnErrorChanged(propertyName);
+                    OnErrorChanged(_propertyName);
                 }
             }
             OnPropertyChanged(nameof(IsValid));
         }
 
-        private void UpdateOriginalValue(object currentValue, object newValue, string propertyName)
+        private void UpdateOriginalValue(object currentValue, object newValue, string _propertyName)
         {
-            if (!_originalValues.ContainsKey(propertyName))
+            if (!_originalValues.ContainsKey(_propertyName))
             {
-                _originalValues.Add(propertyName, currentValue);
+                _originalValues.Add(_propertyName, currentValue);
                 OnPropertyChanged("IsChanged");
             }
             else
             {
-                if (Equals(_originalValues[propertyName], newValue))
+                if (Equals(_originalValues[_propertyName], newValue))
                 {
-                    _originalValues.Remove(propertyName);
+                    _originalValues.Remove(_propertyName);
                     OnPropertyChanged("IsChanged");
                 }
             }

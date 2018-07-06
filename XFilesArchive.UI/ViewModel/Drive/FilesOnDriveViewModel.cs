@@ -73,9 +73,8 @@ AddTagCommand = new DelegateCommand<int?>(OnAddTagExecute, OnAddTagCanExecute);
         {
             if (obj != 0)
             {
-                int ArchiveEntityKey = 0;
-                int.TryParse(obj.ToString(), out ArchiveEntityKey);
-               await LoadAsync(ArchiveEntityKey);
+                int.TryParse(obj.ToString(), out int ArchiveEntityKey);
+                await LoadAsync(ArchiveEntityKey);
             }
         }
         #endregion
@@ -265,16 +264,18 @@ AddTagCommand = new DelegateCommand<int?>(OnAddTagExecute, OnAddTagCanExecute);
         {
             var strkey = obj.ToString();
 
-            AddCategoryViewModel vm = new AddCategoryViewModel();
-            vm.CategoryTitle = "Новая категория";
-            int parentKey = 0;
+            AddCategoryViewModel vm = new AddCategoryViewModel()
+            {
+                CategoryTitle = "Новая категория"
+            };
 
-            int.TryParse(strkey, out parentKey);
+            int.TryParse(strkey, out int parentKey);
 
 
-            AddCategoryDialog dlg = new AddCategoryDialog();
-            dlg.DataContext = vm;
-
+            AddCategoryDialog dlg = new AddCategoryDialog()
+            {
+                DataContext = vm
+            };
             var result = dlg.ShowDialog();
 
             if (result == true)
@@ -298,10 +299,12 @@ AddTagCommand = new DelegateCommand<int?>(OnAddTagExecute, OnAddTagCanExecute);
         /// <param name="obj"></param>
         private void OnOpenFileDialogExecute(object obj)
         {
-            OpenFileDialog myDialog = new OpenFileDialog();
-            myDialog.Filter = "Картинки(*.JPG;*.GIF;*.PNG)|*.JPG;*.GIF;*.PNG" + "|Все файлы (*.*)|*.* ";
-            myDialog.CheckFileExists = true;
-            myDialog.Multiselect = true;
+            OpenFileDialog myDialog = new OpenFileDialog()
+            {
+                Filter = "Картинки(*.JPG;*.GIF;*.PNG)|*.JPG;*.GIF;*.PNG" + "|Все файлы (*.*)|*.* ",
+                CheckFileExists = true,
+                Multiselect = true
+            };
             if (myDialog.ShowDialog() == true)
             {
                 //var ret = _fileOnDriveDataProvider.AddImageToFileOnDrive(ArchiveEntity.Model.ArchiveEntityKey

@@ -9,60 +9,60 @@ namespace XFilesArchive.UI.Wrapper
 {
     public class NotifyDataErrorInfoBase : ViewModelBase, INotifyDataErrorInfo
     {
-        private Dictionary<string, List<string>> _errorsByPropertyName = new Dictionary<string, List<string>>();
+        private Dictionary<string, List<string>> _errorsBy_propertyName = new Dictionary<string, List<string>>();
 
-        protected Dictionary<string, List<string>> Errors { get { return _errorsByPropertyName; } }
+        protected Dictionary<string, List<string>> Errors { get { return _errorsBy_propertyName; } }
 
 
-        public bool HasErrors => _errorsByPropertyName.Any();
+        public bool HasErrors => _errorsBy_propertyName.Any();
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-        public IEnumerable GetErrors(string propertyName)
+        public IEnumerable GetErrors(string _propertyName)
         {
-            return _errorsByPropertyName.ContainsKey(propertyName)
-                   ? _errorsByPropertyName[propertyName] : null;
+            return _errorsBy_propertyName.ContainsKey(_propertyName)
+                   ? _errorsBy_propertyName[_propertyName] : null;
         }
 
-        protected virtual void OnErrorChanged(string propertyName)
+        protected virtual void OnErrorChanged(string _propertyName)
         {
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(_propertyName));
             base.OnPropertyChanged(nameof(HasErrors));
 
         }
 
 
-        protected void AddError(string propertyName, string error)
+        protected void AddError(string _propertyName, string error)
         {
-            if (!_errorsByPropertyName.ContainsKey(propertyName))
+            if (!_errorsBy_propertyName.ContainsKey(_propertyName))
             {
-                _errorsByPropertyName[propertyName] = new List<string>();
+                _errorsBy_propertyName[_propertyName] = new List<string>();
             }
 
-            if (!_errorsByPropertyName[propertyName].Contains(error))
+            if (!_errorsBy_propertyName[_propertyName].Contains(error))
             {
-                _errorsByPropertyName[propertyName].Add(error);
-                OnErrorChanged(propertyName);
+                _errorsBy_propertyName[_propertyName].Add(error);
+                OnErrorChanged(_propertyName);
             }
 
 
         }
 
-        protected void ClearErrors(string propertyName)
+        protected void ClearErrors(string _propertyName)
         {
-            if (_errorsByPropertyName.ContainsKey(propertyName))
+            if (_errorsBy_propertyName.ContainsKey(_propertyName))
             {
-                _errorsByPropertyName.Remove(propertyName);
-                OnErrorChanged(propertyName);
+                _errorsBy_propertyName.Remove(_propertyName);
+                OnErrorChanged(_propertyName);
             }
         }
 
         protected void ClearErrors()
         {
-            foreach (var propertyName in Errors.Keys.ToList())
+            foreach (var _propertyName in Errors.Keys.ToList())
             {
-                Errors.Remove(propertyName);
-                OnErrorChanged(propertyName);
+                Errors.Remove(_propertyName);
+                OnErrorChanged(_propertyName);
             }
         }
 

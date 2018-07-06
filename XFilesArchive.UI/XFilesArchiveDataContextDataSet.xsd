@@ -4,7 +4,7 @@
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
       <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
-          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="XFilesArchiveDataContextConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="XFilesArchiveDataContextConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.XFilesArchive.UI.Properties.Settings.GlobalReference.Default.XFilesArchiveDataContextConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Settings" AppSettings_propertyName="XFilesArchiveDataContextConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="XFilesArchiveDataContextConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.XFilesArchive.UI.Properties.Settings.GlobalReference.Default.XFilesArchiveDataContextConnectionString" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables />
         <Sources />
