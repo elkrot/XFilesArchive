@@ -9,6 +9,8 @@ using System.Windows;
 using System.Windows.Input;
 using XFilesArchive.UI.Event;
 using XFilesArchive.UI.View.Services;
+using XFilesArchive.UI.Wrapper;
+using XFilesArchive.Model;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -66,6 +68,8 @@ namespace XFilesArchive.UI.ViewModel
             CreateNewCommand = new DelegateCommand<Type>(OnCreateNewExecute);
             OpenSingleDetailViewCommand = new DelegateCommand<Type>(OnOpenSingleDetailViewExecute);
 
+
+            var x = new TagWrapper(new Model.Tag());
             NavigationViewModel = navigationViewModel;
         }
 

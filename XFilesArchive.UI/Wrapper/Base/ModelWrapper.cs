@@ -233,10 +233,15 @@ namespace XFilesArchive.UI.Wrapper
             }
         }
 
-        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            yield break;
+            throw new NotImplementedException();
         }
+
+        //public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        //{
+        //    yield break;
+        //}
     }
 
 
