@@ -67,9 +67,6 @@ namespace XFilesArchive.UI.ViewModel
 
             CreateNewCommand = new DelegateCommand<Type>(OnCreateNewExecute);
             OpenSingleDetailViewCommand = new DelegateCommand<Type>(OnOpenSingleDetailViewExecute);
-
-
-            var x = new TagWrapper(new Model.Tag());
             NavigationViewModel = navigationViewModel;
         }
 

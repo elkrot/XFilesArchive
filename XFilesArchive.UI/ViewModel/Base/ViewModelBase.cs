@@ -9,7 +9,8 @@ using System.Windows;
 
 namespace XFilesArchive.UI.ViewModel
 {
-    public class ViewModelBase : DependencyObject, INotifyPropertyChanged
+    //DependencyObject
+    public class ViewModelBase :  INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public virtual void OnPropertyChanged([CallerMemberName] string _propertyName =null) {

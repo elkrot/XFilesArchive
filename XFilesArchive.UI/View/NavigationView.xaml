@@ -16,7 +16,7 @@
                     <RowDefinition  Height="50"/>
                 </Grid.RowDefinitions>
                 <TextBox Grid.Row="0" Text="{Binding FilterText,UpdateSourceTrigger=PropertyChanged}"/>
-                <ItemsControl Grid.Column="0" ItemsSource="{Binding Drives}" >
+                <ItemsControl  Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Drives}" >
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button Content="{Binding DisplayMember}" Command="{Binding OpenDetailViewCommand}"/>

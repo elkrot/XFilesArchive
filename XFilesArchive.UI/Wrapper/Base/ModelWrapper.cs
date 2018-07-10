@@ -32,18 +32,6 @@ namespace XFilesArchive.UI.Wrapper
         {
             return (TValue)typeof(T).GetProperty(_propertyName).GetValue(Model); ;
         }
-        //protected TValue GetValue<TValue>([CallerMemberName] string _propertyName = null)
-        //{
-        //    var propertyInfo = Model.GetType().GetProperty(_propertyName);
-        //    return (TValue)propertyInfo.GetValue(Model);
-        //}
-        //protected virtual void SetValue<TValue>(TValue value, [CallerMemberName]string _propertyName = null)
-        //{
-        //    typeof(T).GetProperty(_propertyName).SetValue(Model, value);
-        //    OnPropertyChanged(_propertyName);
-        //    ValidatePropertyInternal(_propertyName);
-        //}
-
 
         protected void SetValue<TValue>(TValue newValue,
          [CallerMemberName] string _propertyName = null)
@@ -149,15 +137,8 @@ namespace XFilesArchive.UI.Wrapper
 
             var results = new List<ValidationResult>();
             var context = new ValidationContext(this,null,null);
-            try
-            {
-                Validator.TryValidateObject(this, context, results, true);
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            Validator.TryValidateObject(this, context, results, true);
+           
            
 
             if (results.Any())
@@ -233,15 +214,15 @@ namespace XFilesArchive.UI.Wrapper
             }
         }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            throw new NotImplementedException();
-        }
-
-        //public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         //{
-        //    yield break;
+        //    throw new NotImplementedException();
         //}
+
+        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            yield break;
+        }
     }
 
 

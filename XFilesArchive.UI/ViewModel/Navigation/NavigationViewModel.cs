@@ -53,7 +53,8 @@ namespace XFilesArchive.UI.ViewModel
             NextPageCommand = new DelegateCommand(NextPageCommandExecute);
             LastPageCommand = new DelegateCommand(LastPageCommandExecute);
 
-            CurrentPage = 1;
+            _currentPage = 1;
+            _filterText = "";
         }
 
 
@@ -117,27 +118,24 @@ namespace XFilesArchive.UI.ViewModel
                     set { SetValue(CurrentPageProperty, value); }
                      */
         #region CurrentPage
-
+        private int _currentPage;
 
         public int CurrentPage
         {
-            get { return (int)GetValue(CurrentPageProperty); }
-            set { SetValue(CurrentPageProperty, value); }
-        }
+            get { return _currentPage;
+            }
+            set {
+                _currentPage = value;
+                OnPropertyChanged();
+                Task newTask = new Task(async delegate () {
+                    await LoadAsync();
+                });
+                newTask.RunSynchronously();
 
-        // Using a DependencyProperty as the backing store for CurrentPage.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CurrentPageProperty =
-            DependencyProperty.Register("CurrentPage", typeof(int), typeof(NavigationViewModel)
-                , new PropertyMetadata(0, CurrentPage_Changed));
 
-        private async static void CurrentPage_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var current = d as NavigationViewModel;
-            if (current != null)
-            {
-               await  current.LoadAsync();
             }
         }
+
 
 
         #endregion
@@ -171,28 +169,24 @@ namespace XFilesArchive.UI.ViewModel
 
 
         #region FilterText
+        private string _filterText;
         public string FilterText
         {
-            get { return (string)GetValue(FilterTextProperty); }
+            get {
+                return _filterText;
+            }
             set
             {
-                SetValue(FilterTextProperty, value);
+                _filterText = value;
+                OnPropertyChanged();
+                Task newTask = new Task(async delegate () {
+                    await LoadAsync();
+                });
+                newTask.RunSynchronously();
             }
         }
 
-        // Using a DependencyProperty as the backing store for FilterText.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty FilterTextProperty =
-            DependencyProperty.Register("FilterText", typeof(string), typeof(NavigationViewModel),
-                new PropertyMetadata(String.Empty, FilterText_Changed));
 
-        private async static void FilterText_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var current = d as NavigationViewModel;
-            if (current != null)
-            {
-               await current.LoadAsync();
-            }
-        }
         #endregion
 
 

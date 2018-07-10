@@ -54,14 +54,16 @@ namespace XFilesArchive.UI.ViewModel
             CategoryNavigationViewModel.Load();
             try
             {
-AddTagCommand = new DelegateCommand<int?>(OnAddTagExecute, OnAddTagCanExecute);
+                // !!!!!!!!!!!  ERROR
+                AddTagCommand = new DelegateCommand<int?>(OnAddTagExecute, OnAddTagCanExecute);
+                // !!!!!!!!!!!  ERROR
             }
             catch (Exception ex)
             {
 
                 throw;
             }
- 
+
 
         }
 

@@ -23,7 +23,9 @@ namespace XFilesArchive.UI
         private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             MessageBox.Show("Unexpected error occured. Please inform the admin." +
-               Environment.NewLine + e.Exception.Message, "UnexpectedError");
+               Environment.NewLine + e.Exception.Message + Environment.NewLine +
+               e.Exception.Source + Environment.NewLine + e.Exception.StackTrace
+               , "UnexpectedError");
             e.Handled = true;
 
 
