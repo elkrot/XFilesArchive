@@ -20,8 +20,8 @@ using XFilesArchive.UI.ViewModel.Services;
 namespace XFilesArchive.UI.ViewModel
 {
 
-    
-      public class FilesOnDriveViewModel : DetailViewModelBase, IFilesOnDriveViewModel
+
+    public class FilesOnDriveViewModel : DetailViewModelBase, IFilesOnDriveViewModel
     {
         private readonly IArchiveEntityRepository _repository;
         private readonly IEventAggregator _eventAggregator;
@@ -32,7 +32,7 @@ namespace XFilesArchive.UI.ViewModel
         private ICategoryNavigationViewModel _categoryNavigationViewModel;
 
 
-        public ICategoryNavigationViewModel CategoryNavigationViewModel { get { return _categoryNavigationViewModel; }  }
+        public ICategoryNavigationViewModel CategoryNavigationViewModel { get { return _categoryNavigationViewModel; } }
 
 
         public FilesOnDriveViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
@@ -48,21 +48,15 @@ namespace XFilesArchive.UI.ViewModel
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _eventAggregator.GetEvent<SelectedItemChangedEvent>().Subscribe(OnSelectedItemChanged);
+
             Tags = new ObservableCollection<TagWrapper>();
             Categories = new ObservableCollection<CategoryWrapper>();
             Images = new ObservableCollection<ImageWrapper>();
-            CategoryNavigationViewModel.Load();
-            try
-            {
-                // !!!!!!!!!!!  ERROR
-                AddTagCommand = new DelegateCommand<int?>(OnAddTagExecute, OnAddTagCanExecute);
-                // !!!!!!!!!!!  ERROR
-            }
-            catch (Exception ex)
-            {
 
-                throw;
-            }
+            CategoryNavigationViewModel.Load();
+
+            AddTagCommand = new DelegateCommand<string>(OnAddTagExecute, OnAddTagCanExecute);
+
 
 
         }
@@ -155,7 +149,7 @@ namespace XFilesArchive.UI.ViewModel
 
         public override async Task LoadAsync(int id)
         {
-            var _archEntity = id>0 ?
+            var _archEntity = id > 0 ?
                            await _repository.GetByIdAsync(id) :
                              new ArchiveEntity();
 
@@ -168,16 +162,23 @@ namespace XFilesArchive.UI.ViewModel
 
         protected override void OnDeleteExecute()
         {
-                   }
+        }
 
         protected override bool OnSaveCanExecute()
         {
             return true;
         }
 
-        protected override void OnSaveExecute()
+        protected async override void OnSaveExecute()
         {
-            
+            await SaveWithOptimisticConcurrencyAsync(_repository.SaveAsync, () =>
+            {
+
+                HasChanges = _repository.HasChanges();
+                Id = 1;
+                RaiseDetailSavedEvent(ArchiveEntity.ArchiveEntityKey, "Test.TestTitle");
+            });
+
         }
 
         public ArchiveEntityWrapper ArchiveEntity
@@ -220,15 +221,15 @@ namespace XFilesArchive.UI.ViewModel
 
             if (!saveRet.Success)
             {
-                 await _messageDialogService.ShowInfoDialogAsync(
-   
-    string.Format("Во время сохранения записи {0}{2} возникла исключительная ситуация{2}  {1}"
-    , ArchiveEntity.Title, saveRet.Messages.FirstOrDefault(), Environment.NewLine));
-              //  ArchiveEntity.RejectChanges();
+                await _messageDialogService.ShowInfoDialogAsync(
+
+   string.Format("Во время сохранения записи {0}{2} возникла исключительная ситуация{2}  {1}"
+   , ArchiveEntity.Title, saveRet.Messages.FirstOrDefault(), Environment.NewLine));
+                //  ArchiveEntity.RejectChanges();
             }
             else
             {
-              //  ArchiveEntity.AcceptChanges();
+                //  ArchiveEntity.AcceptChanges();
             }
             _eventAggregator.GetEvent<FileOnDriveSavedEvent>().Publish(ArchiveEntity.Model);
             InvalidateCommands();
@@ -239,7 +240,7 @@ namespace XFilesArchive.UI.ViewModel
             int CategoryKey = (int)obj;
             CategoryWrapper categoryW = ArchiveEntity.Categories.Where(x => x.CategoryKey == CategoryKey).First();
             ArchiveEntity.Categories.Remove(categoryW);
-          //  RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveCategoryFromEntity, CategoryKey);
+            //  RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveCategoryFromEntity, CategoryKey);
         }
 
         private bool OnDeleteImageCanExecute(object arg)
@@ -288,7 +289,7 @@ namespace XFilesArchive.UI.ViewModel
                     category.ParentCategoryKey = parentKey;
                 }
 
-              //  _categoryDataProvider.AddCategory(category);
+                //  _categoryDataProvider.AddCategory(category);
                 CategoryNavigationViewModel.Load();
             }
 
@@ -335,8 +336,18 @@ namespace XFilesArchive.UI.ViewModel
 
 
         #region OnAddTag
-        private void OnAddTagExecute(int? obj)
+        private void OnAddTagExecute(string tagTitle)
         {
+
+            if (!string.IsNullOrWhiteSpace(tagTitle))
+            {
+                var wrapper = new TagWrapper(new Tag() { TagTitle = tagTitle });
+                Tags.Add(wrapper);
+                wrapper.PropertyChanged += Wrapper_PropertyChanged;
+                ArchiveEntity.Model.Tags.Add(wrapper.Model);
+            }
+
+
             //var ret = _fileOnDriveDataProvider.AddTagToEntity(ArchiveEntity.Model.ArchiveEntityKey
             //    , obj.ToString());
 
@@ -357,7 +368,7 @@ namespace XFilesArchive.UI.ViewModel
         }
 
 
-        private bool OnAddTagCanExecute(int? arg)
+        private bool OnAddTagCanExecute(string arg)
         {//errrororororor
             return true;
         }
@@ -369,7 +380,7 @@ namespace XFilesArchive.UI.ViewModel
             var TagKey = (int)obj;
             TagWrapper tag = ArchiveEntity.Tags.Where(x => x.TagKey == TagKey).First();
             ArchiveEntity.Tags.Remove(tag);
-          //  RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveTagFromEntity, TagKey);
+            //  RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveTagFromEntity, TagKey);
         }
         private bool OnDeleteTagCanExecute(object arg)
         {//errrororororor
