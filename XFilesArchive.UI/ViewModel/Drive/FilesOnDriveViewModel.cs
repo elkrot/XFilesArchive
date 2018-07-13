@@ -171,7 +171,6 @@ namespace XFilesArchive.UI.ViewModel
         {
             await SaveWithOptimisticConcurrencyAsync(_repository.SaveAsync, () =>
             {
-
                 HasChanges = _repository.HasChanges();
                 Id = 1;
                 RaiseDetailSavedEvent(ArchiveEntity.ArchiveEntityKey, "Test.TestTitle");
@@ -375,7 +374,15 @@ namespace XFilesArchive.UI.ViewModel
             Int32.TryParse(obj.ToString(), out CategoryId);
             if (CategoryId != 0)
             {
-                var category = await _categoryRepository.GetByIdAsync(CategoryId);
+                var category2 = await _categoryRepository.GetByIdAsync(CategoryId);
+
+                var category = new Category()
+                {
+                    CategoryKey = category2.CategoryKey,
+                    CategoryTitle = category2.CategoryTitle,
+                    CreatedDate = category2.CreatedDate,
+                    ParentCategoryKey = category2.ParentCategoryKey
+                };
                 var wrapper = new CategoryWrapper(category);
                 Categories.Add(wrapper);
                 wrapper.PropertyChanged += Wrapper_PropertyChanged;

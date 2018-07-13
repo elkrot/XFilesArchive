@@ -56,7 +56,10 @@ namespace XFilesArchive.UI.ViewModel
 
         private async void   OnSelectedItemChangedExecute(int? arg)
         {
-            await FilesOnDriveViewModel.LoadAsync((int)arg);
+            if (arg != null)
+            {
+                await FilesOnDriveViewModel.LoadAsync((int)arg);
+            }
             EventAggregator.GetEvent<SelectedItemChangedEvent>().Publish(arg??0);
         }
 
