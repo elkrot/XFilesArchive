@@ -56,9 +56,7 @@ namespace XFilesArchive.UI.ViewModel
             CategoryNavigationViewModel.Load();
 
             AddTagCommand = new DelegateCommand<string>(OnAddTagExecute, OnAddTagCanExecute);
-
-
-
+            AddCategoryCommand = new DelegateCommand<int?>(OnAddCategoryExecute, OnAddCategoryCanExecute);
         }
 
 
@@ -347,24 +345,6 @@ namespace XFilesArchive.UI.ViewModel
                 ArchiveEntity.Model.Tags.Add(wrapper.Model);
             }
 
-
-            //var ret = _fileOnDriveDataProvider.AddTagToEntity(ArchiveEntity.Model.ArchiveEntityKey
-            //    , obj.ToString());
-
-            //if (ret.Success)
-            //{
-            //    var tag = _fileOnDriveDataProvider.GetTagToEntityById(ArchiveEntity.Model.ArchiveEntityKey,
-            //        ret.Result);
-            //    if (tag != null)
-            //    {
-            //        var tagw = new TagWrapper(tag);
-
-            //        ArchiveEntity.Tags.Add(tagw);
-            //        ArchiveEntity.Tags.AcceptChanges();
-            //    }
-
-
-            //}
         }
 
 
@@ -389,10 +369,20 @@ namespace XFilesArchive.UI.ViewModel
         #endregion
 
         #region OnAddCategory
-        private void OnAddCategoryExecute(object obj)
+        private async void OnAddCategoryExecute(int? obj)
         {
-            //var CategoryId = 0;
-            //Int32.TryParse(obj.ToString(), out CategoryId);
+            var CategoryId = 0;
+            Int32.TryParse(obj.ToString(), out CategoryId);
+            if (CategoryId != 0)
+            {
+                var category = await _categoryRepository.GetByIdAsync(CategoryId);
+                var wrapper = new CategoryWrapper(category);
+                Categories.Add(wrapper);
+                wrapper.PropertyChanged += Wrapper_PropertyChanged;
+                ArchiveEntity.Model.Categories.Add(wrapper.Model);
+            }
+
+
             //var category = _fileOnDriveDataProvider.GetCategoryToEntityById(ArchiveEntity.Model.ArchiveEntityKey,
             //        CategoryId);
 
@@ -412,7 +402,7 @@ namespace XFilesArchive.UI.ViewModel
             //ArchiveEntity.Categories.AcceptChanges();
         }
 
-        private bool OnAddCategoryCanExecute(object arg)
+        private bool OnAddCategoryCanExecute(int? arg)
         {//errrororororor
             return true;
         }

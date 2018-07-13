@@ -155,6 +155,9 @@
     <Compile Include="View\CategoriesView.xaml.cs">
       <DependentUpon>CategoriesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CategoryToEntitiesView.xaml.cs">
+      <DependentUpon>CategoryToEntitiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DetailView.xaml.cs">
       <DependentUpon>DetailView.xaml</DependentUpon>
     </Compile>
@@ -239,6 +242,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CategoriesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CategoryToEntitiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
