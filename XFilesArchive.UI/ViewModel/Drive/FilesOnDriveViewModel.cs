@@ -172,7 +172,7 @@ namespace XFilesArchive.UI.ViewModel
             await SaveWithOptimisticConcurrencyAsync(_repository.SaveAsync, () =>
             {
                 HasChanges = _repository.HasChanges();
-                Id = 1;
+                Id = ArchiveEntity.ArchiveEntityKey;
                 RaiseDetailSavedEvent(ArchiveEntity.ArchiveEntityKey, "Test.TestTitle");
             });
 
@@ -338,7 +338,9 @@ namespace XFilesArchive.UI.ViewModel
 
             if (!string.IsNullOrWhiteSpace(tagTitle))
             {
-                var wrapper = new TagWrapper(new Tag() { TagTitle = tagTitle });
+                var tag = _repository.GetTagByTitle(tagTitle);
+
+                var wrapper = new TagWrapper(tag);
                 Tags.Add(wrapper);
                 wrapper.PropertyChanged += Wrapper_PropertyChanged;
                 ArchiveEntity.Model.Tags.Add(wrapper.Model);
@@ -368,21 +370,14 @@ namespace XFilesArchive.UI.ViewModel
         #endregion
 
         #region OnAddCategory
-        private async void OnAddCategoryExecute(int? obj)
+        private  void OnAddCategoryExecute(int? obj)
         {
             var CategoryId = 0;
             Int32.TryParse(obj.ToString(), out CategoryId);
             if (CategoryId != 0)
             {
-                var category2 = await _categoryRepository.GetByIdAsync(CategoryId);
+                var category = _repository.GetCategoryById(CategoryId);
 
-                var category = new Category()
-                {
-                    CategoryKey = category2.CategoryKey,
-                    CategoryTitle = category2.CategoryTitle,
-                    CreatedDate = category2.CreatedDate,
-                    ParentCategoryKey = category2.ParentCategoryKey
-                };
                 var wrapper = new CategoryWrapper(category);
                 Categories.Add(wrapper);
                 wrapper.PropertyChanged += Wrapper_PropertyChanged;

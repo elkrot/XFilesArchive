@@ -9,5 +9,7 @@ namespace XFilesArchive.UI.Services.Repositories
 {
     public interface IArchiveEntityRepository :IGenericRepository<ArchiveEntity>
     {
+        Category GetCategoryById(int id);
+        Tag GetTagByTitle(string Title);
     }
 }

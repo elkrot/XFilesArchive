@@ -14,5 +14,20 @@ namespace XFilesArchive.UI.Services.Repositories
         public ArchiveEntityRepository(XFilesArchiveDataContext context) : base(context)
         {
         }
+
+        public Category GetCategoryById(int id)
+        {
+            return Context.Categories.Find(id);
+        }
+
+        public Tag GetTagByTitle(string Title)
+        {
+            var tag = Context.Tags.Where(x => x.TagTitle == Title).FirstOrDefault();
+            if (tag==null)
+            {
+                tag = new Tag() { TagTitle =Title};
+            }
+            return tag;
+        }
     }
 }
