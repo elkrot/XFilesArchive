@@ -16,6 +16,9 @@ using XFilesArchive.Infrastructure;
 using System.Linq;
 using Microsoft.Win32;
 using XFilesArchive.UI.ViewModel.Services;
+using HomeArchiveX.Infrastructure;
+using System.IO;
+using System.Drawing;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -112,7 +115,7 @@ namespace XFilesArchive.UI.ViewModel
             }
         }
 
-        private void InitializeImages(ICollection<Image> images)
+        private void InitializeImages(ICollection<Model.Image> images)
         {
             foreach (var wrapper in Images)
             {
@@ -308,8 +311,8 @@ namespace XFilesArchive.UI.ViewModel
             };
             if (myDialog.ShowDialog() == true)
             {
-                //var ret = _fileOnDriveDataProvider.AddImageToFileOnDrive(ArchiveEntity.Model.ArchiveEntityKey
-                //    , myDialog.FileName, (int)ArchiveEntity.Model.DriveId);
+                var ret = AddImageToFileOnDrive(ArchiveEntity.Model.ArchiveEntityKey
+                    , myDialog.FileName, (int)ArchiveEntity.Model.DriveId);
 
                 //var imageKey = ret.Result;
 
@@ -331,7 +334,6 @@ namespace XFilesArchive.UI.ViewModel
         }
 
         #endregion
-
 
         #region OnAddTag
         private void OnAddTagExecute(string tagTitle)
@@ -411,17 +413,11 @@ namespace XFilesArchive.UI.ViewModel
         }
         #endregion
 
-
-
-
-
-
         #region Рисунки
         public MethodResult<int> AddImageToFileOnDrive(int ArchiveEntityKey, string img, int DriveId)
         {
-            using (var uofw = new UnitOfWork(new HmeArhXContext()))
-            {
-                var cnf = new ConfigurationData();
+            MethodResult<int> ret = new MethodResult<int>(0) { Success=true};
+                 var cnf = new ConfigurationData();
                 var lg = new Logger();
                 var fm = new FileManager(cnf, lg);
                 int ImageKey = 0;
@@ -429,31 +425,16 @@ namespace XFilesArchive.UI.ViewModel
                 string targetDir = string.Format(@"drive{0}\img{1}", DriveId, ArchiveEntityKey);
                 var im = CreateImage(img, targetDir, cnf, lg, fm);
 
-                // Сохранить запись об изображении в БД
-                var entityRepository = uofw.GetRepository<ArchiveEntity>();
-                var entity = entityRepository.Find(x => x.ArchiveEntityKey == ArchiveEntityKey).First();
+            // Сохранить запись об изображении в БД
 
-                var imageRepository = uofw.GetRepository<Model.Image>();
-                imageRepository.Add(im);
-                entity.Images.Add(im);
-                entityRepository.Update(entity);
-
-                var ret = uofw.Complete();
-                ImageKey = im.ImageKey;
-
-                if (!ret.Success || ImageKey == 0)
-                {
-                    ret.Success = false;
-                    return ret;
-                }
-                else
-
-                    return new MethodResult<int>(ImageKey);
-            }
+            var wrapper = new ImageWrapper(im);
+            Images.Add(wrapper);
+            wrapper.PropertyChanged += Wrapper_PropertyChanged;
+            ArchiveEntity.Model.Images.Add(wrapper.Model);
+            ImageKey = im.ImageKey;
+              return new MethodResult<int>(ImageKey);
+            
         }
-
-
-
         #region Создать запись об изображении
         /// <summary>
         /// Создать запись об изображении
@@ -461,7 +442,7 @@ namespace XFilesArchive.UI.ViewModel
         /// <param name="imagePath">Путь к изопражению</param>
         /// <param name="targetDir">Путь назначение</param>
         /// <returns>Ключ рисунка</returns>
-        private HomeArchiveX.Model.Image CreateImage(string imagePath, string targetDir, IConfiguration cnf, ILogger lg, IFIleManager fm)
+        private Model.Image CreateImage(string imagePath, string targetDir, IConfiguration cnf, ILogger lg, IFIleManager fm)
         {
             var imgInfo = new FileInfo(imagePath);
             var imgDirPath = imgInfo.Directory.FullName;
@@ -481,7 +462,7 @@ namespace XFilesArchive.UI.ViewModel
             imageData = fm.GetImageData(bmp);
 
 
-            var im = new HomeArchiveX.Model.Image()
+            var im = new Model.Image()
             {
                 HashCode = imgInfo.GetHashCode()
                 ,
@@ -496,39 +477,8 @@ namespace XFilesArchive.UI.ViewModel
             return im;
 
         }
-
-        public Model.Image GetImageById(int id)
-        {
-            using (var uofw = new UnitOfWork(new HmeArhXContext()))
-            {
-                var repo = uofw.GetRepository<HomeArchiveX.Model.Image>();
-
-                return repo.Find(x => x.ImageKey == id).FirstOrDefault();
-            }
-        }
-
-        public Model.Image GetImageToEntityById(int EntityId, int ImageId)
-        {
-            using (var uofw = new UnitOfWork(new HmeArhXContext()))
-            {
-                var imageRepo = uofw.GetRepository<HomeArchiveX.Model.Image>();
-                var includes = new List<string>() { "ArchiveEntities" };
-                var image = imageRepo.Find(
-                    x => x.ImageKey == ImageId && x.ArchiveEntities.Where(a => a.ArchiveEntityKey == EntityId).Count() > 0
-                    , includes, null).FirstOrDefault();
-                if (image != null)
-                    return image;
-
-                return default(Model.Image);
-            }
-        }
-
         #endregion
-
-
         #endregion
-
-
 
     }
 

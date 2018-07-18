@@ -1,8 +1,8 @@
-﻿using HomeArchiveX.Common;
+﻿
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using XFilesArchive.Infrastructure;
 
 namespace HomeArchiveX.Infrastructure
 {

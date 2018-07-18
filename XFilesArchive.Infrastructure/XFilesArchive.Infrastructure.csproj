@@ -49,6 +49,7 @@
     <Compile Include="AppConfig.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="ConfigurationData.cs" />
+    <Compile Include="DriveX.cs" />
     <Compile Include="FileManager\FileManager.cs" />
     <Compile Include="FileManager\IFIleManager.cs" />
     <Compile Include="IConfiguration.cs" />
