@@ -141,12 +141,15 @@ namespace XFilesArchive.UI.ViewModel
             if (e.PropertyName == nameof(TagWrapper.HasErrors))
             {
                 ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+               
             }
         }
 
         private void InvalidateCommands()
         {
-            throw new NotImplementedException();
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+           // ((DelegateCommand)ResetCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
         }
 
         public override async Task LoadAsync(int id)
@@ -168,7 +171,8 @@ namespace XFilesArchive.UI.ViewModel
 
         protected override bool OnSaveCanExecute()
         {
-            return true;
+            return ArchiveEntity != null && !ArchiveEntity.HasErrors
+                && HasChanges;
         }
 
         protected async override void OnSaveExecute()
@@ -176,8 +180,8 @@ namespace XFilesArchive.UI.ViewModel
             await SaveWithOptimisticConcurrencyAsync(_repository.SaveAsync, () =>
             {
                 HasChanges = _repository.HasChanges();
-                Id = ArchiveEntity.ArchiveEntityKey;
-                RaiseDetailSavedEvent(ArchiveEntity.ArchiveEntityKey, "Test.TestTitle");
+                Id = ArchiveEntity. ArchiveEntityKey;
+                RaiseDetailSavedEvent(ArchiveEntity.ArchiveEntityKey, $"{ArchiveEntity.Title}");
             });
 
         }
@@ -187,6 +191,11 @@ namespace XFilesArchive.UI.ViewModel
             get
             {
                 return _archiveEntity;
+            }
+            private set
+            {
+                _archiveEntity = value;
+                OnPropertyChanged();
             }
         }
 
@@ -226,12 +235,9 @@ namespace XFilesArchive.UI.ViewModel
 
    string.Format("Во время сохранения записи {0}{2} возникла исключительная ситуация{2}  {1}"
    , ArchiveEntity.Title, saveRet.Messages.FirstOrDefault(), Environment.NewLine));
-                //  ArchiveEntity.RejectChanges();
+               
             }
-            else
-            {
-                //  ArchiveEntity.AcceptChanges();
-            }
+
             _eventAggregator.GetEvent<FileOnDriveSavedEvent>().Publish(ArchiveEntity.Model);
             InvalidateCommands();
         }
@@ -347,6 +353,7 @@ namespace XFilesArchive.UI.ViewModel
                 Tags.Add(wrapper);
                 wrapper.PropertyChanged += Wrapper_PropertyChanged;
                 ArchiveEntity.Model.Tags.Add(wrapper.Model);
+                HasChanges = ArchiveEntity != null && !ArchiveEntity.HasErrors;
             }
 
         }
@@ -385,26 +392,10 @@ namespace XFilesArchive.UI.ViewModel
                 Categories.Add(wrapper);
                 wrapper.PropertyChanged += Wrapper_PropertyChanged;
                 ArchiveEntity.Model.Categories.Add(wrapper.Model);
+                HasChanges = ArchiveEntity != null && !ArchiveEntity.HasErrors;
             }
 
-
-            //var category = _fileOnDriveDataProvider.GetCategoryToEntityById(ArchiveEntity.Model.ArchiveEntityKey,
-            //        CategoryId);
-
-            //if (category == null)
-            //{
-            //    var ret = _fileOnDriveDataProvider.AddCategoryToEntity(ArchiveEntity.Model.ArchiveEntityKey
-            //        , CategoryId);
-
-            //    if (ret.Success)
-            //    {
-            //        category = _fileOnDriveDataProvider.GetCategoryToEntityById(ArchiveEntity.Model.ArchiveEntityKey,
-            //           ret.Result);
-            //    }
-            //}
-            //var categoryew = new CategoryWrapper(category);
-            //ArchiveEntity.Categories.Add(categoryew);
-            //ArchiveEntity.Categories.AcceptChanges();
+            InvalidateCommands();
         }
 
         private bool OnAddCategoryCanExecute(int? arg)
@@ -431,6 +422,7 @@ namespace XFilesArchive.UI.ViewModel
             Images.Add(wrapper);
             wrapper.PropertyChanged += Wrapper_PropertyChanged;
             ArchiveEntity.Model.Images.Add(wrapper.Model);
+            HasChanges = ArchiveEntity != null && !ArchiveEntity.HasErrors;
             ImageKey = im.ImageKey;
               return new MethodResult<int>(ImageKey);
             

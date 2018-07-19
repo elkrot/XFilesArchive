@@ -145,10 +145,6 @@ namespace XFilesArchive.UI.ViewModel
 
 
 
-
-      //  public ObservableCollection<LookupItem> ProgrammingLanguages { get; }
-     //   public ObservableCollection<ArchiveEntityWrapper> ArchiveEntities { get; }
-
         protected override async void OnSaveExecute()
         {
             await SaveWithOptimisticConcurrencyAsync(_repository.SaveAsync, () =>
