@@ -6,7 +6,7 @@
              xmlns:view="clr-namespace:XFilesArchive.UI.View"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="600" >
+             d:DesignHeight="450" d:DesignWidth="600" Name="rootFileEdit">
     <Grid>
         <Grid.RowDefinitions>
         <RowDefinition Height="*"/>

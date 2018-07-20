@@ -58,9 +58,15 @@ namespace XFilesArchive.UI.ViewModel
 
             CategoryNavigationViewModel.Load();
 
+            #region Commands
             AddTagCommand = new DelegateCommand<string>(OnAddTagExecute, OnAddTagCanExecute);
             AddCategoryCommand = new DelegateCommand<int?>(OnAddCategoryExecute, OnAddCategoryCanExecute);
             OpenFileDialogCommand = new DelegateCommand(OnOpenFileDialogExecute, OnOpenFileDialogCanExecute);
+            DeleteTagCommand = new DelegateCommand<string>(OnDeleteTagExecute, OnDeleteTagCanExecute);
+            DeleteImageCommand = new DelegateCommand<int?>(OnDeleteImageExecute, OnDeleteImageCanExecute);
+            DeleteCategoryToEntityCommand = new DelegateCommand<int?>(OnDeleteCategoryToEntityExecute, OnDeleteCategoryToEntityCanExecute);
+            #endregion
+
         }
 
 
@@ -141,14 +147,14 @@ namespace XFilesArchive.UI.ViewModel
             if (e.PropertyName == nameof(TagWrapper.HasErrors))
             {
                 ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-               
+
             }
         }
 
         private void InvalidateCommands()
         {
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-           // ((DelegateCommand)ResetCommand).RaiseCanExecuteChanged();
+            // ((DelegateCommand)ResetCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
         }
 
@@ -180,7 +186,7 @@ namespace XFilesArchive.UI.ViewModel
             await SaveWithOptimisticConcurrencyAsync(_repository.SaveAsync, () =>
             {
                 HasChanges = _repository.HasChanges();
-                Id = ArchiveEntity. ArchiveEntityKey;
+                Id = ArchiveEntity.ArchiveEntityKey;
                 RaiseDetailSavedEvent(ArchiveEntity.ArchiveEntityKey, $"{ArchiveEntity.Title}");
             });
 
@@ -219,7 +225,7 @@ namespace XFilesArchive.UI.ViewModel
 
 
 
-        private bool OnDeleteCategoryToEntityCanExecute(object arg)
+        private bool OnDeleteCategoryToEntityCanExecute(int? arg)
         {
             return true;
         }
@@ -235,31 +241,62 @@ namespace XFilesArchive.UI.ViewModel
 
    string.Format("Во время сохранения записи {0}{2} возникла исключительная ситуация{2}  {1}"
    , ArchiveEntity.Title, saveRet.Messages.FirstOrDefault(), Environment.NewLine));
-               
+
             }
 
             _eventAggregator.GetEvent<FileOnDriveSavedEvent>().Publish(ArchiveEntity.Model);
             InvalidateCommands();
         }
 
-        private void OnDeleteCategoryToEntityExecute(object obj)
+        private void OnDeleteCategoryToEntityExecute(int? id)
         {
-            int CategoryKey = (int)obj;
+            int CategoryKey = (int)id;
             CategoryWrapper categoryW = ArchiveEntity.Categories.Where(x => x.CategoryKey == CategoryKey).First();
-            ArchiveEntity.Categories.Remove(categoryW);
+            if (categoryW != null)
+            {
+                ArchiveEntity.Categories.Remove(categoryW);
+                Categories.Remove(categoryW);
+               // categoryW.PropertyChanged += Wrapper_PropertyChanged;
+                HasChanges = ArchiveEntity != null && !ArchiveEntity.HasErrors;
+            }
+
+
+            /*
+             if (await _repository.HasMeetingAsync(Test.TestKey))
+            {
+                await MessageDialogService.ShowInfoDialogAsync("!!!");
+                return;
+            }
+
+            var result = await MessageDialogService.ShowOKCancelDialogAsync("?", "title");
+
+            if (result == MessageDialogResult.OK)
+            {
+                _repository.Remove(Test.Model);
+                await _repository.SaveAsync();
+                RaiseDetailDelitedEvent(Test.TestKey);
+
+            }
+             
+             */
+
+
             //  RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveCategoryFromEntity, CategoryKey);
         }
 
-        private bool OnDeleteImageCanExecute(object arg)
+        private bool OnDeleteImageCanExecute(int? arg)
         {
             return true;
         }
 
-        private void OnDeleteImageExecute(object obj)
+        private void OnDeleteImageExecute(int? id)
         {
-            int ImageKey = (int)obj;
+            int ImageKey = (int)id;
             ImageWrapper image = ArchiveEntity.Images.Where(x => x.ImageKey == ImageKey).First();
-            ArchiveEntity.Images.Remove(image);
+            if (image != null)
+            {
+                ArchiveEntity.Images.Remove(image);
+            }
             ///   Дописать удаление файла !!!!!!!!!!!!
          //   RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveImageFromEntity, ImageKey);
 
@@ -366,21 +403,22 @@ namespace XFilesArchive.UI.ViewModel
         #endregion
 
         #region OnDeleteTag
-        private void OnDeleteTagExecute(object obj)
+        private void OnDeleteTagExecute(string tagTitle)
         {
-            var TagKey = (int)obj;
-            TagWrapper tag = ArchiveEntity.Tags.Where(x => x.TagKey == TagKey).First();
-            ArchiveEntity.Tags.Remove(tag);
+
+            TagWrapper tag = ArchiveEntity.Tags.Where(x => x.TagTitle == tagTitle).First();
+            if (tag != null)
+                ArchiveEntity.Tags.Remove(tag);
             //  RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveTagFromEntity, TagKey);
         }
-        private bool OnDeleteTagCanExecute(object arg)
+        private bool OnDeleteTagCanExecute(string arg)
         {//errrororororor
             return true;
         }
         #endregion
 
         #region OnAddCategory
-        private  void OnAddCategoryExecute(int? obj)
+        private void OnAddCategoryExecute(int? obj)
         {
             var CategoryId = 0;
             Int32.TryParse(obj.ToString(), out CategoryId);
@@ -407,14 +445,14 @@ namespace XFilesArchive.UI.ViewModel
         #region Рисунки
         public MethodResult<int> AddImageToFileOnDrive(int ArchiveEntityKey, string img, int DriveId)
         {
-            MethodResult<int> ret = new MethodResult<int>(0) { Success=true};
-                 var cnf = new ConfigurationData();
-                var lg = new Logger();
-                var fm = new FileManager(cnf, lg);
-                int ImageKey = 0;
-                // Сохранить изображение, Сохранить эскиз
-                string targetDir = string.Format(@"drive{0}\img{1}", DriveId, ArchiveEntityKey);
-                var im = CreateImage(img, targetDir, cnf, lg, fm);
+            MethodResult<int> ret = new MethodResult<int>(0) { Success = true };
+            var cnf = new ConfigurationData();
+            var lg = new Logger();
+            var fm = new FileManager(cnf, lg);
+            int ImageKey = 0;
+            // Сохранить изображение, Сохранить эскиз
+            string targetDir = string.Format(@"drive{0}\img{1}", DriveId, ArchiveEntityKey);
+            var im = CreateImage(img, targetDir, cnf, lg, fm);
 
             // Сохранить запись об изображении в БД
 
@@ -424,8 +462,8 @@ namespace XFilesArchive.UI.ViewModel
             ArchiveEntity.Model.Images.Add(wrapper.Model);
             HasChanges = ArchiveEntity != null && !ArchiveEntity.HasErrors;
             ImageKey = im.ImageKey;
-              return new MethodResult<int>(ImageKey);
-            
+            return new MethodResult<int>(ImageKey);
+
         }
         #region Создать запись об изображении
         /// <summary>
