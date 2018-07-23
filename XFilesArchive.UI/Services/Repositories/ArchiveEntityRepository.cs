@@ -29,5 +29,12 @@ namespace XFilesArchive.UI.Services.Repositories
             }
             return tag;
         }
+
+        public void RemoveCategory(int ArchiveEntityId,int categoryKey)
+        {
+            var entity = Context.ArchiveEntities.Find(ArchiveEntityId);
+            var category = Context.Categories.Find(categoryKey);
+            entity.Categories.Remove(category);
+        }
     }
 }

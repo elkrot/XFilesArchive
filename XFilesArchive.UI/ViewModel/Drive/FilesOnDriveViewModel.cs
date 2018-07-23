@@ -254,9 +254,14 @@ namespace XFilesArchive.UI.ViewModel
             CategoryWrapper categoryW = ArchiveEntity.Categories.Where(x => x.CategoryKey == CategoryKey).First();
             if (categoryW != null)
             {
+
+
+               
                 ArchiveEntity.Categories.Remove(categoryW);
-                Categories.Remove(categoryW);
-               // categoryW.PropertyChanged += Wrapper_PropertyChanged;
+ categoryW.PropertyChanged -= Wrapper_PropertyChanged;
+                var wrapper= Categories.Where(x => x.CategoryKey == CategoryKey).First();
+                Categories.Remove(wrapper);
+                _repository.RemoveCategory(ArchiveEntity.ArchiveEntityKey, CategoryKey);
                 HasChanges = ArchiveEntity != null && !ArchiveEntity.HasErrors;
             }
 
