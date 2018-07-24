@@ -12,5 +12,7 @@ namespace XFilesArchive.UI.Services.Repositories
         Category GetCategoryById(int id);
         Tag GetTagByTitle(string Title);
         void RemoveCategory(int ArchiveEntityId, int categoryKey);
+        void RemoveTag(int archiveEntityKey, string tagTitle);
+        void RemoveImage(int archiveEntityKey, int imageKey);
     }
 }

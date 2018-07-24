@@ -63,8 +63,9 @@
                     <Button Content="-" Command="{Binding DeleteTagCommand}" 
                                     CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
                 </StackPanel>
-                
-                    <view:TagsView  Margin="0,10,0,0"/>
+
+                    <view:TagsView RemoveItem="{Binding Path = DataContext.DeleteTagCommand, 
+                        ElementName=rootFileEdit}" Margin="0,10,0,0"/>
                 </StackPanel>
 
             </TabItem>

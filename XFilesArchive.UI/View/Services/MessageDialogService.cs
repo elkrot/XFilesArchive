@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
+using System;
 
 namespace XFilesArchive.UI.View.Services
 {
@@ -22,6 +23,12 @@ namespace XFilesArchive.UI.View.Services
             await MetroWindow.ShowMessageAsync("Info",text);
         }
 
+        public MessageDialogResult ShowOKCancelDialog(string title, string text)
+        {
+            var result = MetroWindow.ShowModalMessageExternal(title, text, MessageDialogStyle.AffirmativeAndNegative);
+            return result == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Affirmative ? MessageDialogResult.OK :
+                            MessageDialogResult.Cancel;
+        }
     }
 
 

@@ -252,19 +252,22 @@ namespace XFilesArchive.UI.ViewModel
         {
             int CategoryKey = (int)id;
             CategoryWrapper categoryW = ArchiveEntity.Categories.Where(x => x.CategoryKey == CategoryKey).First();
-            if (categoryW != null)
+
+            var result = MessageDialogService.ShowOKCancelDialog($"Удалить Категорию {categoryW.CategoryTitle}?",
+                $"Удалить Категорию {categoryW.CategoryTitle}?");
+
+            if (result == MessageDialogResult.OK)
             {
-
-
-               
-                ArchiveEntity.Categories.Remove(categoryW);
- categoryW.PropertyChanged -= Wrapper_PropertyChanged;
-                var wrapper= Categories.Where(x => x.CategoryKey == CategoryKey).First();
-                Categories.Remove(wrapper);
-                _repository.RemoveCategory(ArchiveEntity.ArchiveEntityKey, CategoryKey);
-                HasChanges = ArchiveEntity != null && !ArchiveEntity.HasErrors;
+                if (categoryW != null)
+                {
+                    ArchiveEntity.Categories.Remove(categoryW);
+                    categoryW.PropertyChanged -= Wrapper_PropertyChanged;
+                    var wrapper = Categories.Where(x => x.CategoryKey == CategoryKey).First();
+                    Categories.Remove(wrapper);
+                    _repository.RemoveCategory(ArchiveEntity.ArchiveEntityKey, CategoryKey);
+                    HasChanges = ArchiveEntity != null && !ArchiveEntity.HasErrors;
+                }
             }
-
 
             /*
              if (await _repository.HasMeetingAsync(Test.TestKey))
@@ -298,9 +301,25 @@ namespace XFilesArchive.UI.ViewModel
         {
             int ImageKey = (int)id;
             ImageWrapper image = ArchiveEntity.Images.Where(x => x.ImageKey == ImageKey).First();
-            if (image != null)
+
+
+            var result = MessageDialogService.ShowOKCancelDialog($"Удалить Изображение {image.ImageTitle}?",
+                $"Удалить Изображение {image.ImageTitle}?");
+
+            if (result == MessageDialogResult.OK)
             {
-                ArchiveEntity.Images.Remove(image);
+                if (image != null)
+                {
+                    ArchiveEntity.Images.Remove(image);
+
+
+                    image.PropertyChanged -= Wrapper_PropertyChanged;
+                    var wrapper = Images.Where(x => x.ImageKey == ImageKey).First();
+                    Images.Remove(wrapper);
+                    _repository.RemoveImage(ArchiveEntity.ArchiveEntityKey, ImageKey);
+                    HasChanges = ArchiveEntity != null && !ArchiveEntity.HasErrors;
+
+                }
             }
             ///   Дописать удаление файла !!!!!!!!!!!!
          //   RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveImageFromEntity, ImageKey);
@@ -412,8 +431,26 @@ namespace XFilesArchive.UI.ViewModel
         {
 
             TagWrapper tag = ArchiveEntity.Tags.Where(x => x.TagTitle == tagTitle).First();
-            if (tag != null)
-                ArchiveEntity.Tags.Remove(tag);
+
+            var result =  MessageDialogService.ShowOKCancelDialog($"Удалить метку {tagTitle}?", $"Удалить метку {tagTitle}?");
+
+            if (result == MessageDialogResult.OK)
+            {
+                if (tag != null)
+                {
+                    ArchiveEntity.Tags.Remove(tag);
+                    tag.PropertyChanged -= Wrapper_PropertyChanged;
+
+                    var wrapper = Tags.Where(x => x.TagTitle == tagTitle).First();
+                    Tags.Remove(wrapper);
+                    _repository.RemoveTag(ArchiveEntity.ArchiveEntityKey, tagTitle);
+                    HasChanges = ArchiveEntity != null && !ArchiveEntity.HasErrors;
+
+
+                }
+
+            }
+
             //  RemoveItemFromEntityCollection(_fileOnDriveDataProvider.RemoveTagFromEntity, TagKey);
         }
         private bool OnDeleteTagCanExecute(string arg)

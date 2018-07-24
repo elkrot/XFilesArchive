@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:XFilesArchive.UI.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Name="rootTag">
     <UserControl.Resources>
         <Style TargetType="StackPanel" x:Key="TagItem">
             <Setter Property="Margin" Value="5"/>
@@ -70,7 +71,7 @@
 
                             <Button Width="30" Height="30" Margin="3" 
                                     Command="{Binding Path=RemoveItem, ElementName=rootTag}" 
-                                    CommandParameter="{Binding TagKey}"
+                                    CommandParameter="{Binding TagTitle}"
                                 >x</Button>
                             <TextBlock Text="{Binding Path=TagTitle}"/>
                         </StackPanel>

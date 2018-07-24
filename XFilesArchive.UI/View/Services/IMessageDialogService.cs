@@ -6,5 +6,6 @@ namespace XFilesArchive.UI.View.Services
     {
         Task<MessageDialogResult> ShowOKCancelDialogAsync(string text, string title);
         Task ShowInfoDialogAsync(string text);
+        MessageDialogResult ShowOKCancelDialog(string v1, string v2);
     }
 }
