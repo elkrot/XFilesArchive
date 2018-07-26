@@ -147,7 +147,7 @@ namespace XFilesArchive.UI.ViewModel
             if (e.PropertyName == nameof(TagWrapper.HasErrors))
             {
                 ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-
+                InvalidateCommands();
             }
         }
 
