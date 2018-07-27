@@ -38,9 +38,11 @@ namespace XFilesArchive.UI.ViewModel
         public ICategoryNavigationViewModel CategoryNavigationViewModel { get { return _categoryNavigationViewModel; } }
 
 
-        public FilesOnDriveViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
-                   IArchiveEntityRepository repository
-                   , ICategoryNavigationViewModel categoryNavigationViewModel
+        public FilesOnDriveViewModel(
+            IEventAggregator eventAggregator
+            , IMessageDialogService messageDialogService
+            , IArchiveEntityRepository repository
+            , ICategoryNavigationViewModel categoryNavigationViewModel
             , ICategoryRepository categoryRepository
             ) : base(eventAggregator, messageDialogService)
         {
@@ -66,13 +68,9 @@ namespace XFilesArchive.UI.ViewModel
             DeleteImageCommand = new DelegateCommand<int?>(OnDeleteImageExecute, OnDeleteImageCanExecute);
             DeleteCategoryToEntityCommand = new DelegateCommand<int?>(OnDeleteCategoryToEntityExecute, OnDeleteCategoryToEntityCanExecute);
             #endregion
-
         }
 
-
         #region Конструктор
-
-
         private async void OnSelectedItemChanged(int obj)
         {
             if (obj != 0)
@@ -82,9 +80,6 @@ namespace XFilesArchive.UI.ViewModel
             }
         }
         #endregion
-
-
-
 
         public ObservableCollection<TagWrapper> Tags { get; }
         public ObservableCollection<CategoryWrapper> Categories { get; }
@@ -555,3 +550,20 @@ namespace XFilesArchive.UI.ViewModel
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
