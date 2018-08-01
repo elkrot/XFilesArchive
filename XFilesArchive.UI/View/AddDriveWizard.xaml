@@ -1,0 +1,42 @@
+﻿<Controls:MetroWindow x:Class="XFilesArchive.UI.View.AddDriveWizard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:XFilesArchive.UI.View"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Создание Описания Файлов для дирректории." Height="300" Width="300" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <xctk:Wizard  FinishButtonClosesWindow="True" >
+            <xctk:WizardPage Title="Добро пожаловать"
+                             Description="Этот помошник поможет создать описание дирректории." 
+                             x:Name="InitPage">
+
+            </xctk:WizardPage>
+            <xctk:WizardPage PageType="Interior"
+                             Title="Страница 1"
+                             Description="Первый шаг процесса!." >
+                <Grid>
+                    <StackPanel>
+                        <TextBox Text="{Binding DriveLetter}"/>
+                        <TextBox  Text="{Binding MaxImagesInDirectory}"/>
+                        <CheckBox Content="Секретный"  Margin="10,0,10,0" Grid.Row="2" VerticalAlignment="Center" 
+                                IsChecked="{Binding IsSecret,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                </Grid>
+            </xctk:WizardPage>
+            <xctk:WizardPage PageType="Interior"
+                             Title="Page 2"
+                             Description="Это второй шаг процесса" CanFinish="True">
+                <StackPanel>
+                    <TextBox Text="{Binding DriveTitle}"/>
+                    <TextBox  Text="{Binding DriveCode}"/>
+                </StackPanel>
+
+            </xctk:WizardPage>
+
+        </xctk:Wizard>
+    </Grid>
+</Controls:MetroWindow>

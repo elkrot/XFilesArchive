@@ -22,7 +22,7 @@ namespace XFilesArchive.UI
         string DriveLetter = "";
         int MaxImagesInDirectory = 0;
         byte IsSecret = 0;
-        private MetroWindow _window;
+        //private MetroWindow _window;
 
 
         public MainWindow(MainViewModel viewModel)
@@ -47,82 +47,70 @@ namespace XFilesArchive.UI
         }
 
         public void ShowWizard() {
-            Xceed.Wpf.Toolkit.Wizard wizard = this.Resources["_wizard"] as Xceed.Wpf.Toolkit.Wizard;
-            if (wizard != null)
+
+            var _win = new AddDriveWizard();
+            _win.DataContext = new WizardData() { DriveCode = "2018_00", DriveLetter = @"e:\", MaxImagesInDirectory = 0 };
+
+
+            if (_win.ShowDialog() == true)
             {
-                wizard.CurrentPage = wizard.Items[0] as Xceed.Wpf.Toolkit.WizardPage;
+                var cnf = new ConfigurationData();
+                var lg = new Logger();
 
-                if (_window != null)
+                try
                 {
-                    _window.Content = null;
-                    _window = null;
-                }
-                _window = new MetroWindow();
-                _window.Title = "Создание Описания Файлов для дирректории.";
-                _window.Content = wizard;
-                _window.DataContext = new WizardData() { DriveCode = "2018_00", DriveLetter = @"e:\", MaxImagesInDirectory = 0 };
-                _window.Width = 600;
-                _window.Height = 400;
-                _window.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                // Window will be closed by Wizard because FinishButtonClosesWindow = true and CancelButtonClosesWindow = true
+                    DriveCode = ((WizardData)_win.DataContext).DriveCode;
+                    DriveTitle = ((WizardData)_win.DataContext).DriveTitle;
 
-                if (_window.ShowDialog() == true)
-                {
-                    var cnf = new ConfigurationData();
-                    var lg = new Logger();
+                    DriveLetter = ((WizardData)_win.DataContext).DriveLetter;
+                    MaxImagesInDirectory = ((WizardData)_win.DataContext).MaxImagesInDirectory;
+                    IsSecret = ((WizardData)_win.DataContext).IsSecret;
 
-                    try
-                    {
-                        DriveCode = ((WizardData)_window.DataContext).DriveCode;
-                        DriveTitle = ((WizardData)_window.DataContext).DriveTitle;
+                    //var fm = new FileManager(cnf, lg);
 
-                        DriveLetter = ((WizardData)_window.DataContext).DriveLetter;
-                        MaxImagesInDirectory = ((WizardData)_window.DataContext).MaxImagesInDirectory;
-                        IsSecret = ((WizardData)_window.DataContext).IsSecret;
+                    //IDataManager dm = new DataManager(cnf, fm, lg, MaxImagesInDirectory);
+                    //string drvLetter = DriveLetter;
+                    //Dictionary<string, object> addParams = new Dictionary<string, object>();
+                    //addParams.Add("IsSecret", IsSecret);
 
-                        //var fm = new FileManager(cnf, lg);
+                    // CrtDrv(dm, drvLetter, DriveTitle, DriveCode, addParams);
 
-                        //IDataManager dm = new DataManager(cnf, fm, lg, MaxImagesInDirectory);
-                        //string drvLetter = DriveLetter;
-                        //Dictionary<string, object> addParams = new Dictionary<string, object>();
-                        //addParams.Add("IsSecret", IsSecret);
+                    //-----------
+                    var worker = new Worker();
 
-                        // CrtDrv(dm, drvLetter, DriveTitle, DriveCode, addParams);
-
-                        //-----------
-                        var worker = new Worker();
-
-                        cancelTokenSource = new CancellationTokenSource();
-                        token = cancelTokenSource.Token;
-                  //      var progress = new Progress<int>(value => progressBar.Value = value);
+                    cancelTokenSource = new CancellationTokenSource();
+                    token = cancelTokenSource.Token;
+                    //      var progress = new Progress<int>(value => progressBar.Value = value);
                     //    var id = await worker.Work(progress, token, CreateDestination);
-                        //------------
+                    //------------
 
 
-                       // _drivesViewModel.Load();
-                        System.Windows.Forms.MessageBox.Show("Обработка Завершена");
-                      //  progressBar.Value = 0;
-                        var Log = lg.GetLog();
-                        if (!string.IsNullOrWhiteSpace(Log))
-                        {
-                            System.Windows.Forms.MessageBox.Show(Log);
-                        }
-                    }
-                    catch (Exception er)
+                    // _drivesViewModel.Load();
+                    System.Windows.Forms.MessageBox.Show("Обработка Завершена");
+                    //  progressBar.Value = 0;
+                    var Log = lg.GetLog();
+                    if (!string.IsNullOrWhiteSpace(Log))
                     {
+                        System.Windows.Forms.MessageBox.Show(Log);
+                    }
+                }
+                catch (Exception er)
+                {
 
-                        System.Windows.Forms.MessageBox.Show(er.Message);
-                        if (!string.IsNullOrWhiteSpace(lg.GetLog()))
-                        {
-                            System.Windows.Forms.MessageBox.Show(lg.GetLog());
-                        }
-
+                    System.Windows.Forms.MessageBox.Show(er.Message);
+                    if (!string.IsNullOrWhiteSpace(lg.GetLog()))
+                    {
+                        System.Windows.Forms.MessageBox.Show(lg.GetLog());
                     }
 
                 }
-
 
             }
+
+
+            var result = _win.DialogResult.Value;
+            
+            
         }
     }
 }

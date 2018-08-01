@@ -136,6 +136,7 @@
     <Compile Include="Services\Repositories\IDriveRepository.cs" />
     <Compile Include="SettingBindingExtension.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
+    <Compile Include="ViewModel\AddDriveWizardViewModel.cs" />
     <Compile Include="ViewModel\Base\DetailViewModelBase.cs" />
     <Compile Include="ViewModel\Drive\CategoryNavigationViewModel.cs" />
     <Compile Include="ViewModel\Drive\DriveDetailViewModel.cs" />
@@ -152,6 +153,9 @@
     <Compile Include="ViewModel\Base\ViewModelBase.cs" />
     <Compile Include="ViewModel\Observable.cs" />
     <Compile Include="ViewModel\Services\AddCategoryViewModel.cs" />
+    <Compile Include="View\AddDriveWizard.xaml.cs">
+      <DependentUpon>AddDriveWizard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CategoriesView.xaml.cs">
       <DependentUpon>CategoriesView.xaml</DependentUpon>
     </Compile>
@@ -238,6 +242,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\ValidationErrorTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddDriveWizard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
