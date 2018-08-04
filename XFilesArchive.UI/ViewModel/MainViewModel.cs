@@ -11,6 +11,9 @@ using XFilesArchive.UI.Event;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.Wrapper;
 using XFilesArchive.Model;
+using XFilesArchive.UI.View;
+using XFilesArchive.Infrastructure;
+using System.Threading;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -28,6 +31,10 @@ namespace XFilesArchive.UI.ViewModel
 
         public ObservableCollection<IDetailViewModel> DetailViewModels { get; }
         private int nextNewItemId = 0;
+
+
+        
+
         public IDetailViewModel SelectedDetailViewModel
         {
             get { return _selectedDetailViewModel; }
@@ -66,11 +73,15 @@ namespace XFilesArchive.UI.ViewModel
     .Subscribe(OnAfterDetailClosed);
 
             CreateNewCommand = new DelegateCommand<Type>(OnCreateNewExecute);
+           
             OpenSingleDetailViewCommand = new DelegateCommand<Type>(OnOpenSingleDetailViewExecute);
             NavigationViewModel = navigationViewModel;
+
+
         }
 
-        private void OnOpenSingleDetailViewExecute(Type viewModelType)
+
+          private void OnOpenSingleDetailViewExecute(Type viewModelType)
         {
             OnOpenDetailView(new OpenDetailViewEventArgs
             { Id = -1, ViewModelName = viewModelType.Name });

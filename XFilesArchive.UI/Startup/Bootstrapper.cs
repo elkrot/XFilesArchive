@@ -39,6 +39,8 @@ namespace XFilesArchive.UI.Startup
             builder.RegisterType<CategoryNavigationViewModel>().As<ICategoryNavigationViewModel>();
             //builder.RegisterType<ProgrammingLanguageRepository>().As<IProgrammingLanguageRepository>();
 
+            builder.RegisterType<MainNavigationViewModel>().AsSelf();
+            
             return builder.Build();
         }
 

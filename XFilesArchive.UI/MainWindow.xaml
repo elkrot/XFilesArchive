@@ -19,35 +19,7 @@
                       >
     <Window.Resources>
 
-        <xctk:Wizard x:Key="_wizard" FinishButtonClosesWindow="True" >
-            <xctk:WizardPage Title="Добро пожаловать"
-                             Description="Этот помошник поможет создать описание дирректории." >
-
-            </xctk:WizardPage>
-            <xctk:WizardPage PageType="Interior"
-                             Title="Страница 1"
-                             Description="Первый шаг процесса." >
-                <Grid>
-                    <StackPanel>
-                        <TextBox Text="{Binding DriveLetter}"/>
-                        <TextBox  Text="{Binding MaxImagesInDirectory}"/>
-                        <CheckBox Content="Секретный"  Margin="10,0,10,0" Grid.Row="2" VerticalAlignment="Center" 
-                                IsChecked="{Binding IsSecret,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    </StackPanel>
-                </Grid>
-            </xctk:WizardPage>
-            <xctk:WizardPage PageType="Interior"
-                             Title="Page 2"
-                             Description="Это второй шаг процесса" CanFinish="True">
-                <StackPanel>
-                    <TextBox Text="{Binding DriveTitle}"/>
-                    <TextBox  Text="{Binding DriveCode}"/>
-                </StackPanel>
-
-            </xctk:WizardPage>
-
-        </xctk:Wizard>
-
+    
         <DataTemplate DataType="{x:Type viewModel:DriveDetailViewModel}">
             <view:DetailView/>
         </DataTemplate>
@@ -72,22 +44,19 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="22"/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="82"/>
             <RowDefinition/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-        <view:Menu  />
+        <Frame x:Name="Navigator" Margin="0,0,0,0" Grid.Row="0"/>
 
-        <view:Toolbar   Grid.Row="1"/>
-
-        <Frame x:Name="Main" Margin="0,0,0,0" Grid.Row="2"/>
+        <Frame x:Name="Main" Margin="0,0,0,0" Grid.Row="1"/>
         <StatusBar Grid.Row="3">
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
                     <ProgressBar Name="progressBar" Height="Auto" Width="180" Margin="10" />
-                    <Button >Отмена</Button>
+                    <Button Command="{Binding NewDestinationCommand}">Отмена</Button>
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

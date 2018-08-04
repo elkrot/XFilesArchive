@@ -6,17 +6,19 @@
              xmlns:local="clr-namespace:XFilesArchive.UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="80" d:DesignWidth="600">
+
     <Grid Margin="0,0,-0,0">
         <ToolBarTray HorizontalAlignment="Left" Height="50"
                       Margin="0,2,0,0" VerticalAlignment="Top" Width="520" >
             <ToolBar Height="50" VerticalAlignment="Top" Margin="0,0,-544,0">
 
-                <Button  VerticalAlignment="Top" Height="28" ToolTip="Извлечь">
+                <!--<Button  VerticalAlignment="Top" Height="28" ToolTip="Извлечь">
                     <ContentControl Content="{StaticResource Eject}" Margin="0" />
 
-                </Button>
+                </Button>-->
 
-                <Button  VerticalAlignment="Top" Height="40" ToolTip="Создать расположение">
+                <Button  VerticalAlignment="Top" Height="40" ToolTip="Создать расположение"   
+                         Command="{Binding NewDestinationCommand}" >
                     <ContentControl Content="{StaticResource NewDest}" Margin="0" />
 
                 </Button>

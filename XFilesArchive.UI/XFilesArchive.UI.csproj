@@ -144,6 +144,7 @@
     <Compile Include="ViewModel\Drive\FilesOnDriveViewModel.cs" />
     <Compile Include="ViewModel\Drive\IDriveDetailViewModel.cs" />
     <Compile Include="ViewModel\Drive\IFilesOnDriveViewModel.cs" />
+    <Compile Include="ViewModel\MainNavigationViewModel.cs" />
     <Compile Include="ViewModel\Navigation\FilesOnDriveNavigationViewModel.cs" />
     <Compile Include="ViewModel\Navigation\INavigationViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -182,6 +183,9 @@
     </Compile>
     <Compile Include="View\Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\NavigationPage.xaml.cs">
+      <DependentUpon>NavigationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
@@ -282,6 +286,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Menu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\NavigationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
