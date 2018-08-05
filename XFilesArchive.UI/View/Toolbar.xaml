@@ -27,7 +27,9 @@
                     <ContentControl Content="{StaticResource Compare}" Margin="0" />
                 </Button>
 
-                <Button VerticalAlignment="Bottom" Height="45" >
+                <Button 
+                    Command="{Binding OpenAdminPanelCommand}"
+                    VerticalAlignment="Bottom" Height="45" >
                     <ContentControl Content="{StaticResource Admin}" Margin="0" />
 
                 </Button>

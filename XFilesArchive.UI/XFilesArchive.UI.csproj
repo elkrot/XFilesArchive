@@ -106,6 +106,7 @@
     </ApplicationDefinition>
     <Compile Include="Behaviors\ChangeBehavior.cs" />
     <Compile Include="Behaviors\DataGridChangeBehavior.cs" />
+    <Compile Include="ConfigurationDTO.cs" />
     <Compile Include="Event\AfterCollectionSavedEvent.cs" />
     <Compile Include="Event\AfterDeletedEvent.cs" />
     <Compile Include="Event\AfterDetailClosedEvent.cs" />
@@ -153,9 +154,18 @@
     <Compile Include="ViewModel\Navigation\NavigationViewModel.cs" />
     <Compile Include="ViewModel\Base\ViewModelBase.cs" />
     <Compile Include="ViewModel\Observable.cs" />
+    <Compile Include="ViewModel\Search\SearchEngineViewModel.cs" />
+    <Compile Include="ViewModel\Search\SearchNavigationViewModel.cs" />
+    <Compile Include="ViewModel\Search\SearchResultViewModel.cs" />
     <Compile Include="ViewModel\Services\AddCategoryViewModel.cs" />
     <Compile Include="View\AddDriveWizard.xaml.cs">
       <DependentUpon>AddDriveWizard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AdminPage.xaml.cs">
+      <DependentUpon>AdminPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AdminView.xaml.cs">
+      <DependentUpon>AdminView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CategoriesView.xaml.cs">
       <DependentUpon>CategoriesView.xaml</DependentUpon>
@@ -175,6 +185,10 @@
     <Compile Include="View\FilesOnDriveView.xaml.cs">
       <DependentUpon>FilesOnDriveView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\GridView.xaml.cs">
+      <DependentUpon>GridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GridViewModel.cs" />
     <Compile Include="View\ImagesView.xaml.cs">
       <DependentUpon>ImagesView.xaml</DependentUpon>
     </Compile>
@@ -189,6 +203,15 @@
     </Compile>
     <Compile Include="View\NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SearchNavigation.xaml.cs">
+      <DependentUpon>SearchNavigation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SearchPage.xaml.cs">
+      <DependentUpon>SearchPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SearchResult.xaml.cs">
+      <DependentUpon>SearchResult.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Services\AddCategoryDialog.xaml.cs">
       <DependentUpon>AddCategoryDialog.xaml</DependentUpon>
@@ -253,6 +276,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\AdminPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AdminView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\CategoriesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -277,6 +308,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\GridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ImagesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -294,6 +329,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\NavigationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SearchNavigation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SearchPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SearchResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
