@@ -107,6 +107,7 @@
     <Compile Include="Behaviors\ChangeBehavior.cs" />
     <Compile Include="Behaviors\DataGridChangeBehavior.cs" />
     <Compile Include="ConfigurationDTO.cs" />
+    <Compile Include="Event\AddTagToConditionCommandEvent.cs" />
     <Compile Include="Event\AfterCollectionSavedEvent.cs" />
     <Compile Include="Event\AfterDeletedEvent.cs" />
     <Compile Include="Event\AfterDetailClosedEvent.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Event\OpenDetailViewEvent.cs" />
     <Compile Include="Event\OpenDriveDetailViewEvent.cs" />
     <Compile Include="Event\SelectedItemChangedEvent.cs" />
+    <Compile Include="Event\ShowSearchResultEvent.cs" />
     <Compile Include="Services\Lookups\CategoryLookupProvider.cs" />
     <Compile Include="Services\Lookups\FilesOnDriveLookupProvider.cs" />
     <Compile Include="Services\Lookups\ILookupDataService.cs" />
@@ -153,6 +155,7 @@
     <Compile Include="ViewModel\Navigation\NavigationTreeItemViewModel.cs" />
     <Compile Include="ViewModel\Navigation\NavigationViewModel.cs" />
     <Compile Include="ViewModel\Base\ViewModelBase.cs" />
+    <Compile Include="ViewModel\Navigation\TagNavigationViewModel.cs" />
     <Compile Include="ViewModel\Observable.cs" />
     <Compile Include="ViewModel\Search\SearchEngineViewModel.cs" />
     <Compile Include="ViewModel\Search\SearchNavigationViewModel.cs" />
@@ -407,6 +410,10 @@
     <ProjectReference Include="..\XFilesArchive.Model\XFilesArchive.Model.csproj">
       <Project>{979ab583-300e-4e02-a45a-3503fc4b7416}</Project>
       <Name>XFilesArchive.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XFilesArchive.Search\XFilesArchive.Search.csproj">
+      <Project>{bbeebc3d-5864-4a1b-b551-206cdf379643}</Project>
+      <Name>XFilesArchive.Search</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,18 @@
-﻿using System;
+﻿using Prism.Commands;
+using Prism.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using XFilesArchive.Search.Condition;
+using XFilesArchive.Search.Result;
+using XFilesArchive.Search.Widget;
+using XFilesArchive.UI.Event;
+using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel.Drive;
+using XFilesArchive.UI.ViewModel.Navigation;
 
 namespace XFilesArchive.UI.ViewModel.Search
 {
@@ -56,10 +64,10 @@ namespace XFilesArchive.UI.ViewModel.Search
 
             SearchCondition = new SearchCondition(SearchWidgets);
 
-            AddSearchByStringConditionCommand = new DelegateCommand(OnAddSearchByStringConditionExecute, OnAddSearchByStringConditionCanExecute);
-            AddSearchByCategoryConditionCommand = new DelegateCommand(OnAddSearchByCategoryConditionExecute, OnAddSearchByCategoryConditionCanExecute);
+            AddSearchByStringConditionCommand = new DelegateCommand<string>(OnAddSearchByStringConditionExecute, OnAddSearchByStringConditionCanExecute);
+            AddSearchByCategoryConditionCommand = new DelegateCommand<int>(OnAddSearchByCategoryConditionExecute, OnAddSearchByCategoryConditionCanExecute);
             AddSearchByFileSizeConditionCommand = new DelegateCommand(OnAddSearchByFileSizeConditionExecute, OnAddSearchByFileSizeConditionCanExecute);
-            AddSearchByTagConditionCommand = new DelegateCommand(OnAddSearchByTagConditionExecute, OnAddSearchByTagConditionCanExecute);
+            AddSearchByTagConditionCommand = new DelegateCommand<int>(OnAddSearchByTagConditionExecute, OnAddSearchByTagConditionCanExecute);
             GoSearchCommand = new DelegateCommand(OnSearchExecute, OnSearchCanExecute);
 
 
@@ -67,13 +75,13 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         }
 
-        private bool OnSearchCanExecute(object arg)
+        private bool OnSearchCanExecute()
         {
 
             return true;
         }
 
-        private void OnSearchExecute(object obj)
+        private void OnSearchExecute()
         {
             var condition = SearchCondition.Condition;
             var searchItems = _archiveEntityDataProvider.GetEntitiesByCondition(condition);
@@ -82,12 +90,12 @@ namespace XFilesArchive.UI.ViewModel.Search
             _eventAggregator.GetEvent<ShowSearchResultEvent>().Publish(0);
         }
 
-        private bool OnAddSearchByTagConditionCanExecute(object arg)
+        private bool OnAddSearchByTagConditionCanExecute(int obj)
         {
             return true;
         }
 
-        private void OnAddSearchByTagConditionExecute(object obj)
+        private void OnAddSearchByTagConditionExecute(int tagKey)
         {
             var tag = obj as HomeArchiveX.WpfUI.ViewModel.FilesOnDrive.NavigationTagItemViewModel;
 
@@ -101,24 +109,24 @@ namespace XFilesArchive.UI.ViewModel.Search
             }
         }
 
-        private bool OnAddSearchByFileSizeConditionCanExecute(object arg)
+        private bool OnAddSearchByFileSizeConditionCanExecute()
         {
             return true;
         }
 
-        private void OnAddSearchByFileSizeConditionExecute(object obj)
+        private void OnAddSearchByFileSizeConditionExecute()
         {
             throw new NotImplementedException();
         }
 
-        private bool OnAddSearchByCategoryConditionCanExecute(object arg)
+        private bool OnAddSearchByCategoryConditionCanExecute(int obj)
         {
             return true;
         }
 
-        private void OnAddSearchByCategoryConditionExecute(object obj)
+        private void OnAddSearchByCategoryConditionExecute(int categoryId)
         {
-            var category = (int)obj;
+            var category = categoryId;
             if (category > 0)
             {
                 int categoryKey = category;
@@ -134,7 +142,7 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         }
 
-        private bool OnAddSearchByStringConditionCanExecute(object arg)
+        private bool OnAddSearchByStringConditionCanExecute(string obj)
         {
             return true;
         }

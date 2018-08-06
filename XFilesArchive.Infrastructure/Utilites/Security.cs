@@ -14,7 +14,7 @@ namespace XFilesArchive.Infrastructure.Utilites
         public static int MB_SIZE = (int)Math.Pow(2, 20);
 
 
-        #region ComputeMD5Checksum
+
         public static string ComputeMD5Checksum(string path)
         {
             using (Stream stream = System.IO.File.OpenRead(path))
