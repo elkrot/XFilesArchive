@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using XFilesArchive.DataAccess;
 using XFilesArchive.Model;
 
-namespace XFilesArchive.UI.Services.Lookups
+namespace XFilesArchive.Services.Lookups
 {
    public class LookupDataService : ILookupDataService
         , ICategoryLookupDataService

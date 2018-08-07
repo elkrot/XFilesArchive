@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XFilesArchive.Infrastructur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XFilesArchive.Search", "XFilesArchive.Search\XFilesArchive.Search.csproj", "{BBEEBC3D-5864-4A1B-B551-206CDF379643}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XFilesArchive.Services", "XFilesArchive.Services\XFilesArchive.Services.csproj", "{784512C0-EFA7-475D-9B81-8C4E039D7442}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{BBEEBC3D-5864-4A1B-B551-206CDF379643}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBEEBC3D-5864-4A1B-B551-206CDF379643}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBEEBC3D-5864-4A1B-B551-206CDF379643}.Release|Any CPU.Build.0 = Release|Any CPU
+		{784512C0-EFA7-475D-9B81-8C4E039D7442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{784512C0-EFA7-475D-9B81-8C4E039D7442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{784512C0-EFA7-475D-9B81-8C4E039D7442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{784512C0-EFA7-475D-9B81-8C4E039D7442}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using XFilesArchive.DataAccess;
 using XFilesArchive.Model;
 
-namespace XFilesArchive.UI.Services.Repositories
+namespace XFilesArchive.Services.Repositories
 {
     public class CategoryRepository:  GenericRepository<Category, XFilesArchiveDataContext>, ICategoryRepository
     {

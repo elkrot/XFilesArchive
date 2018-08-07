@@ -20,12 +20,12 @@ namespace XFilesArchive.UI.ViewModel.Navigation
     {
 
         private readonly IEventAggregator _eventAggregator;
-        private readonly ILookupProvider<Tag> _tagLookupProvider;
+        private readonly IEnumerable<Tag> _tags;
         public TagNavigationViewModel(IEventAggregator eventAggregator,
-          ILookupProvider<Tag> tagLookupProvider)
+         IEnumerable<Tag> tags)
         {
             _eventAggregator = eventAggregator;
-            _tagLookupProvider = tagLookupProvider;
+            _tags = tags;
             NavigationItems = new ObservableCollection<NavigationTagItemViewModel>();
         }
 
@@ -34,19 +34,15 @@ namespace XFilesArchive.UI.ViewModel.Navigation
 
         public void Load()
         {
-            IEnumerable<LookupItem> items;
-
-
-            items = _tagLookupProvider.GetLookup();
 
             NavigationItems.Clear();
-            foreach (var driveLookupItem in
-                items)
+            foreach (var tag in
+                _tags)
             {
                 NavigationItems.Add(
                   new NavigationTagItemViewModel(
-                    driveLookupItem.Id,
-                    driveLookupItem.DisplayValue,
+                    tag.TagKey,
+                    tag.TagTitle,
                     _eventAggregator));
             }
         }

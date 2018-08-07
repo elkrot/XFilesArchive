@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 using XFilesArchive.DataAccess;
 using XFilesArchive.Model;
 
-namespace XFilesArchive.UI.Services.Repositories
+namespace XFilesArchive.Services.Repositories
 {
     public class ArchiveEntityRepository : GenericRepository<ArchiveEntity, XFilesArchiveDataContext>
         , IArchiveEntityRepository
@@ -18,6 +17,11 @@ namespace XFilesArchive.UI.Services.Repositories
         public Category GetCategoryById(int id)
         {
             return Context.Categories.Find(id);
+        }
+
+        public ICollection<ArchiveEntity> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition)
+        {
+            return Context.ArchiveEntities.Where(condition).ToList();
         }
 
         public Tag GetTagByTitle(string Title)

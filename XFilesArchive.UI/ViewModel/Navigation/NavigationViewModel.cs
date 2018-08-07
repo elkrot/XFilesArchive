@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using XFilesArchive.UI.Event;
-using XFilesArchive.UI.Services.Lookups;
+using XFilesArchive.Services.Lookups;
 using System;
 using System.Windows;
 

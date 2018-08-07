@@ -9,6 +9,7 @@ using System.Windows.Input;
 using XFilesArchive.Search.Condition;
 using XFilesArchive.Search.Result;
 using XFilesArchive.Search.Widget;
+using XFilesArchive.Services.Repositories;
 using XFilesArchive.UI.Event;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel.Drive;
@@ -27,34 +28,26 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
-        private readonly ICategoryDataProvider _categoryDataProvider;
-        private readonly ITagDataProvider _tagDataProvider;
         private ICategoryNavigationViewModel _categoryNavigationViewModel;
         private ITagNavigationViewModel _tagNavigationViewModel;
         public SearchCondition SearchCondition { get; set; }
         public SearchResult SearchResult { get; set; }
-        private IArchiveEntityDataProvider _archiveEntityDataProvider;
+        private IArchiveEntityRepository _repository;
 
 
         public SearchNavigationViewModel(IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService
             , ICategoryNavigationViewModel categoryNavigationViewModel
-            , ICategoryDataProvider categoryDataProvider
-            , ITagDataProvider tagDataProvider
             , ITagNavigationViewModel tagNavigationViewModel
-            , IArchiveEntityDataProvider archiveEntityDataProvider)
+            , IArchiveEntityRepository repository
+            )
         {
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
+            _repository = repository;
 
-            _categoryDataProvider = categoryDataProvider;
             _tagNavigationViewModel = tagNavigationViewModel;
-
-            _tagDataProvider = tagDataProvider;
-
             _categoryNavigationViewModel = categoryNavigationViewModel;
-
-            _archiveEntityDataProvider = archiveEntityDataProvider;
 
             var SearchWidgets = new Dictionary<string, SearchWidget<SearchWidgetItem>>();
             SearchWidgets[nameof(SearchByStringWidget)] = (new SearchByStringWidget());
@@ -84,7 +77,7 @@ namespace XFilesArchive.UI.ViewModel.Search
         private void OnSearchExecute()
         {
             var condition = SearchCondition.Condition;
-            var searchItems = _archiveEntityDataProvider.GetEntitiesByCondition(condition);
+            var searchItems = _repository.GetEntitiesByCondition(condition);
             SearchResult = new SearchResult(searchItems);
 
             _eventAggregator.GetEvent<ShowSearchResultEvent>().Publish(0);

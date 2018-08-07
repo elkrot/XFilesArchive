@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Input;
 using XFilesArchive.Model;
 using XFilesArchive.UI.Event;
-using XFilesArchive.UI.Services.Lookups;
+using XFilesArchive.Services.Lookups;
 
 namespace XFilesArchive.UI.ViewModel.Navigation
 {

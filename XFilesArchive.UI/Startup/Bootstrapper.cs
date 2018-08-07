@@ -2,8 +2,8 @@
 using Prism.Events;
 using XFilesArchive.DataAccess;
 using XFilesArchive.Model;
-using XFilesArchive.UI.Services.Lookups;
-using XFilesArchive.UI.Services.Repositories;
+using XFilesArchive.Services.Lookups;
+using XFilesArchive.Services.Repositories;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel;
 using XFilesArchive.UI.ViewModel.Drive;

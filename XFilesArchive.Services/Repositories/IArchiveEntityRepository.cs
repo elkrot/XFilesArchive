@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using XFilesArchive.Model;
 
-namespace XFilesArchive.UI.Services.Repositories
+namespace XFilesArchive.Services.Repositories
 {
     public interface IArchiveEntityRepository :IGenericRepository<ArchiveEntity>
     {
@@ -14,5 +15,6 @@ namespace XFilesArchive.UI.Services.Repositories
         void RemoveCategory(int ArchiveEntityId, int categoryKey);
         void RemoveTag(int archiveEntityKey, string tagTitle);
         void RemoveImage(int archiveEntityKey, int imageKey);
+        ICollection<ArchiveEntity> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Prism.Events;
 using XFilesArchive.UI.Event;
-using XFilesArchive.UI.Services.Repositories;
+using XFilesArchive.Services.Repositories;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.Wrapper;
 using XFilesArchive.Model;

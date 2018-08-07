@@ -121,22 +121,6 @@
     <Compile Include="Event\OpenDriveDetailViewEvent.cs" />
     <Compile Include="Event\SelectedItemChangedEvent.cs" />
     <Compile Include="Event\ShowSearchResultEvent.cs" />
-    <Compile Include="Services\Lookups\CategoryLookupProvider.cs" />
-    <Compile Include="Services\Lookups\FilesOnDriveLookupProvider.cs" />
-    <Compile Include="Services\Lookups\ILookupDataService.cs" />
-    <Compile Include="Services\Lookups\ICategoryLookupDataService.cs" />
-    <Compile Include="Services\Lookups\ITagLookupDataService.cs" />
-    <Compile Include="Services\Lookups\LookupDataService.cs" />
-    <Compile Include="Services\Lookups\LookupItem.cs" />
-    <Compile Include="Services\Lookups\TreeViewLookupProvider.cs" />
-    <Compile Include="Services\Repositories\ArchiveEntityRepository.cs" />
-    <Compile Include="Services\Repositories\CategoryRepository.cs" />
-    <Compile Include="Services\Repositories\GenericRepository.cs" />
-    <Compile Include="Services\Repositories\IArchiveEntityRepository.cs" />
-    <Compile Include="Services\Repositories\ICategoryRepository.cs" />
-    <Compile Include="Services\Repositories\IGenericRepository.cs" />
-    <Compile Include="Services\Repositories\DriveRepository.cs" />
-    <Compile Include="Services\Repositories\IDriveRepository.cs" />
     <Compile Include="SettingBindingExtension.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="ViewModel\AddDriveWizardViewModel.cs" />
@@ -414,6 +398,10 @@
     <ProjectReference Include="..\XFilesArchive.Search\XFilesArchive.Search.csproj">
       <Project>{bbeebc3d-5864-4a1b-b551-206cdf379643}</Project>
       <Name>XFilesArchive.Search</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XFilesArchive.Services\XFilesArchive.Services.csproj">
+      <Project>{784512c0-efa7-475d-9b81-8c4e039d7442}</Project>
+      <Name>XFilesArchive.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

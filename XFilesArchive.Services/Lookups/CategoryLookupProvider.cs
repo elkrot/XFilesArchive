@@ -6,9 +6,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using XFilesArchive.Model;
-using XFilesArchive.UI.Services.Repositories;
+using XFilesArchive.Services.Repositories;
 
-namespace XFilesArchive.UI.Services.Lookups
+namespace XFilesArchive.Services.Lookups
 {
     public class CategoryLookupProvider : ITreeViewLookupProvider<Category>
     {

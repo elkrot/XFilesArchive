@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using XFilesArchive.Model;
 
-namespace XFilesArchive.UI.Services.Lookups
+namespace XFilesArchive.Services.Lookups
 {
     public class FilesOnDriveLookupProvider : ITreeViewLookupProvider<ArchiveEntity>
     {

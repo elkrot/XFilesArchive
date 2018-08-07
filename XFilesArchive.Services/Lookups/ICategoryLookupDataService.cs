@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using XFilesArchive.Model;
 
-namespace XFilesArchive.UI.Services.Lookups
+namespace XFilesArchive.Services.Lookups
 {
     public interface ICategoryLookupDataService
     {

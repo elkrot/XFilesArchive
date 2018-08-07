@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9280AFAF-7FBD-40CC-89BD-A04F3B848A18}</ProjectGuid>
+    <ProjectGuid>{784512C0-EFA7-475D-9B81-8C4E039D7442}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XFilesArchive.DataAccess</RootNamespace>
-    <AssemblyName>XFilesArchive.DataAccess</AssemblyName>
+    <RootNamespace>XFilesArchive.Services</RootNamespace>
+    <AssemblyName>XFilesArchive.Services</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,33 +47,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mapping\ArchiveEntityMap.cs" />
-    <Compile Include="Mapping\CategoryMap.cs" />
-    <Compile Include="Mapping\DriveMap.cs" />
-    <Compile Include="Mapping\ImageMap.cs" />
-    <Compile Include="Mapping\TagMap.cs" />
-    <Compile Include="Migrations\201805091808367_InitDatabase.cs" />
-    <Compile Include="Migrations\201805091808367_InitDatabase.Designer.cs">
-      <DependentUpon>201805091808367_InitDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Lookups\CategoryLookupProvider.cs" />
+    <Compile Include="Lookups\FilesOnDriveLookupProvider.cs" />
+    <Compile Include="Lookups\ICategoryLookupDataService.cs" />
+    <Compile Include="Lookups\ILookupDataService.cs" />
+    <Compile Include="Lookups\ITagLookupDataService.cs" />
+    <Compile Include="Lookups\LookupDataService.cs" />
+    <Compile Include="Lookups\LookupItem.cs" />
+    <Compile Include="Lookups\TreeViewLookupProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XFilesArchiveDataContext.cs" />
+    <Compile Include="Repositories\ArchiveEntityRepository.cs" />
+    <Compile Include="Repositories\CategoryRepository.cs" />
+    <Compile Include="Repositories\DriveRepository.cs" />
+    <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\IArchiveEntityRepository.cs" />
+    <Compile Include="Repositories\ICategoryRepository.cs" />
+    <Compile Include="Repositories\IDriveRepository.cs" />
+    <Compile Include="Repositories\IGenericRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\XFilesArchive.DataAccess\XFilesArchive.DataAccess.csproj">
+      <Project>{9280afaf-7fbd-40cc-89bd-a04f3b848a18}</Project>
+      <Name>XFilesArchive.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XFilesArchive.Model\XFilesArchive.Model.csproj">
       <Project>{979ab583-300e-4e02-a45a-3503fc4b7416}</Project>
       <Name>XFilesArchive.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805091808367_InitDatabase.resx">
-      <DependentUpon>201805091808367_InitDatabase.cs</DependentUpon>
-    </EmbeddedResource>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

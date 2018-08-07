@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using XFilesArchive.Model;
 
-namespace XFilesArchive.UI.Services.Repositories
+namespace XFilesArchive.Services.Repositories
 {
 
 

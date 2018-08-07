@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace XFilesArchive.UI.Services.Lookups
+namespace XFilesArchive.Services.Lookups
 {
     public class LookupItem
     {

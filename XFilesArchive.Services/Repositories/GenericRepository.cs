@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace XFilesArchive.UI.Services.Repositories
+namespace XFilesArchive.Services.Repositories
 {
     public class GenericRepository<TEntity, TContext> : IGenericRepository<TEntity>
         where TEntity : class
