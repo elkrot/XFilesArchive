@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using XFilesArchive.Model;
 using XFilesArchive.Search.Condition;
 using XFilesArchive.Search.Result;
 using XFilesArchive.Search.Widget;
@@ -35,8 +36,9 @@ namespace XFilesArchive.UI.ViewModel.Search
         private IArchiveEntityRepository _repository;
 
 
-        public SearchNavigationViewModel(IEventAggregator eventAggregator,
-            IMessageDialogService messageDialogService
+        public SearchNavigationViewModel(
+            IEventAggregator eventAggregator
+            , IMessageDialogService messageDialogService
             , ICategoryNavigationViewModel categoryNavigationViewModel
             , ITagNavigationViewModel tagNavigationViewModel
             , IArchiveEntityRepository repository
@@ -58,12 +60,10 @@ namespace XFilesArchive.UI.ViewModel.Search
             SearchCondition = new SearchCondition(SearchWidgets);
 
             AddSearchByStringConditionCommand = new DelegateCommand<string>(OnAddSearchByStringConditionExecute, OnAddSearchByStringConditionCanExecute);
-            AddSearchByCategoryConditionCommand = new DelegateCommand<int>(OnAddSearchByCategoryConditionExecute, OnAddSearchByCategoryConditionCanExecute);
+            AddSearchByCategoryConditionCommand = new DelegateCommand<int?>(OnAddSearchByCategoryConditionExecute, OnAddSearchByCategoryConditionCanExecute);
             AddSearchByFileSizeConditionCommand = new DelegateCommand(OnAddSearchByFileSizeConditionExecute, OnAddSearchByFileSizeConditionCanExecute);
-            AddSearchByTagConditionCommand = new DelegateCommand<int>(OnAddSearchByTagConditionExecute, OnAddSearchByTagConditionCanExecute);
+            AddSearchByTagConditionCommand = new DelegateCommand<int?>(OnAddSearchByTagConditionExecute, OnAddSearchByTagConditionCanExecute);
             GoSearchCommand = new DelegateCommand(OnSearchExecute, OnSearchCanExecute);
-
-
 
 
         }
@@ -83,20 +83,21 @@ namespace XFilesArchive.UI.ViewModel.Search
             _eventAggregator.GetEvent<ShowSearchResultEvent>().Publish(0);
         }
 
-        private bool OnAddSearchByTagConditionCanExecute(int obj)
+        private bool OnAddSearchByTagConditionCanExecute(int? obj)
         {
             return true;
         }
 
-        private void OnAddSearchByTagConditionExecute(int tagKey)
+        private void OnAddSearchByTagConditionExecute(int? tagKey)
         {
-            var tag = obj as HomeArchiveX.WpfUI.ViewModel.FilesOnDrive.NavigationTagItemViewModel;
+            var tag = _repository.GetTagByTitle("");
+                //obj as HomeArchiveX.WpfUI.ViewModel.FilesOnDrive.NavigationTagItemViewModel;
 
             if (tag != null)
             {
                 if (SearchCondition.Widgets.ContainsKey(nameof(SearchByTagWidget)))
                 {
-                    (SearchCondition.Widgets[nameof(SearchByTagWidget)] as SearchByTagWidget).AddQuery(tag.DisplayValue);
+                    (SearchCondition.Widgets[nameof(SearchByTagWidget)] as SearchByTagWidget).AddQuery(tag.TagTitle);
                     SearchCondition.LoadItems();
                 }
             }
@@ -109,20 +110,20 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         private void OnAddSearchByFileSizeConditionExecute()
         {
-            throw new NotImplementedException();
+            
         }
 
-        private bool OnAddSearchByCategoryConditionCanExecute(int obj)
+        private bool OnAddSearchByCategoryConditionCanExecute(int? obj)
         {
             return true;
         }
 
-        private void OnAddSearchByCategoryConditionExecute(int categoryId)
+        private void OnAddSearchByCategoryConditionExecute(int? categoryId)
         {
             var category = categoryId;
-            if (category > 0)
+            if (category!=null && category > 0)
             {
-                int categoryKey = category;
+                int categoryKey = (int)category;
                 if (categoryKey > 0)
                 {
                     if (SearchCondition.Widgets.ContainsKey(nameof(SearchByCategoryWidget)))

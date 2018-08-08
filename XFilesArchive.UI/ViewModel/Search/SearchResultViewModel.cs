@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using XFilesArchive.Model;
-using XFilesArchive.UI.View;
+using XFilesArchive.Search.Result;
 using XFilesArchive.UI.View.Services;
 
 namespace XFilesArchive.UI.ViewModel.Search

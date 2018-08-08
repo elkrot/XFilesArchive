@@ -7,6 +7,8 @@ using XFilesArchive.Services.Repositories;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel;
 using XFilesArchive.UI.ViewModel.Drive;
+using XFilesArchive.UI.ViewModel.Navigation;
+using XFilesArchive.UI.ViewModel.Search;
 
 namespace XFilesArchive.UI.Startup
 {
@@ -38,6 +40,14 @@ namespace XFilesArchive.UI.Startup
             builder.RegisterType<CategoryRepository>().As<ICategoryRepository>();
             builder.RegisterType<CategoryNavigationViewModel>().As<ICategoryNavigationViewModel>();
             //builder.RegisterType<ProgrammingLanguageRepository>().As<IProgrammingLanguageRepository>();
+
+            builder.RegisterType<SearchResultViewModel>().As<ISearchResultViewModel>();
+            builder.RegisterType<SearchNavigationViewModel>().As<ISearchNavigationViewModel>();
+            builder.RegisterType<TagNavigationViewModel>().As<ITagNavigationViewModel>();
+            
+
+
+            builder.RegisterType<SearchEngineViewModel>().AsSelf();
 
             builder.RegisterType<MainNavigationViewModel>().AsSelf();
             

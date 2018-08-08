@@ -17,13 +17,12 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         public ISearchNavigationViewModel SearchNavigationViewModel { get; private set; }
         public ISearchResultViewModel SearchResultViewModel { get; private set; }
-      //  private IArchiveEntityDataProvider _archiveEntityDataProvider;
+      
 
         public SearchEngineViewModel(IEventAggregator eventAggregator
             , IMessageDialogService messageDialogService
             , ISearchNavigationViewModel searchNavigationViewModel
             , ISearchResultViewModel searchResultViewModel
-           // , IArchiveEntityDataProvider archiveEntityDataProvider
            )
         {
             _eventAggregator = eventAggregator;
@@ -31,7 +30,7 @@ namespace XFilesArchive.UI.ViewModel.Search
 
             _eventAggregator.GetEvent<ShowSearchResultEvent>().Subscribe(OnShowSearchResult);
 
-            //_archiveEntityDataProvider = archiveEntityDataProvider;
+            
             SearchNavigationViewModel = searchNavigationViewModel;
             SearchResultViewModel = searchResultViewModel;
 
