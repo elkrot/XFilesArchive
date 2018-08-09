@@ -23,7 +23,7 @@
 
                 </Button>
 
-                <Button >
+                <Button Command="{Binding CompareFileCommand}">
                     <ContentControl Content="{StaticResource Compare}" Margin="0" />
                 </Button>
 
@@ -42,8 +42,9 @@
 
                     <ContentControl Content="{StaticResource Help}" Margin="0" />
                 </Button>
-                <Button  >
-                    <ContentControl Content="{StaticResource Search}" Margin="0" />
+                <Button  Command="{Binding SearchCommand}">
+                    <ContentControl 
+                        Content="{StaticResource Search}" Margin="0" />
 
                 </Button>
                 <TextBox Foreground="LightGray" Margin="0,10,0,9" Width="330">Поиск...</TextBox>

@@ -5,15 +5,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using XFilesArchive.UI.Event;
 using XFilesArchive.UI.View.Services;
-using XFilesArchive.UI.Wrapper;
-using XFilesArchive.Model;
-using XFilesArchive.UI.View;
-using XFilesArchive.Infrastructure;
-using System.Threading;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -33,7 +27,7 @@ namespace XFilesArchive.UI.ViewModel
         private int nextNewItemId = 0;
 
 
-        
+
 
         public IDetailViewModel SelectedDetailViewModel
         {
@@ -73,7 +67,7 @@ namespace XFilesArchive.UI.ViewModel
     .Subscribe(OnAfterDetailClosed);
 
             CreateNewCommand = new DelegateCommand<Type>(OnCreateNewExecute);
-           
+
             OpenSingleDetailViewCommand = new DelegateCommand<Type>(OnOpenSingleDetailViewExecute);
             NavigationViewModel = navigationViewModel;
 
@@ -81,7 +75,7 @@ namespace XFilesArchive.UI.ViewModel
         }
 
 
-          private void OnOpenSingleDetailViewExecute(Type viewModelType)
+        private void OnOpenSingleDetailViewExecute(Type viewModelType)
         {
             OnOpenDetailView(new OpenDetailViewEventArgs
             { Id = -1, ViewModelName = viewModelType.Name });
