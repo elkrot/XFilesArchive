@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using XFilesArchive.Model;
+using XFilesArchive.Services.Lookups;
 using XFilesArchive.UI.Event;
 
 namespace XFilesArchive.UI.ViewModel.Navigation
@@ -20,12 +21,12 @@ namespace XFilesArchive.UI.ViewModel.Navigation
     {
 
         private readonly IEventAggregator _eventAggregator;
-        private readonly IEnumerable<Tag> _tags;
+        private readonly ITagLookupDataService _tagLookupDataService;
         public TagNavigationViewModel(IEventAggregator eventAggregator,
-         IEnumerable<Tag> tags)
+        ITagLookupDataService tagLookupDataService)
         {
             _eventAggregator = eventAggregator;
-            _tags = tags;
+            _tagLookupDataService = tagLookupDataService;
             NavigationItems = new ObservableCollection<NavigationTagItemViewModel>();
         }
 
@@ -34,15 +35,16 @@ namespace XFilesArchive.UI.ViewModel.Navigation
 
         public void Load()
         {
+            var lookups = _tagLookupDataService.GetTagLookup();
 
             NavigationItems.Clear();
             foreach (var tag in
-                _tags)
+                lookups)
             {
                 NavigationItems.Add(
                   new NavigationTagItemViewModel(
-                    tag.TagKey,
-                    tag.TagTitle,
+                    tag.Id,
+                    tag.DisplayMember,
                     _eventAggregator));
             }
         }

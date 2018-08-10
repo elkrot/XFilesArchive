@@ -6,133 +6,136 @@
              xmlns:local="clr-namespace:XFilesArchive.UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="11*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <StackPanel Background="AntiqueWhite" Grid.Row="0" Grid.ColumnSpan="2">
-            <GroupBox Header="Поиск" Padding="5">
-                <StackPanel>
-                    <StackPanel>
-                        <ListBox Name="SearchCondition" ItemsSource="{Binding SearchCondition.Items}">
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical" />
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Path=Title}" />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </StackPanel>
-                    <Button Content="Поиск" Command="{Binding GoSearchCommand}"/>
-                </StackPanel>
+        <ScrollViewer>
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="11*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                    <GroupBox Header="Поиск" Padding="5">
+                        <StackPanel>
+                            <StackPanel>
+                                <ListBox Name="SearchCondition" ItemsSource="{Binding SearchCondition.Items}">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Title}" />
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+                            <Button Content="Поиск" Command="{Binding GoSearchCommand}"/>
+                        </StackPanel>
 
-            </GroupBox>
-        </StackPanel>
-        <StackPanel Background="Aquamarine" Grid.Row="1" Grid.ColumnSpan="2">
-            <GroupBox Header="Содержимое" Padding="5">
-                <StackPanel Orientation="Horizontal">
-                    <TextBox Name="StringContent" Width="200"/>
-                    <Button Content="+" 
+                    </GroupBox>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+                    <GroupBox Header="Содержимое" Padding="5">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Name="StringContent" Width="200"/>
+                            <Button Content="+" 
                             Command="{Binding AddSearchByStringConditionCommand}" CommandParameter="{Binding ElementName=StringContent,Path=Text}"/>
+                        </StackPanel>
+
+
+                    </GroupBox>
                 </StackPanel>
-
-
-            </GroupBox>
-        </StackPanel>
-        <StackPanel Background="Chartreuse" Grid.Row="2" Grid.ColumnSpan="2">
-            <GroupBox Header="Категории" Padding="5">
-                <StackPanel>
-                    <TreeView x:Name="CategoriesTreeView"
+                <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
+                    <GroupBox Header="Категории" Padding="5">
+                        <StackPanel>
+                            <TreeView x:Name="CategoriesTreeView"
                    
                   ItemsSource="{Binding Path=CategoryNavigationViewModel.NavigationItems}"
                   SelectedValuePath="CategoryKey">
 
-                        <TreeView.ItemTemplate >
-                            <HierarchicalDataTemplate ItemsSource="{Binding Path=NavigationItems}">
+                                <TreeView.ItemTemplate >
+                                    <HierarchicalDataTemplate ItemsSource="{Binding Path=NavigationItems}">
 
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding ImagePath}" Width="50" Margin="0"/>
-                                    <TextBlock Text="{Binding DisplayValue}" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{Binding ImagePath}" Width="50" Margin="0"/>
+                                            <TextBlock Text="{Binding DisplayValue}" />
 
-                                </StackPanel>
+                                        </StackPanel>
 
-                            </HierarchicalDataTemplate>
-                        </TreeView.ItemTemplate>
-                        <TreeView.ContextMenu>
-                            <ContextMenu>
-                                <!--{Binding CategoriesTreeView.SelectedValue}-->
-                                <MenuItem Header="Добавить" Command="{Binding AddNewCategoryCommand}" 
+                                    </HierarchicalDataTemplate>
+                                </TreeView.ItemTemplate>
+                                <TreeView.ContextMenu>
+                                    <ContextMenu>
+                                        <!--{Binding CategoriesTreeView.SelectedValue}-->
+                                        <MenuItem Header="Добавить" Command="{Binding AddNewCategoryCommand}" 
                                           CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, 
                                     Path=PlacementTarget.SelectedValue}"/>
-                                <MenuItem Header="Удалить"/>
-                            </ContextMenu>
-                        </TreeView.ContextMenu>
-                    </TreeView>
-                    <Button Content="+" Command="{Binding AddSearchByCategoryConditionCommand}" 
+                                        <MenuItem Header="Удалить"/>
+                                    </ContextMenu>
+                                </TreeView.ContextMenu>
+                            </TreeView>
+                            <Button Content="+" Command="{Binding AddSearchByCategoryConditionCommand}" 
                             CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"/>
+                        </StackPanel>
+
+                    </GroupBox>
                 </StackPanel>
+                <StackPanel  Grid.Row="3" Grid.ColumnSpan="2">
+                    <GroupBox Header="Метки" Padding="5">
 
-            </GroupBox>
-        </StackPanel>
-        <StackPanel Background="Ivory" Grid.Row="3" Grid.ColumnSpan="2">
-            <GroupBox Header="Метки" Padding="5">
+                        <StackPanel>
+                            <ListBox Name="TagList" ItemsSource="{Binding TagNavigationViewModel.NavigationItems}">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=DisplayValue}" />
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <Button Content="+" 
+                            Command="{Binding AddSearchByTagConditionCommand}" 
+                            CommandParameter="{Binding ElementName=TagList,Path=SelectedValue.TagKey}"/>
+                        </StackPanel>
 
-                <StackPanel>
-                    <ListBox Name="TagList" ItemsSource="{Binding TagNavigationViewModel.NavigationItems}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Path=DisplayValue}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <Button Content="+" 
-                            Command="{Binding AddSearchByTagConditionCommand}" CommandParameter="{Binding ElementName=TagList,Path=SelectedValue}"/>
+                    </GroupBox>
                 </StackPanel>
+                <StackPanel  Grid.Row="4" Grid.ColumnSpan="2">
+                    <GroupBox Header="Размер" Padding="5" Height="119">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-            </GroupBox>
-        </StackPanel>
-        <StackPanel Background="Silver" Grid.Row="4" Grid.ColumnSpan="2">
-            <GroupBox Header="Размер" Padding="5" Height="119">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="Больше чем " Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Grid.Row="0" Grid.Column="1"/>
+                            <TextBlock Text="Больше чем " Grid.Row="0" Grid.Column="0"/>
+                            <TextBox Grid.Row="0" Grid.Column="1"/>
 
 
-                    <TextBlock Text="Меньше чем" Grid.Row="1" Grid.Column="0"/>
-                    <TextBox Grid.Row="1" Grid.Column="1"/>
-                    <Button Content="+" Grid.Row="2" Grid.Column="0"/>
+                            <TextBlock Text="Меньше чем" Grid.Row="1" Grid.Column="0"/>
+                            <TextBox Grid.Row="1" Grid.Column="1"/>
+                            <Button Content="+" Grid.Row="2" Grid.Column="0"/>
 
 
-                </Grid>
-            </GroupBox>
-        </StackPanel>
-    </Grid>
-
+                        </Grid>
+                    </GroupBox>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+   
 </UserControl>

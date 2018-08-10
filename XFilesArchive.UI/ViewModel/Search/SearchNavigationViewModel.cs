@@ -90,7 +90,7 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         private void OnAddSearchByTagConditionExecute(int? tagKey)
         {
-            var tag = _repository.GetTagByTitle("");
+            var tag = _repository.GetTagByKey((int)tagKey);
                 //obj as HomeArchiveX.WpfUI.ViewModel.FilesOnDrive.NavigationTagItemViewModel;
 
             if (tag != null)

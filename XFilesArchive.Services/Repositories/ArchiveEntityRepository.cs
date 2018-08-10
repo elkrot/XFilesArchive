@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LinqKit;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using XFilesArchive.DataAccess;
@@ -21,7 +23,13 @@ namespace XFilesArchive.Services.Repositories
 
         public ICollection<ArchiveEntity> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition)
         {
-            return Context.ArchiveEntities.Where(condition).ToList();
+            var ret = Context.ArchiveEntities.AsExpandable().Where(condition).ToList();
+            return ret;
+        }
+
+        public Tag GetTagByKey(int tagKey)
+        {
+            return Context.Tags.Where(x => x.TagKey == tagKey).FirstOrDefault();
         }
 
         public Tag GetTagByTitle(string Title)

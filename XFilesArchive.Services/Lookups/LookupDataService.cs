@@ -128,5 +128,15 @@ namespace XFilesArchive.Services.Lookups
                 }
             }
         }
+
+        public IEnumerable<LookupItem> GetTagLookup()
+        {
+            using (var context = _contextCreator())
+            {
+                return context.Tags.AsNoTracking()
+                    .Select(f => new LookupItem { Id = f.TagKey, DisplayMember = f.TagTitle })
+                    .ToList();
+            }
+        }
     }
 }
