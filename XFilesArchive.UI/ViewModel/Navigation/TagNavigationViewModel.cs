@@ -44,7 +44,7 @@ namespace XFilesArchive.UI.ViewModel.Navigation
                 NavigationItems.Add(
                   new NavigationTagItemViewModel(
                     tag.Id,
-                    tag.DisplayMember,
+                    tag.DisplayMember.TrimEnd(),
                     _eventAggregator));
             }
         }

@@ -61,7 +61,7 @@ namespace XFilesArchive.UI.ViewModel.Search
 
             AddSearchByStringConditionCommand = new DelegateCommand<string>(OnAddSearchByStringConditionExecute, OnAddSearchByStringConditionCanExecute);
             AddSearchByCategoryConditionCommand = new DelegateCommand<int?>(OnAddSearchByCategoryConditionExecute, OnAddSearchByCategoryConditionCanExecute);
-            AddSearchByFileSizeConditionCommand = new DelegateCommand(OnAddSearchByFileSizeConditionExecute, OnAddSearchByFileSizeConditionCanExecute);
+            AddSearchByFileSizeConditionCommand = new DelegateCommand<Tuple<string,string>>(OnAddSearchByFileSizeConditionExecute, OnAddSearchByFileSizeConditionCanExecute);
             AddSearchByTagConditionCommand = new DelegateCommand<int?>(OnAddSearchByTagConditionExecute, OnAddSearchByTagConditionCanExecute);
             GoSearchCommand = new DelegateCommand(OnSearchExecute, OnSearchCanExecute);
 
@@ -103,14 +103,21 @@ namespace XFilesArchive.UI.ViewModel.Search
             }
         }
 
-        private bool OnAddSearchByFileSizeConditionCanExecute()
+        private bool OnAddSearchByFileSizeConditionCanExecute(Tuple<string, string> fileSize)
         {
             return true;
         }
 
-        private void OnAddSearchByFileSizeConditionExecute()
+        private void OnAddSearchByFileSizeConditionExecute(Tuple<string, string> fileSize)
         {
-            
+            int minFileSize = int.Parse(fileSize.Item1);
+            int maxFileSize = int.Parse(fileSize.Item2);
+
+            if (SearchCondition.Widgets.ContainsKey(nameof(SearchByFileSizeWiget)))
+            {
+                (SearchCondition.Widgets[nameof(SearchByFileSizeWiget)] as SearchByFileSizeWiget).AddQuery(minFileSize,maxFileSize);
+                SearchCondition.LoadItems();
+            }
         }
 
         private bool OnAddSearchByCategoryConditionCanExecute(int? obj)
@@ -120,15 +127,16 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         private void OnAddSearchByCategoryConditionExecute(int? categoryId)
         {
-            var category = categoryId;
-            if (category!=null && category > 0)
+            if (categoryId != null && categoryId > 0)
             {
-                int categoryKey = (int)category;
+                int categoryKey = (int)categoryId;
                 if (categoryKey > 0)
                 {
+                    var category = _repository.GetCategoryById(categoryKey);
+
                     if (SearchCondition.Widgets.ContainsKey(nameof(SearchByCategoryWidget)))
                     {
-                        (SearchCondition.Widgets[nameof(SearchByCategoryWidget)] as SearchByCategoryWidget).AddQuery(categoryKey);
+                        (SearchCondition.Widgets[nameof(SearchByCategoryWidget)] as SearchByCategoryWidget).AddQuery(categoryKey,category.CategoryTitle);
                         SearchCondition.LoadItems();
                     }
                 }

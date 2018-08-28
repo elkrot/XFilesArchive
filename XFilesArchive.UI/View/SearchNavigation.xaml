@@ -4,9 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:XFilesArchive.UI.View"
+             xmlns:con="clr-namespace:XFilesArchive.UI.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-        <ScrollViewer>
+    
+    <UserControl.Resources>
+        <con:MultiTupleConverter x:Key="MultiTuple"></con:MultiTupleConverter>
+    </UserControl.Resources>
+    <ScrollViewer>
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -90,17 +95,21 @@
                 <StackPanel  Grid.Row="3" Grid.ColumnSpan="2">
                     <GroupBox Header="Метки" Padding="5">
 
-                        <StackPanel>
-                            <ListBox Name="TagList" ItemsSource="{Binding TagNavigationViewModel.NavigationItems}">
+                    <StackPanel >
+                            <ListBox Name="TagList" ItemsSource="{Binding TagNavigationViewModel.NavigationItems}" 
+                                     >
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Vertical" />
+                                    <WrapPanel  Orientation="Horizontal" MaxWidth="350"/>
                                     </ItemsPanelTemplate>
                                 </ListBox.ItemsPanel>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Path=DisplayValue}" />
-                                    </DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Path=DisplayValue}" />
+                                        <TextBlock Text="," />
+                                    </StackPanel>
+                                </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
                             <Button Content="+" 
@@ -124,12 +133,19 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Text="Больше чем " Grid.Row="0" Grid.Column="0"/>
-                            <TextBox Grid.Row="0" Grid.Column="1"/>
+                            <TextBox  x:Name="minSize" Grid.Row="0" Grid.Column="1"/>
 
 
                             <TextBlock Text="Меньше чем" Grid.Row="1" Grid.Column="0"/>
-                            <TextBox Grid.Row="1" Grid.Column="1"/>
-                            <Button Content="+" Grid.Row="2" Grid.Column="0"/>
+                        <TextBox x:Name="maxSize" Grid.Row="1" Grid.Column="1"/>
+                        <Button Content="+" Grid.Row="2" Grid.Column="0"  Command="{Binding AddSearchByFileSizeConditionCommand}">
+                            <Button.CommandParameter>
+                                <MultiBinding Converter="{StaticResource MultiTuple}">
+                                    <Binding Path="Text" ElementName="minSize"/>
+                                    <Binding Path="Text" ElementName="maxSize"/>
+                                </MultiBinding>
+                            </Button.CommandParameter>
+                        </Button>
 
 
                         </Grid>
