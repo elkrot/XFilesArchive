@@ -2,9 +2,11 @@
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 using XFilesArchive.Model;
 using XFilesArchive.Search.Condition;
@@ -34,7 +36,8 @@ namespace XFilesArchive.UI.ViewModel.Search
         public SearchCondition SearchCondition { get; set; }
         public SearchResult SearchResult { get; set; }
         private IArchiveEntityRepository _repository;
-
+        ICollectionView _viewItems;
+        public ICollectionView ViewItems { get { return _viewItems; } }
 
         public SearchNavigationViewModel(
             IEventAggregator eventAggregator
@@ -64,8 +67,10 @@ namespace XFilesArchive.UI.ViewModel.Search
             AddSearchByFileSizeConditionCommand = new DelegateCommand<Tuple<string,string>>(OnAddSearchByFileSizeConditionExecute, OnAddSearchByFileSizeConditionCanExecute);
             AddSearchByTagConditionCommand = new DelegateCommand<int?>(OnAddSearchByTagConditionExecute, OnAddSearchByTagConditionCanExecute);
             GoSearchCommand = new DelegateCommand(OnSearchExecute, OnSearchCanExecute);
-
-
+             _viewItems =(CollectionView)CollectionViewSource.GetDefaultView(SearchCondition.Items);
+         // :TODO Добавить поле группировки
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("Title");
+            _viewItems.GroupDescriptions.Add(groupDescription);
         }
 
         private bool OnSearchCanExecute()
@@ -117,6 +122,8 @@ namespace XFilesArchive.UI.ViewModel.Search
             {
                 (SearchCondition.Widgets[nameof(SearchByFileSizeWiget)] as SearchByFileSizeWiget).AddQuery(minFileSize,maxFileSize);
                 SearchCondition.LoadItems();
+                _viewItems = (CollectionView)CollectionViewSource.GetDefaultView(SearchCondition.Items.ToList());
+               
             }
         }
 
@@ -138,6 +145,7 @@ namespace XFilesArchive.UI.ViewModel.Search
                     {
                         (SearchCondition.Widgets[nameof(SearchByCategoryWidget)] as SearchByCategoryWidget).AddQuery(categoryKey,category.CategoryTitle);
                         SearchCondition.LoadItems();
+                        _viewItems = (CollectionView)CollectionViewSource.GetDefaultView(SearchCondition.Items);
                     }
                 }
             }
@@ -158,6 +166,7 @@ namespace XFilesArchive.UI.ViewModel.Search
                     string searchString = obj.ToString();
                     (SearchCondition.Widgets[nameof(SearchByStringWidget)] as SearchByStringWidget).AddQuery(searchString);
                     SearchCondition.LoadItems();
+                    _viewItems = (CollectionView)CollectionViewSource.GetDefaultView(SearchCondition.Items);
                 }
             }
             //            _messageDialogService.ShowMessageDialog("", obj.ToString());

@@ -2,19 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using XFilesArchive.Model;
 using XFilesArchive.Search.Widget;
+using System.Windows.Data;
+using System.ComponentModel;
 
 namespace XFilesArchive.Search.Condition
 {
     public class SearchCondition : DependencyObject, ISearchCondition
     {
         ObservableCollection<ISearchConditionItem> _items;
+
         public ObservableCollection<ISearchConditionItem> Items
         {
             get { return _items; }
