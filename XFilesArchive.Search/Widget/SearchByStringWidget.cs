@@ -31,6 +31,8 @@ namespace XFilesArchive.Search.Widget
             {
                 Title = string.Format(@"'{0}'", searchString)
                 ,
+                GroupTitle = "Содержание"
+                ,
                 Specification = specification
             });
         }

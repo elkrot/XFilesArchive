@@ -39,9 +39,43 @@
                                         <TextBlock Text="{Binding Path=Title}" />
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
+
+                                <ListView.GroupStyle>
+                                    <GroupStyle>
+                                        <GroupStyle.ContainerStyle>
+                                            <Style TargetType="{x:Type GroupItem}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate>
+                                                            <Expander IsExpanded="True">
+                                                                <Expander.Header>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="AliceBlue" FontSize="12" VerticalAlignment="Bottom" />
+                                                                        <TextBlock Text="{Binding ItemCount}" FontSize="12" Foreground="Yellow" FontWeight="Bold" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
+                                                                        <TextBlock Text=" item(s)" FontSize="12" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                                    </StackPanel>
+                                                                </Expander.Header>
+                                                                <ItemsPresenter />
+                                                            </Expander>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </GroupStyle.ContainerStyle>
+                                    </GroupStyle>
+                                </ListView.GroupStyle>
+
                             </ListView>
                         </StackPanel>
-                        <Button Content="Поиск" Command="{Binding GoSearchCommand}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Поиск" Command="{Binding GoSearchCommand}" />
+                            <Button Content="Очистить" Command="{Binding ClearConditionCommand}" Grid.Column="1"/>
+                        </Grid>
+
                     </StackPanel>
 
                 </GroupBox>

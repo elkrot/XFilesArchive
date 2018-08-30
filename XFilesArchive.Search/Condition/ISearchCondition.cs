@@ -15,5 +15,6 @@ namespace XFilesArchive.Search.Condition
         ObservableCollection<ISearchConditionItem> Items { get; }
         Dictionary<string, SearchWidget<SearchWidgetItem>> Widgets { get; set; }
         Expression<Func<ArchiveEntity, bool>> Condition { get; }
+        void ClearItems();
     }
 }

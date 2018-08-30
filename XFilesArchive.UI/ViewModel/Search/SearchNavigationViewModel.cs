@@ -64,12 +64,16 @@ namespace XFilesArchive.UI.ViewModel.Search
 
             AddSearchByStringConditionCommand = new DelegateCommand<string>(OnAddSearchByStringConditionExecute, OnAddSearchByStringConditionCanExecute);
             AddSearchByCategoryConditionCommand = new DelegateCommand<int?>(OnAddSearchByCategoryConditionExecute, OnAddSearchByCategoryConditionCanExecute);
-            AddSearchByFileSizeConditionCommand = new DelegateCommand<Tuple<string,string>>(OnAddSearchByFileSizeConditionExecute, OnAddSearchByFileSizeConditionCanExecute);
+            AddSearchByFileSizeConditionCommand = new DelegateCommand<Tuple<string, string>>(OnAddSearchByFileSizeConditionExecute, OnAddSearchByFileSizeConditionCanExecute);
             AddSearchByTagConditionCommand = new DelegateCommand<int?>(OnAddSearchByTagConditionExecute, OnAddSearchByTagConditionCanExecute);
             GoSearchCommand = new DelegateCommand(OnSearchExecute, OnSearchCanExecute);
-             _viewItems =(CollectionView)CollectionViewSource.GetDefaultView(SearchCondition.Items);
-         // :TODO Добавить поле группировки
-            PropertyGroupDescription groupDescription = new PropertyGroupDescription("Title");
+
+            ClearConditionCommand = new DelegateCommand(OnClearConditionExecute, OnClearConditionCanExecute);
+            _viewItems = (CollectionView)CollectionViewSource.GetDefaultView(SearchCondition.Items);
+            //TODO: комманду очистить условие
+
+
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("GroupTitle");
             _viewItems.GroupDescriptions.Add(groupDescription);
         }
 
@@ -96,7 +100,7 @@ namespace XFilesArchive.UI.ViewModel.Search
         private void OnAddSearchByTagConditionExecute(int? tagKey)
         {
             var tag = _repository.GetTagByKey((int)tagKey);
-                //obj as HomeArchiveX.WpfUI.ViewModel.FilesOnDrive.NavigationTagItemViewModel;
+            //obj as HomeArchiveX.WpfUI.ViewModel.FilesOnDrive.NavigationTagItemViewModel;
 
             if (tag != null)
             {
@@ -120,10 +124,10 @@ namespace XFilesArchive.UI.ViewModel.Search
 
             if (SearchCondition.Widgets.ContainsKey(nameof(SearchByFileSizeWiget)))
             {
-                (SearchCondition.Widgets[nameof(SearchByFileSizeWiget)] as SearchByFileSizeWiget).AddQuery(minFileSize,maxFileSize);
+                (SearchCondition.Widgets[nameof(SearchByFileSizeWiget)] as SearchByFileSizeWiget).AddQuery(minFileSize, maxFileSize);
                 SearchCondition.LoadItems();
                 _viewItems = (CollectionView)CollectionViewSource.GetDefaultView(SearchCondition.Items.ToList());
-               
+
             }
         }
 
@@ -143,7 +147,7 @@ namespace XFilesArchive.UI.ViewModel.Search
 
                     if (SearchCondition.Widgets.ContainsKey(nameof(SearchByCategoryWidget)))
                     {
-                        (SearchCondition.Widgets[nameof(SearchByCategoryWidget)] as SearchByCategoryWidget).AddQuery(categoryKey,category.CategoryTitle);
+                        (SearchCondition.Widgets[nameof(SearchByCategoryWidget)] as SearchByCategoryWidget).AddQuery(categoryKey, category.CategoryTitle);
                         SearchCondition.LoadItems();
                         _viewItems = (CollectionView)CollectionViewSource.GetDefaultView(SearchCondition.Items);
                     }
@@ -172,13 +176,24 @@ namespace XFilesArchive.UI.ViewModel.Search
             //            _messageDialogService.ShowMessageDialog("", obj.ToString());
         }
 
+        private void OnClearConditionExecute()
+        {
+            SearchCondition.ClearItems();
+        }
+
+        private bool OnClearConditionCanExecute()
+        {
+            return true;
+        }
+
         public ICommand AddSearchByStringConditionCommand { get; private set; }
         public ICommand AddSearchByCategoryConditionCommand { get; private set; }
         public ICommand AddSearchByFileSizeConditionCommand { get; private set; }
         public ICommand AddSearchByTagConditionCommand { get; private set; }
+        public ICommand ClearConditionCommand { get; private set; }
         public ICommand GoSearchCommand { get; private set; }
 
-
+        
         public ICategoryNavigationViewModel CategoryNavigationViewModel
         {
             get

@@ -30,6 +30,8 @@ namespace XFilesArchive.Search.Widget
             {
                 Title = string.Format("Размер между {0} и {1}", minFilesize, maxFilesize)
                 ,
+                GroupTitle = "Размер файла"
+                ,
                 Specification = specification
             });
         }

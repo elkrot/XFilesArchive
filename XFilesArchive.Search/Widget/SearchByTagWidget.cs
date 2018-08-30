@@ -25,6 +25,8 @@ namespace XFilesArchive.Search.Widget
             {
                 Title = string.Format(@"{0}", TagTitle)
                 ,
+                GroupTitle = "Метки"
+                ,
                 Specification = specification
             });
         }

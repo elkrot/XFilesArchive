@@ -27,11 +27,17 @@ namespace XFilesArchive.Search.Condition
             {
                 foreach (var item in wiget.Value.Items)
                 {
-                    _items.Add(new SearchConditionItem(item.Title));
+                    _items.Add(new SearchConditionItem(item.Title,item.GroupTitle));
                 }
             }
         }
+        public void ClearItems()
+        {
+            _items.Clear();
+            _widgets.Clear();
+                  
 
+        }
         private Dictionary<string, SearchWidget<SearchWidgetItem>> _widgets;
 
         public SearchCondition(Dictionary<string, SearchWidget<SearchWidgetItem>> widgets)

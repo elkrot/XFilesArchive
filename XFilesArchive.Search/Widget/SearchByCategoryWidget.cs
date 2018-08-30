@@ -13,6 +13,7 @@ namespace XFilesArchive.Search.Widget
             AddItem(new SearchWidgetItem()
             {
                 Title = string.Format(@"{0}", title)
+                ,GroupTitle ="Категории"
                 ,
                 Specification = specification
             });
