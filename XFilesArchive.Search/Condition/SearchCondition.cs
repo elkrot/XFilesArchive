@@ -34,7 +34,11 @@ namespace XFilesArchive.Search.Condition
         public void ClearItems()
         {
             _items.Clear();
-            _widgets.Clear();
+            foreach (var item in _widgets)
+            {
+                item.Value.Items.Clear();
+            }
+            
                   
 
         }

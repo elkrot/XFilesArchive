@@ -51,7 +51,7 @@
 
         <Frame x:Name="Navigator" Margin="0,0,0,0" Grid.Row="0"/>
 
-        <Frame x:Name="Main" Margin="0,0,0,0" Grid.Row="1"/>
+        <Frame x:Name="Main" Margin="0,0,0,0" Grid.Row="1" NavigationUIVisibility="Hidden"/>
         <StatusBar Grid.Row="3">
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">

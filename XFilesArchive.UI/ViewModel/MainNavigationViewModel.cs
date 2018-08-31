@@ -29,18 +29,28 @@ namespace XFilesArchive.UI.ViewModel
         int MaxImagesInDirectory = 0;
         byte IsSecret = 0;
         SearchEngineViewModel _searchEngineViewModel;
+        private MainViewModel _mainViewModel;
+
         public MainNavigationViewModel(IEventAggregator eventAggregator
             , IMessageDialogService messageDialogService
-            , SearchEngineViewModel searchEngineViewModel)
+            , SearchEngineViewModel searchEngineViewModel
+            , MainViewModel mainViewModel)
         {
+            _mainViewModel = mainViewModel;
             _searchEngineViewModel = searchEngineViewModel;
             cancelTokenSource = new CancellationTokenSource();
             token = cancelTokenSource.Token;
             NewDestinationCommand = new DelegateCommand(OnNewDestinationExecute);
             OpenAdminPanelCommand = new DelegateCommand(OnOpenAdminPanelExecute);
             CompareFileCommand = new DelegateCommand(OnCompareFileExecute);
-
+            GoToMainPageCommand = new DelegateCommand(OnGoToMainPageExecute);
             SearchCommand = new DelegateCommand(OnSearchExecute);
+        }
+
+        private async void OnGoToMainPageExecute()
+        {
+            await _mainViewModel.LoadAsync();
+            (App.Current.MainWindow as MainWindow).Main.Content = new DrivePage(_mainViewModel);
         }
 
         private void OnSearchExecute()
@@ -105,6 +115,7 @@ namespace XFilesArchive.UI.ViewModel
         public ICommand CompareFileCommand { get; }
 
         public ICommand SearchCommand { get; }
+        public ICommand GoToMainPageCommand { get; }
 
         public async void ShowWizard()
         {

@@ -80,7 +80,7 @@ namespace XFilesArchive.UI.ViewModel.Search
         private bool OnSearchCanExecute()
         {
 
-            return true;
+            return SearchCondition.Items.Count>0;
         }
 
         private void OnSearchExecute()
@@ -91,6 +91,15 @@ namespace XFilesArchive.UI.ViewModel.Search
 
             _eventAggregator.GetEvent<ShowSearchResultEvent>().Publish(0);
         }
+
+
+        private void InvalidateCommands()
+        {
+            ((DelegateCommand)GoSearchCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)ClearConditionCommand).RaiseCanExecuteChanged();
+        }
+
+
 
         private bool OnAddSearchByTagConditionCanExecute(int? obj)
         {
@@ -106,8 +115,13 @@ namespace XFilesArchive.UI.ViewModel.Search
             {
                 if (SearchCondition.Widgets.ContainsKey(nameof(SearchByTagWidget)))
                 {
-                    (SearchCondition.Widgets[nameof(SearchByTagWidget)] as SearchByTagWidget).AddQuery(tag.TagTitle);
-                    SearchCondition.LoadItems();
+                    var widget= (SearchCondition.Widgets[nameof(SearchByTagWidget)] as SearchByTagWidget);
+                    if (!widget.Items.Where(x => x.Title == tag.TagTitle).Any())
+                    {
+                        widget.AddQuery(tag.TagTitle);
+                        SearchCondition.LoadItems();
+                        InvalidateCommands();
+                    }
                 }
             }
         }
@@ -147,9 +161,14 @@ namespace XFilesArchive.UI.ViewModel.Search
 
                     if (SearchCondition.Widgets.ContainsKey(nameof(SearchByCategoryWidget)))
                     {
-                        (SearchCondition.Widgets[nameof(SearchByCategoryWidget)] as SearchByCategoryWidget).AddQuery(categoryKey, category.CategoryTitle);
-                        SearchCondition.LoadItems();
-                        _viewItems = (CollectionView)CollectionViewSource.GetDefaultView(SearchCondition.Items);
+                        var wiget = (SearchCondition.Widgets[nameof(SearchByCategoryWidget)] as SearchByCategoryWidget);
+
+                        if (!wiget.Items.Where(x => x.Title == category.CategoryTitle).Any())
+                        {
+                            wiget.AddQuery(categoryKey, category.CategoryTitle);
+                            SearchCondition.LoadItems();
+                            InvalidateCommands();
+                        }
                     }
                 }
             }
@@ -179,11 +198,12 @@ namespace XFilesArchive.UI.ViewModel.Search
         private void OnClearConditionExecute()
         {
             SearchCondition.ClearItems();
+            InvalidateCommands();
         }
 
         private bool OnClearConditionCanExecute()
         {
-            return true;
+            return SearchCondition.Items.Count > 0;
         }
 
         public ICommand AddSearchByStringConditionCommand { get; private set; }
