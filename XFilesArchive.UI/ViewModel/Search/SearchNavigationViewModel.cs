@@ -54,11 +54,11 @@ namespace XFilesArchive.UI.ViewModel.Search
             _tagNavigationViewModel = tagNavigationViewModel;
             _categoryNavigationViewModel = categoryNavigationViewModel;
 
-            var SearchWidgets = new Dictionary<string, SearchWidget<SearchWidgetItem>>();
-            SearchWidgets[nameof(SearchByStringWidget)] = (new SearchByStringWidget());
-            SearchWidgets[nameof(SearchByCategoryWidget)] = (new SearchByCategoryWidget());
-            SearchWidgets[nameof(SearchByFileSizeWiget)] = (new SearchByFileSizeWiget());
-            SearchWidgets[nameof(SearchByTagWidget)] = (new SearchByTagWidget());
+            var SearchWidgets = new Dictionary<string, SearchWidget<SearchWidgetItem>>() {
+                { nameof(SearchByStringWidget) , (new SearchByStringWidget()) }
+            ,{ nameof(SearchByCategoryWidget), (new SearchByCategoryWidget()) }
+            ,{ nameof(SearchByFileSizeWiget), (new SearchByFileSizeWiget())}
+        ,{nameof(SearchByTagWidget), (new SearchByTagWidget())} };
 
             SearchCondition = new SearchCondition(SearchWidgets);
 
@@ -80,7 +80,7 @@ namespace XFilesArchive.UI.ViewModel.Search
         private bool OnSearchCanExecute()
         {
 
-            return SearchCondition.Items.Count>0;
+            return SearchCondition.Items.Count > 0;
         }
 
         private void OnSearchExecute()
@@ -115,7 +115,7 @@ namespace XFilesArchive.UI.ViewModel.Search
             {
                 if (SearchCondition.Widgets.ContainsKey(nameof(SearchByTagWidget)))
                 {
-                    var widget= (SearchCondition.Widgets[nameof(SearchByTagWidget)] as SearchByTagWidget);
+                    var widget = (SearchCondition.Widgets[nameof(SearchByTagWidget)] as SearchByTagWidget);
                     if (!widget.Items.Where(x => x.Title == tag.TagTitle).Any())
                     {
                         widget.AddQuery(tag.TagTitle);
@@ -213,7 +213,7 @@ namespace XFilesArchive.UI.ViewModel.Search
         public ICommand ClearConditionCommand { get; private set; }
         public ICommand GoSearchCommand { get; private set; }
 
-        
+
         public ICategoryNavigationViewModel CategoryNavigationViewModel
         {
             get
