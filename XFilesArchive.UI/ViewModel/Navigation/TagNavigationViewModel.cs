@@ -16,6 +16,7 @@ namespace XFilesArchive.UI.ViewModel.Navigation
     public interface ITagNavigationViewModel
     {
         void Load();
+        Task LoadAsync();
     }
     public class TagNavigationViewModel : ITagNavigationViewModel
     {
@@ -36,6 +37,22 @@ namespace XFilesArchive.UI.ViewModel.Navigation
         public void Load()
         {
             var lookups = _tagLookupDataService.GetTagLookup();
+
+            NavigationItems.Clear();
+            foreach (var tag in
+                lookups)
+            {
+                NavigationItems.Add(
+                  new NavigationTagItemViewModel(
+                    tag.Id,
+                    tag.DisplayMember.TrimEnd(),
+                    _eventAggregator));
+            }
+        }
+
+        public async Task LoadAsync()
+        {
+            var lookups = await _tagLookupDataService.GetTagLookupAsync();
 
             NavigationItems.Clear();
             foreach (var tag in

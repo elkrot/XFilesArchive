@@ -8,5 +8,6 @@ namespace XFilesArchive.Services.Lookups
     {
         Task<IEnumerable<LookupItem>> GetTagLookupAsync();
         IEnumerable<LookupItem> GetTagLookup();
+        
     }
 }

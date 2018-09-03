@@ -53,5 +53,12 @@ namespace XFilesArchive.Services.Lookups
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<LookupItemNode>> GetLookupAsync()
+        {
+            var categories = await _categoryRepository.GetAllCategoriesAsync();
+
+            return GetLookupCategories(categories);
+        }
     }
 }

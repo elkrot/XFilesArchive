@@ -17,9 +17,8 @@ namespace XFilesArchive.UI.Wrapper
         public ModelWrapper(T model)
         {
             if (model == null)
-            {
                 throw new ArgumentNullException("model");
-            }
+            
             Model = model;
             _originalValues = new Dictionary<string, object>();
             _trackingObjects = new List<IValidatableTrackingObject>();

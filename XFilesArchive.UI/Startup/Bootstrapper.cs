@@ -41,7 +41,7 @@ namespace XFilesArchive.UI.Startup
             builder.RegisterType<CategoryNavigationViewModel>().As<ICategoryNavigationViewModel>();
             //builder.RegisterType<ProgrammingLanguageRepository>().As<IProgrammingLanguageRepository>();
 
-            builder.RegisterType<SearchResultViewModel>().As<ISearchResultViewModel>();
+            //builder.RegisterType<SearchResultViewModel>().As<ISearchResultViewModel>();
             builder.RegisterType<SearchNavigationViewModel>().As<ISearchNavigationViewModel>();
             builder.RegisterType<TagNavigationViewModel>().As<ITagNavigationViewModel>();
             
@@ -50,7 +50,11 @@ namespace XFilesArchive.UI.Startup
             builder.RegisterType<SearchEngineViewModel>().AsSelf();
 
             builder.RegisterType<MainNavigationViewModel>().AsSelf();
-            
+
+            builder.RegisterType<SearchResultViewModel>()
+                .Keyed<IDetailViewModel>(nameof(SearchResultViewModel));
+
+
             return builder.Build();
         }
 

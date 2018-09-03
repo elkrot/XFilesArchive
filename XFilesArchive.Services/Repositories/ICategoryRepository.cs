@@ -9,5 +9,6 @@ namespace XFilesArchive.Services.Repositories
         Task<List<Drive>> GetAllDriveAsync();
         Task ReloadDriveAsync(int? id);
         List<Category> GetAllCategories();
+        Task<List<Category>> GetAllCategoriesAsync();
     }
 }

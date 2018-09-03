@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using XFilesArchive.Model;
 
 namespace XFilesArchive.Services.Lookups
@@ -41,6 +42,11 @@ namespace XFilesArchive.Services.Lookups
                     .ToList();
             return ret;
 
+        }
+
+        public Task<IEnumerable<LookupItemNode>> GetLookupAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<LookupItemNode> GetLookupWithCondition(Expression<Func<ArchiveEntity, bool>> where

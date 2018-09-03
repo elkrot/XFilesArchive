@@ -457,8 +457,7 @@ namespace XFilesArchive.UI.ViewModel
         #region OnAddCategory
         private void OnAddCategoryExecute(int? obj)
         {
-            var CategoryId = 0;
-            Int32.TryParse(obj.ToString(), out CategoryId);
+            Int32.TryParse(obj.ToString(), out int CategoryId);
             if (CategoryId != 0)
             {
                 var category = _repository.GetCategoryById(CategoryId);

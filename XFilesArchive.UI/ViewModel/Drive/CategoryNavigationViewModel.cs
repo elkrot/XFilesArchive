@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using XFilesArchive.Model;
 using XFilesArchive.Services.Lookups;
+using System;
+using System.Threading.Tasks;
 
 namespace XFilesArchive.UI.ViewModel.Drive
 {
     public interface ICategoryNavigationViewModel
     {
         void Load();
+        Task LoadAsync();
     }
 
 
@@ -42,6 +45,25 @@ namespace XFilesArchive.UI.ViewModel.Drive
                     _eventAggregator));
             }
         }
+
+        public async Task LoadAsync()
+        {
+            IEnumerable<LookupItemNode> items;
+
+            items = await _categoryLookupProvider.GetLookupAsync();
+
+            NavigationItems.Clear();
+
+            foreach (var categoryLookupItem in
+                items)
+            {
+                NavigationItems.Add(
+                  new NavigationCategoryTreeItemViewModel(
+                    categoryLookupItem,
+                    _eventAggregator));
+            }
+        }
+
         public ObservableCollection<NavigationCategoryTreeItemViewModel> NavigationItems { get; set; }
     }
 

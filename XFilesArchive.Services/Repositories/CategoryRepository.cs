@@ -21,6 +21,10 @@ namespace XFilesArchive.Services.Repositories
             return  Context.Set<Category>().ToList();
         }
 
+        public async Task<List<Category>> GetAllCategoriesAsync()
+        {
+            return await Context.Set<Category>().ToListAsync();
+        }
 
         public async Task<List<Drive>> GetAllDriveAsync()
         {

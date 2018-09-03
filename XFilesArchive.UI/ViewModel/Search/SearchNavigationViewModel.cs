@@ -23,6 +23,7 @@ namespace XFilesArchive.UI.ViewModel.Search
     public interface ISearchNavigationViewModel
     {
         void Load();
+        Task LoadAsync();
         SearchResult SearchResult { get; set; }
     }
 
@@ -70,8 +71,6 @@ namespace XFilesArchive.UI.ViewModel.Search
 
             ClearConditionCommand = new DelegateCommand(OnClearConditionExecute, OnClearConditionCanExecute);
             _viewItems = (CollectionView)CollectionViewSource.GetDefaultView(SearchCondition.Items);
-            //TODO: комманду очистить условие
-
 
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("GroupTitle");
             _viewItems.GroupDescriptions.Add(groupDescription);
@@ -89,7 +88,7 @@ namespace XFilesArchive.UI.ViewModel.Search
             var searchItems = _repository.GetEntitiesByCondition(condition);
             SearchResult = new SearchResult(searchItems);
 
-            _eventAggregator.GetEvent<ShowSearchResultEvent>().Publish(0);
+            _eventAggregator.GetEvent<OpenDetailViewEvent>().Publish(new OpenDetailViewEventArgs() { Id=1,ViewModelName=nameof(SearchResultViewModel)});
         }
 
 
@@ -234,6 +233,12 @@ namespace XFilesArchive.UI.ViewModel.Search
         {
             CategoryNavigationViewModel.Load();
             TagNavigationViewModel.Load();
+        }
+
+        public async Task LoadAsync()
+        {
+            await CategoryNavigationViewModel.LoadAsync();
+            await TagNavigationViewModel.LoadAsync();
         }
     }
 }
