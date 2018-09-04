@@ -75,22 +75,29 @@ namespace XFilesArchive.UI.ViewModel.Search
                 SearchDetailViewModels.Remove(detailViewModel);
             }
         }
-
+        private int currentId = 0;
         private async void OnOpenDetailView(OpenDetailViewEventArgs args)
         {
-            var detailViewModel = SearchDetailViewModels
-                .SingleOrDefault(vm => vm.Id == args.Id
-                && vm.GetType().Name == args.ViewModelName);
+            //var detailViewModel = SearchDetailViewModels
+            //    .SingleOrDefault(vm => vm.Id == args.Id
+            //    && vm.GetType().Name == args.ViewModelName);
 
-            if (detailViewModel == null)
-            {
-                //TODO: Разобраться что куда
-                detailViewModel = _searchDetailViewModelCreator[args.ViewModelName];
+            //if (detailViewModel == null)
+            //{
+                //TODO: Разобраться что куда Изменить алгоритм поиска
+                var detailViewModel = _searchDetailViewModelCreator[args.ViewModelName];
                     //;
                 //SearchNavigationViewModel.SearchResult
                 try
                 {
-                    await detailViewModel.LoadAsync(args.Id);
+                    if (args.ViewModelName == "SearchResultViewModel")
+                    {
+                        ((SearchResultViewModel)detailViewModel).Load(SearchNavigationViewModel.SearchResult,++currentId);
+                    }
+                    else
+                    {
+                        await detailViewModel.LoadAsync(args.Id);
+                    }
                 }
                 catch
                 {
@@ -100,7 +107,7 @@ namespace XFilesArchive.UI.ViewModel.Search
                 }
 
                 SearchDetailViewModels.Add(detailViewModel);
-            }
+            //}
             SelectedDetailViewModel = detailViewModel;
         }
 

@@ -42,6 +42,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Результат Поиска"/>
+                        <TextBlock Text="{Binding Id}"/>
                         <Button Content="X" VerticalAlignment="Top" Margin="2 0 2 2"
                                 Command="{Binding CloseDetailViewModelCommand}" 
                                 Style="{StaticResource ChromelessButtonStyle}"

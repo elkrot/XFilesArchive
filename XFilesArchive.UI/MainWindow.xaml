@@ -8,6 +8,7 @@
                        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
          xmlns:viewModel="clr-namespace:XFilesArchive.UI.ViewModel"
+                       xmlns:viewModelSearch="clr-namespace:XFilesArchive.UI.ViewModel.Search"
         mc:Ignorable="d"
         Icon="/XFilesArchive.UI;component/appico.ico"
     Width="{local:SettingBinding MainWindow.Width}"
@@ -23,7 +24,9 @@
         <DataTemplate DataType="{x:Type viewModel:DriveDetailViewModel}">
             <view:DetailView/>
         </DataTemplate>
-
+        <DataTemplate DataType="{x:Type viewModelSearch:SearchResultViewModel}">
+            <view:SearchResult/>
+        </DataTemplate>
         <!--<DataTemplate DataType="{x:Type viewModel:MeetingDetailViewModel}">
             <view:MeetingDetailView/>
         </DataTemplate>

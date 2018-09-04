@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -87,7 +88,16 @@ namespace XFilesArchive.UI.ViewModel.Search
         public async Task LoadAsync(int id)
         {
 
-            throw new NotImplementedException();
+   
+
         }
+
+        public void Load(SearchResult searchResult,int id)
+        {
+            SearchResult = searchResult;
+            _id = id;
+        }
+
+
     }
 }

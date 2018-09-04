@@ -16,7 +16,10 @@
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Path=ArchiveEntity.Title}" />
+                        <StackPanel>
+                            <TextBlock Text="{Binding Path=ArchiveEntity.Title}" />
+                            <TextBlock Text="{Binding Path=ArchiveEntity.EntityPath}" />
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
