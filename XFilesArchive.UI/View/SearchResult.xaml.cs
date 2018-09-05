@@ -24,5 +24,20 @@ namespace XFilesArchive.UI.View
         {
             InitializeComponent();
         }
+
+
+        //#region OpenSearchResultArchiveEntity
+        //public static readonly DependencyProperty OpenSearchResultArchiveEntityProperty =
+        //    DependencyProperty.Register(
+        //        "OpenSearchResultArchiveEntity",
+        //        typeof(ICommand),
+        //        typeof(SearchResult),
+        //        new UIPropertyMetadata(null));
+        //public ICommand OpenSearchResultArchiveEntity
+        //{
+        //    get { return (ICommand)GetValue(OpenSearchResultArchiveEntityProperty); }
+        //    set { SetValue(OpenSearchResultArchiveEntityProperty, value); }
+        //}
+        //#endregion
     }
 }

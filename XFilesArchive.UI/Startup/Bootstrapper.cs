@@ -54,6 +54,8 @@ namespace XFilesArchive.UI.Startup
             builder.RegisterType<SearchResultViewModel>()
                 .Keyed<IDetailViewModel>(nameof(SearchResultViewModel));
 
+            builder.RegisterType<FilesOnDriveViewModel>()
+            .Keyed<IDetailViewModel>(nameof(FilesOnDriveViewModel));
 
             return builder.Build();
         }

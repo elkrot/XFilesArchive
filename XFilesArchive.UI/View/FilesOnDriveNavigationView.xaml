@@ -14,7 +14,8 @@
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectedItemChanged">
-                    <i:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}" CommandParameter="{Binding ElementName=filesTreeView, 
+                    <i:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}" 
+                                           CommandParameter="{Binding ElementName=filesTreeView, 
                           Path=SelectedValue}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>

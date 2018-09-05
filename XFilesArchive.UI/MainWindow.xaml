@@ -8,7 +8,6 @@
                        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
          xmlns:viewModel="clr-namespace:XFilesArchive.UI.ViewModel"
-                       xmlns:viewModelSearch="clr-namespace:XFilesArchive.UI.ViewModel.Search"
         mc:Ignorable="d"
         Icon="/XFilesArchive.UI;component/appico.ico"
     Width="{local:SettingBinding MainWindow.Width}"
@@ -16,24 +15,11 @@
     Top="{local:SettingBinding MainWindow.Top}"
     Left="{local:SettingBinding MainWindow.Left}"
     WindowState="{local:SettingBinding MainWindow.WindowState}"
-                       Title="MainWindow" 
-                      >
+                       Title="MainWindow">
     <Window.Resources>
-
-    
         <DataTemplate DataType="{x:Type viewModel:DriveDetailViewModel}">
             <view:DetailView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModelSearch:SearchResultViewModel}">
-            <view:SearchResult/>
-        </DataTemplate>
-        <!--<DataTemplate DataType="{x:Type viewModel:MeetingDetailViewModel}">
-            <view:MeetingDetailView/>
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type viewModel:ProgrammingLanguageDetailViewModel}">
-            <view:ProgrammingLanguageDetailView/>
-        </DataTemplate>-->
     </Window.Resources>
 
     <Window.CommandBindings>
@@ -44,7 +30,7 @@
         <KeyBinding Command="Help" Key="F2"/>
         <KeyBinding Command="NotACommand" Key="F1"/>
     </Window.InputBindings>
-
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="82"/>

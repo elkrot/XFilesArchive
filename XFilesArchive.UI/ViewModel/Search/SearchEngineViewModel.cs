@@ -21,9 +21,9 @@ namespace XFilesArchive.UI.ViewModel.Search
         private IIndex<string, IDetailViewModel> _searchDetailViewModelCreator;
 
         public ISearchNavigationViewModel SearchNavigationViewModel { get; private set; }
-       // public ISearchResultViewModel SearchResultViewModel { get; private set; }
+        // public ISearchResultViewModel SearchResultViewModel { get; private set; }
 
-        public IDetailViewModel SelectedDetailViewModel
+        public IDetailViewModel SelectedSearchDetailViewModel
         {
             get { return _selectedDetailViewModel; }
             set
@@ -48,8 +48,13 @@ namespace XFilesArchive.UI.ViewModel.Search
 
             //_eventAggregator.GetEvent<ShowSearchResultEvent>().Subscribe(OnShowSearchResult);
 
-            _eventAggregator.GetEvent<OpenDetailViewEvent>()
+            _eventAggregator.GetEvent<OpenSearchDetailViewEvent>()
     .Subscribe(OnOpenDetailView);
+
+            _eventAggregator.GetEvent<OpenSearchDetailArchiveEntityViewEvent>()
+    .Subscribe(OnOpenDetailArchiveEntityView);
+
+
             _eventAggregator.GetEvent<AfterDetailClosedEvent>()
 .Subscribe(OnAfterDetailClosed);
 
@@ -57,6 +62,35 @@ namespace XFilesArchive.UI.ViewModel.Search
             //SearchResultViewModel = searchResultViewModel;
             SearchDetailViewModels = new ObservableCollection<IDetailViewModel>();
 
+        }
+
+        private async void OnOpenDetailArchiveEntityView(OpenSearchDetailArchiveEntityViewEventArgs args)
+        {
+
+            IDetailViewModel detailViewModel = SearchDetailViewModels
+                .SingleOrDefault(vm => vm.Id == args.Id
+                && vm.GetType().Name == args.ViewModelName);
+
+            if (detailViewModel == null)
+            {
+                //TODO: Разобраться что куда Изменить алгоритм поиска
+                detailViewModel = _searchDetailViewModelCreator[args.ViewModelName];
+                //;
+                //SearchNavigationViewModel.SearchResult
+                try
+                {
+                    await detailViewModel.LoadAsync(args.Id);
+                }
+                catch
+                {
+                    await _messageDialogService.ShowInfoDialogAsync("Info");
+                    await SearchNavigationViewModel.LoadAsync();
+                    return;
+                }
+
+                SearchDetailViewModels.Add(detailViewModel);
+            }
+            SelectedSearchDetailViewModel = detailViewModel;
         }
 
         private void OnAfterDetailClosed(AfterDtailClosedEventArgs args)
@@ -76,7 +110,7 @@ namespace XFilesArchive.UI.ViewModel.Search
             }
         }
         private int currentId = 0;
-        private async void OnOpenDetailView(OpenDetailViewEventArgs args)
+        private async void OnOpenDetailView(OpenSearchDetailViewEventArgs args)
         {
             //var detailViewModel = SearchDetailViewModels
             //    .SingleOrDefault(vm => vm.Id == args.Id
@@ -84,31 +118,31 @@ namespace XFilesArchive.UI.ViewModel.Search
 
             //if (detailViewModel == null)
             //{
-                //TODO: Разобраться что куда Изменить алгоритм поиска
-                var detailViewModel = _searchDetailViewModelCreator[args.ViewModelName];
-                    //;
-                //SearchNavigationViewModel.SearchResult
-                try
+            //TODO: Разобраться что куда Изменить алгоритм поиска
+            var detailViewModel = _searchDetailViewModelCreator[args.ViewModelName];
+            //;
+            //SearchNavigationViewModel.SearchResult
+            try
+            {
+                if (args.ViewModelName == "SearchResultViewModel")
                 {
-                    if (args.ViewModelName == "SearchResultViewModel")
-                    {
-                        ((SearchResultViewModel)detailViewModel).Load(SearchNavigationViewModel.SearchResult,++currentId);
-                    }
-                    else
-                    {
-                        await detailViewModel.LoadAsync(args.Id);
-                    }
+                    ((SearchResultViewModel)detailViewModel).Load(SearchNavigationViewModel.SearchResult, ++currentId);
                 }
-                catch
+                else
                 {
-                    await _messageDialogService.ShowInfoDialogAsync("Info");
-                    await SearchNavigationViewModel.LoadAsync();
-                    return;
+                    await detailViewModel.LoadAsync(args.Id);
                 }
+            }
+            catch
+            {
+                await _messageDialogService.ShowInfoDialogAsync("Info");
+                await SearchNavigationViewModel.LoadAsync();
+                return;
+            }
 
-                SearchDetailViewModels.Add(detailViewModel);
+            SearchDetailViewModels.Add(detailViewModel);
             //}
-            SelectedDetailViewModel = detailViewModel;
+            SelectedSearchDetailViewModel = detailViewModel;
         }
 
         private void OnShowSearchResult(int obj)

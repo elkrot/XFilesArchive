@@ -33,10 +33,20 @@ namespace XFilesArchive.UI.ViewModel.Search
         {
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
-
             SearchResult = new SearchResult(new List<ArchiveEntity>());
             CloseDetailViewModelCommand = new DelegateCommand(OnCloseDetailViewExecute);
+            OpenSearchResultArchiveEntityCommand= new DelegateCommand<int?>(OnOpenSearchResultArchiveEntityExecute);
             // SearchResult.MyProperty = 0;
+        }
+
+        private async void OnOpenSearchResultArchiveEntityExecute(int? id)
+        {
+            await Task.Factory.StartNew(() => {
+                _eventAggregator.GetEvent<OpenSearchDetailArchiveEntityViewEvent>()
+                .Publish(new OpenSearchDetailArchiveEntityViewEventArgs()
+                { Id = (int)id, ViewModelName = nameof(FilesOnDriveViewModel) });
+              
+            });
         }
 
         private void OnCloseDetailViewExecute()
@@ -51,7 +61,7 @@ namespace XFilesArchive.UI.ViewModel.Search
         }
 
         public ICommand CloseDetailViewModelCommand { get; private set; }
-
+        public ICommand OpenSearchResultArchiveEntityCommand { get; private set; }
         public SearchResult SearchResult
         {
             get { return (SearchResult)GetValue(SearchResultProperty); }

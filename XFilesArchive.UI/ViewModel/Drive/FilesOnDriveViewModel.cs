@@ -70,7 +70,7 @@ namespace XFilesArchive.UI.ViewModel
             #endregion
         }
 
-        #region Конструктор
+        #region OnSelectedItemChanged
         private async void OnSelectedItemChanged(int obj)
         {
             if (obj != 0)

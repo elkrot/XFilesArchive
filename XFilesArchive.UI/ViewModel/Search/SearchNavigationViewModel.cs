@@ -88,7 +88,7 @@ namespace XFilesArchive.UI.ViewModel.Search
             var searchItems = _repository.GetEntitiesByCondition(condition);
             SearchResult = new SearchResult(searchItems);
 
-            _eventAggregator.GetEvent<OpenDetailViewEvent>().Publish(new OpenDetailViewEventArgs() { Id=1,ViewModelName=nameof(SearchResultViewModel)});
+            _eventAggregator.GetEvent<OpenSearchDetailViewEvent>().Publish(new OpenSearchDetailViewEventArgs() { Id=1,ViewModelName=nameof(SearchResultViewModel)});
         }
 
 
