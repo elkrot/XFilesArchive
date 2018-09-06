@@ -9,17 +9,25 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Menu FontSize="10" >
-            <MenuItem Header="Create">
-                <MenuItem Header="New Drive" Command="{Binding CreateNewCommand}"
-                          CommandParameter="{x:Type viewModel:DriveDetailViewModel}"/>
-                <!--<MenuItem Header="New Category" Command="{Binding CreateNewCommand}"
-                          CommandParameter="{x:Type viewModel:MeetingDetailViewModel}"/>-->
+            <MenuItem Header="Основные">
+                <MenuItem Header="На Главную"
+                         Command="{Binding GoToMainPageCommand}"/>
+                <MenuItem Header="Создать расположение"   
+                         Command="{Binding NewDestinationCommand}"/>
+                <MenuItem Header="Сравнить"  Command="{Binding CompareFileCommand}"/>
+
+                <MenuItem Header="Администрирование" 
+                    Command="{Binding OpenAdminPanelCommand}"/>
+
+                <MenuItem Header="Справка"  Command="Help"/>
+
+                <MenuItem Header="Поиск" Command="{Binding SearchCommand}"/>
+
 
             </MenuItem>
-            <MenuItem Header="Edit">
-                <!--<MenuItem Header="Prog Leng" Command="{Binding OpenSingleDetailViewCommand}"
-                          CommandParameter="{x:Type viewModel:ProgrammingLanguageDetailViewModel}"/>-->
-            </MenuItem>
+            
+                
+            
         </Menu>
     </Grid>
 </UserControl>

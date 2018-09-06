@@ -79,7 +79,7 @@ namespace XFilesArchive.UI.ViewModel.Search
                 //SearchNavigationViewModel.SearchResult
                 try
                 {
-                    await detailViewModel.LoadAsync(args.Id);
+                     await detailViewModel.LoadAsync(args.Id);
                 }
                 catch
                 {
@@ -87,8 +87,20 @@ namespace XFilesArchive.UI.ViewModel.Search
                     await SearchNavigationViewModel.LoadAsync();
                     return;
                 }
-
-                SearchDetailViewModels.Add(detailViewModel);
+                try
+                {
+                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                    {
+                        SearchDetailViewModels.Add(detailViewModel);
+                    });
+                    
+                }
+                catch (Exception e)
+                {
+                    var x = e.Message;
+                    return;
+                }
+                
             }
             SelectedSearchDetailViewModel = detailViewModel;
         }

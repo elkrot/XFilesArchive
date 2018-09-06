@@ -24,11 +24,11 @@
 
                 </Button>
 
-                <Button Command="{Binding CompareFileCommand}">
+                <Button ToolTip="Сравнить"  Command="{Binding CompareFileCommand}">
                     <ContentControl Content="{StaticResource Compare}" Margin="0" />
                 </Button>
 
-                <Button 
+                <Button ToolTip="Администрирование" 
                     Command="{Binding OpenAdminPanelCommand}"
                     VerticalAlignment="Bottom" Height="45" >
                     <ContentControl Content="{StaticResource Admin}" Margin="0" />
@@ -39,11 +39,11 @@
 
                 </Button>
                 <!--Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"-->
-                <Button  Command="Help" >
+                <Button ToolTip="Справка"  Command="Help" >
 
                     <ContentControl Content="{StaticResource Help}" Margin="0" />
                 </Button>
-                <Button  Command="{Binding SearchCommand}">
+                <Button ToolTip="Поиск" Command="{Binding SearchCommand}">
                     <ContentControl 
                         Content="{StaticResource Search}" Margin="0" />
 
