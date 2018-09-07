@@ -71,7 +71,7 @@ namespace XFilesArchive.UI.ViewModel
         }
 
         private int _id;
-
+        
         public int Id
         {
             get

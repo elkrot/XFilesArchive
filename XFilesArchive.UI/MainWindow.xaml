@@ -27,8 +27,7 @@
             CanExecute="HelpCanExecute" Executed="HelpExecuted"/>
     </Window.CommandBindings>
     <Window.InputBindings>
-        <KeyBinding Command="Help" Key="F2"/>
-        <KeyBinding Command="NotACommand" Key="F1"/>
+        <KeyBinding Command="Help" Key="F1"/>
     </Window.InputBindings>
     
     <Grid>

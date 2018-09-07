@@ -9,7 +9,11 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="NavigationPage">
     <Page.InputBindings>
-        <KeyBinding Command="{Binding NewDestinationCommand}" Key="N"/>
+        <KeyBinding Command="{Binding GoToMainPageCommand}" Key="F2"/>
+        <KeyBinding Command="{Binding SearchCommand}" Key="F3"/>
+        <KeyBinding Command="{Binding CompareFileCommand}" Key="F4"/>
+        <KeyBinding Command="{Binding OpenAdminPanelCommand}" Key="F5"/>
+        <KeyBinding Command="{Binding NewDestinationCommand}" Key="F7"/>
         
     </Page.InputBindings>
     <Grid>

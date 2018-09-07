@@ -12,25 +12,25 @@
                       Margin="0,2,0,0" VerticalAlignment="Top" Width="520" >
             <ToolBar Height="50" VerticalAlignment="Top" Margin="0,0,-544,0">
 
-                <Button  VerticalAlignment="Top" Height="28" ToolTip="На Главную"
+                <Button  VerticalAlignment="Top" Height="32" Width="32" ToolTip="На Главную"
                          Command="{Binding GoToMainPageCommand}">
-                    <ContentControl Content="{StaticResource Eject}" Margin="0" />
+                    <ContentControl Content="{StaticResource MainPage}" Margin="0" />
 
                 </Button>
 
-                <Button  VerticalAlignment="Top" Height="40" ToolTip="Создать расположение"   
+                <Button  VerticalAlignment="Top" Height="32" Width="32" ToolTip="Создать расположение"   
                          Command="{Binding NewDestinationCommand}" >
                     <ContentControl Content="{StaticResource NewDest}" Margin="0" />
 
                 </Button>
 
-                <Button ToolTip="Сравнить"  Command="{Binding CompareFileCommand}">
+                <Button VerticalAlignment="Top" ToolTip="Сравнить" Height="32" Width="32" Command="{Binding CompareFileCommand}">
                     <ContentControl Content="{StaticResource Compare}" Margin="0" />
                 </Button>
 
-                <Button ToolTip="Администрирование" 
+                <Button VerticalAlignment="Top" ToolTip="Администрирование" 
                     Command="{Binding OpenAdminPanelCommand}"
-                    VerticalAlignment="Bottom" Height="45" >
+                     Height="32" Width="32" >
                     <ContentControl Content="{StaticResource Admin}" Margin="0" />
 
                 </Button>
@@ -39,11 +39,11 @@
 
                 </Button>
                 <!--Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"-->
-                <Button ToolTip="Справка"  Command="Help" >
+                <Button VerticalAlignment="Top" ToolTip="Справка"  Command="Help" Height="32" Width="32" >
 
                     <ContentControl Content="{StaticResource Help}" Margin="0" />
                 </Button>
-                <Button ToolTip="Поиск" Command="{Binding SearchCommand}">
+                <Button VerticalAlignment="Top" ToolTip="Поиск" Command="{Binding SearchCommand}" Height="32" Width="32">
                     <ContentControl 
                         Content="{StaticResource Search}" Margin="0" />
 

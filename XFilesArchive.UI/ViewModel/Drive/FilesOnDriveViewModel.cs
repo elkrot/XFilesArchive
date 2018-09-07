@@ -59,7 +59,7 @@ namespace XFilesArchive.UI.ViewModel
             Images = new ObservableCollection<ImageWrapper>();
 
             CategoryNavigationViewModel.Load();
-
+            
             #region Commands
             AddTagCommand = new DelegateCommand<string>(OnAddTagExecute, OnAddTagCanExecute);
             AddCategoryCommand = new DelegateCommand<int?>(OnAddCategoryExecute, OnAddCategoryCanExecute);
@@ -67,9 +67,20 @@ namespace XFilesArchive.UI.ViewModel
             DeleteTagCommand = new DelegateCommand<string>(OnDeleteTagExecute, OnDeleteTagCanExecute);
             DeleteImageCommand = new DelegateCommand<int?>(OnDeleteImageExecute, OnDeleteImageCanExecute);
             DeleteCategoryToEntityCommand = new DelegateCommand<int?>(OnDeleteCategoryToEntityExecute, OnDeleteCategoryToEntityCanExecute);
+            CloseSearchDetailViewModelCommand = new DelegateCommand(OnCloseSearchDetailViewExecute);
             #endregion
         }
-
+        public ICommand CloseSearchDetailViewModelCommand { get; private set; }
+        private void OnCloseSearchDetailViewExecute()
+        {
+            _eventAggregator.GetEvent<AfterSearchDetailClosedEvent>()
+                .Publish(new AfterSearchDtailClosedEventArgs
+                {
+                    Id = this.Id
+                    ,
+                    ViewModelName = this.GetType().Name
+                });
+        }
         #region OnSelectedItemChanged
         private async void OnSelectedItemChanged(int obj)
         {
@@ -160,6 +171,9 @@ namespace XFilesArchive.UI.ViewModel
                              new ArchiveEntity();
 
             _archiveEntity = new ArchiveEntityWrapper(_archEntity);
+
+            Title = _archEntity.Title;
+            Id = _archEntity.ArchiveEntityKey;
             InitializeTags(_archEntity.Tags);
             InitializeCategories(_archEntity.Categories);
             InitializeImages(_archEntity.Images);

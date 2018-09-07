@@ -55,7 +55,7 @@ namespace XFilesArchive.UI.ViewModel.Search
     .Subscribe(OnOpenDetailArchiveEntityView);
 
 
-            _eventAggregator.GetEvent<AfterDetailClosedEvent>()
+            _eventAggregator.GetEvent<AfterSearchDetailClosedEvent>()
 .Subscribe(OnAfterDetailClosed);
 
             SearchNavigationViewModel = searchNavigationViewModel;
@@ -105,7 +105,7 @@ namespace XFilesArchive.UI.ViewModel.Search
             SelectedSearchDetailViewModel = detailViewModel;
         }
 
-        private void OnAfterDetailClosed(AfterDtailClosedEventArgs args)
+        private void OnAfterDetailClosed(AfterSearchDtailClosedEventArgs args)
         {
             RemoveDetailViewModel(args.Id, args.ViewModelName);
         }

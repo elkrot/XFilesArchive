@@ -185,8 +185,9 @@ namespace XFilesArchive.UI.ViewModel
 
             var bootstrapper = new Bootstrapper();
             IContainer container = bootstrapper.Bootstrap();
-
+            Title = Drive.Title;
             _filesOnDriveViewModel = container.Resolve<FilesOnDriveViewModel>();
+            
            // _filesOnDriveViewModel.Load(Id);
 
 

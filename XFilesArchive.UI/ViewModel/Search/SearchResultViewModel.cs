@@ -25,7 +25,7 @@ namespace XFilesArchive.UI.ViewModel.Search
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
 
-
+        public string Title { get {return string.Format("Результат поиска::{0}", Id);} }
 
         public SearchResultViewModel(IEventAggregator eventAggregator
             , IMessageDialogService messageDialogService
@@ -34,7 +34,7 @@ namespace XFilesArchive.UI.ViewModel.Search
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             SearchResult = new SearchResult(new List<ArchiveEntity>());
-            CloseDetailViewModelCommand = new DelegateCommand(OnCloseDetailViewExecute);
+            CloseSearchDetailViewModelCommand = new DelegateCommand(OnCloseDetailViewExecute);
             OpenSearchResultArchiveEntityCommand= new DelegateCommand<int?>(OnOpenSearchResultArchiveEntityExecute);
             // SearchResult.MyProperty = 0;
         }
@@ -51,8 +51,8 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         private void OnCloseDetailViewExecute()
         {
-            _eventAggregator.GetEvent<AfterDetailClosedEvent>()
-                .Publish(new AfterDtailClosedEventArgs
+            _eventAggregator.GetEvent<AfterSearchDetailClosedEvent>()
+                .Publish(new AfterSearchDtailClosedEventArgs
                 {
                     Id = this.Id
                     ,
@@ -60,7 +60,7 @@ namespace XFilesArchive.UI.ViewModel.Search
                 });
         }
 
-        public ICommand CloseDetailViewModelCommand { get; private set; }
+        public ICommand CloseSearchDetailViewModelCommand { get; private set; }
         public ICommand OpenSearchResultArchiveEntityCommand { get; private set; }
         public SearchResult SearchResult
         {
