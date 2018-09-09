@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 
 namespace XFilesArchive.UI
@@ -9,7 +10,11 @@ namespace XFilesArchive.UI
         public WindowConfig MainWindow { get; set; }
         public Theme Theme { get; set; }
 
-        
+        [Category("Главное окно")]
+        [DisplayName("Width")]
+        [Description("Шприна Главного окна.")]
+        public int MainWindowWidth { get { return MainWindow.Width; } set { MainWindow.Width = value; } }
+
         public AppConfig()
         {
             MainWindow = new WindowConfig();

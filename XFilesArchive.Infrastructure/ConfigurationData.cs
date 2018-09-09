@@ -17,10 +17,10 @@ namespace XFilesArchive.Infrastructure
         /// </summary>
         /// <returns></returns>
         public string GetConnectionString()
-        {if(ConfigurationManager.ConnectionStrings["HomeArchiveXContext"]!=null)
-            return ConfigurationManager.ConnectionStrings["HomeArchiveXContext"].ConnectionString;
+        {if(ConfigurationManager.ConnectionStrings["XFilesArchiveDataContext"] !=null)
+            return ConfigurationManager.ConnectionStrings["XFilesArchiveDataContext"].ConnectionString;
         else
-                return ConfigurationManager.ConnectionStrings["HmeArhXContext"].ConnectionString;
+                return ConfigurationManager.ConnectionStrings["XFilesArchiveDataContext"].ConnectionString;
         }
         #endregion
 

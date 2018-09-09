@@ -43,7 +43,7 @@ namespace XFilesArchive.UI.View
         {
             if (imageListView.SelectedValue != null)
             {
-                string imagePath = ((XFilesArchive.UI.Wrapper.ImageWrapper)imageListView.SelectedValue).Model.ImagePath;
+                string imagePath = ((XFilesArchive.UI.Wrapper.ImageWrapper)imageListView.SelectedValue).ImagePath;
                 if (!string.IsNullOrWhiteSpace(imagePath))
                 {
                     Process.Start(imagePath);

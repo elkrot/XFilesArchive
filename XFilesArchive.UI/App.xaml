@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="Styles/ValidationErrorTemplates.xaml"/>
                 <ResourceDictionary Source="Styles/ControlBaseStyle.xaml"/>
                 <ResourceDictionary Source="Styles/TextBox.xaml"/>
+                <ResourceDictionary Source="Styles/PropertyGrid.xaml"/> 
                 <ResourceDictionary x:Name="IconsDictionary" Source="Icons.xaml" />
                 <ResourceDictionary>
                     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">

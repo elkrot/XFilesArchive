@@ -11,7 +11,9 @@
         <Menu FontSize="10" >
             <MenuItem Header="Основные">
                 <MenuItem Header="На Главную"
-                         Command="{Binding GoToMainPageCommand}"/>
+                         Command="{Binding GoToMainPageCommand}">
+
+                </MenuItem>
                 <MenuItem Header="Создать расположение"   
                          Command="{Binding NewDestinationCommand}"/>
                 <MenuItem Header="Сравнить"  Command="{Binding CompareFileCommand}"/>
