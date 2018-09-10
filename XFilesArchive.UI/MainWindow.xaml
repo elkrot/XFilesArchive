@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:XFilesArchive.UI"
         xmlns:view="clr-namespace:XFilesArchive.UI.View"
                        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                      xmlns:prop="clr-namespace:XFilesArchive.UI.Properties"
+                      
        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
          xmlns:viewModel="clr-namespace:XFilesArchive.UI.ViewModel"
         mc:Ignorable="d"
@@ -15,7 +17,7 @@
     Top="{local:SettingBinding MainWindow.Top}"
     Left="{local:SettingBinding MainWindow.Left}"
     WindowState="{local:SettingBinding MainWindow.WindowState}"
-                       Title="MainWindow">
+    Title="{x:Static prop:Resources.MainWindowTitle}">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:DriveDetailViewModel}">
             <view:DetailView/>
@@ -44,7 +46,7 @@
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
                     <ProgressBar Name="progressBar" Height="Auto" Width="180" Margin="10" />
-                    <Button Command="{Binding NewDestinationCommand}">Отмена</Button>
+                    <Button Command="{Binding NewDestinationCommand}" Content="{x:Static prop:Resources.Cancel}"/>
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

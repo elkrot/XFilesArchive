@@ -2,25 +2,36 @@
 using System.ComponentModel;
 using System.Windows;
 
-namespace XFilesArchive.UI
+namespace XFilesArchive.Infrastructure
 {
     [Serializable]
+    [DisplayName("Конфигурация приложения")]
     public class AppConfig
     {
         public WindowConfig MainWindow { get; set; }
         public Theme Theme { get; set; }
 
         [Category("Главное окно")]
-        [DisplayName("Width")]
-        [Description("Шприна Главного окна.")]
-        public int MainWindowWidth { get { return MainWindow.Width; } set { MainWindow.Width = value; } }
+        [DisplayName("Ширина")]
+        [Description("Ширина Главного окна.")]
+        public int MainWindowWidth { get { return MainWindow.Width; }  set { MainWindow.Width = value; } }
+
+        [Category("Сохранение")]
+        [DisplayName("Ширина Эскиза")]
+        [Description("Ширина Эскиза.")]
+        public int? ThumbnailWidth
+        {
+            get;set;
+        }
+
+
 
         public AppConfig()
         {
             MainWindow = new WindowConfig();
             MainWindow.Width = 600;
             MainWindow.Height = 400;
-
+            ThumbnailWidth = 120;
             Theme = Theme.Light;
         }
     }

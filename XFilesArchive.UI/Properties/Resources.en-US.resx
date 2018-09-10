@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Cancel" xml:space="preserve">
-    <value>Отмена</value>
+    <value>Cancel</value>
   </data>
   <data name="MainWindowTitle" xml:space="preserve">
-    <value>Главное окно</value>
+    <value>Main Window</value>
   </data>
   <data name="UnexpectedError" xml:space="preserve">
-    <value>Неопределенная ошибка . Свяжитесь с разработчиком.</value>
+    <value>Unexpected error occured. Please inform the admin.</value>
   </data>
 </root>

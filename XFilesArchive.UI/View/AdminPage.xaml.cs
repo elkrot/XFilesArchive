@@ -20,14 +20,14 @@ namespace XFilesArchive.UI.View
     /// </summary>
     public partial class AdminPage : Page
     {
-        ConfigurationDTO _config;
+        //ConfigurationDTO _config;
 
 
 
         public AdminPage()
         {
-            _config = new ConfigurationDTO();
-            _config.ImgPath = "path";
+            //_config = new ConfigurationDTO();
+            //_config.ImgPath = "path";
             InitializeComponent();
 
         }

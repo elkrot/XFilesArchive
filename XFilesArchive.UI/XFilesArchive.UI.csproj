@@ -125,6 +125,11 @@
     <Compile Include="Event\OpenSearchDetailViewEvent.cs" />
     <Compile Include="Event\SelectedItemChangedEvent.cs" />
     <Compile Include="Event\ShowSearchResultEvent.cs" />
+    <Compile Include="Properties\Resources.en-US.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.en-US.resx</DependentUpon>
+    </Compile>
     <Compile Include="SettingBindingExtension.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="ViewModel\AddDriveWizardViewModel.cs" />
@@ -226,11 +231,6 @@
     <Compile Include="Wrapper\Base\ModelWrapper.cs" />
     <Compile Include="Wrapper\Base\NotifyDataErrorInfoBase.cs" />
     <Compile Include="Wrapper\TagWrapper.cs" />
-    <Compile Include="XFilesArchiveDataContextDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>XFilesArchiveDataContextDataSet.xsd</DependentUpon>
-    </Compile>
     <Page Include="Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -366,25 +366,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Properties\Resources.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.en-US.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="XFilesArchiveDataContextDataSet.xsc">
-      <DependentUpon>XFilesArchiveDataContextDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="XFilesArchiveDataContextDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>XFilesArchiveDataContextDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XFilesArchiveDataContextDataSet.xss">
-      <DependentUpon>XFilesArchiveDataContextDataSet.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
