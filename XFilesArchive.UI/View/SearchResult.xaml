@@ -18,14 +18,37 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <Button Content="{Binding Path=ArchiveEntity.Title}" 
-                                    Command="{Binding Path = DataContext.OpenSearchResultArchiveEntityCommand, 
+                            <StackPanel Orientation="Horizontal">
+
+                            
+                            <TextBlock>
+                                <Hyperlink NavigateUri="#" Command="{Binding Path = DataContext.OpenSearchResultDriveCommand, 
                          ElementName=searchResultControl}" 
-                                    CommandParameter="{Binding ArchiveEntity.ArchiveEntityKey}"/>
+                                    CommandParameter="{Binding ArchiveEntity.Drive.DriveId}">
+                                   <Hyperlink.Inlines>
+                                        <Run Text="{Binding Path=ArchiveEntity.Drive.Title}"/>
+                                   </Hyperlink.Inlines>
+                               </Hyperlink>
+                            </TextBlock>
+                            <TextBlock>></TextBlock>
+
+                                <TextBlock>
+                                <Hyperlink NavigateUri="#" Command="{Binding Path = DataContext.OpenSearchResultArchiveEntityCommand, 
+                         ElementName=searchResultControl}" 
+                                    CommandParameter="{Binding ArchiveEntity.ArchiveEntityKey}">
+                                   <Hyperlink.Inlines>
+                                        <Run Text="{Binding Path=ArchiveEntity.Title}"/>
+                                   </Hyperlink.Inlines>
+                               </Hyperlink>
+                                </TextBlock>
+                            </StackPanel>
+                            
+
+                            
                             <TextBlock Text="{Binding Path=ArchiveEntity.EntityPath}" />
                             <TextBlock Text="{Binding Path=ArchiveEntity.FileSize}" />
-                            <Button Content="{Binding Path=ArchiveEntity.Drive.Title}" />
-                           <TextBlock Text="{Binding Path=ArchiveEntity.Drive.DriveCode}" />
+                            
+                            <TextBlock Text="{Binding Path=ArchiveEntity.Drive.DriveCode}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

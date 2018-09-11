@@ -54,6 +54,8 @@ namespace XFilesArchive.UI.ViewModel.Search
             _eventAggregator.GetEvent<OpenSearchDetailArchiveEntityViewEvent>()
     .Subscribe(OnOpenDetailArchiveEntityView);
 
+            _eventAggregator.GetEvent<OpenSearchDetailDriveViewEvent>()
+    .Subscribe(OnOpenDetailDriveView);
 
             _eventAggregator.GetEvent<AfterSearchDetailClosedEvent>()
 .Subscribe(OnAfterDetailClosed);
@@ -62,6 +64,46 @@ namespace XFilesArchive.UI.ViewModel.Search
             //SearchResultViewModel = searchResultViewModel;
             SearchDetailViewModels = new ObservableCollection<IDetailViewModel>();
 
+        }
+
+        private async void OnOpenDetailDriveView(OpenSearchDetailDriveViewEventArgs args)
+        {
+            IDetailViewModel detailViewModel = SearchDetailViewModels
+                .SingleOrDefault(vm => vm.Id == args.Id
+                && vm.GetType().Name == args.ViewModelName);
+
+            if (detailViewModel == null)
+            {
+                //TODO: Разобраться что куда Изменить алгоритм поиска
+                detailViewModel = _searchDetailViewModelCreator[args.ViewModelName];
+                //;
+                //SearchNavigationViewModel.SearchResult
+                try
+                {
+                    await detailViewModel.LoadAsync(args.Id);
+                }
+                catch
+                {
+                    await _messageDialogService.ShowInfoDialogAsync("Info");
+                    await SearchNavigationViewModel.LoadAsync();
+                    return;
+                }
+                try
+                {
+                    App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                    {
+                        SearchDetailViewModels.Add(detailViewModel);
+                    });
+
+                }
+                catch (Exception e)
+                {
+                    var x = e.Message;
+                    return;
+                }
+
+            }
+            SelectedSearchDetailViewModel = detailViewModel;
         }
 
         private async void OnOpenDetailArchiveEntityView(OpenSearchDetailArchiveEntityViewEventArgs args)

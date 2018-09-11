@@ -17,7 +17,11 @@
         <DataTemplate DataType="{x:Type viewModel:FilesOnDriveViewModel}">
             <local:FilesOnDriveView/>
         </DataTemplate>
-        
+
+        <DataTemplate DataType="{x:Type viewModel:DriveDetailViewModel}">
+            <local:DetailView/>
+        </DataTemplate>
+
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>

@@ -122,6 +122,7 @@
     <Compile Include="Event\OpenDetailViewEvent.cs" />
     <Compile Include="Event\OpenDriveDetailViewEvent.cs" />
     <Compile Include="Event\OpenSearchDetailArchiveEntityViewEvent.cs" />
+    <Compile Include="Event\OpenSearchDetailDriveViewEvent.cs" />
     <Compile Include="Event\OpenSearchDetailViewEvent.cs" />
     <Compile Include="Event\SelectedItemChangedEvent.cs" />
     <Compile Include="Event\ShowSearchResultEvent.cs" />
