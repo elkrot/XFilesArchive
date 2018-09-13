@@ -68,8 +68,16 @@ namespace XFilesArchive.UI.ViewModel
             DeleteImageCommand = new DelegateCommand<int?>(OnDeleteImageExecute, OnDeleteImageCanExecute);
             DeleteCategoryToEntityCommand = new DelegateCommand<int?>(OnDeleteCategoryToEntityExecute, OnDeleteCategoryToEntityCanExecute);
             CloseSearchDetailViewModelCommand = new DelegateCommand(OnCloseSearchDetailViewExecute);
+            EditDescriptionCommand = new DelegateCommand(OnEditDescriptionViewExecute);
             #endregion
         }
+
+        private void OnEditDescriptionViewExecute()
+        {
+            HasChanges = true;
+            InvalidateCommands();
+        }
+
         public ICommand CloseSearchDetailViewModelCommand { get; private set; }
         private void OnCloseSearchDetailViewExecute()
         {
@@ -171,7 +179,8 @@ namespace XFilesArchive.UI.ViewModel
                              new ArchiveEntity();
 
             _archiveEntity = new ArchiveEntityWrapper(_archEntity);
-
+            _archiveEntity.PropertyChanged -= Wrapper_PropertyChanged;
+            _archiveEntity.PropertyChanged += Wrapper_PropertyChanged;
             Title = _archEntity.Title;
             Id = _archEntity.ArchiveEntityKey;
             InitializeTags(_archEntity.Tags);
@@ -230,7 +239,7 @@ namespace XFilesArchive.UI.ViewModel
         public ICommand DeleteCategoryToEntityCommand { get; private set; }
 
 
-
+        public ICommand EditDescriptionCommand { get; private set; }
 
 
 

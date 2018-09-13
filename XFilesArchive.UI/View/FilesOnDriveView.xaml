@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:XFilesArchive.UI.View"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:converters="clr-namespace:XFilesArchive.UI.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="600" Name="rootFileEdit">
     <Grid>
@@ -21,6 +22,9 @@
                     </StackPanel>
                 </TabItem.Header>
                 <StackPanel>
+                    
+                    <TextBox Text="{Binding ArchiveEntity.Title,Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Text="{Binding ArchiveEntity.FileInfo[Length]}" />
                     <TextBlock Text="{Binding ArchiveEntity.Title}" Background="Gray"/>
                 <TextBlock Text="{Binding ArchiveEntity.FileInfo[CreationTime]}" />
@@ -155,19 +159,21 @@
                 </TabItem.Header>
                 <StackPanel>
 
-                <xctk:RichTextBox x:Name="_richTextBox" Grid.Row="1" Margin="10" Padding="10"
-                                     Text="{Binding ArchiveEntity.Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                    <xctk:RichTextBox x:Name="_richTextBox" Grid.Row="1" Margin="10" Padding="10" 
+                                     Text="{Binding ArchiveEntity.Description,Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}" 
                                      ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <xctk:RichTextBox.TextFormatter>
-                        <xctk:XamlFormatter />
+                            <converters:Utf8XamlFormatter />
                     </xctk:RichTextBox.TextFormatter>
                     <xctk:RichTextBoxFormatBarManager.FormatBar>
                         <xctk:RichTextBoxFormatBar />
                     </xctk:RichTextBoxFormatBarManager.FormatBar>
                 </xctk:RichTextBox>
+                    <!--<TextBox Text="{Binding ArchiveEntity.Description,Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}" ></TextBox>-->
 
-
-            </StackPanel>
+                </StackPanel>
         </TabItem>
     </TabControl>
     <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" 

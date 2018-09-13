@@ -42,13 +42,14 @@
                                </Hyperlink>
                                 </TextBlock>
                             </StackPanel>
-                            
-
-                            
-                            <TextBlock Text="{Binding Path=ArchiveEntity.EntityPath}" />
-                            <TextBlock Text="{Binding Path=ArchiveEntity.FileSize}" />
-                            
-                            <TextBlock Text="{Binding Path=ArchiveEntity.Drive.DriveCode}" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Путь к сущности: " />
+                                <TextBlock Text="{Binding Path=ArchiveEntity.EntityPath}" />
+                                <TextBlock Text=".Размер: " />
+                                <TextBlock Text="{Binding Path=ArchiveEntity.FileSize}" />
+                                <TextBlock Text=".Код диска: " />
+                                <TextBlock Text="{Binding Path=ArchiveEntity.Drive.DriveCode}" />
+                            </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

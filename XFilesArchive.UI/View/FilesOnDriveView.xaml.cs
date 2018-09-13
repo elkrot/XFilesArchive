@@ -24,5 +24,7 @@ namespace XFilesArchive.UI.View
         {
             InitializeComponent();
         }
+
+
     }
 }

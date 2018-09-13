@@ -18,6 +18,7 @@
     Left="{local:SettingBinding MainWindow.Left}"
     WindowState="{local:SettingBinding MainWindow.WindowState}"
     Title="{x:Static prop:Resources.MainWindowTitle}">
+    
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:DriveDetailViewModel}">
             <view:DetailView/>

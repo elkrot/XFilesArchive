@@ -25,7 +25,7 @@ namespace XFilesArchive.UI.ViewModel
         private DriveWrapper _drive;
         private IEnumerable<ArchiveEntity> _allFilesOnDrive;
         private FilesOnDriveViewModel _filesOnDriveViewModel;
-
+        private readonly IEventAggregator _eventAggregator;
         public FilesOnDriveViewModel FilesOnDriveViewModel
         {
             get { return _filesOnDriveViewModel; }
@@ -39,16 +39,28 @@ namespace XFilesArchive.UI.ViewModel
         {
             _repository = repository;
             NavigationItems = new ObservableCollection<NavigationTreeItemViewModel>();
-        //    ArchiveEntities = new ObservableCollection<ArchiveEntityWrapper>();
+            //    ArchiveEntities = new ObservableCollection<ArchiveEntityWrapper>();
+
+            _eventAggregator = eventAggregator;
             _allFilesOnDrive = new List<ArchiveEntity>();
-            eventAggregator.GetEvent<AfterCollectionSavedEvent>().Subscribe(AfterCollectionSaved);
+            _eventAggregator.GetEvent<AfterCollectionSavedEvent>().Subscribe(AfterCollectionSaved);
             AddArchiveEntityCommand = new DelegateCommand(OnAddArchiveEntityExecute);
             RemoveArchiveEntityCommand = new DelegateCommand(OnRemoveArchiveEntityExecute,
             OnRemoveArchiveEntityCanExecute);
-
+            CloseSearchDetailViewModelCommand = new DelegateCommand(OnCloseSearchDetailViewExecute);
             SelectedItemChangedCommand = new DelegateCommand<int?>(OnSelectedItemChangedExecute,OnSelectedItemChangedCanExecute);
         }
-
+        public ICommand CloseSearchDetailViewModelCommand { get; private set; }
+        private void OnCloseSearchDetailViewExecute()
+        {
+            _eventAggregator.GetEvent<AfterSearchDetailClosedEvent>()
+                .Publish(new AfterSearchDtailClosedEventArgs
+                {
+                    Id = this.Id
+                    ,
+                    ViewModelName = this.GetType().Name
+                });
+        }
         private bool OnSelectedItemChangedCanExecute(int? arg)
         {
             return true;

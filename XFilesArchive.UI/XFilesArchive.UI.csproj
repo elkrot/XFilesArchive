@@ -108,6 +108,7 @@
     <Compile Include="Behaviors\DataGridChangeBehavior.cs" />
     <Compile Include="ConfigurationDTO.cs" />
     <Compile Include="Converters\MultiTupleConverter.cs" />
+    <Compile Include="Converters\Utf8XamlFormatter.cs" />
     <Compile Include="Event\AddTagToConditionCommandEvent.cs" />
     <Compile Include="Event\AfterCollectionSavedEvent.cs" />
     <Compile Include="Event\AfterDeletedEvent.cs" />
