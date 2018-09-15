@@ -12,7 +12,7 @@ namespace XFilesArchive.Infrastructure
     {
         public ConfigurationData():this("XFilesArchiveDataContext")
         {
-
+            _appConfig = new AppConfig() { ThumbnailWidth = 120, ThumbnailHeight = 120 };
         }
         AppConfig _appConfig;
         public ConfigurationData(string connectionStringName)
@@ -25,7 +25,7 @@ namespace XFilesArchive.Infrastructure
             _connectionStringName = connectionStringName;
             if (appConfig == null)
             {
-                _appConfig = new AppConfig();
+                _appConfig = new AppConfig() { ThumbnailWidth=120,ThumbnailHeight=120};
             }
             else
             {
@@ -35,7 +35,8 @@ namespace XFilesArchive.Infrastructure
 
         private string _connectionStringName;
 
-        public int ThumbnailWidth { get { return _appConfig.ThumbnailWidth??120; }  }
+        public int ThumbnailWidth { get { return _appConfig.ThumbnailWidth ?? 120; }  }
+        public int ThumbnailHeight { get { return _appConfig.ThumbnailHeight ?? 120; } }
         #region Строка подключения 
         /// <summary>
         /// Строка подключения

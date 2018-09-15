@@ -187,7 +187,7 @@ namespace XFilesArchive.UI.ViewModel
 
         private int CreateDestination()
         {
-            var cnf = new ConfigurationData();
+            var cnf = new ConfigurationData() ;
             var lg = new Logger();
 
             var driveCode = DriveCode;

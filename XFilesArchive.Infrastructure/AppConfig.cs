@@ -24,7 +24,13 @@ namespace XFilesArchive.Infrastructure
             get;set;
         }
 
-
+        [Category("Сохранение")]
+        [DisplayName("Высота Эскиза")]
+        [Description("Высота Эскиза.")]
+        public int? ThumbnailHeight
+        {
+            get; set;
+        }
 
         public AppConfig()
         {
@@ -32,6 +38,7 @@ namespace XFilesArchive.Infrastructure
             MainWindow.Width = 600;
             MainWindow.Height = 400;
             ThumbnailWidth = 120;
+            ThumbnailHeight = 120;
             Theme = Theme.Light;
         }
     }
