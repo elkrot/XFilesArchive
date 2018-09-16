@@ -23,18 +23,18 @@ namespace XFilesArchive.Services.Repositories
 
         public ICollection<ArchiveEntity> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition)
         {
-            var ret = Context.ArchiveEntities.AsExpandable().Where(condition).ToList();
+            var ret = Context.ArchiveEntities.AsExpandable().AsNoTracking().Where(condition).ToList();
             return ret;
         }
 
         public Tag GetTagByKey(int tagKey)
         {
-            return Context.Tags.Where(x => x.TagKey == tagKey).FirstOrDefault();
+            return Context.Tags.AsNoTracking().Where(x => x.TagKey == tagKey).FirstOrDefault();
         }
 
         public Tag GetTagByTitle(string Title)
         {
-            var tag = Context.Tags.Where(x => x.TagTitle == Title).FirstOrDefault();
+            var tag = Context.Tags.AsNoTracking().Where(x => x.TagTitle == Title).FirstOrDefault();
             if (tag==null)
             {
                 tag = new Tag() { TagTitle =Title};
@@ -52,7 +52,7 @@ namespace XFilesArchive.Services.Repositories
         public void RemoveImage(int archiveEntityKey, int imageKey)
         {
             var entity = Context.ArchiveEntities.Find(archiveEntityKey);
-            var image = Context.Images.Where(x => x.ImageKey == imageKey).First();
+            var image = Context.Images.AsNoTracking().Where(x => x.ImageKey == imageKey).First();
             if (image != null)
             {
                 entity.Images.Remove(image);
@@ -62,7 +62,7 @@ namespace XFilesArchive.Services.Repositories
         public void RemoveTag(int archiveEntityKey, string tagTitle)
         {
             var entity = Context.ArchiveEntities.Find(archiveEntityKey);
-            var tag = Context.Tags.Where(x=>x.TagTitle ==tagTitle).First();
+            var tag = Context.Tags.AsNoTracking().Where(x=>x.TagTitle ==tagTitle).First();
             if (tag != null)
             {
                 entity.Tags.Remove(tag);
