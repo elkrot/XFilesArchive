@@ -38,17 +38,15 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property = "Background" Value="Gray"/>
-                                <Setter Property = "Foreground" Value = "Red"/>
-                                <Setter Property = "BorderBrush" Value="{StaticResource ButtonMouseOverBorderBrush}"/>
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource ButtonMouseOverBorderBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="Background" Value="#FFFDFDB6"/>
-                                <Setter Property="BorderBrush" Value="{StaticResource ButtonIsPressedBorderBrush}"/>
+
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="BorderBrush" Value="#FFFDFDB6"/>
-                                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -81,10 +79,10 @@
 
                             <TextBlock Text="{Binding Path=CategoryTitle}" 
                                       Padding="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
-                            <Button 
+                            <Button Width="20" Height="20" Margin="5"
                                     Command="{Binding Path=RemoveItem, ElementName=categoryToEntityView}" 
                                     CommandParameter="{Binding CategoryKey}" FontSize="6" 
-                                    Style="{StaticResource CloseItem}"
+                                    
                                     >x</Button>
                         </StackPanel>
                     </DataTemplate>
