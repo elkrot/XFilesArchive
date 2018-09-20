@@ -140,7 +140,7 @@ namespace XFilesArchive.UI.ViewModel.Search
                 (SearchCondition.Widgets[nameof(SearchByFileSizeWiget)] as SearchByFileSizeWiget).AddQuery(minFileSize, maxFileSize);
                 SearchCondition.LoadItems();
                 _viewItems = (CollectionView)CollectionViewSource.GetDefaultView(SearchCondition.Items.ToList());
-
+                InvalidateCommands();
             }
         }
 
@@ -189,6 +189,7 @@ namespace XFilesArchive.UI.ViewModel.Search
                     (SearchCondition.Widgets[nameof(SearchByStringWidget)] as SearchByStringWidget).AddQuery(searchString);
                     SearchCondition.LoadItems();
                     _viewItems = (CollectionView)CollectionViewSource.GetDefaultView(SearchCondition.Items);
+                    InvalidateCommands();
                 }
             }
             //            _messageDialogService.ShowMessageDialog("", obj.ToString());
