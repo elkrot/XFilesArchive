@@ -14,7 +14,7 @@
     </RootPath>
     <RootNamespace>XFilesArchive.SQL</RootNamespace>
     <AssemblyName>XFilesArchive.SQL</AssemblyName>
-    <ModelCollation>1033, CI</ModelCollation>
+    <ModelCollation>1058,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
@@ -23,6 +23,8 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>Ukrainian_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -57,5 +59,27 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\CategoryToEntity.sql" />
+    <Build Include="dbo\Tables\ImageToEntity.sql" />
+    <Build Include="dbo\Tables\TagToEntity.sql" />
+    <Build Include="dbo\Tables\Category.sql" />
+    <Build Include="dbo\Tables\Image.sql" />
+    <Build Include="dbo\Tables\Tag.sql" />
+    <Build Include="dbo\Tables\TranslateTable.sql" />
+    <Build Include="dbo\Tables\MediaInfoType.sql" />
+    <Build Include="dbo\Tables\MediaInfoParameter.sql" />
+    <Build Include="dbo\Tables\GeneralInfoAboutLevels.sql" />
+    <Build Include="dbo\Tables\Drive.sql" />
+    <Build Include="dbo\Tables\Role.sql" />
+    <Build Include="dbo\Tables\UserToRole.sql" />
+    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Tables\ArchiveEntity.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteDrive.sql" />
+    <Build Include="dbo\Stored Procedures\TruncateTables.sql" />
   </ItemGroup>
 </Project>
