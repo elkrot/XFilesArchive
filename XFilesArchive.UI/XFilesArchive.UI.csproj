@@ -132,6 +132,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.en-US.resx</DependentUpon>
     </Compile>
+    <Compile Include="Security\LoginWindow.cs" />
     <Compile Include="SettingBindingExtension.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="ViewModel\AddDriveWizardViewModel.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="ViewModel\Search\SearchEngineViewModel.cs" />
     <Compile Include="ViewModel\Search\SearchNavigationViewModel.cs" />
     <Compile Include="ViewModel\Search\SearchResultViewModel.cs" />
+    <Compile Include="ViewModel\Security\AuthenticationViewModel.cs" />
     <Compile Include="ViewModel\Services\AddCategoryViewModel.cs" />
     <Compile Include="View\AddDriveWizard.xaml.cs">
       <DependentUpon>AddDriveWizard.xaml</DependentUpon>
@@ -210,6 +212,9 @@
     </Compile>
     <Compile Include="View\SearchResult.xaml.cs">
       <DependentUpon>SearchResult.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Security\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Services\AddCategoryDialog.xaml.cs">
       <DependentUpon>AddCategoryDialog.xaml</DependentUpon>
@@ -341,6 +346,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Security\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Services\AddCategoryDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -401,6 +410,10 @@
     <ProjectReference Include="..\XFilesArchive.Search\XFilesArchive.Search.csproj">
       <Project>{bbeebc3d-5864-4a1b-b551-206cdf379643}</Project>
       <Name>XFilesArchive.Search</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XFilesArchive.Security\XFilesArchive.Security.csproj">
+      <Project>{cd96baf8-b25c-4f4f-9e8c-62a88b517723}</Project>
+      <Name>XFilesArchive.Security</Name>
     </ProjectReference>
     <ProjectReference Include="..\XFilesArchive.Services\XFilesArchive.Services.csproj">
       <Project>{784512c0-efa7-475d-9b81-8c4e039d7442}</Project>

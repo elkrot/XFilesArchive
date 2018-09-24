@@ -2,12 +2,16 @@
 using Autofac;
 using System;
 using System.Globalization;
+using System.IO;
 using System.Resources;
 using System.Threading;
 using System.Windows;
 using XFilesArchive.Infrastructure;
+using XFilesArchive.Security;
 using XFilesArchive.UI.Properties;
 using XFilesArchive.UI.Startup;
+using XFilesArchive.UI.View.Security;
+using XFilesArchive.UI.ViewModel.Security;
 
 namespace XFilesArchive.UI
 {
@@ -21,10 +25,10 @@ namespace XFilesArchive.UI
         {
             //Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
             LocRM = new ResourceManager("XFilesArchive.UI.Resources", typeof(MainWindow).Assembly);
-            var bootstrapper = new Bootstrapper();
-            var container = bootstrapper.Bootstrap();
-            var mainWindow = container.Resolve<MainWindow>();
-            mainWindow.Show();
+            //var bootstrapper = new Bootstrapper();
+            //var container = bootstrapper.Bootstrap();
+            //var mainWindow = container.Resolve<MainWindow>();
+            //mainWindow.Show();
         }
 
         private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
@@ -34,10 +38,6 @@ namespace XFilesArchive.UI
                e.Exception.Source + Environment.NewLine + e.Exception.StackTrace
                , "UnexpectedError");
             e.Handled = true;
-
-
-
-
         }
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -46,6 +46,32 @@ namespace XFilesArchive.UI
             if (Settings.Default.Config == null)
             {
                 Settings.Default.Config = new AppConfig();
+            }
+            var pathToMdfFileDirectory = Directory.GetCurrentDirectory();// @"d:\temp\";
+            AppDomain.CurrentDomain.SetData("DataDirectory", pathToMdfFileDirectory);
+
+
+            try
+            {
+                //Create a custom principal with an anonymous identity at startup
+                CustomPrincipal customPrincipal = new CustomPrincipal();
+                AppDomain.CurrentDomain.SetThreadPrincipal(customPrincipal);
+
+                base.OnStartup(e);
+
+                //Show the login view
+                AuthenticationViewModel viewModel = new AuthenticationViewModel(new AuthenticationService());
+                LoginWindow loginWindow = new LoginWindow(viewModel);
+                loginWindow.Show();
+                base.OnStartup(e);
+
+            }
+            catch (Exception ex)
+            {
+
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+                System.Windows.Forms.MessageBox.Show(ex.StackTrace);
+
             }
 
         }

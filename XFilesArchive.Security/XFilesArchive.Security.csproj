@@ -56,7 +56,6 @@
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\EFUnitOfWorkSecurity.cs" />
     <Compile Include="Repositories\RoleRepository.cs" />
     <Compile Include="Repositories\SecurityContext.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
@@ -65,6 +64,20 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XFilesArchive.DataAccess\XFilesArchive.DataAccess.csproj">
+      <Project>{9280afaf-7fbd-40cc-89bd-a04f3b848a18}</Project>
+      <Name>XFilesArchive.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XFilesArchive.Infrastructure\XFilesArchive.Infrastructure.csproj">
+      <Project>{b8fe85fa-910a-41c5-982d-4adf148cdad9}</Project>
+      <Name>XFilesArchive.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XFilesArchive.Services\XFilesArchive.Services.csproj">
+      <Project>{784512c0-efa7-475d-9b81-8c4e039d7442}</Project>
+      <Name>XFilesArchive.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

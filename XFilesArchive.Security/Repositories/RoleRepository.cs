@@ -1,15 +1,14 @@
-﻿using XFilesArchive.Common.Implementations;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XFilesArchive.Services.Repositories;
 
 namespace XFilesArchive.Security.Repositories
 {
-    public class RoleRepository : Repository<Role>
+    public class RoleRepository : GenericRepository<User, SecurityContext>
     {
-        public RoleRepository(IDbContext context) : base(context)
+        public RoleRepository(SecurityContext context) : base(context)
         {
         }
     }

@@ -1,15 +1,11 @@
-﻿using XFilesArchive.Common.Implementations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using XFilesArchive.DataAccess;
+using XFilesArchive.Services.Repositories;
 
 namespace XFilesArchive.Security.Repositories
 {
-    public class UserRepository : Repository<User>
+    public class UserRepository : GenericRepository<User, SecurityContext>
     {
-        public UserRepository(IDbContext context) : base(context)
+        public UserRepository(SecurityContext context) : base(context)
         {
         }
     }

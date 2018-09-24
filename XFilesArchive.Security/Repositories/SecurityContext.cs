@@ -1,10 +1,9 @@
 using System.Data.Entity;
-using XFilesArchive.Common.Implementations;
 using XFilesArchive.Security.Models.Mapping;
 
 namespace XFilesArchive.Security
 {
-    public partial class SecurityContext : DbContext, IDbContext
+    public partial class SecurityContext : DbContext
     {
         public SecurityContext()
             : base("name=SecurityContext")
