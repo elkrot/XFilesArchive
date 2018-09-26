@@ -81,6 +81,8 @@ namespace XFilesArchive.UI.ViewModel
             //{
             //    await LoadProgrammingLanguagesLookup();
             //}
+
+            await Task.Factory.StartNew(() => { });
         }
 
         private bool OnRemoveArchiveEntityCanExecute()
@@ -333,6 +335,7 @@ namespace XFilesArchive.UI.ViewModel
             //{
             //    ProgrammingLanguages.Add(lookupItem);
             //}
+            await Task.Factory.StartNew(() => { });
         }
 
         private Model.Drive CreateNewDrive()

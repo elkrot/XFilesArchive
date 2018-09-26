@@ -12,6 +12,8 @@ namespace XFilesArchive.Services.Repositories
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();
         Task SaveAsync();
+
+        void Save();
         bool HasChanges();
         void Add(T model);
         void Remove(T model);

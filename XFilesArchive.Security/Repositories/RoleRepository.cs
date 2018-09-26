@@ -6,7 +6,7 @@ using XFilesArchive.Services.Repositories;
 
 namespace XFilesArchive.Security.Repositories
 {
-    public class RoleRepository : GenericRepository<User, SecurityContext>
+    public class RoleRepository : GenericRepository<Role, SecurityContext>
     {
         public RoleRepository(SecurityContext context) : base(context)
         {

@@ -22,13 +22,13 @@ namespace XFilesArchive.Security
         public UserDto AuthenticateUser(string username, string clearTextPassword)
         {
 
-            using (var uofw = new EFUnitOfWorkSecurity(new SecurityContext()))
+            using (var context = new SecurityContext())
             {
-                var repo = uofw.GetRepository<User>();
+                var repo =new UserRepository(context);
                 var CashedPassword = CalculateHash(clearTextPassword, username);
 
                 User userData = repo.Find(u => u.Username.Equals(username)
-                && u.Password.Equals(CashedPassword)).FirstOrDefault();
+                && u.Password.Equals(CashedPassword),null).FirstOrDefault();
 
                 if (userData == null)
                     throw new UnauthorizedAccessException("Доступ запрещен. Отредактируйте учетные данные.");
@@ -62,10 +62,11 @@ namespace XFilesArchive.Security
         #region GetUserById
         public User GetUserById(int id)
         {
-            using (var uofw = new EFUnitOfWorkSecurity(new SecurityContext()))
+            using (var context = new SecurityContext())
             {
-                var repo = uofw.GetRepository<User>();
-                return repo.Find(x => x.UserId == id).FirstOrDefault();
+                var repo = new UserRepository(context);
+               
+                return repo.Find(x => x.UserId == id,null).FirstOrDefault();
             }
         }
         #endregion
@@ -76,10 +77,10 @@ namespace XFilesArchive.Security
 
 
 
-            using (var uofw = new EFUnitOfWorkSecurity(new SecurityContext()))
+            using (var context = new SecurityContext())
             {
-                var repo = uofw.GetRepository<User>();
-                User user = repo.Find(x => x.Username == username).FirstOrDefault();
+                var repo = new UserRepository(context);
+                User user = repo.Find(x => x.Username == username,null).FirstOrDefault();
 
                 if (user == null)
                 {
@@ -91,7 +92,9 @@ namespace XFilesArchive.Security
                 {
                     throw new ArgumentException("Пользователь с таки именем существует", "User");
                 }
-                return uofw.Complete();
+                repo.Save();
+                var result = new MethodResult<int>(0);
+                return result;
             }
         }
         #endregion
@@ -99,16 +102,16 @@ namespace XFilesArchive.Security
         #region GetRole
         public Role GetRole(string RoleTitle)
         {
-            using (var uofw = new EFUnitOfWorkSecurity(new SecurityContext()))
+            using (var context = new SecurityContext())
             {
-                var repo = uofw.GetRepository<Role>();
-                Role role = repo.Find(x => x.RoleTitle == RoleTitle).FirstOrDefault();
+                var repo = new RoleRepository(context);
+                Role role = repo.Find(x => x.RoleTitle == RoleTitle,null).FirstOrDefault();
 
                 if (role == null)
                 {
                     role = new Role() { RoleTitle=RoleTitle};
                     repo.Add(role);
-                    uofw.Complete();
+                    repo.Save();
                 }
                 else
                 {
@@ -125,10 +128,10 @@ namespace XFilesArchive.Security
         #region SaveUser
         public MethodResult<int> SaveUser(string username, string email, string password)
         {
-            using (var uofw = new EFUnitOfWorkSecurity(new SecurityContext()))
+            using (var context = new SecurityContext())
             {
-                var repo = uofw.GetRepository<User>();
-                User user = repo.Find(x => x.Username == username).FirstOrDefault();
+                var repo = new UserRepository(context);
+                User user = repo.Find(x => x.Username == username,null).FirstOrDefault();
 
                 if (user != null)
                 {
@@ -138,7 +141,9 @@ namespace XFilesArchive.Security
                 {
                     repo.Add(user);
                 }
-                return uofw.Complete();
+                repo.Save();
+                var result = new MethodResult<int>(0);
+                return result;
             }
         }
 

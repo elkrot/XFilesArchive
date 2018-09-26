@@ -47,6 +47,10 @@ namespace XFilesArchive.Services.Repositories
         {
             await Context.SaveChangesAsync();
         }
+        public  void Save()
+        {
+            Context.SaveChanges();
+        }
 
         public IEnumerable<TEntity> GetWithInclude(Func<TEntity, bool> predicate,
            params Expression<Func<TEntity, object>>[] includeProperties)

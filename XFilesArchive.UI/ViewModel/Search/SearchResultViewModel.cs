@@ -113,7 +113,7 @@ namespace XFilesArchive.UI.ViewModel.Search
         public async Task LoadAsync(int id)
         {
 
-   
+            await Task.Factory.StartNew(() => { });
 
         }
 
