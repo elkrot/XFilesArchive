@@ -7,19 +7,27 @@
         xmlns:local="clr-namespace:XFilesArchive.UI.View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Создание Описания Файлов для дирректории." Height="480" Width="640" WindowStartupLocation="CenterScreen">
+        Title="Создание Описания Файлов для дирректории." Height="480" Width="640" 
+                      WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="xctk:WizardPage">
+            <Setter Property="ExteriorPanelBackground" Value="{DynamicResource {x:Static SystemColors.InactiveCaptionTextBrushKey}}" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveCaptionTextBrushKey}}" />
+        </Style>
+    </Window.Resources>
     <Grid>
         <xctk:Wizard  FinishButtonClosesWindow="True" >
-            <xctk:WizardPage Title="Добро пожаловать"
+            <xctk:WizardPage Title="Добро пожаловать" 
                              Description="Этот помошник поможет создать описание дирректории." 
-                             x:Name="InitPage">
+                             x:Name="InitPage" 
+>
 
             </xctk:WizardPage>
             <xctk:WizardPage PageType="Interior"
                              Title="Страница 1"
                              Description="Первый шаг процесса!." >
                 <Grid>
-                    <StackPanel>
+                    <StackPanel Background="{DynamicResource {x:Static SystemColors.InactiveCaptionTextBrushKey}}">
                         <TextBox Text="{Binding DriveLetter}"/>
                         <TextBox  Text="{Binding MaxImagesInDirectory}"/>
                         <CheckBox Content="Секретный"  Margin="10,0,10,0" Grid.Row="2" VerticalAlignment="Center" 
