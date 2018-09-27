@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using MahApps.Metro.Controls;
 
 namespace XFilesArchive.UI.View.Security
 {
@@ -22,11 +23,14 @@ namespace XFilesArchive.UI.View.Security
     /// <summary>
     /// Interaction logic for LoginWindow.xaml
     /// </summary>
-    public partial class LoginWindow : Window, IView
+    public partial class LoginWindow : MetroWindow,IView
     {
+
+
         public LoginWindow(AuthenticationViewModel viewModel)
         {
             ViewModel = viewModel;
+           // DataContext = viewModel;
             InitializeComponent();
         }
 

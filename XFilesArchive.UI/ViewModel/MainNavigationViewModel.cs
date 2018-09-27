@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -96,7 +97,7 @@ namespace XFilesArchive.UI.ViewModel
                 }
             }
         }
-
+        [PrincipalPermission(SecurityAction.Demand, Role = "Administrator2")]
         private void OnOpenAdminPanelExecute()
         {
             AdminPage page = new AdminPage();
@@ -116,7 +117,8 @@ namespace XFilesArchive.UI.ViewModel
 
         public ICommand SearchCommand { get; }
         public ICommand GoToMainPageCommand { get; }
-
+        //"Administrators"
+        [PrincipalPermission(SecurityAction.Demand, Role = "Administrator")]
         public async void ShowWizard()
         {
 

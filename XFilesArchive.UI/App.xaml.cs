@@ -33,9 +33,19 @@ namespace XFilesArchive.UI
 
         private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
+
+            //System.Security.SecurityException
+            if (e.Exception.GetType().Name == "SecurityException") {
+
+                MessageBox.Show("Отказано в доступе!");
+                e.Handled = true;
+                return;
+            }
+
+
             MessageBox.Show(LocRM.GetString("UnexpectedError") +
                Environment.NewLine + e.Exception.Message + Environment.NewLine +
-               e.Exception.Source + Environment.NewLine + e.Exception.StackTrace
+               e.Exception.Source + Environment.NewLine + e.Exception.StackTrace+ e.Exception.GetType().Name
                , "UnexpectedError");
             e.Handled = true;
         }
