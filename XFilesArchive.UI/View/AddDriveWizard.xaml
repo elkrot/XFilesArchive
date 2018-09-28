@@ -13,14 +13,15 @@
         <Style TargetType="xctk:WizardPage">
             <Setter Property="ExteriorPanelBackground" Value="{DynamicResource {x:Static SystemColors.InactiveCaptionTextBrushKey}}" />
             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveCaptionTextBrushKey}}" />
+            <Setter Property="HeaderBackground" Value="{DynamicResource {x:Static SystemColors.InactiveCaptionTextBrushKey}}" />
         </Style>
     </Window.Resources>
     <Grid>
         <xctk:Wizard  FinishButtonClosesWindow="True" >
-            <xctk:WizardPage Title="Добро пожаловать" 
-                             Description="Этот помошник поможет создать описание дирректории." 
-                             x:Name="InitPage" 
->
+            <xctk:WizardPage  PageType="Interior" 
+                Title="Добро пожаловать" 
+                Description="Этот помошник поможет создать описание дирректории." 
+                x:Name="InitPage" >
 
             </xctk:WizardPage>
             <xctk:WizardPage PageType="Interior"
