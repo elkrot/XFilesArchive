@@ -574,7 +574,7 @@
                                                                  RelativeSource={RelativeSource TemplatedParent},
                                                                  Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Grid MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource HalfConverter}, ConverterParameter=17}">
-                                            <xctk:TrimmedTextBlock FontWeight="Bold"
+                                            <xctk:TrimmedTextBlock FontWeight="Bold" Foreground="White"
                                                                Text="{TemplateBinding SelectedObjectTypeName}"
                                                                TextTrimming="CharacterEllipsis" />
                                         </Grid>

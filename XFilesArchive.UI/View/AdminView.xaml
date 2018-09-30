@@ -10,7 +10,12 @@
                 FontSize="8" d:DesignHeight="510"
                 Background="Azure"
              >
-
+    <UserControl.Resources>
+        <Style TargetType="xctk:TrimmedTextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -171,7 +176,8 @@
                            IsMiscCategoryLabelHidden="False"
                            ShowPreview="True"
                            HideInheritedProperties="False"
-                           SelectedObject="{Binding _config}">
+                           SelectedObject="{Binding _config}"
+                           >
                 </xctk:PropertyGrid>
             </Grid>
         </DockPanel>
