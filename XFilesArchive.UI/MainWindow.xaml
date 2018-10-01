@@ -37,17 +37,17 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="82"/>
             <RowDefinition/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
         <Frame x:Name="Navigator" Margin="0,0,0,0" Grid.Row="0"/>
 
         <Frame x:Name="Main" Margin="0,0,0,0" Grid.Row="1" NavigationUIVisibility="Hidden"/>
-        <StatusBar Grid.Row="3">
+        <StatusBar Grid.Row="3" Height="40">
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
-                    <ProgressBar Name="progressBar" Height="Auto" Width="180" Margin="10" />
-                    <Button Command="{Binding NewDestinationCommand}" Content="{x:Static prop:Resources.Cancel}"/>
+                    <Controls:MetroProgressBar Name="progressBar" Height="Auto" Width="180" Margin="10" />
+                    <Button Command="{Binding NewDestinationCommand}" Content="{x:Static prop:Resources.Cancel}" Style="{StaticResource AccentedSquareButtonStyle}"/>
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

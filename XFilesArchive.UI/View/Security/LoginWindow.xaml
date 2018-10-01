@@ -41,6 +41,7 @@
         <Button Content="Вход" Command="{Binding LoginCommand, Mode=OneTime}" 
                     Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Height="30"
             CommandParameter="{Binding ElementName=passwordBox}"
+                 Style="{StaticResource AccentedSquareButtonStyle}"
              />
 
 
