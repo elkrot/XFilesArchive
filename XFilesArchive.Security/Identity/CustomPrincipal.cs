@@ -1,17 +1,33 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Security.Principal;
-
+//using Microsoft.IdentityModel.Claims;
 namespace XFilesArchive.Security
 {
-    public class CustomPrincipal : IPrincipal
+
+
+    // Principal - Пользователь() сдесь объединяются Identity & Claims, 
+    // Identities - Паспорта, Документы(Windows, Facebook, Google)   
+    // Claims - Строки паспорта (Роли, Имя, emails...)
+
+
+    // [PrincipalPermission(SecurityAction.Demand, Role = "Administrator")]
+    public class CustomPrincipal : ClaimsPrincipal, IPrincipal 
     {
         private CustomIdentity _identity;
 
-        public CustomIdentity Identity
+        public CustomPrincipal(IIdentity identity) :base(identity)
         {
-            get { return _identity ?? new AnonymousIdentity(); }
-            set { _identity = value; }
+           
         }
+        //public CustomIdentity Identity
+        //{
+        //    get { return _identity ?? new AnonymousIdentity(); }
+        //    set { _identity = value; }
+        //}
+
+        //  public ClaimsIdentityCollection Identities => throw new NotImplementedException();
 
         #region IPrincipal Members
         IIdentity IPrincipal.Identity
@@ -19,10 +35,15 @@ namespace XFilesArchive.Security
             get { return this.Identity; }
         }
 
-        public bool IsInRole(string role)
-        {
-            return _identity.Roles.Contains(role);
-        }
+        //public IClaimsPrincipal Copy()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public bool IsInRole(string role)
+        //{
+        //    return _identity.Roles.Contains(role);
+        //}
         #endregion
     }
 }

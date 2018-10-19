@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using XFilesArchive.Infrastructure;
+using System.Security.Claims;
 
 namespace XFilesArchive.UI.ViewModel.Security
 {
@@ -102,14 +103,31 @@ namespace XFilesArchive.UI.ViewModel.Security
             {
 
                 UserDto user = _authenticationService.AuthenticateUser(Username, clearTextPassword);
-
+                //--------------------------------------------------------------------------
                 CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+
+
+                var claims = new List<Claim>{
+    new Claim(ClaimTypes.Name,user.Username),
+    new Claim(ClaimTypes.Email,user.Email),
+    
+    };
+
+                foreach (var role in user.Roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role));
+                }
+
+                 customPrincipal = new CustomPrincipal(new ClaimsIdentity(claims, "custom"));
+
+
+
                 if (customPrincipal == null)
                     throw new ArgumentException("Неудача.");
-                //"The application's default thread principal must be set to a CustomPrincipal object on startup."
 
-                customPrincipal.Identity = new CustomIdentity(user.Username, user.Email, user.Roles);
-
+                Thread.CurrentPrincipal = customPrincipal;
+               // customPrincipal.Identity = new CustomIdentity(user.Username, user.Email, user.Roles);
+                //--------------------------------------------------------------------------
                 NotifyPropertyChanged("AuthenticatedUser");
                 NotifyPropertyChanged("IsAuthenticated");
                 _loginCommand.RaiseCanExecuteChanged();
