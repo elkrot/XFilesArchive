@@ -1,0 +1,17 @@
+﻿<Window x:Class="XFilesArchive.UI.View.Security.FacebookLoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:XFilesArchive.UI.View.Security"
+        mc:Ignorable="d"
+        Title="FacebookLoginWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel>
+            <WebBrowser HorizontalAlignment="Left" Height="Auto" Margin="10,10,0,0" VerticalAlignment="Top" Width="Auto" 
+                        MinHeight="300" />
+        <Button>Login</Button>
+        </StackPanel>
+        
+    </Grid>
+</Window>

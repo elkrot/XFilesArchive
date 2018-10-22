@@ -7,10 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using XFilesArchive.Infrastructure;
 
 namespace XFilesArchive.Security.Services
 {
-    class FacebookAuthenticationService
+    class FacebookAuthenticationService : IAuthenticationService
     {
         WebBrowser _FbBro;
         string _client_id;
@@ -39,7 +40,7 @@ namespace XFilesArchive.Security.Services
             var fbLoginUri = client.GetLoginUrl(new
             {
                 client_id = _client_id,
-                redirect_uri = _redirect_uri ,
+                redirect_uri = _redirect_uri,
                 response_type = "code",
                 display = "popup",
                 scope = "email"
@@ -96,7 +97,7 @@ namespace XFilesArchive.Security.Services
         #endregion
 
         #region GetUser
-  private async  Task<dynamic> GetUser(String token)
+        private async Task<dynamic> GetUser(String token)
         {
             var client = new FacebookClient();
             dynamic user = await client.GetTaskAsync("/me",
@@ -129,7 +130,7 @@ namespace XFilesArchive.Security.Services
         #endregion
         //ConfigurationManager.AppSettings["fb_secret"]
         #region PostWithPhoto
-        public  void PostWithPhoto(
+        public void PostWithPhoto(
   String token, String status, String photoPath)
         {
             var client = new FacebookClient(token);
@@ -146,6 +147,24 @@ namespace XFilesArchive.Security.Services
                     }.SetValue(stream)
                 });
             }
+        }
+
+        public UserDto AuthenticateUser()
+        {
+
+            Login();
+            var user = new UserDto(UserName, "", new string[] { "" });
+            return user;
+        }
+
+        public MethodResult<int> NewUser(string username, string email, string password, HashSet<Role> roles)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Role GetRole(string RoleTitle)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 

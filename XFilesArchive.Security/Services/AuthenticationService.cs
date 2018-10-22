@@ -4,30 +4,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using XFilesArchive.Infrastructure;
 
 namespace XFilesArchive.Security
 {
     public interface IAuthenticationService
     {
-        UserDto AuthenticateUser(string username, string password);
+        UserDto AuthenticateUser();
         MethodResult<int> NewUser(string username, string email, string password, HashSet<Role> roles);
         Role GetRole(string RoleTitle);
     }
 
     public class AuthenticationService : IAuthenticationService
     {
+        string _username;
+        string _clearTextPassword;
+        public AuthenticationService(string username, string clearTextPassword)
+        {
+            _username = username;
+            _clearTextPassword = clearTextPassword;
+        }
         #region AuthenticateUser
-        public UserDto AuthenticateUser(string username, string clearTextPassword)
+        public UserDto AuthenticateUser()
         {
 
             using (var context = new SecurityContext())
             {
                 var repo =new UserRepository(context);
-                var CashedPassword = CalculateHash(clearTextPassword, username);
+                var CashedPassword = CalculateHash(_clearTextPassword, _username);
 
-                User userData = repo.Find(u => u.Username.Equals(username)
+                User userData = repo.Find(u => u.Username.Equals(_username)
                 && u.Password.Equals(CashedPassword),null).FirstOrDefault();
 
                 if (userData == null)
