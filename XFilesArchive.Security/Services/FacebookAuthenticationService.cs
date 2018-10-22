@@ -12,32 +12,52 @@ namespace XFilesArchive.Security.Services
 {
     class FacebookAuthenticationService
     {
-        WebBrowser FbBro;
+        WebBrowser _FbBro;
+        string _client_id;
+        string _redirect_uri;
+        bool ShowBrowser = false;
+        string Token;
+        private string _client_secret;
+        public dynamic UserName { get; private set; }
+        public dynamic UserPicture { get; private set; }
+        public bool IsLogged { get; private set; }
 
-        public static String GetLoginUrl()
+
+        public FacebookAuthenticationService(WebBrowser FbBro)
+        {
+            _FbBro = FbBro;
+            _client_id = "893528717423936";
+            _redirect_uri = "https://www.facebook.com/connect/login_success.html";
+            FbBro.Navigated += FbBro_Navigated;
+            _client_secret = "28a4f9e18f7925c455498ddd538afbc7";
+        }
+
+        #region GetLoginUrl
+        public String GetLoginUrl()
         {
             var client = new FacebookClient();
             var fbLoginUri = client.GetLoginUrl(new
             {
-                client_id = "893528717423936",
-                redirect_uri =
-              "https://www.facebook.com/connect/login_success.html",
+                client_id = _client_id,
+                redirect_uri = _redirect_uri ,
                 response_type = "code",
                 display = "popup",
                 scope = "email"
             });
             return fbLoginUri.ToString();
         }
-        bool ShowBrowser = false;
-
+        #endregion
         //,publish_stream
+        #region Login
         public void Login()
         {
             var loginUrl = GetLoginUrl();
             ShowBrowser = true;
-            FbBro.Navigate(loginUrl);
+            _FbBro.Navigate(loginUrl);
         }
+        #endregion
 
+        #region FbBro_Navigated
         private void FbBro_Navigated(object sender, NavigationEventArgs e)
         {
             var fb = new FacebookClient();
@@ -49,17 +69,16 @@ namespace XFilesArchive.Security.Services
             else
                 LoginFailed(oauthResult);
         }
+        #endregion
 
+        #region LoginFailed
         private void LoginFailed(FacebookOAuthResult oauthResult)
         {
             throw new NotImplementedException();
         }
-        string Token;
+        #endregion
 
-        public dynamic UserName { get; private set; }
-        public dynamic UserPicture { get; private set; }
-        public bool IsLogged { get; private set; }
-
+        #region LoginSucceeded
         public async void LoginSucceeded(FacebookOAuthResult oauthResult)
         {
             // Hide the Web browser
@@ -74,9 +93,10 @@ namespace XFilesArchive.Security.Services
             UserPicture = user.picture;
             IsLogged = true;
         }
+        #endregion
 
-
-        private async static Task<dynamic> GetUser(String token)
+        #region GetUser
+  private async  Task<dynamic> GetUser(String token)
         {
             var client = new FacebookClient();
             dynamic user = await client.GetTaskAsync("/me",
@@ -88,27 +108,28 @@ namespace XFilesArchive.Security.Services
 
             return user;
         }
+        #endregion
 
-
-        public static String GetAccessToken(FacebookOAuthResult oauthResult)
+        #region GetAccessToken
+        public String GetAccessToken(FacebookOAuthResult oauthResult)
         {
             var client = new FacebookClient();
             dynamic result = client.Get("/oauth/access_token",
               new
               {
 
-                  client_id = "893528717423936",
-                  client_secret = "28a4f9e18f7925c455498ddd538afbc7"
+                  client_id = _client_id,
+                  client_secret = _client_secret
                ,
-                  redirect_uri =
-                "https://www.facebook.com/connect/login_success.html",
+                  redirect_uri = _redirect_uri,
                   code = oauthResult.Code
               });
             return result.access_token;
         }
+        #endregion
         //ConfigurationManager.AppSettings["fb_secret"]
-
-        public static void PostWithPhoto(
+        #region PostWithPhoto
+        public  void PostWithPhoto(
   String token, String status, String photoPath)
         {
             var client = new FacebookClient(token);
@@ -126,5 +147,7 @@ namespace XFilesArchive.Security.Services
                 });
             }
         }
+        #endregion
+
     }
 }

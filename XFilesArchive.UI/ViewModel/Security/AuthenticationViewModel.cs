@@ -37,9 +37,9 @@ namespace XFilesArchive.UI.ViewModel.Security
             _showViewCommand = new DelegateCommand(ShowView, null);
             _createAdminCommand = new DelegateCommand(CreateAdmin, null);
             var cmdArgs = System.Environment.GetCommandLineArgs();
-           
-                Username = "Admin";
-        
+
+            Username = "Admin";
+
         }
 
         #region Properties
@@ -80,12 +80,13 @@ namespace XFilesArchive.UI.ViewModel.Security
         public DelegateCommand CreateAdminCommand { get { return _createAdminCommand; } }
         #endregion
 
-        private void CreateAdmin(object parameter) {
+        private void CreateAdmin(object parameter)
+        {
             try
             {
-              //  var adminRole = _authenticationService.GetRole("Administrator");
-              
-                _authenticationService.NewUser("Admin", "", "Pa$$w0rd", new HashSet<Role>() { new Role() { RoleTitle="Administrator"} });
+                //  var adminRole = _authenticationService.GetRole("Administrator");
+
+                _authenticationService.NewUser("Admin", "", "Pa$$w0rd", new HashSet<Role>() { new Role() { RoleTitle = "Administrator" } });
                 Status = "Создан пользователь Admin";
             }
             catch (Exception ex)
@@ -101,32 +102,22 @@ namespace XFilesArchive.UI.ViewModel.Security
             string clearTextPassword = passwordBox.Password;
             try
             {
-
                 UserDto user = _authenticationService.AuthenticateUser(Username, clearTextPassword);
                 //--------------------------------------------------------------------------
                 CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
-
-
                 var claims = new List<Claim>{
-    new Claim(ClaimTypes.Name,user.Username),
-    new Claim(ClaimTypes.Email,user.Email),
-    
-    };
-
+                        new Claim(ClaimTypes.Name,user.Username),
+                        new Claim(ClaimTypes.Email,user.Email),
+                        };
                 foreach (var role in user.Roles)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, role));
                 }
-
-                 customPrincipal = new CustomPrincipal(new ClaimsIdentity(claims, "custom"));
-
-
-
+                customPrincipal = new CustomPrincipal(new ClaimsIdentity(claims, "custom"));
                 if (customPrincipal == null)
                     throw new ArgumentException("Неудача.");
-
                 Thread.CurrentPrincipal = customPrincipal;
-               // customPrincipal.Identity = new CustomIdentity(user.Username, user.Email, user.Roles);
+                // customPrincipal.Identity = new CustomIdentity(user.Username, user.Email, user.Roles);
                 //--------------------------------------------------------------------------
                 NotifyPropertyChanged("AuthenticatedUser");
                 NotifyPropertyChanged("IsAuthenticated");
@@ -135,7 +126,8 @@ namespace XFilesArchive.UI.ViewModel.Security
                 Username = string.Empty; //reset
                 passwordBox.Password = string.Empty; //reset
                 Status = string.Empty;
-                if (IsAuthenticated) {
+                if (IsAuthenticated)
+                {
                     ShowView(null);
                 }
 
@@ -160,7 +152,7 @@ namespace XFilesArchive.UI.ViewModel.Security
             CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
             if (customPrincipal != null)
             {
-                customPrincipal.Identity = new AnonymousIdentity();
+               // customPrincipal.Identity = new AnonymousIdentity();
                 NotifyPropertyChanged("AuthenticatedUser");
                 NotifyPropertyChanged("IsAuthenticated");
                 _loginCommand.RaiseCanExecuteChanged();
@@ -186,7 +178,7 @@ namespace XFilesArchive.UI.ViewModel.Security
                 Status = string.Empty;
 
                 var bootstrapper = new Bootstrapper();
-                
+
                 Autofac.IContainer container = bootstrapper.Bootstrap();
 
 
