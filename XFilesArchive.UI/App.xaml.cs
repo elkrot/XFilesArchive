@@ -64,13 +64,13 @@ namespace XFilesArchive.UI
             try
             {
                 //Create a custom principal with an anonymous identity at startup
-                CustomPrincipal customPrincipal = new CustomPrincipal();
+                CustomPrincipal customPrincipal = new CustomPrincipal(new AnonymousIdentity());
                 AppDomain.CurrentDomain.SetThreadPrincipal(customPrincipal);
 
                 base.OnStartup(e);
 
                 //Show the login view
-                AuthenticationViewModel viewModel = new AuthenticationViewModel(new AuthenticationService());
+                AuthenticationViewModel viewModel = new AuthenticationViewModel(new AuthenticationService("",""));
                 LoginWindow loginWindow = new LoginWindow(viewModel);
                 loginWindow.Show();
                 base.OnStartup(e);

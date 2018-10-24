@@ -38,11 +38,17 @@
             </PasswordBox.InputBindings>
         </PasswordBox>
 
-        <Button Content="Вход" Command="{Binding LoginCommand, Mode=OneTime}" 
-                    Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Height="30"
-            CommandParameter="{Binding ElementName=passwordBox}"
-                 Style="{StaticResource AccentedSquareButtonStyle}"
-             />
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" >
+            <Button Content="Вход" Command="{Binding LoginCommand, Mode=OneTime}" HorizontalAlignment="Stretch" Height="30"
+            CommandParameter="{Binding ElementName=passwordBox}" Style="{StaticResource AccentedSquareButtonStyle}"/>
+
+        <Button Content="Вход Windows" Command="{Binding WinLoginCommand, Mode=OneTime}" HorizontalAlignment="Stretch" Height="30"
+            Style="{StaticResource AccentedSquareButtonStyle}"/>
+
+        <Button Content="Вход Facebook" Command="{Binding FbLoginCommand, Mode=OneTime}" HorizontalAlignment="Stretch" Height="30"
+            Style="{StaticResource AccentedSquareButtonStyle}"/>
+        </StackPanel>
+        
 
 
         <TextBlock Text="{Binding Status}" Grid.Row="4" Grid.Column="0"  Height="100" Width="250" Grid.ColumnSpan="2"

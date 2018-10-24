@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using XFilesArchive.Infrastructure;
 using System.Security.Claims;
+using XFilesArchive.Security.Services;
 
 namespace XFilesArchive.UI.ViewModel.Security
 {
@@ -22,10 +23,11 @@ namespace XFilesArchive.UI.ViewModel.Security
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly DelegateCommand _loginCommand;
+        private readonly DelegateCommand _winLoginCommand;
+        private readonly DelegateCommand _fbLoginCommand;
         private readonly DelegateCommand _logoutCommand;
         private readonly DelegateCommand _showViewCommand;
         private readonly DelegateCommand _createAdminCommand;
-
         private string _username;
         private string _status;
 
@@ -33,13 +35,34 @@ namespace XFilesArchive.UI.ViewModel.Security
         {
             _authenticationService = authenticationService;
             _loginCommand = new DelegateCommand(Login, CanLogin);
+            _winLoginCommand = new DelegateCommand(WinLogin, WinCanLogin);
+            _fbLoginCommand = new DelegateCommand(FbLogin, FbCanLogin);
             _logoutCommand = new DelegateCommand(Logout, CanLogout);
             _showViewCommand = new DelegateCommand(ShowView, null);
             _createAdminCommand = new DelegateCommand(CreateAdmin, null);
-            var cmdArgs = System.Environment.GetCommandLineArgs();
-
+            var cmdArgs = Environment.GetCommandLineArgs();
             Username = "Admin";
+        }
 
+        private bool FbCanLogin(object obj)
+        {
+            return true;
+        }
+
+        private void FbLogin(object obj)
+        {
+            var service = new FacebookAuthenticationService(new WebBrowser());
+
+        }
+
+        private bool WinCanLogin(object obj)
+        {
+            return true;
+        }
+
+        private void WinLogin(object obj)
+        {
+            var service = new WindowsAuthenticationService();
         }
 
         #region Properties
@@ -73,6 +96,11 @@ namespace XFilesArchive.UI.ViewModel.Security
         #region Commands
         public DelegateCommand LoginCommand { get { return _loginCommand; } }
 
+        public DelegateCommand WinLoginCommand { get { return _winLoginCommand; } }
+
+        public DelegateCommand FbLoginCommand { get { return _fbLoginCommand; } }
+
+
         public DelegateCommand LogoutCommand { get { return _logoutCommand; } }
 
         public DelegateCommand ShowViewCommand { get { return _showViewCommand; } }
@@ -80,6 +108,7 @@ namespace XFilesArchive.UI.ViewModel.Security
         public DelegateCommand CreateAdminCommand { get { return _createAdminCommand; } }
         #endregion
 
+        #region CreateAdmin
         private void CreateAdmin(object parameter)
         {
             try
@@ -95,14 +124,19 @@ namespace XFilesArchive.UI.ViewModel.Security
             }
         }
 
+        #endregion
 
-        private void Login(object parameter)
+        #region Login
+       private void Login(object parameter)
         {
             PasswordBox passwordBox = parameter as PasswordBox;
             string clearTextPassword = passwordBox.Password;
+
+//Username, clearTextPassword
             try
             {
-                UserDto user = _authenticationService.AuthenticateUser(Username, clearTextPassword);
+
+                UserDto user = _authenticationService.AuthenticateUser();
                 //--------------------------------------------------------------------------
                 CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
                 var claims = new List<Claim>{
@@ -147,7 +181,10 @@ namespace XFilesArchive.UI.ViewModel.Security
             return !IsAuthenticated;
         }
 
-        private void Logout(object parameter)
+        #endregion
+
+        #region Logout
+      private void Logout(object parameter)
         {
             CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
             if (customPrincipal != null)
@@ -165,13 +202,15 @@ namespace XFilesArchive.UI.ViewModel.Security
         {
             return IsAuthenticated;
         }
+        #endregion
 
         public bool IsAuthenticated
         {
             get { return Thread.CurrentPrincipal.Identity.IsAuthenticated; }
         }
 
-        private void ShowView(object parameter)
+        #region ShowView
+     private void ShowView(object parameter)
         {
             try
             {
@@ -198,6 +237,8 @@ namespace XFilesArchive.UI.ViewModel.Security
             }
         }
 
+        #endregion
+   
 
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;
