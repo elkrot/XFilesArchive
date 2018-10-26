@@ -8,9 +8,9 @@
         Title="FacebookLoginWindow" Height="450" Width="800">
     <Grid>
         <StackPanel>
-            <WebBrowser HorizontalAlignment="Left" Height="Auto" Margin="10,10,0,0" VerticalAlignment="Top" Width="Auto" 
-                        MinHeight="300" />
-        <Button>Login</Button>
+            <WebBrowser Name ="fbBrowser" HorizontalAlignment="Left" Height="Auto" Margin="10,10,0,0" VerticalAlignment="Top" Width="Auto" 
+                        MinHeight="300"  />
+        <Button Click="Button_Click">Login</Button>
         </StackPanel>
         
     </Grid>

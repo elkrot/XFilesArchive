@@ -18,6 +18,7 @@ namespace XFilesArchive.Security.Services
         string Token;
         private string _client_secret;
         public dynamic UserName { get; private set; }
+        public dynamic Email { get; private set; }
         public dynamic UserPicture { get; private set; }
         public bool IsLogged { get; private set; }
 
@@ -89,6 +90,7 @@ namespace XFilesArchive.Security.Services
             dynamic user = await GetUser(token);
             // Update the user interface
             UserName = String.Format("{0} ", user.first_name);
+            Email = String.Format("{0} ", user.email);
             UserPicture = user.picture;
             IsLogged = true;
         }

@@ -51,7 +51,9 @@ namespace XFilesArchive.UI.ViewModel.Security
 
         private void FbLogin(object obj)
         {
-            var service = new FacebookAuthenticationService(new WebBrowser());
+            var fbLogin = new FacebookLoginWindow();
+            fbLogin.ShowDialog();
+            var user = fbLogin.User;
 
         }
 
@@ -63,6 +65,8 @@ namespace XFilesArchive.UI.ViewModel.Security
         private void WinLogin(object obj)
         {
             var service = new WindowsAuthenticationService();
+            var user = service.AuthenticateUser();
+
         }
 
         #region Properties
