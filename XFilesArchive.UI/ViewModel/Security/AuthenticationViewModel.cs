@@ -66,7 +66,18 @@ namespace XFilesArchive.UI.ViewModel.Security
         {
             var service = new WindowsAuthenticationService();
             var user = service.AuthenticateUser();
-
+            try
+            {
+                Auth(user, null);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Status = "Login failed! Измените учетные данные и повторите попытку.";
+            }
+            catch (Exception ex)
+            {
+                Status = string.Format("ERROR: {0}", ex.Message);
+            }
         }
 
         #region Properties
@@ -141,33 +152,12 @@ namespace XFilesArchive.UI.ViewModel.Security
             {
 
                 UserDto user = _authenticationService.AuthenticateUser();
-                //--------------------------------------------------------------------------
-                CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
-                var claims = new List<Claim>{
-                        new Claim(ClaimTypes.Name,user.Username),
-                        new Claim(ClaimTypes.Email,user.Email),
-                        };
-                foreach (var role in user.Roles)
+                Action resetAction = () =>
                 {
-                    claims.Add(new Claim(ClaimTypes.Role, role));
-                }
-                customPrincipal = new CustomPrincipal(new ClaimsIdentity(claims, "custom"));
-                if (customPrincipal == null)
-                    throw new ArgumentException("Неудача.");
-                Thread.CurrentPrincipal = customPrincipal;
-                // customPrincipal.Identity = new CustomIdentity(user.Username, user.Email, user.Roles);
-                //--------------------------------------------------------------------------
-                NotifyPropertyChanged("AuthenticatedUser");
-                NotifyPropertyChanged("IsAuthenticated");
-                _loginCommand.RaiseCanExecuteChanged();
-                _logoutCommand.RaiseCanExecuteChanged();
-                Username = string.Empty; //reset
-                passwordBox.Password = string.Empty; //reset
-                Status = string.Empty;
-                if (IsAuthenticated)
-                {
-                    ShowView(null);
-                }
+                    Username = string.Empty; //reset
+                    passwordBox.Password = string.Empty; //reset
+                };
+                Auth(user, resetAction);
 
             }
             catch (UnauthorizedAccessException)
@@ -177,6 +167,36 @@ namespace XFilesArchive.UI.ViewModel.Security
             catch (Exception ex)
             {
                 Status = string.Format("ERROR: {0}", ex.Message);
+            }
+        }
+
+        private void Auth(UserDto user, Action resetAction)
+        {
+            //--------------------------------------------------------------------------
+            CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+            var claims = new List<Claim>{
+                        new Claim(ClaimTypes.Name,user.Username),
+                        new Claim(ClaimTypes.Email,user.Email),
+                        };
+            foreach (var role in user.Roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+            customPrincipal = new CustomPrincipal(new ClaimsIdentity(claims, "custom"));
+            if (customPrincipal == null)
+                throw new ArgumentException("Неудача.");
+            Thread.CurrentPrincipal = customPrincipal;
+            // customPrincipal.Identity = new CustomIdentity(user.Username, user.Email, user.Roles);
+            //--------------------------------------------------------------------------
+            NotifyPropertyChanged("AuthenticatedUser");
+            NotifyPropertyChanged("IsAuthenticated");
+            _loginCommand.RaiseCanExecuteChanged();
+            _logoutCommand.RaiseCanExecuteChanged();
+            if (resetAction!=null) resetAction();
+            Status = string.Empty;
+            if (IsAuthenticated)
+            {
+                ShowView(null);
             }
         }
 

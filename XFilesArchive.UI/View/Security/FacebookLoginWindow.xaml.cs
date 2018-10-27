@@ -45,6 +45,7 @@ namespace XFilesArchive.UI.View.Security
         {
             User.Username = _service.UserName;
             User.Email = _service.Email;
+            this.Close();
         }
     }
 }

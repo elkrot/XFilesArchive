@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XFilesArchive.UI.View.Security"
         mc:Ignorable="d"
-        Title="FacebookLoginWindow" Height="450" Width="800">
+        Title="FacebookLoginWindow" Height="350" Width="400">
     <Grid>
-        <StackPanel>
-            <WebBrowser Name ="fbBrowser" HorizontalAlignment="Left" Height="Auto" Margin="10,10,0,0" VerticalAlignment="Top" Width="Auto" 
-                        MinHeight="300"  />
-        <Button Click="Button_Click">Login</Button>
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+            <WebBrowser Name ="fbBrowser" HorizontalAlignment="Left" Height="Auto" Margin="0,0,0,0" VerticalAlignment="Top" Width="Auto" 
+                        MinHeight="200"  />
+        <Button Click="Button_Click" Grid.Row="1">Login</Button>
+        
         
     </Grid>
 </Window>

@@ -10,19 +10,19 @@ namespace XFilesArchive.Security
         }
         public User(string username, string email, HashSet<Role> roles):this()
         {
-
             Username = username;
             Email = email;
             foreach (var role in roles)
             {
                 Role.Add(role);
             }
-            
         }
         public int UserId { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string FacebookId { get; set; }
+        public string Sid { get; set; }
         public virtual ICollection<Role> Role { get; set; }
     }
 }

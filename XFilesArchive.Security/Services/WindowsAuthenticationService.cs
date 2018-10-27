@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using XFilesArchive.Infrastructure;
+using XFilesArchive.Security.Repositories;
 
 namespace XFilesArchive.Security.Services
 {
@@ -15,17 +16,18 @@ namespace XFilesArchive.Security.Services
         public UserDto AuthenticateUser()
         {
 
-            var x = Thread.CurrentPrincipal.Identity.Name;
+            //var x = Thread.CurrentPrincipal.Identity.Name;
 
             WindowsIdentity wuser = WindowsIdentity.GetCurrent();
             var groups = wuser.Groups;
             var account = new NTAccount(wuser.Name);
             var sid = account.Translate(typeof(SecurityIdentifier));
 
-            List<string> roles = new List<string>();
- foreach (var group in wuser.Groups.Translate(typeof(NTAccount))){
-                roles.Add(group.Value);
- }
+            List<string> wroles = new List<string>();
+            foreach (var group in wuser.Groups.Translate(typeof(NTAccount)))
+            {
+                wroles.Add(group.Value);
+            }
 
 
             var claims = wuser.UserClaims;
@@ -37,17 +39,30 @@ namespace XFilesArchive.Security.Services
             else
             {
                 email = sid.Value;
+            }           
+
+            using (var context = new SecurityContext())
+            {
+                var repo = new UserRepository(context);
+
+                User userData = repo.Find(u => u.Sid.Equals(sid.Value)
+               , null).FirstOrDefault();
+
+                if (userData == null)
+                    throw new UnauthorizedAccessException("Доступ запрещен. Отредактируйте учетные данные.");
+                var roles = new string[] { };
+                if (userData.Role != null)
+                {
+                    roles = userData.Role.Select(x => x.RoleTitle).ToArray();
+                }
+                return new UserDto(userData.Username.Trim(), userData.Email, roles);
+
             }
-
-            
-            var user = new UserDto(wuser.Name, email, roles.ToArray());
-            
-
-  //ps whoami /groups /fo /list
+            //ps whoami /groups /fo /list
 
 
 
-            return user;
+           
         }
 
         public Role GetRole(string RoleTitle)

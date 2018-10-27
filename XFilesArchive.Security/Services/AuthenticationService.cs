@@ -167,6 +167,7 @@ namespace XFilesArchive.Security
             Email = email;
             Roles = roles;
         }
+
         public string Username
         {
             get;

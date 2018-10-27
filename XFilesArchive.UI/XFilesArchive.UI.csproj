@@ -37,6 +37,9 @@
     <ApplicationIcon>AppIco.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ActiveDirectoryObjectPicker">
+      <HintPath>..\Libs\ActiveDirectoryObjectPicker.dll</HintPath>
+    </Reference>
     <Reference Include="Autofac, Version=4.8.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.8.0\lib\net45\Autofac.dll</HintPath>
     </Reference>
