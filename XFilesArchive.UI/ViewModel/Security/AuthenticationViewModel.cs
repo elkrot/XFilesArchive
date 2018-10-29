@@ -247,10 +247,15 @@ namespace XFilesArchive.UI.ViewModel.Security
 
 
                 var mainWindow = container.Resolve<MainWindow>();
-                mainWindow.Show();
 
 
                 var window = System.Windows.Application.Current.Windows[0];
+                if (window != null)
+                    window.Hide();
+                mainWindow.ShowDialog();
+
+
+                
 
                 if (window != null)
                     window.Close();
