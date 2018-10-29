@@ -33,7 +33,7 @@
                     <xcdg:Column FieldName="OrderID"
                          IsMainColumn="True">
                         <xcdg:Column.CellValidationRules>
-                            <local:UniqueIDCellValidationRule />
+                            <!--<local:UniqueIDCellValidationRule />-->
                         </xcdg:Column.CellValidationRules>
                     </xcdg:Column>
                 </xcdg:DataGridControl.Columns>

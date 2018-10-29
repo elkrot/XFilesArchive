@@ -51,13 +51,13 @@ namespace XFilesArchive.UI.ViewModel
         private async void OnGoToMainPageExecute()
         {
             await _mainViewModel.LoadAsync();
-            (App.Current.MainWindow as MainWindow).Main.Content = new DrivePage(_mainViewModel);
+            (App.Current.Windows[2] as MainWindow).Main.Content = new DrivePage(_mainViewModel);
         }
 
         private void OnSearchExecute()
         {
             _searchEngineViewModel.Load();
-            (App.Current.Windows[0]  as MainWindow).Main.Content = new SearchPage(_searchEngineViewModel);
+            (App.Current.Windows[2]  as MainWindow).Main.Content = new SearchPage(_searchEngineViewModel);
         }
 
         private void OnCompareFileExecute()
@@ -102,7 +102,7 @@ namespace XFilesArchive.UI.ViewModel
         private void OnOpenAdminPanelExecute()
         {
             AdminPage page = new AdminPage();
-            (App.Current.Windows[0] as MainWindow).Main.Navigate(page);
+            (App.Current.Windows[2] as MainWindow).Main.Navigate(page);
         }
 
         private void OnNewDestinationExecute()
