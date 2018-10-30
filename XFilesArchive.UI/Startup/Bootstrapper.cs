@@ -2,6 +2,7 @@
 using Prism.Events;
 using XFilesArchive.DataAccess;
 using XFilesArchive.Model;
+using XFilesArchive.Security.Repositories;
 using XFilesArchive.Services.Lookups;
 using XFilesArchive.Services.Repositories;
 using XFilesArchive.UI.View.Services;
@@ -56,6 +57,8 @@ namespace XFilesArchive.UI.Startup
 
             builder.RegisterType<FilesOnDriveViewModel>()
             .Keyed<IDetailViewModel>(nameof(FilesOnDriveViewModel));
+
+            builder.RegisterType<UserRepository>().As<IUserRepository>();
 
             return builder.Build();
         }

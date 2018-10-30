@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Autofac;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using XFilesArchive.UI.Startup;
+using XFilesArchive.UI.ViewModel.Security;
 
 namespace XFilesArchive.UI.View.Security
 {
@@ -23,6 +13,12 @@ namespace XFilesArchive.UI.View.Security
         public Users()
         {
             InitializeComponent();
+            var bootstrapper = new Bootstrapper();
+            var container = bootstrapper.Bootstrap();
+            var usersViewModel = container.Resolve<UsersViewModel>();
+            usersViewModel.LoadAsync(0).RunSynchronously();
+            DataContext = usersViewModel;
+
         }
     }
 }

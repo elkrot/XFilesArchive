@@ -8,35 +8,37 @@
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
              xmlns:compModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             x:Name="_users">
     <Grid>
       
-            <Grid.Resources>
-                <xcdg:DataGridCollectionViewSource x:Key="cvsOrders"
-                                            Source="{Binding ElementName=_demo, Path=Orders}">
+            <!--<Grid.Resources>
+                <xcdg:DataGridCollectionViewSource x:Key="cvsUsers"
+                                            Source="{Binding ElementName=_users, Path=Users}">
                     <xcdg:DataGridCollectionViewSource.GroupDescriptions>
-                        <PropertyGroupDescription PropertyName="ShipCountry" />
-                        <PropertyGroupDescription PropertyName="ShipCity" />
+                    <PropertyGroupDescription PropertyName="Username" />
+                        <PropertyGroupDescription PropertyName="Email" />
                     </xcdg:DataGridCollectionViewSource.GroupDescriptions>
                 </xcdg:DataGridCollectionViewSource>
-            </Grid.Resources>
+            </Grid.Resources>-->
 
             <xcdg:DataGridControl x:Name="_dataGrid" 
                             MaxHeight="400"
-                            ItemsSource="{Binding Source={StaticResource cvsOrders} }" >
+                            ItemsSource="{Binding Source=Users}" >
                 <xcdg:DataGridControl.View>
                     <xcdg:TableflowView FixedColumnCount="2" />
                 </xcdg:DataGridControl.View>
 
                 <xcdg:DataGridControl.Columns>
                     <!--Preconfigure the OrderID Column of the grid with CellValidationRule. -->
-                    <xcdg:Column FieldName="OrderID"
+                    <xcdg:Column FieldName="UserId"
                          IsMainColumn="True">
                         <xcdg:Column.CellValidationRules>
                             <!--<local:UniqueIDCellValidationRule />-->
                         </xcdg:Column.CellValidationRules>
                     </xcdg:Column>
-                </xcdg:DataGridControl.Columns>
+                <xcdg:Column FieldName="Username"/>
+            </xcdg:DataGridControl.Columns>
             </xcdg:DataGridControl>
      
     </Grid>

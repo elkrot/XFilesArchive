@@ -163,6 +163,7 @@
     <Compile Include="ViewModel\Search\SearchNavigationViewModel.cs" />
     <Compile Include="ViewModel\Search\SearchResultViewModel.cs" />
     <Compile Include="ViewModel\Security\AuthenticationViewModel.cs" />
+    <Compile Include="ViewModel\Security\UsersViewModel.cs" />
     <Compile Include="ViewModel\Services\AddCategoryViewModel.cs" />
     <Compile Include="View\AddDriveWizard.xaml.cs">
       <DependentUpon>AddDriveWizard.xaml</DependentUpon>

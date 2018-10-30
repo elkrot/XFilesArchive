@@ -8,7 +8,7 @@
       xmlns:view="clr-namespace:XFilesArchive.UI.View"
       mc:Ignorable="d" 
       d:DesignHeight="310" d:DesignWidth="380"
-      Background="Aqua"
+      
       Title="AdminMainPage">
 
     <Grid >
