@@ -14,7 +14,7 @@ namespace XFilesArchive.UI.ViewModel.Security
     public class UsersViewModel : DetailViewModelBase
     {
 
-        public ObservableCollection<User> Users { get; set; }
+        public ObservableCollection<User> UsersCollection { get; set; }
         private IUserRepository _repository;
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageService;
@@ -23,7 +23,7 @@ namespace XFilesArchive.UI.ViewModel.Security
             , IMessageDialogService messageService) : base(eventAggregator, messageService)
         {
             
-            Users = new ObservableCollection<User>();
+            UsersCollection = new ObservableCollection<User>();
 
             _repository = repository;
             _eventAggregator = eventAggregator;
@@ -33,10 +33,10 @@ namespace XFilesArchive.UI.ViewModel.Security
         public override async Task LoadAsync(int id)
         {
             var users = await  _repository.GetAllUsersAsync();
-            Users.Clear();
+            UsersCollection.Clear();
             foreach (var item in users)
             {
-                Users.Add(item);
+                UsersCollection.Add(item);
             }
 
         }

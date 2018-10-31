@@ -2,6 +2,7 @@
 using Prism.Events;
 using XFilesArchive.DataAccess;
 using XFilesArchive.Model;
+using XFilesArchive.Security;
 using XFilesArchive.Security.Repositories;
 using XFilesArchive.Services.Lookups;
 using XFilesArchive.Services.Repositories;
@@ -10,6 +11,7 @@ using XFilesArchive.UI.ViewModel;
 using XFilesArchive.UI.ViewModel.Drive;
 using XFilesArchive.UI.ViewModel.Navigation;
 using XFilesArchive.UI.ViewModel.Search;
+using XFilesArchive.UI.ViewModel.Security;
 
 namespace XFilesArchive.UI.Startup
 {
@@ -18,7 +20,7 @@ namespace XFilesArchive.UI.Startup
         public IContainer Bootstrap()
         {
             var builder = new ContainerBuilder();
-            
+
 
             builder.RegisterType<XFilesArchiveDataContext>().AsSelf();
             builder.RegisterType<MainWindow>().AsSelf();
@@ -31,7 +33,7 @@ namespace XFilesArchive.UI.Startup
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
             builder.RegisterType<FilesOnDriveLookupProvider>().As<ITreeViewLookupProvider<ArchiveEntity>>();
             builder.RegisterType<CategoryLookupProvider>().As<ITreeViewLookupProvider<Category>>();
-          
+
             //builder.RegisterType<MeetingDetailViewModel>()
             //    .Keyed<IDetailViewModel>(nameof(MeetingDetailViewModel));
             builder.RegisterType<FilesOnDriveViewModel>().AsSelf();
@@ -45,7 +47,7 @@ namespace XFilesArchive.UI.Startup
             //builder.RegisterType<SearchResultViewModel>().As<ISearchResultViewModel>();
             builder.RegisterType<SearchNavigationViewModel>().As<ISearchNavigationViewModel>();
             builder.RegisterType<TagNavigationViewModel>().As<ITagNavigationViewModel>();
-            
+
 
 
             builder.RegisterType<SearchEngineViewModel>().AsSelf();
@@ -57,8 +59,10 @@ namespace XFilesArchive.UI.Startup
 
             builder.RegisterType<FilesOnDriveViewModel>()
             .Keyed<IDetailViewModel>(nameof(FilesOnDriveViewModel));
-
+            builder.RegisterType<SecurityContext>().AsSelf();
             builder.RegisterType<UserRepository>().As<IUserRepository>();
+
+            builder.RegisterType<UsersViewModel>().AsSelf();
 
             return builder.Build();
         }

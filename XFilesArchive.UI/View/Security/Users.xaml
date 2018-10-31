@@ -24,7 +24,7 @@
 
             <xcdg:DataGridControl x:Name="_dataGrid" 
                             MaxHeight="400"
-                            ItemsSource="{Binding Source=Users}" >
+                            ItemsSource="{Binding UsersCollection}" >
                 <xcdg:DataGridControl.View>
                     <xcdg:TableflowView FixedColumnCount="2" />
                 </xcdg:DataGridControl.View>
@@ -33,9 +33,7 @@
                     <!--Preconfigure the OrderID Column of the grid with CellValidationRule. -->
                     <xcdg:Column FieldName="UserId"
                          IsMainColumn="True">
-                        <xcdg:Column.CellValidationRules>
-                            <!--<local:UniqueIDCellValidationRule />-->
-                        </xcdg:Column.CellValidationRules>
+
                     </xcdg:Column>
                 <xcdg:Column FieldName="Username"/>
             </xcdg:DataGridControl.Columns>
