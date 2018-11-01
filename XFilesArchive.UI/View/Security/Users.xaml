@@ -10,21 +10,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              x:Name="_users">
-    <Grid>
-      
-            <!--<Grid.Resources>
-                <xcdg:DataGridCollectionViewSource x:Key="cvsUsers"
-                                            Source="{Binding ElementName=_users, Path=Users}">
-                    <xcdg:DataGridCollectionViewSource.GroupDescriptions>
-                    <PropertyGroupDescription PropertyName="Username" />
-                        <PropertyGroupDescription PropertyName="Email" />
-                    </xcdg:DataGridCollectionViewSource.GroupDescriptions>
-                </xcdg:DataGridCollectionViewSource>
-            </Grid.Resources>-->
+    <Grid x:Name="UsersGrid">
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
             <xcdg:DataGridControl x:Name="_dataGrid" 
                             MaxHeight="400"
-                            ItemsSource="{Binding UsersCollection}" >
+                            ItemsSource="{Binding UsersCollection}"  >
                 <xcdg:DataGridControl.View>
                     <xcdg:TableflowView FixedColumnCount="2" />
                 </xcdg:DataGridControl.View>
@@ -38,6 +32,12 @@
                 <xcdg:Column FieldName="Username"/>
             </xcdg:DataGridControl.Columns>
             </xcdg:DataGridControl>
-     
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Content="+" Command="{Binding AddNewUserCommand}"/>
+            <Button Content="-" Command="{Binding RemoveUserCommand}" CommandParameter="{Binding ElementName=_dataGrid,Path=CurrentItem}"/>
+            <Button Content="p" Command="{Binding ChangePasswordCommand}"/>
+            <Button Content="W"  Command="{Binding SetWindowsAuthenticationCommand}"/>
+            <Button Content="f"  Command="{Binding SetFacebookAuthenticationCommand}"/>
+        </StackPanel>
     </Grid>
 </UserControl>
