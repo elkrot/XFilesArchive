@@ -48,8 +48,8 @@
         <Button Content="Вход Facebook" Command="{Binding FbLoginCommand, Mode=OneTime}" HorizontalAlignment="Stretch" Height="30"
             Style="{StaticResource AccentedSquareButtonStyle}"/>
 
-            <Button Content="TestAD"  HorizontalAlignment="Stretch" Height="30"
-            Style="{StaticResource AccentedSquareButtonStyle}" Click="Button_Click"/>
+            <!--<Button Content="TestAD"  HorizontalAlignment="Stretch" Height="30"
+            Style="{StaticResource AccentedSquareButtonStyle}" Click="Button_Click"/>-->
         </StackPanel>
         
 

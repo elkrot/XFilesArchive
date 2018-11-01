@@ -35,9 +35,9 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button Content="+" Command="{Binding AddNewUserCommand}"/>
             <Button Content="-" Command="{Binding RemoveUserCommand}" CommandParameter="{Binding ElementName=_dataGrid,Path=CurrentItem}"/>
-            <Button Content="p" Command="{Binding ChangePasswordCommand}"/>
-            <Button Content="W"  Command="{Binding SetWindowsAuthenticationCommand}"/>
-            <Button Content="f"  Command="{Binding SetFacebookAuthenticationCommand}"/>
+            <Button Content="p" Command="{Binding ChangePasswordCommand}"  CommandParameter="{Binding ElementName=_dataGrid,Path=CurrentItem}"/>
+            <Button Content="W"  Command="{Binding SetWindowsAuthenticationCommand}" CommandParameter="{Binding ElementName=_dataGrid,Path=CurrentItem}"/>
+            <Button Content="f"  Command="{Binding SetFacebookAuthenticationCommand}" CommandParameter="{Binding ElementName=_dataGrid,Path=CurrentItem}"/>
         </StackPanel>
     </Grid>
 </UserControl>

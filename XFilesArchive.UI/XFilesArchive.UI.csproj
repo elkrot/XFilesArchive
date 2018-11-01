@@ -253,7 +253,9 @@
     <Compile Include="Wrapper\ImageWrapper.cs" />
     <Compile Include="Wrapper\Base\ModelWrapper.cs" />
     <Compile Include="Wrapper\Base\NotifyDataErrorInfoBase.cs" />
+    <Compile Include="Wrapper\RoleWrapper.cs" />
     <Compile Include="Wrapper\TagWrapper.cs" />
+    <Compile Include="Wrapper\UserDtoWrapper.cs" />
     <Page Include="Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
