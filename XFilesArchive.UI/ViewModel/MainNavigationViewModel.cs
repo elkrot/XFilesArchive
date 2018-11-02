@@ -31,7 +31,8 @@ namespace XFilesArchive.UI.ViewModel
         byte IsSecret = 0;
         SearchEngineViewModel _searchEngineViewModel;
         private MainViewModel _mainViewModel;
-
+        private IMessageDialogService _messageDialogService;
+        public const int MAIN_WINDOW_INDEX= 1;
         public MainNavigationViewModel(IEventAggregator eventAggregator
             , IMessageDialogService messageDialogService
             , SearchEngineViewModel searchEngineViewModel
@@ -39,6 +40,7 @@ namespace XFilesArchive.UI.ViewModel
         {
             _mainViewModel = mainViewModel;
             _searchEngineViewModel = searchEngineViewModel;
+            _messageDialogService = messageDialogService;
             cancelTokenSource = new CancellationTokenSource();
             token = cancelTokenSource.Token;
             NewDestinationCommand = new DelegateCommand(OnNewDestinationExecute);
@@ -51,13 +53,27 @@ namespace XFilesArchive.UI.ViewModel
         private async void OnGoToMainPageExecute()
         {
             await _mainViewModel.LoadAsync();
-            (App.Current.Windows[2] as MainWindow).Main.Content = new DrivePage(_mainViewModel);
+            if (App.Current.Windows[MAIN_WINDOW_INDEX] is MainWindow)
+            {
+                (App.Current.Windows[MAIN_WINDOW_INDEX] as MainWindow).Main.Content = new DrivePage(_mainViewModel);
+            }
+            else {
+               await _messageDialogService.ShowInfoDialogAsync("Ошибка");
+            }
         }
 
-        private void OnSearchExecute()
+        private async void OnSearchExecute()
         {
             _searchEngineViewModel.Load();
-            (App.Current.Windows[2]  as MainWindow).Main.Content = new SearchPage(_searchEngineViewModel);
+            if (App.Current.Windows[MAIN_WINDOW_INDEX] is MainWindow)
+            {
+
+                (App.Current.Windows[MAIN_WINDOW_INDEX] as MainWindow).Main.Content = new SearchPage(_searchEngineViewModel);
+            }
+            else
+            {
+                await _messageDialogService.ShowInfoDialogAsync("Ошибка");
+            }
         }
 
         private void OnCompareFileExecute()
@@ -99,10 +115,17 @@ namespace XFilesArchive.UI.ViewModel
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Administrator")]
-        private void OnOpenAdminPanelExecute()
+        private async void OnOpenAdminPanelExecute()
         {
             AdminPage page = new AdminPage();
-            (App.Current.Windows[2] as MainWindow).Main.Navigate(page);
+            if (App.Current.Windows[MAIN_WINDOW_INDEX] is MainWindow)
+            {
+
+                (App.Current.Windows[MAIN_WINDOW_INDEX] as MainWindow).Main.Navigate(page);
+            }
+            else {
+                await _messageDialogService.ShowInfoDialogAsync("Ошибка");
+            }
         }
 
         private void OnNewDestinationExecute()
