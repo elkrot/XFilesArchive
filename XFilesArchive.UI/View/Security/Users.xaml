@@ -20,16 +20,22 @@
                             MaxHeight="400"
                             ItemsSource="{Binding UsersCollection}"  >
                 <xcdg:DataGridControl.View>
-                    <xcdg:TableflowView FixedColumnCount="2" />
+                    <xcdg:TableflowView FixedColumnCount="1" />
                 </xcdg:DataGridControl.View>
 
                 <xcdg:DataGridControl.Columns>
                     <!--Preconfigure the OrderID Column of the grid with CellValidationRule. -->
-                    <xcdg:Column FieldName="UserId"
-                         IsMainColumn="True">
+                <xcdg:Column FieldName="UserId" Visible="False"/>
+                <xcdg:Column FieldName="Username" Title="Имя пользователя" ReadOnly="True"/>
+                <xcdg:Column FieldName="Email" Title="e-mail"  ReadOnly="True"/>
 
-                    </xcdg:Column>
-                <xcdg:Column FieldName="Username"/>
+                <xcdg:Column FieldName="Password" Visible="False"/>
+                <xcdg:Column FieldName="FacebookId" Visible="False"/>
+                <xcdg:Column FieldName="Sid" Visible="False"/>
+                 
+         
+         
+
             </xcdg:DataGridControl.Columns>
             </xcdg:DataGridControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal">

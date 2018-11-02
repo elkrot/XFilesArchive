@@ -11,9 +11,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Tulpep.ActiveDirectoryObjectPicker;
 using XFilesArchive.Security;
+using XFilesArchive.Security.Models;
 using XFilesArchive.Security.Repositories;
 using XFilesArchive.UI.View.Security;
 using XFilesArchive.UI.View.Services;
+using XFilesArchive.UI.Wrapper;
 
 namespace XFilesArchive.UI.ViewModel.Security
 {
@@ -56,6 +58,7 @@ namespace XFilesArchive.UI.ViewModel.Security
             
         }
 
+        #region WindowsAuthentication
         private async void OnSetWindowsAuthenticationExecute(User user)
         {
             DirectoryObjectPickerDialog picker = new DirectoryObjectPickerDialog()
@@ -109,6 +112,7 @@ namespace XFilesArchive.UI.ViewModel.Security
                 }
                 user.Sid = sid;
                await _repository.UpdateUserAsync(user);
+                await LoadAsync(0);
 
             }
         }
@@ -137,6 +141,8 @@ namespace XFilesArchive.UI.ViewModel.Security
 
             return "0x" + BitConverter.ToString(bytes).Replace('-', ' ');
         }
+        #endregion
+
 
         private async void OnChangePasswordExecute(User user)
         {
@@ -149,13 +155,24 @@ namespace XFilesArchive.UI.ViewModel.Security
 
         private async void OnRemoveUserExecute(User user)
         {
-            await _repository.RemoveUserAsync(user);
+            if (_messageService.ShowOKCancelDialog("Удалить пользователя", user.Username)==MessageDialogResult.OK)
+            {
+                await _repository.RemoveUserAsync(user);
+                await LoadAsync(0);
+            }
         }
 
-        private void OnAddNewUserExecute()
+        private async void OnAddNewUserExecute()
         {
-            var w = new NewUserView();
-            w.Show();
+            var userZ = new UserDtoWrapper(new UserDtoZ() { Username = "Anonimus" });
+            var w = new NewUserView(userZ);
+            var x = w.ShowDialog().Value;
+                var userDtoZ = w.DataContext as UserDtoWrapper;
+                var _password = Infrastructure.Utilites.Security.CalculateHash(userDtoZ.Password, userDtoZ.Username);
+                var user = new User() { Username = userDtoZ.Username, Password = _password, Email = userDtoZ.Email };
+                await _repository.AddNewUserAsync(user);
+            await LoadAsync(0);
+            
         }
 
         public override async Task LoadAsync(int id)

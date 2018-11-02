@@ -31,7 +31,7 @@ namespace XFilesArchive.Security
             using (var context = new SecurityContext())
             {
                 var repo =new UserRepository(context);
-                var CashedPassword = CalculateHash(_clearTextPassword, _username);
+                var CashedPassword = Infrastructure.Utilites.Security.CalculateHash(_clearTextPassword, _username);
 
                 User userData = repo.Find(u => u.Username.Equals(_username)
                 && u.Password.Equals(CashedPassword),null).FirstOrDefault();
@@ -52,18 +52,7 @@ namespace XFilesArchive.Security
         }
         #endregion
 
-        #region CalculateHash
-        private string CalculateHash(string clearTextPassword, string salt)
-        {
-            // Convert the salted password to a byte array
-            byte[] saltedHashBytes = Encoding.UTF8.GetBytes(clearTextPassword + salt);
-            // Use the hash algorithm to calculate the hash
-            HashAlgorithm algorithm = new SHA256Managed();
-            byte[] hash = algorithm.ComputeHash(saltedHashBytes);
-            // Return the hash as a base64 encoded string to be compared to the stored password
-            return Convert.ToBase64String(hash);
-        }
-        #endregion
+
 
         #region GetUserById
         public User GetUserById(int id)
@@ -81,8 +70,6 @@ namespace XFilesArchive.Security
         public MethodResult<int> NewUser(string username, string email, string password, HashSet<Role> roles)
         {
 
-
-
             using (var context = new SecurityContext())
             {
                 var repo = new UserRepository(context);
@@ -91,7 +78,7 @@ namespace XFilesArchive.Security
                 if (user == null)
                 {
                     user = new User(username, email, roles);
-                    user.Password = CalculateHash(password, user.Username);
+                    user.Password = Infrastructure.Utilites.Security.CalculateHash(password, user.Username);
                     repo.Add(user);
                 }
                 else

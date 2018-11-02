@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using XFilesArchive.UI.Wrapper;
 
 namespace XFilesArchive.UI.View.Security
 {
@@ -19,9 +20,12 @@ namespace XFilesArchive.UI.View.Security
     /// </summary>
     public partial class NewUserView : Window
     {
-        public NewUserView()
+        public UserDtoWrapper UserDto { get; set; }
+        public NewUserView(UserDtoWrapper user)
         {
             InitializeComponent();
+            UserDto = user;
+            DataContext = user;
         }
     }
 }
