@@ -32,7 +32,10 @@ namespace XFilesArchive.UI.ViewModel
         SearchEngineViewModel _searchEngineViewModel;
         private MainViewModel _mainViewModel;
         private IMessageDialogService _messageDialogService;
-        public const int MAIN_WINDOW_INDEX= 1;
+   
+
+       
+
         public MainNavigationViewModel(IEventAggregator eventAggregator
             , IMessageDialogService messageDialogService
             , SearchEngineViewModel searchEngineViewModel
@@ -48,14 +51,16 @@ namespace XFilesArchive.UI.ViewModel
             CompareFileCommand = new DelegateCommand(OnCompareFileExecute);
             GoToMainPageCommand = new DelegateCommand(OnGoToMainPageExecute);
             SearchCommand = new DelegateCommand(OnSearchExecute);
+
+            
         }
 
         private async void OnGoToMainPageExecute()
         {
             await _mainViewModel.LoadAsync();
-            if (App.Current.Windows[MAIN_WINDOW_INDEX] is MainWindow)
+            if (App.Current.Windows.OfType<MainWindow>().FirstOrDefault() is MainWindow)
             {
-                (App.Current.Windows[MAIN_WINDOW_INDEX] as MainWindow).Main.Content = new DrivePage(_mainViewModel);
+                App.Current.Windows.OfType<MainWindow>().FirstOrDefault().Main.Content = new DrivePage(_mainViewModel);
             }
             else {
                await _messageDialogService.ShowInfoDialogAsync("Ошибка");
@@ -65,10 +70,10 @@ namespace XFilesArchive.UI.ViewModel
         private async void OnSearchExecute()
         {
             _searchEngineViewModel.Load();
-            if (App.Current.Windows[MAIN_WINDOW_INDEX] is MainWindow)
+            if (App.Current.Windows.OfType<MainWindow>().FirstOrDefault() is MainWindow)
             {
 
-                (App.Current.Windows[MAIN_WINDOW_INDEX] as MainWindow).Main.Content = new SearchPage(_searchEngineViewModel);
+                (App.Current.Windows.OfType<MainWindow>().FirstOrDefault() as MainWindow).Main.Content = new SearchPage(_searchEngineViewModel);
             }
             else
             {
@@ -118,10 +123,10 @@ namespace XFilesArchive.UI.ViewModel
         private async void OnOpenAdminPanelExecute()
         {
             AdminPage page = new AdminPage();
-            if (App.Current.Windows[MAIN_WINDOW_INDEX] is MainWindow)
+            if (App.Current.Windows.OfType<MainWindow>().FirstOrDefault() is MainWindow)
             {
 
-                (App.Current.Windows[MAIN_WINDOW_INDEX] as MainWindow).Main.Navigate(page);
+                (App.Current.Windows.OfType<MainWindow>().FirstOrDefault() as MainWindow).Main.Navigate(page);
             }
             else {
                 await _messageDialogService.ShowInfoDialogAsync("Ошибка");

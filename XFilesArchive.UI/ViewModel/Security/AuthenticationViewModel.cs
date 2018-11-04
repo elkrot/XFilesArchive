@@ -244,21 +244,15 @@ namespace XFilesArchive.UI.ViewModel.Security
 
                 Autofac.IContainer container = bootstrapper.Bootstrap();
 
-
-
                 var mainWindow = container.Resolve<MainWindow>();
 
-
-                var window = System.Windows.Application.Current.Windows[0];
-                if (window != null)
-                    window.Hide();
+                
+                if (App.Current.Windows.OfType<LoginWindow>().FirstOrDefault() is LoginWindow)
+                    (App.Current.Windows.OfType<LoginWindow>().FirstOrDefault() as LoginWindow).Hide();
                 mainWindow.ShowDialog();
 
-
-                
-
-                if (window != null)
-                    window.Close();
+                if ((App.Current.Windows.OfType<LoginWindow>().FirstOrDefault() as LoginWindow) != null)
+                    (App.Current.Windows.OfType<LoginWindow>().FirstOrDefault() as LoginWindow).Close();
             }
             catch (SecurityException)
             {
