@@ -13,20 +13,14 @@ namespace XFilesArchive.UI
     ///[PrincipalPermission(SecurityAction.Demand, Role = "Administrators")]
     public partial class MainWindow :  MetroWindow
     {    
-
         //private MetroWindow _window;
-
 
         public MainWindow(MainViewModel viewModel, MainNavigationViewModel mainNav)
         {
-            
             InitializeComponent();
             Navigator.Content = new NavigationPage(mainNav);
             Main.Content = new DrivePage(viewModel);
         }
-
-
-
 
         void HelpCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {

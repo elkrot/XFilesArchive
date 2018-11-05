@@ -2,12 +2,14 @@
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
 using System;
+using System.Linq;
 
 namespace XFilesArchive.UI.View.Services
 {
     public class MessageDialogService : IMessageDialogService
     {
-        private MetroWindow MetroWindow=>(MetroWindow)App.Current.MainWindow;
+        private MetroWindow MetroWindow => (MetroWindow)App.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            //App.Current.MainWindow;
 
         public async Task<MessageDialogResult> ShowOKCancelDialogAsync(string text, string title)
         {

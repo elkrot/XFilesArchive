@@ -166,13 +166,15 @@ namespace XFilesArchive.UI.ViewModel.Security
         {
             var userZ = new UserDtoWrapper(new UserDtoZ() { Username = "Anonimus" });
             var w = new NewUserView(userZ);
-            var x = w.ShowDialog().Value;
+            var result = w.ShowDialog();
+            if (result.Value==true)
+            {
                 var userDtoZ = w.DataContext as UserDtoWrapper;
                 var _password = Infrastructure.Utilites.Security.CalculateHash(userDtoZ.Password, userDtoZ.Username);
                 var user = new User() { Username = userDtoZ.Username, Password = _password, Email = userDtoZ.Email };
                 await _repository.AddNewUserAsync(user);
-            await LoadAsync(0);
-            
+                await LoadAsync(0);
+            }
         }
 
         public override async Task LoadAsync(int id)

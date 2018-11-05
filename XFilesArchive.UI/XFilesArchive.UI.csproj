@@ -138,7 +138,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.en-US.resx</DependentUpon>
     </Compile>
-    <Compile Include="Security\LoginWindow.cs" />
     <Compile Include="SettingBindingExtension.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="ViewModel\AddDriveWizardViewModel.cs" />
@@ -457,6 +456,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Security\" />
     <Folder Include="Wrapper\Generated\" />
   </ItemGroup>
   <ItemGroup>
