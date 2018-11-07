@@ -15,6 +15,7 @@ using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel.Navigation;
 using XFilesArchive.UI.Wrapper;
 using System;
+using Microsoft.IdentityModel.Claims;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -188,6 +189,8 @@ namespace XFilesArchive.UI.ViewModel
 
         public override async Task LoadAsync(int id)
         {
+            ClaimsPrincipalPermission.CheckAccess("", "Load");
+
 
             var drive = id > 0 ?
                 await _repository.GetByIdAsync(id) :
