@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Permissions;
 using XFilesArchive.DataAccess;
 using XFilesArchive.Model;
 
@@ -20,8 +21,14 @@ namespace XFilesArchive.Services.Repositories
         {
             return Context.Categories.Find(id);
         }
-
+        
         public ICollection<ArchiveEntity> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition)
+        {
+            var ret = Context.ArchiveEntities.AsExpandable().AsNoTracking().Where(condition).Where(x=>x.Drive.IsSecret==false).ToList();
+            return ret;
+        }
+        [PrincipalPermission(SecurityAction.Demand, Role = "Administrator")]
+        public ICollection<ArchiveEntity> GetEntitiesByConditionWithHiden(Expression<Func<ArchiveEntity, bool>> condition)
         {
             var ret = Context.ArchiveEntities.AsExpandable().AsNoTracking().Where(condition).ToList();
             return ret;

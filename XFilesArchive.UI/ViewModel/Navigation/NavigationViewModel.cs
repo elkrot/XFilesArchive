@@ -1,13 +1,14 @@
-﻿using Prism.Commands;
-using Prism.Events;
+﻿using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using XFilesArchive.UI.Event;
 using XFilesArchive.Services.Lookups;
-using System;
-using System.Windows;
+using XFilesArchive.Security;
+using System.Threading;
+using System.Collections.Generic;
+
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -48,10 +49,10 @@ namespace XFilesArchive.UI.ViewModel
             _eventAggregator.GetEvent<AfterSaveEvent>().Subscribe(AfterSaved);
             _eventAggregator.GetEvent<AfterDeletedEvent>().Subscribe(AfterDeleted);
 
-            FirstPageCommand = new DelegateCommand(FirstPageCommandExecute);
-            PrevPageCommand = new DelegateCommand(PrevPageCommandExecute);
-            NextPageCommand = new DelegateCommand(NextPageCommandExecute);
-            LastPageCommand = new DelegateCommand(LastPageCommandExecute);
+            FirstPageCommand = new Prism.Commands.DelegateCommand(FirstPageCommandExecute);
+            PrevPageCommand = new Prism.Commands.DelegateCommand(PrevPageCommandExecute);
+            NextPageCommand = new Prism.Commands.DelegateCommand(NextPageCommandExecute);
+            LastPageCommand = new Prism.Commands.DelegateCommand(LastPageCommandExecute);
 
             _currentPage = 1;
             _filterText = "";
@@ -197,22 +198,38 @@ namespace XFilesArchive.UI.ViewModel
         {
             //var lookup = await _lookupDataService.GetDriveLookupAsync();
 
+            CustomPrincipal wp = Thread.CurrentPrincipal as CustomPrincipal;
+            if (wp != null)
+            {
 
-            itemsCount =  _lookupDataService
-                .GetDrivesCountByCondition(x => x.Title.Contains(FilterText), x => x.DriveCode
-                , false, 1, int.MaxValue);
+               IEnumerable<DriveDto> lookup;
+                if (wp.IsInRole(@"Administrator") == true)
+                {
+                    itemsCount = _lookupDataService
+               .GetDrivesCountByCondition(x => x.Title.Contains(FilterText), x => x.DriveCode
+               , false, 1, int.MaxValue);
 
-            var lookup = await _lookupDataService.GetDrivesByConditionAsync(x => x.Title.Contains(FilterText), x => x.DriveCode
-            , false, CurrentPage, PageLength);
+                     lookup = await _lookupDataService.GetDrivesByConditionAsync(x => x.Title.Contains(FilterText), x => x.DriveCode
+                    , false, CurrentPage, PageLength);
 
+                }
+                else
+                {
+                    itemsCount = _lookupDataService
+                        .GetDrivesCountByCondition(x => x.Title.Contains(FilterText)&& x.IsSecret==false, x => x.DriveCode
+                        , false, 1, int.MaxValue);
 
+                     lookup = await _lookupDataService.GetDrivesByConditionAsync(x => x.Title.Contains(FilterText) && x.IsSecret==false, x => x.DriveCode
+                    , false, CurrentPage, PageLength);
+                }
+            
 
             Drives.Clear();
             foreach (var item in lookup)
             {
                 Drives.Add(new NavigationItemViewModel(item.DriveId, item.Title, nameof(DriveDetailViewModel), _eventAggregator));
             }
-
+        }
 
             var categoryLookup = await _categoryLookupDataService.GetCategoryLookupAsync();
             Categories.Clear();
@@ -225,8 +242,48 @@ namespace XFilesArchive.UI.ViewModel
 
         }
 
+        public void Load()
+        {
+            CustomPrincipal wp = Thread.CurrentPrincipal as CustomPrincipal;
+            if (wp != null)
+            {
+                IEnumerable<DriveDto> lookup;
+
+                if (wp.IsInRole(@"Administrator") == true)
+                {
+                    itemsCount = _lookupDataService
+               .GetDrivesCountByCondition(x => x.Title.Contains(FilterText), x => x.DriveCode
+               , false, 1, int.MaxValue);
+
+                    lookup = _lookupDataService.GetDrivesByCondition(x => x.Title.Contains(FilterText), x => x.DriveCode
+                   , false, CurrentPage, PageLength);
+                }
+                else
+                {
+                    itemsCount = _lookupDataService
+            .GetDrivesCountByCondition(x => x.Title.Contains(FilterText) && x.IsSecret==false, x => x.DriveCode
+            , false, 1, int.MaxValue);
+
+                    lookup = _lookupDataService.GetDrivesByCondition(x => x.Title.Contains(FilterText) && x.IsSecret==false, x => x.DriveCode
+                   , false, CurrentPage, PageLength);
+                }
 
 
+                Drives.Clear();
+                foreach (var item in lookup)
+                {
+                    Drives.Add(new NavigationItemViewModel(item.DriveId, item.Title, nameof(DriveDetailViewModel), _eventAggregator));
+                }
+
+            }
+            //var categoryLookup =  _categoryLookupDataService.GetCategoryLookup();
+            //Categories.Clear();
+            //foreach (var item in categoryLookup)
+            //{
+            //    //Categories.Add(new NavigationItemViewModel(item.Id,
+            //    //item.DisplayMember, nameof(CategoryDetailViewModel), _eventAggregator));
+            //}
+        }
     }
 
 }

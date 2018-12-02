@@ -5,5 +5,6 @@ namespace XFilesArchive.UI.ViewModel
     public interface INavigationViewModel
     {
         Task LoadAsync();
+        void Load();
     }
 }

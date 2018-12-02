@@ -40,11 +40,14 @@ namespace XFilesArchive.UI.ViewModel
         }
 
 
-        public async Task LoadAsync()
+        private async Task LoadAsync()
         {
             await NavigationViewModel.LoadAsync();
         }
-
+        public void Load()
+        {
+             NavigationViewModel.Load();
+        }
         public MainViewModel(
             INavigationViewModel navigationViewModel
             , IIndex<string, IDetailViewModel> detailViewModelCreator

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using XFilesArchive.DataAccess;
 using XFilesArchive.Model;
+
 
 namespace XFilesArchive.Services.Lookups
 {
@@ -45,17 +47,18 @@ namespace XFilesArchive.Services.Lookups
             }
         }
 
-        public async Task<IEnumerable<Drive>> GetDrivesByConditionAsync(
+        public async Task<IEnumerable<DriveDto>> GetDrivesByConditionAsync(
             Expression<Func<Drive, bool>> where
             , Expression<Func<Drive, object>> orderby
             , bool isDescending, int index, int length)
         {
             using (var context = _contextCreator())
             {
-                {
+                
                     var skip = (index - 1) * length;
-                    return await context.Drives.Where(where).OrderBy(orderby).Skip(skip).Take(length).ToListAsync<Drive>();
-                }
+                    return await context.Drives.Where(where).OrderBy(orderby).Skip(skip).Take(length)
+                    .Select(x=>new DriveDto() { DriveId =x.DriveId,Title=x.Title}).ToListAsync<DriveDto>();
+              
             }
         }
 
@@ -98,13 +101,13 @@ namespace XFilesArchive.Services.Lookups
             }
         }
 
-        public IEnumerable<Drive> GetDrivesByCondition(Expression<Func<Drive, bool>> where, Expression<Func<Drive, object>> orderby, bool isDescending, int index, int length)
+        public IEnumerable<DriveDto> GetDrivesByCondition(Expression<Func<Drive, bool>> where, Expression<Func<Drive, object>> orderby, bool isDescending, int index, int length)
         {
             using (var context = _contextCreator())
             {
                 {
                     var skip = (index - 1) * length;
-                    return  context.Drives.Where(where).OrderBy(orderby).Skip(skip).Take(length).ToList();
+                    return  context.Drives.Where(where).OrderBy(orderby).Skip(skip).Select(x => new DriveDto() { DriveId = x.DriveId, Title = x.Title }).Take(length).ToList();
                 }
             }
         }
@@ -138,5 +141,6 @@ namespace XFilesArchive.Services.Lookups
                     .ToList();
             }
         }
+
     }
 }

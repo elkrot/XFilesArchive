@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Lookups\CategoryLookupProvider.cs" />
+    <Compile Include="Lookups\DriveDto.cs" />
     <Compile Include="Lookups\FilesOnDriveLookupProvider.cs" />
     <Compile Include="Lookups\ICategoryLookupDataService.cs" />
     <Compile Include="Lookups\ILookupDataService.cs" />

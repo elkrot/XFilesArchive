@@ -31,9 +31,10 @@ namespace XFilesArchive.UI.View
             Loaded += DrivePage_Loaded;
         }
 
-        private async void DrivePage_Loaded(object sender, RoutedEventArgs e)
+        private  void DrivePage_Loaded(object sender, RoutedEventArgs e)
         {
-            await _viewModel.LoadAsync();
+            //await _viewModel.LoadAsync
+            _viewModel.Load();
         }
     }
 }

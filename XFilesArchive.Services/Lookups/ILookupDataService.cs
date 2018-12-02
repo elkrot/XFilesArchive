@@ -12,24 +12,32 @@ namespace XFilesArchive.Services.Lookups
         Task<IEnumerable<Drive>> GetDrivesByConditionAsync(
            Expression<Func<Drive, bool>> where, Expression<Func<Drive, object>> orderby);
 
-        Task<IEnumerable<Drive>> GetDrivesByConditionAsync(Expression<Func<Drive, bool>> where
+        Task<IEnumerable<DriveDto>> GetDrivesByConditionAsync(Expression<Func<Drive, bool>> where
             , Expression<Func<Drive, object>> orderby
             , bool isDescending, int index, int length);
+
+
+
 
         Task<int> GetDrivesCountByConditionAsync(Expression<Func<Drive, bool>> where
     , Expression<Func<Drive, object>> orderby
     , bool isDescending, int index, int length);
 
 
-        IEnumerable<Drive> GetDrivesByCondition(Expression<Func<Drive, bool>> where
+
+        IEnumerable<DriveDto> GetDrivesByCondition(Expression<Func<Drive, bool>> where
     , Expression<Func<Drive, object>> orderby
     , bool isDescending, int index, int length);
+
+
+
 
         IEnumerable<ArchiveEntity> GetAllFilesOnDrive(int id);
 
         int GetDrivesCountByCondition(Expression<Func<Drive, bool>> where
     , Expression<Func<Drive, object>> orderby
     , bool isDescending, int index, int length);
+
 
     }
 }

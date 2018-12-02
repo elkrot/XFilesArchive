@@ -3,6 +3,7 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Permissions;
@@ -13,6 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using XFilesArchive.Infrastructure;
 using XFilesArchive.Infrastructure.DataManager;
+using XFilesArchive.Security;
 using XFilesArchive.UI.View;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel.Search;
@@ -46,18 +48,28 @@ namespace XFilesArchive.UI.ViewModel
             _messageDialogService = messageDialogService;
             cancelTokenSource = new CancellationTokenSource();
             token = cancelTokenSource.Token;
-            NewDestinationCommand = new DelegateCommand(OnNewDestinationExecute);
-            OpenAdminPanelCommand = new DelegateCommand(OnOpenAdminPanelExecute);
-            CompareFileCommand = new DelegateCommand(OnCompareFileExecute);
-            GoToMainPageCommand = new DelegateCommand(OnGoToMainPageExecute);
-            SearchCommand = new DelegateCommand(OnSearchExecute);
+            NewDestinationCommand = new Prism.Commands.DelegateCommand(OnNewDestinationExecute);
+            OpenAdminPanelCommand = new Prism.Commands.DelegateCommand(OnOpenAdminPanelExecute);
+            CompareFileCommand = new Prism.Commands.DelegateCommand(OnCompareFileExecute);
+            GoToMainPageCommand = new Prism.Commands.DelegateCommand(OnGoToMainPageExecute);
+            SearchCommand = new Prism.Commands.DelegateCommand(OnSearchExecute);
+            PrincipalPermission principalPerm = new PrincipalPermission(null, "Administrator");
+            CustomPrincipal wp = Thread.CurrentPrincipal as CustomPrincipal;
+            if (wp != null)
+                if (wp.IsInRole(@"Administrator") == true)
+                {
+                  //  MessageBox.Show("accessed");
 
-            
+                }
+                    Debug.WriteLine("accessed");
+           // MessageBox.Show(principalPerm.ToString());
+
         }
 
         private async void OnGoToMainPageExecute()
         {
-            await _mainViewModel.LoadAsync();
+            //await _mainViewModel.LoadAsync();
+            _mainViewModel.Load();
             if (App.Current.Windows.OfType<MainWindow>().FirstOrDefault() is MainWindow)
             {
                 App.Current.Windows.OfType<MainWindow>().FirstOrDefault().Main.Content = new DrivePage(_mainViewModel);
