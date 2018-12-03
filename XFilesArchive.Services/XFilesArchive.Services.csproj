@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lookups\ArchiveEntityDto.cs" />
     <Compile Include="Lookups\CategoryLookupProvider.cs" />
     <Compile Include="Lookups\DriveDto.cs" />
     <Compile Include="Lookups\FilesOnDriveLookupProvider.cs" />
