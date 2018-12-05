@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using XFilesArchive.Model;
+﻿using XFilesArchive.Model;
+using XFilesArchive.Services.Lookups;
 
 namespace XFilesArchive.Search.Result
 {
     public class SearchResultItem : ISearchResultItem
     {
-        ArchiveEntity _archiveEntity;
-        public ArchiveEntity ArchiveEntity { get { return _archiveEntity; } }
+        ArchiveEntityDto _archiveEntity;
+        public ArchiveEntityDto ArchiveEntity { get { return _archiveEntity; } }
 
-        public SearchResultItem(ArchiveEntity archiveEntity)
+        public SearchResultItem(ArchiveEntityDto archiveEntity)
         {
             _archiveEntity = archiveEntity;
         }

@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Security.Permissions;
 using XFilesArchive.DataAccess;
 using XFilesArchive.Model;
+using XFilesArchive.Services.Lookups;
 
 namespace XFilesArchive.Services.Repositories
 {
@@ -22,17 +23,24 @@ namespace XFilesArchive.Services.Repositories
             return Context.Categories.Find(id);
         }
         
-        public ICollection<ArchiveEntity> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition)
+        public ICollection<ArchiveEntityDto> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition)
         {
-            var ret = Context.ArchiveEntities.AsExpandable().AsNoTracking().Where(condition).Where(x=>x.Drive.IsSecret==false).ToList();
+            var ret = Context.ArchiveEntities.AsExpandable()
+                .AsNoTracking().Where(condition).Select
+                (x=>new ArchiveEntityDto() {
+                    ArchiveEntityKey = x.ArchiveEntityKey
+                    ,Description = x.Description
+                    ,Drive = x.Drive
+                    ,DriveId  =x.DriveId
+                    ,EntityExtension = x.EntityExtension
+                    ,EntityPath = x.EntityPath
+                    ,EntityType = x.EntityType
+                    ,FileSize = x.FileSize
+                    ,Title = x.Title
+                }).ToList();
             return ret;
         }
-        [PrincipalPermission(SecurityAction.Demand, Role = "Administrator")]
-        public ICollection<ArchiveEntity> GetEntitiesByConditionWithHiden(Expression<Func<ArchiveEntity, bool>> condition)
-        {
-            var ret = Context.ArchiveEntities.AsExpandable().AsNoTracking().Where(condition).ToList();
-            return ret;
-        }
+        
 
         public Tag GetTagByKey(int tagKey)
         {

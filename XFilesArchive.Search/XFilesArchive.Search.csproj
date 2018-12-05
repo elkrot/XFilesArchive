@@ -64,6 +64,10 @@
       <Project>{979ab583-300e-4e02-a45a-3503fc4b7416}</Project>
       <Name>XFilesArchive.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\XFilesArchive.Services\XFilesArchive.Services.csproj">
+      <Project>{784512c0-efa7-475d-9b81-8c4e039d7442}</Project>
+      <Name>XFilesArchive.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Input;
 using XFilesArchive.Model;
 using XFilesArchive.Search.Result;
+using XFilesArchive.Services.Lookups;
 using XFilesArchive.UI.Event;
 using XFilesArchive.UI.View.Services;
 
@@ -33,7 +34,7 @@ namespace XFilesArchive.UI.ViewModel.Search
         {
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
-            SearchResult = new SearchResult(new List<ArchiveEntity>());
+            SearchResult = new SearchResult(new List<ArchiveEntityDto>());
             CloseSearchDetailViewModelCommand = new DelegateCommand(OnCloseDetailViewExecute);
             OpenSearchResultArchiveEntityCommand= new DelegateCommand<int?>(OnOpenSearchResultArchiveEntityExecute);
             OpenSearchResultDriveCommand = new DelegateCommand<int?>(OnOpenSearchResultDriveExecute);

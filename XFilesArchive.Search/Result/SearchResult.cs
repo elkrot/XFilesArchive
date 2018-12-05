@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using XFilesArchive.Model;
+using XFilesArchive.Services.Lookups;
 
 namespace XFilesArchive.Search.Result
 {
@@ -26,7 +27,7 @@ namespace XFilesArchive.Search.Result
             DependencyProperty.Register("MyProperty", typeof(int), typeof(SearchResult), new PropertyMetadata(0));
 
 
-        public SearchResult(ICollection<ArchiveEntity> items)
+        public SearchResult(ICollection<ArchiveEntityDto> items)
         {
             Items = new ObservableCollection<ISearchResultItem>();
             foreach (var item in items)
