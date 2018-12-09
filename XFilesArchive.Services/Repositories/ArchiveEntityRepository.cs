@@ -44,12 +44,14 @@ namespace XFilesArchive.Services.Repositories
 
         public Tag GetTagByKey(int tagKey)
         {
-            return Context.Tags.AsNoTracking().Where(x => x.TagKey == tagKey).FirstOrDefault();
+            return Context.Tags.Where(x => x.TagKey == tagKey).FirstOrDefault();
+            //.AsNoTracking()
         }
 
         public Tag GetTagByTitle(string Title)
         {
-            var tag = Context.Tags.AsNoTracking().Where(x => x.TagTitle == Title).FirstOrDefault();
+            var tag = Context.Tags.Where(x => x.TagTitle == Title).FirstOrDefault();
+            //.AsNoTracking()
             if (tag==null)
             {
                 tag = new Tag() { TagTitle =Title};
