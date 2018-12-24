@@ -26,7 +26,7 @@ namespace XFilesArchive.UI.View.Services
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            DialogResult = true;
         }
     }
 }

@@ -63,6 +63,7 @@ namespace XFilesArchive.UI.ViewModel
             #region Commands
             AddTagCommand = new DelegateCommand<string>(OnAddTagExecute, OnAddTagCanExecute);
             AddCategoryCommand = new DelegateCommand<int?>(OnAddCategoryExecute, OnAddCategoryCanExecute);
+            AddNewCategoryCommand = new DelegateCommand<int?>(OnAddNewCategoryExecute, OnAddNewCategoryCanExecute);
             OpenFileDialogCommand = new DelegateCommand(OnOpenFileDialogExecute, OnOpenFileDialogCanExecute);
             DeleteTagCommand = new DelegateCommand<string>(OnDeleteTagExecute, OnDeleteTagCanExecute);
             DeleteImageCommand = new DelegateCommand<int?>(OnDeleteImageExecute, OnDeleteImageCanExecute);
@@ -344,12 +345,12 @@ namespace XFilesArchive.UI.ViewModel
 
         }
 
-        private bool OnAddNewCategoryCanExecute(object arg)
+        private bool OnAddNewCategoryCanExecute(int? arg)
         {
             return true;
         }
 
-        private void OnAddNewCategoryExecute(object obj)
+        private void OnAddNewCategoryExecute(int? obj)
         {
             var strkey = obj.ToString();
 
@@ -375,7 +376,8 @@ namespace XFilesArchive.UI.ViewModel
                     category.ParentCategoryKey = parentKey;
                 }
 
-                //  _categoryDataProvider.AddCategory(category);
+                _categoryRepository.Add(category);
+                _categoryRepository.Save();
                 CategoryNavigationViewModel.Load();
             }
 

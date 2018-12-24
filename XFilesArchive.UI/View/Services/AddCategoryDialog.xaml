@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XFilesArchive.UI.View.Services"
         mc:Ignorable="d"
-        Title="AddCategoryDialog" Height="450" Width="800">
+        Title="Добавть Категорию" Height="150" Width="500">
     <StackPanel>
         <TextBox Text="{Binding CategoryTitle}"/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="OK" IsDefault="True" Click="Button_Click"/>
-            <Button Content="Cancel" IsCancel="True"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50">
+            <Button Content="OK" IsDefault="True" Click="Button_Click" Width="200"/>
+            <Button Content="Cancel" IsCancel="True" Width="200"/>
         </StackPanel>
 
     </StackPanel>

@@ -44,10 +44,12 @@ namespace XFilesArchive.UI.ViewModel
         {
             await NavigationViewModel.LoadAsync();
         }
+
         public void Load()
         {
              NavigationViewModel.Load();
         }
+
         public MainViewModel(
             INavigationViewModel navigationViewModel
             , IIndex<string, IDetailViewModel> detailViewModelCreator

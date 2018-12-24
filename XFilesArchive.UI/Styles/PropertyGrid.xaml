@@ -477,8 +477,8 @@
                             </MultiDataTrigger>
                             <Trigger Property="Validation.HasError"
                            Value="true">
-                                <Setter Property="ToolTip"
-                             Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}" />
+                                <!--<Setter Property="ToolTip"
+                             Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors). CurrentItem.ErrorContent}" />-->
                             </Trigger>
                             <Trigger Property="Visibility"
                            Value="Visible"
@@ -518,7 +518,7 @@
                              Value="pack://application:,,,/Xceed.Wpf.Toolkit;component/PropertyGrid/Images/Style11.png" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding ElementName=_optionsImage, Path=ToolTip}"
-                               Value="{x:Static xctk:StringConstants.AdvancedProperties}">
+                               Value="{x:Static xctk:StringConstants.Default}">
                                 <Setter TargetName="_optionsImage"
                              Property="Source"
                              Value="pack://application:,,,/Xceed.Wpf.Toolkit;component/PropertyGrid/Images/AdvancedProperties11.png" />

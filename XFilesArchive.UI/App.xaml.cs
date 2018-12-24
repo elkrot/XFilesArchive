@@ -1,5 +1,4 @@
-﻿
-using Autofac;
+﻿using Autofac;
 using System;
 using System.Globalization;
 using System.IO;
@@ -24,7 +23,7 @@ namespace XFilesArchive.UI
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             //Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
-            LocRM = new ResourceManager("XFilesArchive.UI.Resources", typeof(MainWindow).Assembly);
+            LocRM = new ResourceManager("XFilesArchive.UI.Resources", typeof(LoginWindow).Assembly);
             //var bootstrapper = new Bootstrapper();
             //var container = bootstrapper.Bootstrap();
             //var mainWindow = container.Resolve<MainWindow>();

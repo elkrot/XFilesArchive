@@ -53,16 +53,16 @@ namespace XFilesArchive.UI.ViewModel
             CompareFileCommand = new Prism.Commands.DelegateCommand(OnCompareFileExecute);
             GoToMainPageCommand = new Prism.Commands.DelegateCommand(OnGoToMainPageExecute);
             SearchCommand = new Prism.Commands.DelegateCommand(OnSearchExecute);
-            PrincipalPermission principalPerm = new PrincipalPermission(null, "Administrator");
-            CustomPrincipal wp = Thread.CurrentPrincipal as CustomPrincipal;
-            if (wp != null)
-                if (wp.IsInRole(@"Administrator") == true)
-                {
-                  //  MessageBox.Show("accessed");
+            //PrincipalPermission principalPerm = new PrincipalPermission(null, "Administrator");
+            //CustomPrincipal wp = Thread.CurrentPrincipal as CustomPrincipal;
+            //if (wp != null)
+            //    if (wp.IsInRole(@"administrator") == true)
+            //    {
+            //        //  messagebox.show("accessed");
 
-                }
-                    Debug.WriteLine("accessed");
-           // MessageBox.Show(principalPerm.ToString());
+            //    }
+            //        Debug.WriteLine("accessed");
+            // MessageBox.Show(principalPerm.ToString());
 
         }
 

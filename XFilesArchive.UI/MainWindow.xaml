@@ -25,13 +25,13 @@
         </DataTemplate>
     </Window.Resources>
 
-    <Window.CommandBindings>
+    <!--<Window.CommandBindings>
         <CommandBinding Command="Help"
             CanExecute="HelpCanExecute" Executed="HelpExecuted"/>
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="Help" Key="F1"/>
-    </Window.InputBindings>
+    </Window.InputBindings>-->
     
     <Grid>
         <Grid.RowDefinitions>
