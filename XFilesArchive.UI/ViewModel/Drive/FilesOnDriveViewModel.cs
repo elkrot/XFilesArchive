@@ -37,23 +37,26 @@ namespace XFilesArchive.UI.ViewModel
 
         public ICategoryNavigationViewModel CategoryNavigationViewModel { get { return _categoryNavigationViewModel; } }
 
+        public List<string> TagsItems { get { return _tagRepository.TagsLookup().ToList(); } }
 
+        ITagRepository _tagRepository;
         public FilesOnDriveViewModel(
             IEventAggregator eventAggregator
             , IMessageDialogService messageDialogService
             , IArchiveEntityRepository repository
             , ICategoryNavigationViewModel categoryNavigationViewModel
             , ICategoryRepository categoryRepository
+            , ITagRepository tagRepository
             ) : base(eventAggregator, messageDialogService)
         {
             _categoryRepository = categoryRepository;
             _categoryNavigationViewModel = categoryNavigationViewModel;
-
+            _tagRepository = tagRepository;
             _repository = repository;
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _eventAggregator.GetEvent<SelectedItemChangedEvent>().Subscribe(OnSelectedItemChanged);
-
+ 
             Tags = new ObservableCollection<TagWrapper>();
             Categories = new ObservableCollection<CategoryWrapper>();
             Images = new ObservableCollection<ImageWrapper>();

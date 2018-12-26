@@ -41,6 +41,7 @@ namespace XFilesArchive.UI.Startup
             builder.RegisterType<DriveRepository>().As<IDriveRepository>();
             builder.RegisterType<ArchiveEntityRepository>().As<IArchiveEntityRepository>();
             builder.RegisterType<CategoryRepository>().As<ICategoryRepository>();
+            builder.RegisterType<TagRepository>().As<ITagRepository>();
             builder.RegisterType<CategoryNavigationViewModel>().As<ICategoryNavigationViewModel>();
             //builder.RegisterType<ProgrammingLanguageRepository>().As<IProgrammingLanguageRepository>();
 

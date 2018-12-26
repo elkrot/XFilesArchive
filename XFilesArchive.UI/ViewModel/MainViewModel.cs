@@ -132,9 +132,9 @@ namespace XFilesArchive.UI.ViewModel
                 {
                     await detailViewModel.LoadAsync(args.Id);
                 }
-                catch
+                catch (Exception e)
                 {
-                    await _messageDialogService.ShowInfoDialogAsync("Info");
+                    await _messageDialogService.ShowInfoDialogAsync(e.Message);
                     await NavigationViewModel.LoadAsync();
                     return;
                 }

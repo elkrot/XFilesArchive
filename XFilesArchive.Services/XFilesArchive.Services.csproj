@@ -69,6 +69,8 @@
     <Compile Include="Repositories\ICategoryRepository.cs" />
     <Compile Include="Repositories\IDriveRepository.cs" />
     <Compile Include="Repositories\IGenericRepository.cs" />
+    <Compile Include="Repositories\ITagRepository.cs" />
+    <Compile Include="Repositories\TagRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XFilesArchive.DataAccess\XFilesArchive.DataAccess.csproj">
