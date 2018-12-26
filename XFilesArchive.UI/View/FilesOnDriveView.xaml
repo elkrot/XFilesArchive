@@ -11,7 +11,7 @@
     <Grid>
         <Grid.RowDefinitions>
         <RowDefinition Height="*"/>
-        <RowDefinition Height="50"/>
+        <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
 
         <TabControl Grid.Row="0" >
@@ -21,7 +21,13 @@
                         <TextBlock >Инфа  файла</TextBlock>
                     </StackPanel>
                 </TabItem.Header>
-                <StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <StackPanel>
                     
                     <TextBox Text="{Binding ArchiveEntity.Title,Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged}" />
@@ -36,35 +42,37 @@
                 <TextBlock Text="{Binding ArchiveEntity.FileInfo[CreationTime]}" />
             </StackPanel>
 
-        </TabItem>
-
-        <TabItem>
-            <TabItem.Header>
-                <StackPanel>
-                    <TextBlock >Медиа Инфа</TextBlock>
-                </StackPanel>
-            </TabItem.Header>
-            <Grid>
-                <view:MediaInfoView DataContext="{Binding ArchiveEntity}" Grid.Row="0" Margin="0,10,0,0"/>
+       
+           
+                <view:MediaInfoView DataContext="{Binding ArchiveEntity}" Grid.Row="1" Margin="0,10,0,0"/>
 
             </Grid>
         </TabItem>
 
+            <!-- Метки,Категории -->
 
-
-        <TabItem>
+            <TabItem>
             <TabItem.Header>
                 <StackPanel>
-                    <TextBlock >Метки</TextBlock>
+                        <TextBlock >Метки,Категории</TextBlock>
                 </StackPanel>
             </TabItem.Header>
-
-            <StackPanel Orientation="Vertical" Height="Auto">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Vertical" Height="Auto">
                 <StackPanel Orientation="Horizontal">
-                    <TextBox Name="TagValue" Width="300" Margin="10"/>
+                            <xctk:AutoSelectTextBox DataContext="" />
+                            <TextBox Name="TagValue" Width="300" Margin="10"/>
                     <Button Content="+" Command="{Binding AddTagCommand}" 
                                     CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
-                    <Button Content="-" Command="{Binding DeleteTagCommand}" 
+
+                            <Button Content="+" Command="{Binding MultyAddTagCommand}" 
+                                    CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
+                    
+                            <Button Content="-" Command="{Binding DeleteTagCommand}" 
                                     CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
                 </StackPanel>
 
@@ -72,15 +80,8 @@
                         ElementName=rootFileEdit}" Margin="0,10,0,0"/>
                 </StackPanel>
 
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel>
-                        <TextBlock >Категории</TextBlock>
-                    </StackPanel>
-
-                </TabItem.Header>
-                <Grid>
+           
+                <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="34*"  />
                         <ColumnDefinition Width="11*"/>
@@ -119,7 +120,7 @@
                 </TreeView>
 
 
-                <Button Content="+>>" Command="{Binding AddCategoryCommand}" 
+                <Button Content="+" Command="{Binding AddCategoryCommand}" 
                             CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"
                             Width="30" Grid.Column="2" Margin="5,0"/>
 
@@ -128,7 +129,8 @@
                         ElementName=rootFileEdit}"                 
                                                  Margin="0,10,0,0" Grid.Column="3"/>
                 </Grid>
-                <!--DataContext="{Binding ArchiveEntity}"-->
+    </Grid>
+    <!--DataContext="{Binding ArchiveEntity}"-->
             </TabItem>
         <TabItem >
                 <TabItem.Header>
