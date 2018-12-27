@@ -240,11 +240,17 @@
     <Compile Include="View\Security\Users.xaml.cs">
       <DependentUpon>Users.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Services\AccordionSample.xaml.cs">
+      <DependentUpon>AccordionSample.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Services\AddCategoryDialog.xaml.cs">
       <DependentUpon>AddCategoryDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Services\IMessageDialogService.cs" />
     <Compile Include="View\Services\MessageDialogService.cs" />
+    <Compile Include="View\Services\MultySelectEntityesDialog.xaml.cs">
+      <DependentUpon>MultySelectEntityesDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TagsView.xaml.cs">
       <DependentUpon>TagsView.xaml</DependentUpon>
     </Compile>
@@ -388,7 +394,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Services\AccordionSample.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Services\AddCategoryDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Services\MultySelectEntityesDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

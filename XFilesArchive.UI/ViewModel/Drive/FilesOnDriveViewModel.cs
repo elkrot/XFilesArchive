@@ -65,6 +65,9 @@ namespace XFilesArchive.UI.ViewModel
             
             #region Commands
             AddTagCommand = new DelegateCommand<string>(OnAddTagExecute, OnAddTagCanExecute);
+
+            MultyAddTagCommand= new DelegateCommand<string>(OnAddMultyTagExecute, OnAddMultyTagCanExecute);
+
             AddCategoryCommand = new DelegateCommand<int?>(OnAddCategoryExecute, OnAddCategoryCanExecute);
             AddNewCategoryCommand = new DelegateCommand<int?>(OnAddNewCategoryExecute, OnAddNewCategoryCanExecute);
             OpenFileDialogCommand = new DelegateCommand(OnOpenFileDialogExecute, OnOpenFileDialogCanExecute);
@@ -74,6 +77,17 @@ namespace XFilesArchive.UI.ViewModel
             CloseSearchDetailViewModelCommand = new DelegateCommand(OnCloseSearchDetailViewExecute);
             EditDescriptionCommand = new DelegateCommand(OnEditDescriptionViewExecute);
             #endregion
+        }
+
+        private bool OnAddMultyTagCanExecute(string arg)
+        {
+            return true;
+        }
+
+        private void OnAddMultyTagExecute(string obj)
+        {
+            MultySelectEntityesDialog dlg = new MultySelectEntityesDialog();
+            dlg.ShowDialog();
         }
 
         private void OnEditDescriptionViewExecute()
@@ -231,6 +245,9 @@ namespace XFilesArchive.UI.ViewModel
         public ICommand OpenFileDialogCommand { get; private set; }
 
         public ICommand AddTagCommand { get; private set; }
+
+        public ICommand MultyAddTagCommand { get; private set; }
+        
 
         public ICommand AddCategoryCommand { get; private set; }
 
