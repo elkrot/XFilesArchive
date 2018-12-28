@@ -5,17 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XFilesArchive.UI.View.Services"
         mc:Ignorable="d"
-        Title="MultySelectEntityesDialog" Height="300" Width="300">
+        Title="Множественный выбор" Height="600" Width="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding Items}">
-            
+        <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Модель" Binding="{Binding Path=Title}" Width="90" />
+                <DataGridHyperlinkColumn Header="Компания" Binding="{Binding Path=EntityPath}" Width="80" />
+                
+            </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel>
+        <StackPanel Grid.Row="1">
             <Button Content="OK"/>
             <Button Content="Cancel"/>
         </StackPanel>

@@ -40,6 +40,8 @@ namespace XFilesArchive.UI.ViewModel
         public List<string> TagsItems { get { return _tagRepository.TagsLookup().ToList(); } }
 
         ITagRepository _tagRepository;
+        private int? DriveId;
+
         public FilesOnDriveViewModel(
             IEventAggregator eventAggregator
             , IMessageDialogService messageDialogService
@@ -87,6 +89,8 @@ namespace XFilesArchive.UI.ViewModel
         private void OnAddMultyTagExecute(string obj)
         {
             MultySelectEntityesDialog dlg = new MultySelectEntityesDialog();
+            var items = _repository.GetEntitiesByCondition(x=>x.DriveId==DriveId && x.EntityType==2);
+            dlg.DataContext = new MultySeltEntityeecsViewModel(items);
             dlg.ShowDialog();
         }
 
@@ -201,6 +205,7 @@ namespace XFilesArchive.UI.ViewModel
             _archiveEntity.PropertyChanged += Wrapper_PropertyChanged;
             Title = _archEntity.Title;
             Id = _archEntity.ArchiveEntityKey;
+            DriveId = _archEntity.DriveId;
             InitializeTags(_archEntity.Tags);
             InitializeCategories(_archEntity.Categories);
             InitializeImages(_archEntity.Images);

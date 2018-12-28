@@ -157,6 +157,7 @@
     <Compile Include="ViewModel\Drive\FilesOnDriveViewModel.cs" />
     <Compile Include="ViewModel\Drive\IDriveDetailViewModel.cs" />
     <Compile Include="ViewModel\Drive\IFilesOnDriveViewModel.cs" />
+    <Compile Include="ViewModel\Drive\MultySeltEntityeecsViewModel.cs" />
     <Compile Include="ViewModel\MainNavigationViewModel.cs" />
     <Compile Include="ViewModel\Navigation\FilesOnDriveNavigationViewModel.cs" />
     <Compile Include="ViewModel\Navigation\INavigationViewModel.cs" />
