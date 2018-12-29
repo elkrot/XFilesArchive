@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XFilesArchive.UI.View.Services"
         mc:Ignorable="d"
-        Title="Множественный выбор" Height="600" Width="300">
+        Title="Множественный выбор" Height="600" Width="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -13,15 +13,16 @@
         </Grid.RowDefinitions>
         <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Модель" Binding="{Binding Path=Title}" Width="90" />
-                <DataGridHyperlinkColumn Header="Компания" Binding="{Binding Path=EntityPath}" Width="80" />
+                <DataGridCheckBoxColumn Header="..." Binding="{Binding Path=prSel}" Width="10" />
+                <DataGridTextColumn Header="Файл" Binding="{Binding Path=Title}" Width="130" />
+                <DataGridTextColumn Header="Путь" Binding="{Binding Path=EntityPath}" Width="180" />
                 
             </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel Grid.Row="1">
-            <Button Content="OK"/>
-            <Button Content="Cancel"/>
+            <Button Content="OK" IsDefault="True" Click="Button_Click"/>
+            <Button Content="Cancel" IsCancel="True"/>
         </StackPanel>
     </Grid>
 </Window>

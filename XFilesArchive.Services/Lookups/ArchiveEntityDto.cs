@@ -9,6 +9,7 @@ namespace XFilesArchive.Services.Lookups
 {
     public class ArchiveEntityDto
     {
+       
         public int ArchiveEntityKey { get; set; }
 
         public Nullable<int> DriveId { get; set; }
@@ -27,6 +28,25 @@ namespace XFilesArchive.Services.Lookups
 
         public virtual Drive Drive { get; set; }
 
+        
 
     }
+
+
+    public class ArchiveEntityLookupDto
+    {
+        public ArchiveEntityLookupDto()
+        {
+            prSel = false;
+        }
+        public int ArchiveEntityKey { get; set; }
+
+        public string Title { get; set; }
+
+        public string EntityPath { get; set; }
+
+        public bool prSel { get; set; }
+
+    }
+
 }

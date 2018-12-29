@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using XFilesArchive.Services.Lookups;
 
 namespace XFilesArchive.UI.ViewModel
 {
     internal class MultySeltEntityeecsViewModel
     {
-        private ICollection<ArchiveEntityDto> _items;
-        public ICollection<ArchiveEntityDto> Items { get { return _items; } }
+        private ObservableCollection<ArchiveEntityLookupDto> _items;
+        public ObservableCollection<ArchiveEntityLookupDto> Items { get { return _items; } }
 
-        public MultySeltEntityeecsViewModel(ICollection<ArchiveEntityDto> items)
+        public MultySeltEntityeecsViewModel(ObservableCollection<ArchiveEntityLookupDto> items)
         {
             this._items = items;
         }
