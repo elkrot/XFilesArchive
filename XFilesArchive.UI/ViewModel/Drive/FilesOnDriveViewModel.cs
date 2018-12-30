@@ -50,6 +50,7 @@ namespace XFilesArchive.UI.ViewModel
         public ICommand AddTagCommand { get; private set; }
         public ICommand MultyAddTagCommand { get; private set; }
         public ICommand AddCategoryCommand { get; private set; }
+        public ICommand MultyAddCategoryCommand { get; private set; }
         public ICommand AddNewCategoryCommand { get; private set; }
         public ICommand DeleteTagCommand { get; private set; }
         public ICommand DeleteImageCommand { get; private set; }
@@ -93,16 +94,17 @@ namespace XFilesArchive.UI.ViewModel
             DeleteCategoryToEntityCommand = new DelegateCommand<int?>(OnDeleteCategoryToEntityExecute, OnDeleteCategoryToEntityCanExecute);
             CloseSearchDetailViewModelCommand = new DelegateCommand(OnCloseSearchDetailViewExecute);
             EditDescriptionCommand = new DelegateCommand(OnEditDescriptionViewExecute);
+            MultyAddCategoryCommand = new DelegateCommand<int?>(OnMultyAddCategoryExecute, OnMultyAddCategoryCanExecute);
+
             #endregion
         }
-        #endregion
 
-        private bool OnAddMultyTagCanExecute(string arg)
+        private bool OnMultyAddCategoryCanExecute(int? CatrgoryKey)
         {
             return true;
         }
 
-        private void OnAddMultyTagExecute(string obj)
+        private void OnMultyAddCategoryExecute(int? CategoryKey)
         {
             MultySelectEntityesDialog dlg = new MultySelectEntityesDialog();
             var items = _repository.GetEntitiesByCondition(x => x.DriveId == DriveId && x.EntityType == 2);
@@ -111,22 +113,70 @@ namespace XFilesArchive.UI.ViewModel
 
             foreach (var item in items)
             {
-                lookup.Add(new ArchiveEntityLookupDto() { ArchiveEntityKey = item.ArchiveEntityKey, EntityPath = item.EntityPath, prSel = false, Title = item.Title });
+                lookup.Add(new ArchiveEntityLookupDto()
+                {
+                    ArchiveEntityKey = item.ArchiveEntityKey,
+                    EntityPath = item.EntityPath,
+                    prSel = false,
+                    Title = item.Title
+                });
             }
 
             dlg.DataContext = new MultySeltEntityeecsViewModel(lookup);
             if (dlg.ShowDialog() == true)
             {
+                var category =  _categoryRepository.GetCategoryByKey(CategoryKey);
                 var result = dlg.DataContext as MultySeltEntityeecsViewModel;
-                StringBuilder sb = new StringBuilder();
+                var entities = new List<int>();
                 foreach (var item in result.Items.Where(x => x.prSel == true))
                 {
-                    sb.AppendLine(item.Title);
+                    entities.Add(item.ArchiveEntityKey);
                 }
-                System.Windows.MessageBox.Show(sb.ToString());
+                _categoryRepository.AddCategoryToEntities(category, entities);
+
+
+            }
+        }
+        #endregion
+
+        #region AddMultyTag
+        private bool OnAddMultyTagCanExecute(string arg)
+        {
+            return true;
+        }
+
+        private void OnAddMultyTagExecute(string tagTitle)
+        {
+            MultySelectEntityesDialog dlg = new MultySelectEntityesDialog();
+            var items = _repository.GetEntitiesByCondition(x => x.DriveId == DriveId && x.EntityType == 2);
+
+            ObservableCollection<ArchiveEntityLookupDto> lookup = new ObservableCollection<ArchiveEntityLookupDto>();
+
+            foreach (var item in items)
+            {
+                lookup.Add(new ArchiveEntityLookupDto() { ArchiveEntityKey = item.ArchiveEntityKey,
+                    EntityPath = item.EntityPath, prSel = false, Title = item.Title });
+            }
+
+            dlg.DataContext = new MultySeltEntityeecsViewModel(lookup);
+            if (dlg.ShowDialog() == true)
+            {
+                var tag = 
+                    _tagRepository.GetTagByTitle(tagTitle);
+                var result = dlg.DataContext as MultySeltEntityeecsViewModel;
+                var entities = new List<int>();
+                foreach (var item in result.Items.Where(x => x.prSel == true))
+                {
+                    entities.Add(item.ArchiveEntityKey);
+                }
+                _tagRepository.AddTagToEntities(tag,entities);
+                
+
             }
 
         }
+        #endregion
+
 
         #region OnEditDescriptionViewExecute
         private void OnEditDescriptionViewExecute()
@@ -170,6 +220,7 @@ namespace XFilesArchive.UI.ViewModel
             Tags.Clear();
             foreach (var tag in tags)
             {
+                tag.TagTitle = tag.TagTitle.Trim();
                 var wrapper = new TagWrapper(tag);
                 Tags.Add(wrapper);
                 wrapper.PropertyChanged += Wrapper_PropertyChanged;

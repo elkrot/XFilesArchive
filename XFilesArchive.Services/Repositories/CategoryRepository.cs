@@ -15,6 +15,25 @@ namespace XFilesArchive.Services.Repositories
         {
         }
 
+        public void AddCategoryToEntities(Category category, List<int> entities)
+        {
+            if (category == null) throw new ArgumentException("category");
+            var values = "";
+            var categoryKey = 0;
+            if (category.CategoryKey == 0)
+            {
+                this.Add(category);
+                Save();
+
+            }
+            categoryKey = category.CategoryKey;
+
+            if (categoryKey != 0)
+            {
+                values = string.Join(",", entities.Select(x => string.Format("({0},{1})", x, categoryKey)).ToArray());
+                Context.Database.ExecuteSqlCommand(string.Format("insert into CategoryToEntity (TargetEntityKey,CategoryKey) values {0}", values));
+            }
+        }
 
         public List<Category> GetAllCategories()
         {
@@ -30,6 +49,11 @@ namespace XFilesArchive.Services.Repositories
         {
             return await Context.Set<Drive>()
                 .ToListAsync();
+        }
+
+        public Category GetCategoryByKey(int? categoryKey)
+        {
+            return Context.Set<Category>().FirstOrDefault(x => x.CategoryKey == categoryKey);
         }
 
         public async Task ReloadDriveAsync(int? id)

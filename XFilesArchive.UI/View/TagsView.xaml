@@ -62,7 +62,7 @@
             <ListBox ItemsSource="{Binding Path=Tags}" x:Name="TagListView" Height="Auto" Width="Auto"  >
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
+                        <StackPanel Orientation="Vertical" />
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>

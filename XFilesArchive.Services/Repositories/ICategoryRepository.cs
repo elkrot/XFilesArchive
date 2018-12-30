@@ -10,5 +10,7 @@ namespace XFilesArchive.Services.Repositories
         Task ReloadDriveAsync(int? id);
         List<Category> GetAllCategories();
         Task<List<Category>> GetAllCategoriesAsync();
+        Category GetCategoryByKey(int? categoryKey);
+        void AddCategoryToEntities(Category category, List<int> entities);
     }
 }

@@ -10,5 +10,7 @@ namespace XFilesArchive.Services.Repositories
     public interface ITagRepository : IGenericRepository<Tag>
     {
         IEnumerable<string> TagsLookup();
+        Tag GetTagByTitle(string tagTitle);
+        void AddTagToEntities(Tag tag, List<int> entities);
     }
 }
