@@ -12,6 +12,7 @@
     [CreatedDate]      DATETIME2 (7)   CONSTRAINT [DF_ArchiveEntity_CreatedDate] DEFAULT (getdate()) NOT NULL,
     [MFileInfo]        VARBINARY (MAX) NULL,
     [Checksum]         NVARCHAR (MAX)  NULL,
+    [Grade] INT NULL, 
     CONSTRAINT [PK_ArchiveEntity] PRIMARY KEY CLUSTERED ([ArchiveEntityKey] ASC),
     CONSTRAINT [FK_ArchiveEntity_ArchiveEntity] FOREIGN KEY ([ParentEntityKey]) REFERENCES [dbo].[ArchiveEntity] ([ArchiveEntityKey]),
     CONSTRAINT [FK_ArchiveEntity_Drive] FOREIGN KEY ([DriveId]) REFERENCES [dbo].[Drive] ([DriveId])

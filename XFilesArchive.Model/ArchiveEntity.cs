@@ -45,6 +45,7 @@ namespace XFilesArchive.Model
 
         public string Checksum { get; set; }
 
+        public int? Grade { get; set; }
         //virtual
         public virtual ICollection<ArchiveEntity> ArchiveEntities { get; set; }
         public virtual ArchiveEntity ParentEntity { get; set; }

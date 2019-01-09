@@ -82,4 +82,7 @@
     <Build Include="dbo\Stored Procedures\DeleteDrive.sql" />
     <Build Include="dbo\Stored Procedures\TruncateTables.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="XFilesArchive.SQL.refactorlog" />
+  </ItemGroup>
 </Project>

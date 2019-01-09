@@ -23,6 +23,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
                 <GroupBox Header="Поиск" Padding="5">
@@ -185,6 +186,34 @@
                     </Grid>
                 </GroupBox>
             </StackPanel>
+
+
+            <StackPanel  Grid.Row="5" Grid.ColumnSpan="2">
+                <GroupBox Header="Оценка" Padding="5" Height="119">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Не больше чем" Grid.Row="0" Grid.Column="0"/>
+                        <TextBox x:Name="maxGrade" Grid.Row="0" Grid.Column="1" />
+                        <Button Content="+" Grid.Row="2" Grid.Column="0" 
+                                Command="{Binding AddSearchByGradeConditionCommand}" 
+                                CommandParameter="{Binding ElementName=maxGrade,Path=Text}">
+                            
+                        </Button>
+
+
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+
+
         </Grid>
     </ScrollViewer>
 

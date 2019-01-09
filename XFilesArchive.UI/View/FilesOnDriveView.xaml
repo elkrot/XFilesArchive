@@ -29,8 +29,9 @@
                     </Grid.RowDefinitions>
                     
                     <StackPanel>
-                    
-                    <TextBox Text="{Binding ArchiveEntity.Title,Mode=TwoWay,
+                        <TextBox Text="{Binding ArchiveEntity.Grade,Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Text="{Binding ArchiveEntity.Title,Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Text="{Binding ArchiveEntity.FileInfo[Length]}" />
                         <TextBlock Text="{Binding ArchiveEntity.FileInfo[Extension]}" />

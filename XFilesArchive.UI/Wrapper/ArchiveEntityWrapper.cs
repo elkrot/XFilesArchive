@@ -192,6 +192,21 @@ namespace XFilesArchive.UI.Wrapper
 
         #endregion
 
+
+        #region Grade
+        public System.Int32? Grade
+        {
+            get { return GetValue<System.Int32?>(); }
+            set { SetValue(value); }
+        }
+
+        public System.Int32? GradeOriginalValue => GetOriginalValue<System.Int32?>(nameof(Grade));
+
+        public bool GradeIsChanged => GetIsChanged(nameof(Grade));
+
+        #endregion
+
+
         public ChangeTrackingCollection<CategoryWrapper> Categories { get; private set; }
 
         public ChangeTrackingCollection<ImageWrapper> Images { get; private set; }

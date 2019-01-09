@@ -59,12 +59,16 @@ namespace XFilesArchive.UI.ViewModel.Search
                 { nameof(SearchByStringWidget) , (new SearchByStringWidget()) }
             ,{ nameof(SearchByCategoryWidget), (new SearchByCategoryWidget()) }
             ,{ nameof(SearchByFileSizeWiget), (new SearchByFileSizeWiget())}
-        ,{nameof(SearchByTagWidget), (new SearchByTagWidget())} };
+        ,{nameof(SearchByTagWidget), (new SearchByTagWidget())}
+            ,{nameof(SearchByGradeWidget), (new SearchByGradeWidget())}
+            };
 
             SearchCondition = new SearchCondition(SearchWidgets);
 
             AddSearchByStringConditionCommand = new DelegateCommand<string>(OnAddSearchByStringConditionExecute, OnAddSearchByStringConditionCanExecute);
             AddSearchByCategoryConditionCommand = new DelegateCommand<int?>(OnAddSearchByCategoryConditionExecute, OnAddSearchByCategoryConditionCanExecute);
+            AddSearchByGradeConditionCommand = new DelegateCommand<string>(OnAddSearchByGradeConditionExecute, OnAddSearchByGradeConditionCanExecute);
+
             AddSearchByFileSizeConditionCommand = new DelegateCommand<Tuple<string, string>>(OnAddSearchByFileSizeConditionExecute, OnAddSearchByFileSizeConditionCanExecute);
             AddSearchByTagConditionCommand = new DelegateCommand<int?>(OnAddSearchByTagConditionExecute, OnAddSearchByTagConditionCanExecute);
             GoSearchCommand = new DelegateCommand(OnSearchExecute, OnSearchCanExecute);
@@ -74,6 +78,28 @@ namespace XFilesArchive.UI.ViewModel.Search
 
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("GroupTitle");
             _viewItems.GroupDescriptions.Add(groupDescription);
+        }
+
+        private bool OnAddSearchByGradeConditionCanExecute(string arg)
+        {
+            return true;
+        }
+
+        private void OnAddSearchByGradeConditionExecute(string maxGrade)
+        {
+            if (SearchCondition.Widgets.ContainsKey(nameof(SearchByGradeWidget)))
+            {
+                var widget = (SearchCondition.Widgets[nameof(SearchByGradeWidget)] as SearchByGradeWidget);
+                if (!widget.Items.Where(x => x.Title == string.Format(@"{0}", maxGrade)).Any())
+                {
+                    int i = 0;
+                    int.TryParse(maxGrade, out i);
+
+                    widget.AddQuery(i);
+                    SearchCondition.LoadItems();
+                    InvalidateCommands();
+                }
+            }
         }
 
         private bool OnSearchCanExecute()
@@ -210,6 +236,7 @@ namespace XFilesArchive.UI.ViewModel.Search
         public ICommand AddSearchByStringConditionCommand { get; private set; }
         public ICommand AddSearchByCategoryConditionCommand { get; private set; }
         public ICommand AddSearchByFileSizeConditionCommand { get; private set; }
+        public ICommand AddSearchByGradeConditionCommand { get; private set; }
         public ICommand AddSearchByTagConditionCommand { get; private set; }
         public ICommand ClearConditionCommand { get; private set; }
         public ICommand GoSearchCommand { get; private set; }

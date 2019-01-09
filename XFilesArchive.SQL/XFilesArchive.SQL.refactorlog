@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="dd349e88-6f5f-4131-aec7-4499ba20957c" ChangeDateTime="01/09/2019 17:53:54">
+    <Property Name="ElementName" Value="[dbo].[Evaluation].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Evaluation]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EvaluationKey" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="00c659b3-285c-403a-a69b-9bfcab537a4b" ChangeDateTime="01/09/2019 18:01:32">
+    <Property Name="ElementName" Value="[dbo].[FK_Evaluation_ToTable]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[Evaluation]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_Evaluation_ArchiveEntity]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f29da845-00de-4de6-908d-57932a51973a" ChangeDateTime="01/09/2019 18:01:52">
+    <Property Name="ElementName" Value="[dbo].[Evaluation].[EntityKey]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Evaluation]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ArchiveEntityKey" />
+  </Operation>
+</Operations>

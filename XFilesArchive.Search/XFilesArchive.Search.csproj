@@ -56,6 +56,7 @@
     <Compile Include="Widget\ISearchWidgetItem.cs" />
     <Compile Include="Widget\SearchByCategoryWidget.cs" />
     <Compile Include="Widget\SearchByFileSizeWiget.cs" />
+    <Compile Include="Widget\SearchByGradeWidget.cs" />
     <Compile Include="Widget\SearchByStringWidget.cs" />
     <Compile Include="Widget\SearchByTagWidget.cs" />
   </ItemGroup>
