@@ -296,7 +296,7 @@ namespace XFilesArchive.UI.ViewModel
             _archiveEntity = new ArchiveEntityWrapper(_archEntity);
             _archiveEntity.PropertyChanged -= Wrapper_PropertyChanged;
             _archiveEntity.PropertyChanged += Wrapper_PropertyChanged;
-            Title = _archEntity.Title;
+            Title =_archEntity.Title;
             Id = _archEntity.ArchiveEntityKey;
             DriveId = _archEntity.DriveId;
             InitializeTags(_archEntity.Tags);

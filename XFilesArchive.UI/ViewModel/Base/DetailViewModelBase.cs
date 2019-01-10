@@ -93,7 +93,7 @@ namespace XFilesArchive.UI.ViewModel
         {
             get
             {
-                return _title;
+                return _title.Length>5? _title.Substring(5)+"..":_title;
             }
 
             protected set
