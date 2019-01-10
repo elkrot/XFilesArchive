@@ -38,3 +38,7 @@ GO
 CREATE NONCLUSTERED INDEX [IX_DriveId]
     ON [dbo].[ArchiveEntity]([DriveId] ASC);
 
+
+GO
+
+CREATE INDEX [IX_ArchiveEntity_Grade] ON [dbo].[ArchiveEntity] ([Grade])

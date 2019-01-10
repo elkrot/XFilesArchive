@@ -29,17 +29,13 @@
                     </Grid.RowDefinitions>
                     
                     <StackPanel>
-                        <TextBox Text="{Binding ArchiveEntity.Grade,Mode=TwoWay,
-                        UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBox Text="{Binding ArchiveEntity.Title,Mode=TwoWay,
-                        UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Text="{Binding ArchiveEntity.Grade,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Text="{Binding ArchiveEntity.Title,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Text="{Binding ArchiveEntity.FileInfo[Length]}" />
                         <TextBlock Text="{Binding ArchiveEntity.FileInfo[Extension]}" />
                         <TextBlock Text="{Binding ArchiveEntity.FileInfo[FullName]}" />
                     </StackPanel>
 
-       
-           
                 <view:MediaInfoView DataContext="{Binding ArchiveEntity}" Grid.Row="1" Margin="0,10,0,0"/>
 
             </Grid>
@@ -62,28 +58,20 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     
-                <toolkit:AutoCompleteBox ItemsSource="{Binding TagsItems}" VerticalAlignment="Top"
-                                         Name="TagValue" Width="300" Height="30" Margin="10"/>
+                <toolkit:AutoCompleteBox ItemsSource="{Binding TagsItems}" VerticalAlignment="Top" Name="TagValue" Width="300" Height="30" Margin="10"/>
                         <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top">
                             <Button Content="+" Command="{Binding AddTagCommand}" CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
                             <Button Content="*" Command="{Binding MultyAddTagCommand}" CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
                         </StackPanel>
-
                         <view:TagsView Grid.Column="2" RemoveItem="{Binding Path = DataContext.DeleteTagCommand, ElementName=rootFileEdit}" Margin="0,10,0,0"/>
-
-                    <TreeView x:Name="CategoriesTreeView" 
-                                  ItemsSource="{Binding Path=CategoryNavigationViewModel.NavigationItems}"
+                    <TreeView x:Name="CategoriesTreeView" ItemsSource="{Binding Path=CategoryNavigationViewModel.NavigationItems}"
                   SelectedValuePath="CategoryKey" Grid.Row="1">
-
                         <TreeView.ItemTemplate >
                             <HierarchicalDataTemplate ItemsSource="{Binding Path=NavigationItems}">
-
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="{Binding ImagePath}" Width="50" Margin="0"/>
                                     <TextBlock Text="{Binding DisplayValue}" />
-
                                 </StackPanel>
-
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
                         <TreeView.ContextMenu>
@@ -96,23 +84,12 @@
                             </ContextMenu>
                         </TreeView.ContextMenu>
                     </TreeView>
-
                     <StackPanel Grid.Row="1" Grid.Column="1">
-                        <Button Content="+" Command="{Binding AddCategoryCommand}" 
-                            CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"
-                             />
-                        <Button Content="*" Command="{Binding MultyAddCategoryCommand}" 
-                                    CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"/>
-
-
+                        <Button Content="+" Command="{Binding AddCategoryCommand}" CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}" />
+                        <Button Content="*" Command="{Binding MultyAddCategoryCommand}" CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"/>
                     </StackPanel>
-
-                    <view:CategoryToEntitiesView 
-                                 RemoveItem="{Binding Path = DataContext.DeleteCategoryToEntityCommand, 
-                        ElementName=rootFileEdit}"                 
+                    <view:CategoryToEntitiesView RemoveItem="{Binding Path = DataContext.DeleteCategoryToEntityCommand, ElementName=rootFileEdit}"                 
                                                  Margin="0,10,0,0" Grid.Column="2" Grid.Row="1"/>
-
-
                     <Grid >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="34*"  />
@@ -120,12 +97,6 @@
                             <ColumnDefinition Width="40"/>
                             <ColumnDefinition Width="45*"  />
                         </Grid.ColumnDefinitions>
-
-
-
-
-                    
-
                 </Grid>
     </Grid>
     <!--DataContext="{Binding ArchiveEntity}"-->

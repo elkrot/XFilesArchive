@@ -67,7 +67,7 @@ namespace XFilesArchive.UI.ViewModel.Search
 
             AddSearchByStringConditionCommand = new DelegateCommand<string>(OnAddSearchByStringConditionExecute, OnAddSearchByStringConditionCanExecute);
             AddSearchByCategoryConditionCommand = new DelegateCommand<int?>(OnAddSearchByCategoryConditionExecute, OnAddSearchByCategoryConditionCanExecute);
-            AddSearchByGradeConditionCommand = new DelegateCommand<string>(OnAddSearchByGradeConditionExecute, OnAddSearchByGradeConditionCanExecute);
+            AddSearchByGradeConditionCommand = new DelegateCommand<Tuple<string, string>>(OnAddSearchByGradeConditionExecute, OnAddSearchByGradeConditionCanExecute);
 
             AddSearchByFileSizeConditionCommand = new DelegateCommand<Tuple<string, string>>(OnAddSearchByFileSizeConditionExecute, OnAddSearchByFileSizeConditionCanExecute);
             AddSearchByTagConditionCommand = new DelegateCommand<int?>(OnAddSearchByTagConditionExecute, OnAddSearchByTagConditionCanExecute);
@@ -80,22 +80,28 @@ namespace XFilesArchive.UI.ViewModel.Search
             _viewItems.GroupDescriptions.Add(groupDescription);
         }
 
-        private bool OnAddSearchByGradeConditionCanExecute(string arg)
+        private bool OnAddSearchByGradeConditionCanExecute(Tuple<string, string> Grade)
         {
             return true;
         }
 
-        private void OnAddSearchByGradeConditionExecute(string maxGrade)
+        private void OnAddSearchByGradeConditionExecute(Tuple<string, string> Grade)
         {
+
+            string minGrade = Grade.Item1;
+            string maxGrade = Grade.Item2;
             if (SearchCondition.Widgets.ContainsKey(nameof(SearchByGradeWidget)))
             {
                 var widget = (SearchCondition.Widgets[nameof(SearchByGradeWidget)] as SearchByGradeWidget);
-                if (!widget.Items.Where(x => x.Title == string.Format(@"{0}", maxGrade)).Any())
+                if (!widget.Items.Where(x => x.Title == string.Format(@"{0}-{1}", minGrade, maxGrade)).Any())
                 {
-                    int i = 0;
-                    int.TryParse(maxGrade, out i);
+                    int imaxGrade = 0;
+                    int.TryParse(maxGrade, out imaxGrade);
 
-                    widget.AddQuery(i);
+                    int iminGrade = 0;
+                    int.TryParse(minGrade, out iminGrade);
+
+                    widget.AddQuery(iminGrade, imaxGrade);
                     SearchCondition.LoadItems();
                     InvalidateCommands();
                 }

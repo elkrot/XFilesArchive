@@ -194,18 +194,25 @@
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
-                            
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Не больше чем" Grid.Row="0" Grid.Column="0"/>
-                        <TextBox x:Name="maxGrade" Grid.Row="0" Grid.Column="1" />
+                        <TextBlock Text="Больше чем" Grid.Row="0" Grid.Column="0"/>
+                        <TextBox x:Name="minGrade" Grid.Row="0" Grid.Column="1" />
+                        <TextBlock Text="Меньше чем" Grid.Row="1" Grid.Column="0"/>
+                        <TextBox x:Name="maxGrade" Grid.Row="1" Grid.Column="1" />
+                        
                         <Button Content="+" Grid.Row="2" Grid.Column="0" 
-                                Command="{Binding AddSearchByGradeConditionCommand}" 
-                                CommandParameter="{Binding ElementName=maxGrade,Path=Text}">
-                            
+                                Command="{Binding AddSearchByGradeConditionCommand}">
+                            <Button.CommandParameter>
+                                <MultiBinding Converter="{StaticResource MultiTuple}">
+                                    <Binding Path="Text" ElementName="minGrade"/>
+                                    <Binding Path="Text" ElementName="maxGrade"/>
+                                </MultiBinding>
+                            </Button.CommandParameter>
                         </Button>
 
 
