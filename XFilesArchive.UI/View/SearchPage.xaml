@@ -54,7 +54,7 @@
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Title}"/>
+                        <TextBlock Text="{Binding Title}" ToolTip="{Binding Tooltip}"/>
                         <Button Content="X" VerticalAlignment="Top" Margin="2 0 2 2"
                                 Command="{Binding CloseSearchDetailViewModelCommand}" 
                                 Style="{StaticResource ChromelessButtonStyle}"

@@ -93,7 +93,7 @@ namespace XFilesArchive.UI.ViewModel
         {
             get
             {
-                return _title.Length>5? _title.Substring(5)+"..":_title;
+                return _title.Length>5? _title.Substring(0,5)+"..":_title;
             }
 
             protected set
@@ -102,6 +102,20 @@ namespace XFilesArchive.UI.ViewModel
                 OnPropertyChanged();
             }
         }
+
+
+       
+
+        public string Tooltip
+        {
+            get
+            {
+                return _title;
+            }
+
+        }
+
+
 
         public ICommand CloseDetailViewModelCommand { get; private set; }
 
