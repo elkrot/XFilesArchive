@@ -67,7 +67,7 @@ namespace XFilesArchive.UI.ViewModel.Search
 
             AddSearchByStringConditionCommand = new DelegateCommand<string>(OnAddSearchByStringConditionExecute, OnAddSearchByStringConditionCanExecute);
             AddSearchByCategoryConditionCommand = new DelegateCommand<int?>(OnAddSearchByCategoryConditionExecute, OnAddSearchByCategoryConditionCanExecute);
-            AddSearchByGradeConditionCommand = new DelegateCommand<Tuple<string, string>>(OnAddSearchByGradeConditionExecute, OnAddSearchByGradeConditionCanExecute);
+            AddSearchByGradeConditionCommand = new DelegateCommand<Tuple<double?, double?>>(OnAddSearchByGradeConditionExecute, OnAddSearchByGradeConditionCanExecute);
 
             AddSearchByFileSizeConditionCommand = new DelegateCommand<Tuple<string, string>>(OnAddSearchByFileSizeConditionExecute, OnAddSearchByFileSizeConditionCanExecute);
             AddSearchByTagConditionCommand = new DelegateCommand<int?>(OnAddSearchByTagConditionExecute, OnAddSearchByTagConditionCanExecute);
@@ -80,16 +80,16 @@ namespace XFilesArchive.UI.ViewModel.Search
             _viewItems.GroupDescriptions.Add(groupDescription);
         }
 
-        private bool OnAddSearchByGradeConditionCanExecute(Tuple<string, string> Grade)
+        private bool OnAddSearchByGradeConditionCanExecute(Tuple<double?, double?> Grade)
         {
             return true;
         }
 
-        private void OnAddSearchByGradeConditionExecute(Tuple<string, string> Grade)
+        private void OnAddSearchByGradeConditionExecute(Tuple<double?, double?> Grade)
         {
 
-            string minGrade = Grade.Item1;
-            string maxGrade = Grade.Item2;
+            string minGrade = Grade.Item1.ToString();
+            string maxGrade = Grade.Item2.ToString();
             if (SearchCondition.Widgets.ContainsKey(nameof(SearchByGradeWidget)))
             {
                 var widget = (SearchCondition.Widgets[nameof(SearchByGradeWidget)] as SearchByGradeWidget);

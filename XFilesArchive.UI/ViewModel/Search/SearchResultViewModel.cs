@@ -16,6 +16,12 @@ using XFilesArchive.UI.View.Services;
 
 namespace XFilesArchive.UI.ViewModel.Search
 {
+
+
+
+
+
+
     public interface ISearchResultViewModel: IDetailViewModel
     {
         void Load();
@@ -23,6 +29,46 @@ namespace XFilesArchive.UI.ViewModel.Search
     }
     public class SearchResultViewModel : DependencyObject, ISearchResultViewModel
     {
+
+
+        public int itemsCount { get; set; }
+        const int PAGE_LENGTH = 15;
+        public int PageLength { get { return PAGE_LENGTH; } }
+        public int TotalPages
+        {
+            get
+            {
+                var result = itemsCount / PageLength + (itemsCount % PageLength > 0 ? 1 : 0);
+                return result;
+            }
+        }
+        #region CurrentPage
+        private int _currentPage;
+
+        public int CurrentPage
+        {
+            get
+            {
+                return _currentPage;
+            }
+            set
+            {
+                _currentPage = value;
+            /*    OnPropertyChanged();
+                Task newTask = new Task(async delegate () {
+                    await LoadAsync();
+                });
+                newTask.RunSynchronously();*/
+
+
+            }
+        }
+
+
+
+        #endregion
+
+
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
 
@@ -38,6 +84,7 @@ namespace XFilesArchive.UI.ViewModel.Search
             CloseSearchDetailViewModelCommand = new DelegateCommand(OnCloseDetailViewExecute);
             OpenSearchResultArchiveEntityCommand= new DelegateCommand<int?>(OnOpenSearchResultArchiveEntityExecute);
             OpenSearchResultDriveCommand = new DelegateCommand<int?>(OnOpenSearchResultDriveExecute);
+            _currentPage = 1;
             // SearchResult.MyProperty = 0;
         }
 

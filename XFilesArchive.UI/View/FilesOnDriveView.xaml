@@ -29,7 +29,8 @@
                     </Grid.RowDefinitions>
                     
                     <StackPanel>
-                        <TextBox Text="{Binding ArchiveEntity.Grade,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Slider Maximum="10" Minimum="0" Value="{Binding ArchiveEntity.Grade}" TickFrequency="1"
+                    TickPlacement="BottomRight"></Slider>
                         <TextBox Text="{Binding ArchiveEntity.Title,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Text="{Binding ArchiveEntity.FileInfo[Length]}" />
                         <TextBlock Text="{Binding ArchiveEntity.FileInfo[Extension]}" />

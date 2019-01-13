@@ -5,11 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:XFilesArchive.UI.View"
              xmlns:con="clr-namespace:XFilesArchive.UI.Converters"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
         <con:MultiTupleConverter x:Key="MultiTuple"></con:MultiTupleConverter>
+        <con:MultiTupleIntConverter x:Key="MultiTupleInt"></con:MultiTupleIntConverter>
     </UserControl.Resources>
     <ScrollViewer>
         <Grid >
@@ -27,7 +29,7 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
                 <GroupBox Header="Поиск" Padding="5">
-                    <StackPanel>
+                   <StackPanel>
                         <StackPanel>
                             <ListView Name="SearchCondition" ItemsSource="{Binding ViewItems}">
                                 <ListView.ItemsPanel>
@@ -82,7 +84,7 @@
                 </GroupBox>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
-                <GroupBox Header="Содержимое" Padding="5">
+                <Expander Header="Содержимое" Padding="5">
                     <StackPanel Orientation="Horizontal">
                         <TextBox Name="StringContent" Width="200"/>
                         <Button Content="+" 
@@ -90,10 +92,10 @@
                     </StackPanel>
 
 
-                </GroupBox>
+                </Expander>
             </StackPanel>
             <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
-                <GroupBox Header="Категории" Padding="5">
+                <Expander Header="Категории" Padding="5">
                     <StackPanel>
                         <TreeView x:Name="CategoriesTreeView"
                    
@@ -125,10 +127,10 @@
                             CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"/>
                     </StackPanel>
 
-                </GroupBox>
+                </Expander>
             </StackPanel>
             <StackPanel  Grid.Row="3" Grid.ColumnSpan="2">
-                <GroupBox Header="Метки" Padding="5">
+                <Expander Header="Метки" Padding="5">
 
                     <StackPanel >
                         <ListBox Name="TagList" ItemsSource="{Binding TagNavigationViewModel.NavigationItems}" 
@@ -152,10 +154,10 @@
                             CommandParameter="{Binding ElementName=TagList,Path=SelectedValue.TagKey}"/>
                     </StackPanel>
 
-                </GroupBox>
+                </Expander>
             </StackPanel>
             <StackPanel  Grid.Row="4" Grid.ColumnSpan="2">
-                <GroupBox Header="Размер" Padding="5" Height="119">
+                <Expander Header="Размер" Padding="5" >
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -173,7 +175,17 @@
 
                         <TextBlock Text="Меньше чем" Grid.Row="1" Grid.Column="0"/>
                         <TextBox x:Name="maxSize" Grid.Row="1" Grid.Column="1"/>
-                        <Button Content="+" Grid.Row="2" Grid.Column="0"  Command="{Binding AddSearchByFileSizeConditionCommand}">
+
+                        <xctk:IntegerUpDown Width="75"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center"
+                              Margin="5"
+                              Minimum="0"
+                              Value="{Binding Precision, ElementName=_calculatorUpDown}"
+                              ToolTip="Gets/Sets the maximum number of digits displayed to the right of the decimal point." />
+                        
+                        <Button Content="+" Grid.Row="2" Grid.Column="0"  
+                                Command="{Binding AddSearchByFileSizeConditionCommand}">
                             <Button.CommandParameter>
                                 <MultiBinding Converter="{StaticResource MultiTuple}">
                                     <Binding Path="Text" ElementName="minSize"/>
@@ -184,12 +196,12 @@
 
 
                     </Grid>
-                </GroupBox>
+                </Expander>
             </StackPanel>
 
 
             <StackPanel  Grid.Row="5" Grid.ColumnSpan="2">
-                <GroupBox Header="Оценка" Padding="5" Height="119">
+                <Expander Header="Оценка" Padding="5" Height="119">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -200,24 +212,60 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Больше чем" Grid.Row="0" Grid.Column="0"/>
-                        <TextBox x:Name="minGrade" Grid.Row="0" Grid.Column="1" />
-                        <TextBlock Text="Меньше чем" Grid.Row="1" Grid.Column="0"/>
-                        <TextBox x:Name="maxGrade" Grid.Row="1" Grid.Column="1" />
-                        
+
+                        <xctk:RangeSlider  x:Name="RangeGrade"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Minimum="0"
+                           Maximum="100"
+                           LowerValue="30"
+                           HigherValue="70"
+                           Step="1"
+                           Orientation="Horizontal"
+                           LowerThumbBackground="#FFF0F0F0"
+                           HigherThumbBackground="#FFF0F0F0"
+                           RangeBackground="Transparent"
+                           HigherRangeBackground="Transparent"
+                           LowerRangeBackground="Transparent"
+                           HigherRangeStyle="{x:Null}"
+                           RangeStyle="{x:Null}"
+                           LowerRangeStyle="{x:Null}"
+                           IsDeferredUpdateValues="False"
+                           IsSnapToTickEnabled="False"
+                           TickPlacement="None"
+                           TickFrequency="1"
+                           AutoToolTipPlacement="None"
+                           AutoToolTipPrecision="0">
+                            <xctk:RangeSlider.Resources>
+                                <Style TargetType="xctk:RangeSlider">
+                                    <Style.Triggers>
+                                        <Trigger Property="Orientation"
+                              Value="Horizontal">
+                                            <Setter Property="Width"
+                                Value="600" />
+                                        </Trigger>
+                                        <Trigger Property="Orientation"
+                              Value="Vertical">
+                                            <Setter Property="Height"
+                                Value="225" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </xctk:RangeSlider.Resources>
+                        </xctk:RangeSlider>
                         <Button Content="+" Grid.Row="2" Grid.Column="0" 
                                 Command="{Binding AddSearchByGradeConditionCommand}">
                             <Button.CommandParameter>
-                                <MultiBinding Converter="{StaticResource MultiTuple}">
-                                    <Binding Path="Text" ElementName="minGrade"/>
-                                    <Binding Path="Text" ElementName="maxGrade"/>
+                                <MultiBinding Converter="{StaticResource MultiTupleInt}">
+                                    <Binding Path="LowerValue" ElementName="RangeGrade"/>
+                                    <Binding Path="HigherValue" ElementName="RangeGrade"/>
                                 </MultiBinding>
                             </Button.CommandParameter>
                         </Button>
 
 
                     </Grid>
-                </GroupBox>
+                </Expander>
             </StackPanel>
 
 
