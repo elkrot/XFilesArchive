@@ -84,6 +84,13 @@ namespace XFilesArchive.UI.ViewModel.Search
             CloseSearchDetailViewModelCommand = new DelegateCommand(OnCloseDetailViewExecute);
             OpenSearchResultArchiveEntityCommand= new DelegateCommand<int?>(OnOpenSearchResultArchiveEntityExecute);
             OpenSearchResultDriveCommand = new DelegateCommand<int?>(OnOpenSearchResultDriveExecute);
+
+            FirstPageCommand = new Prism.Commands.DelegateCommand(FirstPageCommandExecute);
+            PrevPageCommand = new Prism.Commands.DelegateCommand(PrevPageCommandExecute);
+            NextPageCommand = new Prism.Commands.DelegateCommand(NextPageCommandExecute);
+            LastPageCommand = new Prism.Commands.DelegateCommand(LastPageCommandExecute);
+
+
             _currentPage = 1;
             // SearchResult.MyProperty = 0;
         }
@@ -122,7 +129,31 @@ namespace XFilesArchive.UI.ViewModel.Search
         public ICommand CloseSearchDetailViewModelCommand { get; private set; }
         public ICommand OpenSearchResultArchiveEntityCommand { get; private set; }
         public ICommand OpenSearchResultDriveCommand { get; private set; }
+        public ICommand FirstPageCommand { get; set; }
+        public ICommand PrevPageCommand { get; set; }
+        public ICommand NextPageCommand { get; set; }
+        public ICommand LastPageCommand { get; set; }
 
+        private void LastPageCommandExecute()
+        {
+            if (TotalPages > 1) CurrentPage = TotalPages;
+        }
+
+        private void NextPageCommandExecute()
+        {
+            if (TotalPages > CurrentPage) CurrentPage++;
+        }
+
+        private void PrevPageCommandExecute()
+        {
+            if (CurrentPage > 1)
+                CurrentPage--;
+        }
+
+        private void FirstPageCommandExecute()
+        {
+            CurrentPage = 1;
+        }
 
 
         public SearchResult SearchResult
