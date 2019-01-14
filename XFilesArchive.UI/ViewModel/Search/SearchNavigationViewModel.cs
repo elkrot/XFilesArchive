@@ -27,9 +27,11 @@ namespace XFilesArchive.UI.ViewModel.Search
         SearchResult SearchResult { get; set; }
     }
 
+    
     public class SearchNavigationViewModel : Observable, ISearchNavigationViewModel
     {
 
+        #region Fields
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
         private ICategoryNavigationViewModel _categoryNavigationViewModel;
@@ -39,7 +41,9 @@ namespace XFilesArchive.UI.ViewModel.Search
         private IArchiveEntityRepository _repository;
         ICollectionView _viewItems;
         public ICollectionView ViewItems { get { return _viewItems; } }
+        #endregion
 
+        #region Constructor
         public SearchNavigationViewModel(
             IEventAggregator eventAggregator
             , IMessageDialogService messageDialogService
@@ -69,7 +73,7 @@ namespace XFilesArchive.UI.ViewModel.Search
             AddSearchByCategoryConditionCommand = new DelegateCommand<int?>(OnAddSearchByCategoryConditionExecute, OnAddSearchByCategoryConditionCanExecute);
             AddSearchByGradeConditionCommand = new DelegateCommand<Tuple<double?, double?>>(OnAddSearchByGradeConditionExecute, OnAddSearchByGradeConditionCanExecute);
 
-            AddSearchByFileSizeConditionCommand = new DelegateCommand<Tuple<string, string>>(OnAddSearchByFileSizeConditionExecute, OnAddSearchByFileSizeConditionCanExecute);
+            AddSearchByFileSizeConditionCommand = new DelegateCommand<Tuple<int?, int?>>(OnAddSearchByFileSizeConditionExecute, OnAddSearchByFileSizeConditionCanExecute);
             AddSearchByTagConditionCommand = new DelegateCommand<int?>(OnAddSearchByTagConditionExecute, OnAddSearchByTagConditionCanExecute);
             GoSearchCommand = new DelegateCommand(OnSearchExecute, OnSearchCanExecute);
 
@@ -80,6 +84,8 @@ namespace XFilesArchive.UI.ViewModel.Search
             _viewItems.GroupDescriptions.Add(groupDescription);
         }
 
+        #endregion
+
         private bool OnAddSearchByGradeConditionCanExecute(Tuple<double?, double?> Grade)
         {
             return true;
@@ -87,21 +93,14 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         private void OnAddSearchByGradeConditionExecute(Tuple<double?, double?> Grade)
         {
-
-            string minGrade = Grade.Item1.ToString();
-            string maxGrade = Grade.Item2.ToString();
+            int maxGrade = (int)Grade.Item2;
+            int minGrade = (int)Grade.Item1;
             if (SearchCondition.Widgets.ContainsKey(nameof(SearchByGradeWidget)))
             {
                 var widget = (SearchCondition.Widgets[nameof(SearchByGradeWidget)] as SearchByGradeWidget);
                 if (!widget.Items.Where(x => x.Title == string.Format(@"{0}-{1}", minGrade, maxGrade)).Any())
                 {
-                    int imaxGrade = 0;
-                    int.TryParse(maxGrade, out imaxGrade);
-
-                    int iminGrade = 0;
-                    int.TryParse(minGrade, out iminGrade);
-
-                    widget.AddQuery(iminGrade, imaxGrade);
+                    widget.AddQuery(minGrade, maxGrade);
                     SearchCondition.LoadItems();
                     InvalidateCommands();
                 }
@@ -110,7 +109,6 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         private bool OnSearchCanExecute()
         {
-
             return SearchCondition.Items.Count > 0;
         }
 
@@ -121,7 +119,7 @@ namespace XFilesArchive.UI.ViewModel.Search
             SearchResult = new SearchResult(searchItems);
 
             _eventAggregator.GetEvent<OpenSearchDetailViewEvent>().Publish(new OpenSearchDetailViewEventArgs()
-            { Id=1,ViewModelName=nameof(SearchResultViewModel)});
+            { Id = 1, ViewModelName = nameof(SearchResultViewModel) });
         }
 
 
@@ -158,15 +156,15 @@ namespace XFilesArchive.UI.ViewModel.Search
             }
         }
 
-        private bool OnAddSearchByFileSizeConditionCanExecute(Tuple<string, string> fileSize)
+        private bool OnAddSearchByFileSizeConditionCanExecute(Tuple<int?, int?> fileSize)
         {
             return true;
         }
 
-        private void OnAddSearchByFileSizeConditionExecute(Tuple<string, string> fileSize)
+        private void OnAddSearchByFileSizeConditionExecute(Tuple<int?, int?> fileSize)
         {
-            int minFileSize = int.Parse(fileSize.Item1);
-            int maxFileSize = int.Parse(fileSize.Item2);
+            int minFileSize = int.Parse(fileSize.Item1.ToString());
+            int maxFileSize = int.Parse(fileSize.Item2.ToString());
 
             if (SearchCondition.Widgets.ContainsKey(nameof(SearchByFileSizeWiget)))
             {
@@ -225,7 +223,7 @@ namespace XFilesArchive.UI.ViewModel.Search
                     InvalidateCommands();
                 }
             }
-            //            _messageDialogService.ShowMessageDialog("", obj.ToString());
+          
         }
 
         private void OnClearConditionExecute()

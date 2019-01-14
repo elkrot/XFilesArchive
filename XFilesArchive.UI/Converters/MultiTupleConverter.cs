@@ -24,7 +24,7 @@ namespace XFilesArchive.UI.Converters
         }
     }
 
-    public class MultiTupleIntConverter : IMultiValueConverter
+    public class MultiTupleDoubleConverter : IMultiValueConverter
     {
 
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -40,4 +40,21 @@ namespace XFilesArchive.UI.Converters
             throw new NotImplementedException();
         }
     }
+
+
+    public class MultiTupleIntegerConverter : IMultiValueConverter
+    {
+
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            Tuple<int?, int?> tuple = new Tuple<int?, int?>((int?)values[0], (int?)values[1]);
+            return (object)tuple;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }
