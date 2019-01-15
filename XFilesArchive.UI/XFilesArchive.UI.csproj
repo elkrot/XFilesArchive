@@ -131,6 +131,7 @@
     <Compile Include="Event\AfterDetailDelitedEvent.cs" />
     <Compile Include="Event\AfterDetailSavedEvent.cs" />
     <Compile Include="Event\AfterDriveSaveEvent.cs" />
+    <Compile Include="Event\AfterResultPageChangeEvent.cs" />
     <Compile Include="Event\AfterSaveEvent.cs" />
     <Compile Include="Event\AfterSearchDetailClosedEvent.cs" />
     <Compile Include="Event\FileOnDriveDeletedEvent.cs" />

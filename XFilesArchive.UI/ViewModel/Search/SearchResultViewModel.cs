@@ -90,7 +90,6 @@ namespace XFilesArchive.UI.ViewModel.Search
             NextPageCommand = new Prism.Commands.DelegateCommand(NextPageCommandExecute);
             LastPageCommand = new Prism.Commands.DelegateCommand(LastPageCommandExecute);
 
-
             _currentPage = 1;
             // SearchResult.MyProperty = 0;
         }
@@ -141,6 +140,7 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         private void NextPageCommandExecute()
         {
+            RaiseAfterResultPageChangeEvent(1);
             if (TotalPages > CurrentPage) CurrentPage++;
         }
 
@@ -199,9 +199,14 @@ namespace XFilesArchive.UI.ViewModel.Search
         public void Load(SearchResult searchResult,int id)
         {
             SearchResult = searchResult;
+            
             _id = id;
         }
 
+        protected void RaiseAfterResultPageChangeEvent(int pageNumber)
+        {
+            _eventAggregator.GetEvent<AfterResultPageChangeEvent>().Publish(new AfterResultPageChangeEventArgs{PageNumber = pageNumber});
+        }
 
-    }
+}
 }

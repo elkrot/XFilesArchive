@@ -112,6 +112,8 @@ namespace XFilesArchive.UI.ViewModel.Search
             return SearchCondition.Items.Count > 0;
         }
 
+/// /////////////////////////////////////////////////////////////////
+
         private void OnSearchExecute()
         {
             var condition = SearchCondition.Condition;
@@ -120,9 +122,17 @@ namespace XFilesArchive.UI.ViewModel.Search
 
             _eventAggregator.GetEvent<OpenSearchDetailViewEvent>().Publish(new OpenSearchDetailViewEventArgs()
             { Id = 1, ViewModelName = nameof(SearchResultViewModel) });
+
+            _eventAggregator.GetEvent<AfterResultPageChangeEvent>().Subscribe(AfterResultPageChanged);
+
         }
 
+        private void AfterResultPageChanged(AfterResultPageChangeEventArgs args)
+        {
+            var x = args.PageNumber;
 
+        }
+/// /////////////////////////////////////////////////////////////////
         private void InvalidateCommands()
         {
             ((DelegateCommand)GoSearchCommand).RaiseCanExecuteChanged();

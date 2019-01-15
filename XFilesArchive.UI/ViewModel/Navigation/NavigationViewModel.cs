@@ -196,8 +196,6 @@ namespace XFilesArchive.UI.ViewModel
 
         public async Task LoadAsync()
         {
-            //var lookup = await _lookupDataService.GetDriveLookupAsync();
-
             CustomPrincipal wp = Thread.CurrentPrincipal as CustomPrincipal;
             if (wp != null)
             {
@@ -208,10 +206,8 @@ namespace XFilesArchive.UI.ViewModel
                     itemsCount = _lookupDataService
                .GetDrivesCountByCondition(x => x.Title.Contains(FilterText), x => x.DriveCode
                , false, 1, int.MaxValue);
-
-                     lookup = await _lookupDataService.GetDrivesByConditionAsync(x => x.Title.Contains(FilterText), x => x.DriveCode
-                    , false, CurrentPage, PageLength);
-
+               lookup = await _lookupDataService.GetDrivesByConditionAsync(x => x.Title.Contains(FilterText), 
+               x => x.DriveCode, false, CurrentPage, PageLength);
                 }
                 else
                 {
