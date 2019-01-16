@@ -41,6 +41,8 @@ namespace XFilesArchive.UI.ViewModel.Search
         private IArchiveEntityRepository _repository;
         ICollectionView _viewItems;
         public ICollectionView ViewItems { get { return _viewItems; } }
+        const int PAGE_LENGTH = 15;
+        public int PageLength { get { return PAGE_LENGTH; } }
         #endregion
 
         #region Constructor
@@ -116,8 +118,16 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         private void OnSearchExecute()
         {
+            Search();
+
+        }
+
+        private void Search(int CurrentPage = 1)
+        {
             var condition = SearchCondition.Condition;
-            var searchItems = _repository.GetEntitiesByCondition(condition);
+            //TODO : Select count
+            var searchItems = _repository.GetEntitiesByCondition(condition ,CurrentPage, PageLength);
+
             SearchResult = new SearchResult(searchItems);
 
             _eventAggregator.GetEvent<OpenSearchDetailViewEvent>().Publish(new OpenSearchDetailViewEventArgs()
@@ -129,7 +139,7 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         private void AfterResultPageChanged(AfterResultPageChangeEventArgs args)
         {
-            var x = args.PageNumber;
+            Search(args.PageNumber);
 
         }
 /// /////////////////////////////////////////////////////////////////

@@ -40,7 +40,36 @@ namespace XFilesArchive.Services.Repositories
                 }).ToList();
             return ret;
         }
-        
+
+        public ICollection<ArchiveEntityDto> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition, int currentPage, int pageLength)
+        {
+var skip = (currentPage - 1) * pageLength;
+
+            var ret = Context.ArchiveEntities.AsExpandable()
+               .AsNoTracking().Where(condition).Skip(skip).Select
+               (x => new ArchiveEntityDto()
+               {
+                   ArchiveEntityKey = x.ArchiveEntityKey
+                   ,
+                   Description = x.Description
+                   ,
+                   Drive = x.Drive
+                   ,
+                   DriveId = x.DriveId
+                   ,
+                   EntityExtension = x.EntityExtension
+                   ,
+                   EntityPath = x.EntityPath
+                   ,
+                   EntityType = x.EntityType
+                   ,
+                   FileSize = x.FileSize
+                   ,
+                   Title = x.Title
+               }).Take(pageLength).AsNoTracking().ToList();
+
+            return ret;
+        }
 
         public Tag GetTagByKey(int tagKey)
         {
