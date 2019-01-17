@@ -126,7 +126,7 @@ namespace XFilesArchive.UI.ViewModel.Search
         {
             var condition = SearchCondition.Condition;
             //TODO : Select count
-            var searchItems = _repository.GetEntitiesByCondition(condition ,CurrentPage, PageLength);
+            var searchItems = _repository.GetEntitiesByCondition(condition ,x=>x.DriveId,CurrentPage, PageLength);
 
             SearchResult = new SearchResult(searchItems);
 

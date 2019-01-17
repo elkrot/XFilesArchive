@@ -41,12 +41,17 @@ namespace XFilesArchive.Services.Repositories
             return ret;
         }
 
-        public ICollection<ArchiveEntityDto> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition, int currentPage, int pageLength)
+        public ICollection<ArchiveEntityDto> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition, 
+            Expression<Func<ArchiveEntity, object>> orderby, int currentPage, int pageLength)
         {
 var skip = (currentPage - 1) * pageLength;
 
+            var ret2 = Context.ArchiveEntities.AsExpandable()
+               .AsNoTracking().Where(condition).OrderBy(orderby).Take(1).Skip(1).ToList();
+
+
             var ret = Context.ArchiveEntities.AsExpandable()
-               .AsNoTracking().Where(condition).Skip(skip).Select
+               .AsNoTracking().Where(condition).OrderBy(orderby).Take(pageLength).Skip(skip).Select
                (x => new ArchiveEntityDto()
                {
                    ArchiveEntityKey = x.ArchiveEntityKey
@@ -66,8 +71,8 @@ var skip = (currentPage - 1) * pageLength;
                    FileSize = x.FileSize
                    ,
                    Title = x.Title
-               }).Take(pageLength).AsNoTracking().ToList();
-
+               }).ToList();
+            //
             return ret;
         }
 

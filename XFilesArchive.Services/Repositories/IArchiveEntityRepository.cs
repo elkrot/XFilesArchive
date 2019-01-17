@@ -18,6 +18,7 @@ namespace XFilesArchive.Services.Repositories
         void RemoveImage(int archiveEntityKey, int imageKey);
         ICollection<ArchiveEntityDto> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition);
         Tag GetTagByKey(int tagKey);
-        ICollection<ArchiveEntityDto> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition, int currentPage, int pageLength);
+        ICollection<ArchiveEntityDto> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition,
+            Expression<Func<ArchiveEntity, object>> orderby, int currentPage, int pageLength);
     }
 }
