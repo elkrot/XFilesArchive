@@ -41,8 +41,8 @@ namespace XFilesArchive.UI
                 return;
             }
 
-
-            MessageBox.Show(LocRM.GetString("UnexpectedError") +
+//LocRM.GetString("UnexpectedError")
+            MessageBox.Show( "Неопознаная ошибка"+
                Environment.NewLine + e.Exception.Message + Environment.NewLine +
                e.Exception.Source + Environment.NewLine + e.Exception.StackTrace+ e.Exception.GetType().Name
                , "UnexpectedError");

@@ -66,18 +66,9 @@ namespace XFilesArchive.UI.ViewModel.Security
         {
             var service = new WindowsAuthenticationService();
             var user = service.AuthenticateUser();
-            try
-            {
-                Auth(user, null);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                Status = "Login failed! Измените учетные данные и повторите попытку.";
-            }
-            catch (Exception ex)
-            {
-                Status = string.Format("ERROR: {0}", ex.Message);
-            }
+
+            Auth(user, null);
+
         }
 
         #region Properties
@@ -142,12 +133,12 @@ namespace XFilesArchive.UI.ViewModel.Security
         #endregion
 
         #region Login
-       private void Login(object parameter)
+        private void Login(object parameter)
         {
             PasswordBox passwordBox = parameter as PasswordBox;
             string clearTextPassword = passwordBox.Password;
 
-//Username, clearTextPassword
+            //Username, clearTextPassword
             try
             {
 
@@ -172,28 +163,41 @@ namespace XFilesArchive.UI.ViewModel.Security
 
         private void Auth(UserDto user, Action resetAction)
         {
-            //--------------------------------------------------------------------------
-            CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
-            var claims = new List<Claim>{
+
+            try
+            {
+                //--------------------------------------------------------------------------
+                CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+                var claims = new List<Claim>{
                         new Claim(ClaimTypes.Name,user.Username),
                         new Claim(ClaimTypes.Email,user.Email),
                         };
-            foreach (var role in user.Roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                foreach (var role in user.Roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role));
+                }
+                customPrincipal = new CustomPrincipal(new ClaimsIdentity(claims, "custom"));
+                if (customPrincipal == null)
+                    throw new ArgumentException("Неудача.");
+                Thread.CurrentPrincipal = customPrincipal;
+                // customPrincipal.Identity = new CustomIdentity(user.Username, user.Email, user.Roles);
+                //--------------------------------------------------------------------------
+                NotifyPropertyChanged("AuthenticatedUser");
+                NotifyPropertyChanged("IsAuthenticated");
+                _loginCommand.RaiseCanExecuteChanged();
+                _logoutCommand.RaiseCanExecuteChanged();
+                if (resetAction != null) resetAction();
+                Status = string.Empty;
             }
-            customPrincipal = new CustomPrincipal(new ClaimsIdentity(claims, "custom"));
-            if (customPrincipal == null)
-                throw new ArgumentException("Неудача.");
-            Thread.CurrentPrincipal = customPrincipal;
-            // customPrincipal.Identity = new CustomIdentity(user.Username, user.Email, user.Roles);
-            //--------------------------------------------------------------------------
-            NotifyPropertyChanged("AuthenticatedUser");
-            NotifyPropertyChanged("IsAuthenticated");
-            _loginCommand.RaiseCanExecuteChanged();
-            _logoutCommand.RaiseCanExecuteChanged();
-            if (resetAction!=null) resetAction();
-            Status = string.Empty;
+            catch (UnauthorizedAccessException)
+            {
+                Status = "Login failed! Измените учетные данные и повторите попытку.";
+            }
+            catch (Exception ex)
+            {
+                Status = string.Format("ERROR: {0}", ex.Message);
+            }
+
             if (IsAuthenticated)
             {
                 ShowView(null);
@@ -208,12 +212,12 @@ namespace XFilesArchive.UI.ViewModel.Security
         #endregion
 
         #region Logout
-      private void Logout(object parameter)
+        private void Logout(object parameter)
         {
             CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
             if (customPrincipal != null)
             {
-               // customPrincipal.Identity = new AnonymousIdentity();
+                // customPrincipal.Identity = new AnonymousIdentity();
                 NotifyPropertyChanged("AuthenticatedUser");
                 NotifyPropertyChanged("IsAuthenticated");
                 _loginCommand.RaiseCanExecuteChanged();
@@ -234,7 +238,7 @@ namespace XFilesArchive.UI.ViewModel.Security
         }
 
         #region ShowView
-     private void ShowView(object parameter)
+        private void ShowView(object parameter)
         {
             try
             {
@@ -246,7 +250,7 @@ namespace XFilesArchive.UI.ViewModel.Security
 
                 var mainWindow = container.Resolve<MainWindow>();
 
-                
+
                 if (App.Current.Windows.OfType<LoginWindow>().FirstOrDefault() is LoginWindow)
                     (App.Current.Windows.OfType<LoginWindow>().FirstOrDefault() as LoginWindow).Hide();
                 mainWindow.ShowDialog();
@@ -261,7 +265,7 @@ namespace XFilesArchive.UI.ViewModel.Security
         }
 
         #endregion
-   
+
 
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;
