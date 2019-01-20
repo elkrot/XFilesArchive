@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XFilesArchive.Services.Repositories;
 using XFilesArchive.UI.Event;
 using XFilesArchive.UI.View.Services;
 
@@ -19,9 +20,14 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         private IDetailViewModel _selectedDetailViewModel;
         private IIndex<string, IDetailViewModel> _searchDetailViewModelCreator;
-
         public ISearchNavigationViewModel SearchNavigationViewModel { get; private set; }
         // public ISearchResultViewModel SearchResultViewModel { get; private set; }
+
+
+
+
+
+
 
         public IDetailViewModel SelectedSearchDetailViewModel
         {
@@ -40,8 +46,10 @@ namespace XFilesArchive.UI.ViewModel.Search
             , ISearchNavigationViewModel searchNavigationViewModel
             //, ISearchResultViewModel searchResultViewModel
             , IIndex<string, IDetailViewModel> searchDetailViewModelCreator
+           
            )
         {
+            
             _searchDetailViewModelCreator = searchDetailViewModelCreator;
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
@@ -166,21 +174,17 @@ namespace XFilesArchive.UI.ViewModel.Search
         private int currentId = 0;
         private async void OnOpenDetailView(OpenSearchDetailViewEventArgs args)
         {
-            //var detailViewModel = SearchDetailViewModels
-            //    .SingleOrDefault(vm => vm.Id == args.Id
-            //    && vm.GetType().Name == args.ViewModelName);
-
-            //if (detailViewModel == null)
-            //{
-            //TODO: Разобраться что куда Изменить алгоритм поиска
+  
             var detailViewModel = _searchDetailViewModelCreator[args.ViewModelName];
-            //;
-            //SearchNavigationViewModel.SearchResult
+//SearchNavigationViewModel.SearchResult
             try
             {
                 if (args.ViewModelName == "SearchResultViewModel")
                 {
-                    ((SearchResultViewModel)detailViewModel).Load(SearchNavigationViewModel.SearchResult, ++currentId);
+                    var vm = (SearchResultViewModel)detailViewModel;
+                    vm.Condition = args.Condition;
+                    vm.Id = args.Id;
+                    vm.Load( );
                 }
                 else
                 {

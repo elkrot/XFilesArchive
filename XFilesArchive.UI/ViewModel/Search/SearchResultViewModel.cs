@@ -3,6 +3,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using XFilesArchive.Model;
 using XFilesArchive.Search.Result;
 using XFilesArchive.Services.Lookups;
+using XFilesArchive.Services.Repositories;
 using XFilesArchive.UI.Event;
 using XFilesArchive.UI.View.Services;
 
@@ -26,14 +28,19 @@ namespace XFilesArchive.UI.ViewModel.Search
     {
         void Load();
         SearchResult SearchResult { get; set; }
+        Expression<Func<ArchiveEntity, bool>> Condition { get; set; }
     }
     public class SearchResultViewModel : DependencyObject, ISearchResultViewModel
     {
 
-
+        public Expression<Func<ArchiveEntity, bool>> Condition { get; set; }
         public int itemsCount { get; set; }
         const int PAGE_LENGTH = 15;
         public int PageLength { get { return PAGE_LENGTH; } }
+
+        private IArchiveEntityRepository _repository;
+
+
         public int TotalPages
         {
             get
@@ -76,8 +83,11 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         public SearchResultViewModel(IEventAggregator eventAggregator
             , IMessageDialogService messageDialogService
+             , IArchiveEntityRepository repository
             )
         {
+            _repository = repository;
+           
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             SearchResult = new SearchResult(new List<ArchiveEntityDto>());
@@ -173,7 +183,7 @@ namespace XFilesArchive.UI.ViewModel.Search
                 return _id;
             }
 
-            protected set
+             set
             {
                 _id = value;
 
@@ -186,7 +196,8 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         public void Load()
         {
-
+            var searchItems = _repository.GetEntitiesByCondition(Condition, x => (int?)x.ArchiveEntityKey, CurrentPage, PageLength);
+            SearchResult = new SearchResult(searchItems);
         }
 
         public async Task LoadAsync(int id)
@@ -196,9 +207,11 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         }
 
-        public void Load(SearchResult searchResult,int id)
+        public void Load(int id)
         {
-            SearchResult = searchResult;
+            var searchItems = _repository.GetEntitiesByCondition(Condition, x => (int?)x.ArchiveEntityKey, 1, PageLength);
+            var SearchResult = new SearchResult(searchItems);
+           
             
             _id = id;
         }

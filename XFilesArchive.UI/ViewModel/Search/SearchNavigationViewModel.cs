@@ -41,8 +41,35 @@ namespace XFilesArchive.UI.ViewModel.Search
         private IArchiveEntityRepository _repository;
         ICollectionView _viewItems;
         public ICollectionView ViewItems { get { return _viewItems; } }
-        const int PAGE_LENGTH = 15;
-        public int PageLength { get { return PAGE_LENGTH; } }
+        
+
+        public int _serchResultId;
+
+
+        public ICommand AddSearchByStringConditionCommand { get; private set; }
+        public ICommand AddSearchByCategoryConditionCommand { get; private set; }
+        public ICommand AddSearchByFileSizeConditionCommand { get; private set; }
+        public ICommand AddSearchByGradeConditionCommand { get; private set; }
+        public ICommand AddSearchByTagConditionCommand { get; private set; }
+        public ICommand ClearConditionCommand { get; private set; }
+        public ICommand GoSearchCommand { get; private set; }
+
+
+        public ICategoryNavigationViewModel CategoryNavigationViewModel
+        {
+            get
+            {
+                return _categoryNavigationViewModel;
+            }
+        }
+
+        public ITagNavigationViewModel TagNavigationViewModel
+        {
+            get
+            {
+                return _tagNavigationViewModel;
+            }
+        }
         #endregion
 
         #region Constructor
@@ -54,6 +81,7 @@ namespace XFilesArchive.UI.ViewModel.Search
             , IArchiveEntityRepository repository
             )
         {
+            _serchResultId = 0;
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _repository = repository;
@@ -88,7 +116,8 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         #endregion
 
-        private bool OnAddSearchByGradeConditionCanExecute(Tuple<double?, double?> Grade)
+        #region OnAddSearchByGradeConditionExecute
+       private bool OnAddSearchByGradeConditionCanExecute(Tuple<double?, double?> Grade)
         {
             return true;
         }
@@ -108,6 +137,8 @@ namespace XFilesArchive.UI.ViewModel.Search
                 }
             }
         }
+        #endregion
+ 
 
         private bool OnSearchCanExecute()
         {
@@ -118,7 +149,11 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         private void OnSearchExecute()
         {
-            Search();
+            var condition = SearchCondition.Condition;
+            _eventAggregator.GetEvent<OpenSearchDetailViewEvent>().Publish(new OpenSearchDetailViewEventArgs()
+            { Id = ++_serchResultId, ViewModelName = nameof(SearchResultViewModel), Condition = condition});
+
+         //   _eventAggregator.GetEvent<AfterResultPageChangeEvent>().Subscribe(AfterResultPageChanged);
 
         }
 
@@ -126,14 +161,11 @@ namespace XFilesArchive.UI.ViewModel.Search
         {
             var condition = SearchCondition.Condition;
             //TODO : Select count
-            var searchItems = _repository.GetEntitiesByCondition(condition ,x=>x.DriveId,CurrentPage, PageLength);
+            //var searchItems = _repository.GetEntitiesByCondition(condition ,x=>(int?)x.ArchiveEntityKey,CurrentPage, PageLength);
 
-            SearchResult = new SearchResult(searchItems);
+            //SearchResult = new SearchResult(searchItems);
 
-            _eventAggregator.GetEvent<OpenSearchDetailViewEvent>().Publish(new OpenSearchDetailViewEventArgs()
-            { Id = 1, ViewModelName = nameof(SearchResultViewModel) });
-
-            _eventAggregator.GetEvent<AfterResultPageChangeEvent>().Subscribe(AfterResultPageChanged);
+          
 
         }
 
@@ -149,14 +181,17 @@ namespace XFilesArchive.UI.ViewModel.Search
             ((DelegateCommand)ClearConditionCommand).RaiseCanExecuteChanged();
         }
 
-
+        
+        #region OnAddSearchByTagConditionExecute
 
         private bool OnAddSearchByTagConditionCanExecute(int? obj)
         {
             return true;
         }
 
-        private void OnAddSearchByTagConditionExecute(int? tagKey)
+
+
+    private void OnAddSearchByTagConditionExecute(int? tagKey)
         {
             var tag = _repository.GetTagByKey((int)tagKey);
             //obj as HomeArchiveX.WpfUI.ViewModel.FilesOnDrive.NavigationTagItemViewModel;
@@ -176,7 +211,10 @@ namespace XFilesArchive.UI.ViewModel.Search
             }
         }
 
-        private bool OnAddSearchByFileSizeConditionCanExecute(Tuple<int?, int?> fileSize)
+        #endregion
+
+        #region OnAddSearchByFileSizeConditionExecute
+  private bool OnAddSearchByFileSizeConditionCanExecute(Tuple<int?, int?> fileSize)
         {
             return true;
         }
@@ -194,8 +232,11 @@ namespace XFilesArchive.UI.ViewModel.Search
                 InvalidateCommands();
             }
         }
+        #endregion
 
-        private bool OnAddSearchByCategoryConditionCanExecute(int? obj)
+
+        #region OnAddSearchByCategoryConditionExecute
+       private bool OnAddSearchByCategoryConditionCanExecute(int? obj)
         {
             return true;
         }
@@ -224,8 +265,10 @@ namespace XFilesArchive.UI.ViewModel.Search
             }
 
         }
+        #endregion
 
-        private bool OnAddSearchByStringConditionCanExecute(string obj)
+        #region         private void OnAddSearchByStringConditionExecute(object obj)
+  private bool OnAddSearchByStringConditionCanExecute(string obj)
         {
             return true;
         }
@@ -246,6 +289,9 @@ namespace XFilesArchive.UI.ViewModel.Search
           
         }
 
+        #endregion
+
+        #region OnClearConditionCanExecute
         private void OnClearConditionExecute()
         {
             SearchCondition.ClearItems();
@@ -256,33 +302,13 @@ namespace XFilesArchive.UI.ViewModel.Search
         {
             return SearchCondition.Items.Count > 0;
         }
-
-        public ICommand AddSearchByStringConditionCommand { get; private set; }
-        public ICommand AddSearchByCategoryConditionCommand { get; private set; }
-        public ICommand AddSearchByFileSizeConditionCommand { get; private set; }
-        public ICommand AddSearchByGradeConditionCommand { get; private set; }
-        public ICommand AddSearchByTagConditionCommand { get; private set; }
-        public ICommand ClearConditionCommand { get; private set; }
-        public ICommand GoSearchCommand { get; private set; }
+        #endregion
 
 
-        public ICategoryNavigationViewModel CategoryNavigationViewModel
-        {
-            get
-            {
-                return _categoryNavigationViewModel;
-            }
-        }
 
-        public ITagNavigationViewModel TagNavigationViewModel
-        {
-            get
-            {
-                return _tagNavigationViewModel;
-            }
-        }
 
-        public void Load()
+        #region Load
+  public void Load()
         {
             CategoryNavigationViewModel.Load();
             TagNavigationViewModel.Load();
@@ -293,5 +319,7 @@ namespace XFilesArchive.UI.ViewModel.Search
             await CategoryNavigationViewModel.LoadAsync();
             await TagNavigationViewModel.LoadAsync();
         }
+        #endregion
+      
     }
 }

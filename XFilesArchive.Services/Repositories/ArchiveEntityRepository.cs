@@ -22,36 +22,42 @@ namespace XFilesArchive.Services.Repositories
         {
             return Context.Categories.Find(id);
         }
-        
-        public ICollection<ArchiveEntityDto> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition)
+
+        #region GetEntitiesByCondition
+public ICollection<ArchiveEntityDto> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition)
         {
             var ret = Context.ArchiveEntities.AsExpandable()
                 .AsNoTracking().Where(condition).Select
-                (x=>new ArchiveEntityDto() {
+                (x => new ArchiveEntityDto()
+                {
                     ArchiveEntityKey = x.ArchiveEntityKey
-                    ,Description = x.Description
-                    ,Drive = x.Drive
-                    ,DriveId  =x.DriveId
-                    ,EntityExtension = x.EntityExtension
-                    ,EntityPath = x.EntityPath
-                    ,EntityType = x.EntityType
-                    ,FileSize = x.FileSize
-                    ,Title = x.Title
+                    ,
+                    Description = x.Description
+                    ,
+                    Drive = x.Drive
+                    ,
+                    DriveId = x.DriveId
+                    ,
+                    EntityExtension = x.EntityExtension
+                    ,
+                    EntityPath = x.EntityPath
+                    ,
+                    EntityType = x.EntityType
+                    ,
+                    FileSize = x.FileSize
+                    ,
+                    Title = x.Title
                 }).ToList();
             return ret;
         }
 
-        public ICollection<ArchiveEntityDto> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition, 
+        public ICollection<ArchiveEntityDto> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition,
             Expression<Func<ArchiveEntity, object>> orderby, int currentPage, int pageLength)
         {
-var skip = (currentPage - 1) * pageLength;
-
-            var ret2 = Context.ArchiveEntities.AsExpandable()
-               .AsNoTracking().Where(condition).OrderBy(orderby).Take(1).Skip(1).ToList();
-
+            int skip = (currentPage - 1) * pageLength;
 
             var ret = Context.ArchiveEntities.AsExpandable()
-               .AsNoTracking().Where(condition).OrderBy(orderby).Take(pageLength).Skip(skip).Select
+               .AsNoTracking().Where(condition).OrderBy(x=>(int?)x.ArchiveEntityKey).Take(pageLength).Skip(skip).Select
                (x => new ArchiveEntityDto()
                {
                    ArchiveEntityKey = x.ArchiveEntityKey
@@ -76,6 +82,9 @@ var skip = (currentPage - 1) * pageLength;
             return ret;
         }
 
+        #endregion
+        
+
         public Tag GetTagByKey(int tagKey)
         {
             return Context.Tags.Where(x => x.TagKey == tagKey).FirstOrDefault();
@@ -86,14 +95,14 @@ var skip = (currentPage - 1) * pageLength;
         {
             var tag = Context.Tags.Where(x => x.TagTitle == Title).FirstOrDefault();
             //.AsNoTracking()
-            if (tag==null)
+            if (tag == null)
             {
-                tag = new Tag() { TagTitle =Title};
+                tag = new Tag() { TagTitle = Title };
             }
             return tag;
         }
 
-        public void RemoveCategory(int ArchiveEntityId,int categoryKey)
+        public void RemoveCategory(int ArchiveEntityId, int categoryKey)
         {
             var entity = Context.ArchiveEntities.Find(ArchiveEntityId);
             var category = Context.Categories.Find(categoryKey);
@@ -113,7 +122,7 @@ var skip = (currentPage - 1) * pageLength;
         public void RemoveTag(int archiveEntityKey, string tagTitle)
         {
             var entity = Context.ArchiveEntities.Find(archiveEntityKey);
-            var tag = Context.Tags.AsNoTracking().Where(x=>x.TagTitle ==tagTitle).First();
+            var tag = Context.Tags.AsNoTracking().Where(x => x.TagTitle == tagTitle).First();
             if (tag != null)
             {
                 entity.Tags.Remove(tag);

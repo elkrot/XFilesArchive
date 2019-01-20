@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using XFilesArchive.Model;
 
 namespace XFilesArchive.UI.Event
 {
@@ -14,6 +16,7 @@ namespace XFilesArchive.UI.Event
     {
         public int Id { get; set; }
         public string ViewModelName { get; set; }
+        public Expression<Func<ArchiveEntity, bool>> Condition { get; set; }
     }
 
 }
