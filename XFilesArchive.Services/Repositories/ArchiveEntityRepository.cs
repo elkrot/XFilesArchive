@@ -23,8 +23,14 @@ namespace XFilesArchive.Services.Repositories
             return Context.Categories.Find(id);
         }
 
+        public int GetCountEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition)
+        {
+            var ret = Context.ArchiveEntities.AsExpandable().Count(condition);
+            return ret;
+        }
+
         #region GetEntitiesByCondition
-public ICollection<ArchiveEntityDto> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition)
+        public ICollection<ArchiveEntityDto> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition)
         {
             var ret = Context.ArchiveEntities.AsExpandable()
                 .AsNoTracking().Where(condition).Select

@@ -20,5 +20,6 @@ namespace XFilesArchive.Services.Repositories
         Tag GetTagByKey(int tagKey);
         ICollection<ArchiveEntityDto> GetEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition,
             Expression<Func<ArchiveEntity, object>> orderby, int currentPage, int pageLength);
+        int GetCountEntitiesByCondition(Expression<Func<ArchiveEntity, bool>> condition);
     }
 }

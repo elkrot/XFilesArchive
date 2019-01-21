@@ -18,29 +18,24 @@ using XFilesArchive.UI.View.Services;
 
 namespace XFilesArchive.UI.ViewModel.Search
 {
-
-
-
-
-
-
     public interface ISearchResultViewModel: IDetailViewModel
     {
         void Load();
         SearchResult SearchResult { get; set; }
         Expression<Func<ArchiveEntity, bool>> Condition { get; set; }
     }
+
     public class SearchResultViewModel : DependencyObject, ISearchResultViewModel
     {
 
         public Expression<Func<ArchiveEntity, bool>> Condition { get; set; }
-        public int itemsCount { get; set; }
+        public int itemsCount { get { return _itemsCount; } }
         const int PAGE_LENGTH = 15;
         public int PageLength { get { return PAGE_LENGTH; } }
 
         private IArchiveEntityRepository _repository;
 
-
+        #region TotalPages
         public int TotalPages
         {
             get
@@ -49,6 +44,8 @@ namespace XFilesArchive.UI.ViewModel.Search
                 return result;
             }
         }
+        #endregion
+
         #region CurrentPage
         private int _currentPage;
 
@@ -61,11 +58,14 @@ namespace XFilesArchive.UI.ViewModel.Search
             set
             {
                 _currentPage = value;
+
             /*    OnPropertyChanged();
                 Task newTask = new Task(async delegate () {
                     await LoadAsync();
                 });
-                newTask.RunSynchronously();*/
+                newTask.RunSynchronously();
+                
+                 */
 
 
             }
@@ -101,9 +101,12 @@ namespace XFilesArchive.UI.ViewModel.Search
             LastPageCommand = new Prism.Commands.DelegateCommand(LastPageCommandExecute);
 
             _currentPage = 1;
+
+            
             // SearchResult.MyProperty = 0;
         }
 
+        #region OnOpenSearchResultDriveExecute
         private async void OnOpenSearchResultDriveExecute(int? id)
         {
             await Task.Factory.StartNew(() => {
@@ -113,6 +116,8 @@ namespace XFilesArchive.UI.ViewModel.Search
 
             });
         }
+        #endregion
+
 
         private async void OnOpenSearchResultArchiveEntityExecute(int? id)
         {
@@ -146,23 +151,27 @@ namespace XFilesArchive.UI.ViewModel.Search
         private void LastPageCommandExecute()
         {
             if (TotalPages > 1) CurrentPage = TotalPages;
+            Load();
         }
 
         private void NextPageCommandExecute()
         {
             RaiseAfterResultPageChangeEvent(1);
             if (TotalPages > CurrentPage) CurrentPage++;
+            Load();
         }
 
         private void PrevPageCommandExecute()
         {
             if (CurrentPage > 1)
                 CurrentPage--;
+            Load();
         }
 
         private void FirstPageCommandExecute()
         {
             CurrentPage = 1;
+            Load();
         }
 
 
@@ -193,11 +202,19 @@ namespace XFilesArchive.UI.ViewModel.Search
 
         public static readonly DependencyProperty SearchResultProperty =
            DependencyProperty.Register("SearchResult", typeof(SearchResult), typeof(SearchResultViewModel), new PropertyMetadata(null));
+        private int _itemsCount;
 
         public void Load()
         {
+            if (_itemsCount == 0) {
+                _itemsCount = _repository.GetCountEntitiesByCondition(Condition);
+            }
+
             var searchItems = _repository.GetEntitiesByCondition(Condition, x => (int?)x.ArchiveEntityKey, CurrentPage, PageLength);
             SearchResult = new SearchResult(searchItems);
+
+            
+
         }
 
         public async Task LoadAsync(int id)

@@ -17,7 +17,7 @@
     Top="{local:SettingBinding MainWindow.Top}"
     Left="{local:SettingBinding MainWindow.Left}"
     WindowState="{local:SettingBinding MainWindow.WindowState}"
-    Title="Главное окно">
+    Title="{x:Static prop:Resources.MainWindowTitle}">
     <!--Title="{x:Static prop:Resources.MainWindowTitle}"-->
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:DriveDetailViewModel}">
