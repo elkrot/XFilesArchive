@@ -2,8 +2,10 @@
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,13 +20,13 @@ using XFilesArchive.UI.View.Services;
 
 namespace XFilesArchive.UI.ViewModel.Search
 {
-    public interface ISearchResultViewModel: IDetailViewModel
+    public interface ISearchResultViewModel: IDetailViewModel, INotifyPropertyChanged
     {
         void Load();
         SearchResult SearchResult { get; set; }
         Expression<Func<ArchiveEntity, bool>> Condition { get; set; }
     }
-
+//ViewModelBase
     public class SearchResultViewModel : DependencyObject, ISearchResultViewModel
     {
 
@@ -59,8 +61,9 @@ namespace XFilesArchive.UI.ViewModel.Search
             {
                 _currentPage = value;
 
-            /*    OnPropertyChanged();
-                Task newTask = new Task(async delegate () {
+               OnPropertyChanged();
+                Load();
+              /*   Task newTask = new Task(async delegate () {
                     await LoadAsync();
                 });
                 newTask.RunSynchronously();
@@ -151,35 +154,41 @@ namespace XFilesArchive.UI.ViewModel.Search
         private void LastPageCommandExecute()
         {
             if (TotalPages > 1) CurrentPage = TotalPages;
-            Load();
+            
         }
 
         private void NextPageCommandExecute()
         {
             RaiseAfterResultPageChangeEvent(1);
             if (TotalPages > CurrentPage) CurrentPage++;
-            Load();
+           
         }
 
         private void PrevPageCommandExecute()
         {
             if (CurrentPage > 1)
                 CurrentPage--;
-            Load();
+            
         }
 
         private void FirstPageCommandExecute()
         {
             CurrentPage = 1;
-            Load();
+           
         }
-
+        public virtual void OnPropertyChanged([CallerMemberName] string _propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(_propertyName));
+        }
 
         public SearchResult SearchResult
         {
             get { return (SearchResult)GetValue(SearchResultProperty); }
             set { SetValue(SearchResultProperty, value); }
         }
+
+
+
 
         public bool HasChanges { get { return false; } }
 
@@ -203,6 +212,9 @@ namespace XFilesArchive.UI.ViewModel.Search
         public static readonly DependencyProperty SearchResultProperty =
            DependencyProperty.Register("SearchResult", typeof(SearchResult), typeof(SearchResultViewModel), new PropertyMetadata(null));
         private int _itemsCount;
+        private SearchResult _searchResult;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public void Load()
         {

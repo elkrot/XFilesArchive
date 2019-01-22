@@ -63,7 +63,7 @@ namespace XFilesArchive.Services.Repositories
             int skip = (currentPage - 1) * pageLength;
 
             var ret = Context.ArchiveEntities.AsExpandable()
-               .AsNoTracking().Where(condition).OrderBy(x=>(int?)x.ArchiveEntityKey).Take(pageLength).Skip(skip).Select
+               .AsNoTracking().Where(condition).OrderBy(x=>(int?)x.ArchiveEntityKey).Skip(skip).Take(pageLength).Select
                (x => new ArchiveEntityDto()
                {
                    ArchiveEntityKey = x.ArchiveEntityKey
