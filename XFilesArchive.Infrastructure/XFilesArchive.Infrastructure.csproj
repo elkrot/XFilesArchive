@@ -63,6 +63,8 @@
     <Compile Include="FileManager\FileManager.cs" />
     <Compile Include="FileManager\IFIleManager.cs" />
     <Compile Include="IConfiguration.cs" />
+    <Compile Include="Logger\AppLogger.cs" />
+    <Compile Include="Logger\IAppLogger.cs" />
     <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="MediaInfoDLL.cs" />

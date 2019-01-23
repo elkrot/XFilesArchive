@@ -15,7 +15,7 @@ namespace XFilesArchive.Security
     // [PrincipalPermission(SecurityAction.Demand, Role = "Administrator")]
     public class CustomPrincipal : ClaimsPrincipal, IPrincipal 
     {
-        private CustomIdentity _identity;
+       // private CustomIdentity _identity;
 
         public CustomPrincipal(IIdentity identity) :base(identity)
         {

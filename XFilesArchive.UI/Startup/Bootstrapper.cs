@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Prism.Events;
 using XFilesArchive.DataAccess;
+using XFilesArchive.Infrastructure;
 using XFilesArchive.Model;
 using XFilesArchive.Security;
 using XFilesArchive.Security.Repositories;
@@ -64,7 +65,9 @@ namespace XFilesArchive.UI.Startup
             builder.RegisterType<UserRepository>().As<IUserRepository>();
 
             builder.RegisterType<UsersViewModel>().AsSelf();
+            builder.RegisterType<AppLogger>().As<IAppLogger>();
 
+            
             return builder.Build();
         }
 

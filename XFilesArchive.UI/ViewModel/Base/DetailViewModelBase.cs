@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using XFilesArchive.Infrastructure;
 using XFilesArchive.UI.Event;
 using XFilesArchive.UI.View.Services;
 
@@ -16,14 +17,18 @@ namespace XFilesArchive.UI.ViewModel
     {
         private bool _hasChanges;
         protected readonly IEventAggregator EventAggregator;
-
+        private IAppLogger _appLogger;
         public ICommand SaveCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
         public IMessageDialogService MessageDialogService { get;  }
+        public IAppLogger AppLogger { get { return _appLogger; } }
+
 
         public DetailViewModelBase(IEventAggregator eventAggregator
-            ,IMessageDialogService _messageDialogService)
+            ,IMessageDialogService _messageDialogService
+            ,IAppLogger appLogger)
         {
+            _appLogger = appLogger;
             EventAggregator = eventAggregator;
             MessageDialogService = _messageDialogService;
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
@@ -157,13 +162,15 @@ namespace XFilesArchive.UI.ViewModel
                 var dataBaseValues = ex.Entries.Single().GetDatabaseValues();
                 if (dataBaseValues == null)
                 {
-                    await MessageDialogService.ShowInfoDialogAsync("Info");
+
+                    _appLogger.SetLog("Ошибка DbUpdateConcurrencyException"+ex.Message+ex.StackTrace, System.Diagnostics.EventLogEntryType.Error);
+                    await MessageDialogService.ShowInfoDialogAsync("Ошибка DbUpdateConcurrencyException");
                     RaiseDetailDelitedEvent(Id);
                     return;
                 }
 
 
-                var result =await MessageDialogService.ShowOKCancelDialogAsync("?", "Q");
+                var result =await MessageDialogService.ShowOKCancelDialogAsync("Продолжить сохранение?", "Q");
                 if (result == MessageDialogResult.OK)
                 {
                     var entry = ex.Entries.Single();

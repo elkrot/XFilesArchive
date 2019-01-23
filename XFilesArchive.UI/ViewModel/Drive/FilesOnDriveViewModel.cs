@@ -65,7 +65,8 @@ namespace XFilesArchive.UI.ViewModel
                    , ICategoryNavigationViewModel categoryNavigationViewModel
                    , ICategoryRepository categoryRepository
                    , ITagRepository tagRepository
-                   ) : base(eventAggregator, messageDialogService)
+            ,IAppLogger appLogger
+                   ) : base(eventAggregator, messageDialogService,appLogger)
         {
             _categoryRepository = categoryRepository;
             _categoryNavigationViewModel = categoryNavigationViewModel;
@@ -363,10 +364,12 @@ namespace XFilesArchive.UI.ViewModel
 
             if (!saveRet.Success)
             {
-                await _messageDialogService.ShowInfoDialogAsync(
 
-   string.Format("Во время сохранения записи {0}{2} возникла исключительная ситуация{2}  {1}"
-   , ArchiveEntity.Title, saveRet.Messages.FirstOrDefault(), Environment.NewLine));
+                var msg = string.Format("Во время сохранения записи {0}{2} возникла исключительная ситуация{2}  {1}"
+   , ArchiveEntity.Title, saveRet.Messages.FirstOrDefault(), Environment.NewLine);
+                AppLogger.SetLog(msg, System.Diagnostics.EventLogEntryType.Error);
+
+                await _messageDialogService.ShowInfoDialogAsync(msg);
 
             }
 

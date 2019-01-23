@@ -20,10 +20,12 @@ namespace XFilesArchive.UI
     public partial class App : Application
     {
         ResourceManager LocRM;
+        IAppLogger appLoger;
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             //Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
             LocRM = new ResourceManager("XFilesArchive.UI.Resources", typeof(LoginWindow).Assembly);
+            appLoger = new AppLogger("XFileArchive");
             //var bootstrapper = new Bootstrapper();
             //var container = bootstrapper.Bootstrap();
             //var mainWindow = container.Resolve<MainWindow>();
@@ -35,17 +37,20 @@ namespace XFilesArchive.UI
 
             //System.Security.SecurityException
             if (e.Exception.GetType().Name == "SecurityException") {
-
+                appLoger.SetLog("Отказано в доступе!", System.Diagnostics.EventLogEntryType.Information);
                 MessageBox.Show("Отказано в доступе!");
                 e.Handled = true;
                 return;
             }
 
-//LocRM.GetString("UnexpectedError")
-            MessageBox.Show( "Неопознаная ошибка"+
+            //" LocRM.GetString("UnexpectedError")
+            var msg = "Неопознаная ошибка"+
                Environment.NewLine + e.Exception.Message + Environment.NewLine +
-               e.Exception.Source + Environment.NewLine + e.Exception.StackTrace+ e.Exception.GetType().Name
-               , "UnexpectedError");
+               e.Exception.Source + Environment.NewLine + e.Exception.StackTrace + e.Exception.GetType().Name;
+
+            appLoger.SetLog(msg, System.Diagnostics.EventLogEntryType.Information);
+
+            MessageBox.Show(msg, "UnexpectedError");
             e.Handled = true;
         }
         protected override void OnStartup(StartupEventArgs e)
@@ -77,9 +82,8 @@ namespace XFilesArchive.UI
             }
             catch (Exception ex)
             {
-
+                appLoger.SetLog(ex.Message+ ex.StackTrace, System.Diagnostics.EventLogEntryType.Information);
                 System.Windows.Forms.MessageBox.Show(ex.Message);
-                System.Windows.Forms.MessageBox.Show(ex.StackTrace);
 
             }
 

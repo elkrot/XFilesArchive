@@ -15,6 +15,7 @@ using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel.Navigation;
 using XFilesArchive.UI.Wrapper;
 using System;
+using XFilesArchive.Infrastructure;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -34,7 +35,7 @@ namespace XFilesArchive.UI.ViewModel
         public ICommand  SelectedItemChangedCommand { get; }
 
         public DriveDetailViewModel(IDriveRepository repository, IEventAggregator eventAggregator
-            , IMessageDialogService messageService) : base(eventAggregator, messageService)
+            , IMessageDialogService messageService,IAppLogger appLogger) : base(eventAggregator, messageService,appLogger)
 
         {
             _repository = repository;

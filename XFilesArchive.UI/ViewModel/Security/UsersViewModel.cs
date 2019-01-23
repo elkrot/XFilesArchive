@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Tulpep.ActiveDirectoryObjectPicker;
+using XFilesArchive.Infrastructure;
 using XFilesArchive.Security;
 using XFilesArchive.Security.Models;
 using XFilesArchive.Security.Repositories;
@@ -37,7 +38,7 @@ namespace XFilesArchive.UI.ViewModel.Security
 
 
         public UsersViewModel(IUserRepository repository, IEventAggregator eventAggregator
-            , IMessageDialogService messageService) : base(eventAggregator, messageService)
+            , IMessageDialogService messageService,IAppLogger appLogger) : base(eventAggregator, messageService,appLogger)
         {
             
             UsersCollection = new ObservableCollection<User>();

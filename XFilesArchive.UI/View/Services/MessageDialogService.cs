@@ -22,7 +22,7 @@ namespace XFilesArchive.UI.View.Services
 
         public async Task ShowInfoDialogAsync(string text)
         {
-            await MetroWindow.ShowMessageAsync("Info",text);
+            await MetroWindow.ShowMessageAsync("Информационное сообщение ",text);
         }
 
         public MessageDialogResult ShowOKCancelDialog(string title, string text)
