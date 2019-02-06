@@ -23,6 +23,7 @@ namespace XFilesArchive.Services.Repositories
             if (category.CategoryKey == 0)
             {
                 this.Add(category);
+               
                 Save();
 
             }

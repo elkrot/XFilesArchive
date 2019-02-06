@@ -21,7 +21,7 @@ using XFilesArchive.UI.ViewModel.Search;
 
 namespace XFilesArchive.UI.ViewModel
 {
-    public class MainNavigationViewModel:ViewModelBase
+    public class MainNavigationViewModel : ViewModelBase
     {
         CancellationTokenSource cancelTokenSource;
         CancellationToken token;
@@ -34,9 +34,9 @@ namespace XFilesArchive.UI.ViewModel
         SearchEngineViewModel _searchEngineViewModel;
         private MainViewModel _mainViewModel;
         private IMessageDialogService _messageDialogService;
-   
 
-       
+
+
 
         public MainNavigationViewModel(IEventAggregator eventAggregator
             , IMessageDialogService messageDialogService
@@ -74,8 +74,9 @@ namespace XFilesArchive.UI.ViewModel
             {
                 App.Current.Windows.OfType<MainWindow>().FirstOrDefault().Main.Content = new DrivePage(_mainViewModel);
             }
-            else {
-               await _messageDialogService.ShowInfoDialogAsync("Ошибка");
+            else
+            {
+                await _messageDialogService.ShowInfoDialogAsync("Ошибка");
             }
         }
 
@@ -140,7 +141,8 @@ namespace XFilesArchive.UI.ViewModel
 
                 (App.Current.Windows.OfType<MainWindow>().FirstOrDefault() as MainWindow).Main.Navigate(page);
             }
-            else {
+            else
+            {
                 await _messageDialogService.ShowInfoDialogAsync("Ошибка");
             }
         }
@@ -150,7 +152,7 @@ namespace XFilesArchive.UI.ViewModel
             ShowWizard();
         }
 
-        public ICommand NewDestinationCommand { get ; }
+        public ICommand NewDestinationCommand { get; }
 
         public ICommand OpenAdminPanelCommand { get; }
 
@@ -158,7 +160,7 @@ namespace XFilesArchive.UI.ViewModel
 
         public ICommand SearchCommand { get; }
         public ICommand GoToMainPageCommand { get; }
-        
+
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Administrator")]
         public async void ShowWizard()
@@ -196,19 +198,29 @@ namespace XFilesArchive.UI.ViewModel
 
                     cancelTokenSource = new CancellationTokenSource();
                     token = cancelTokenSource.Token;
-                          var progress = new Progress<int>(value =>(App.Current.MainWindow as MainWindow).progressBar.Value = value);
-                        var id = await worker.Work(progress, token, CreateDestination);
-                    //------------
 
-
-                    // _drivesViewModel.Load();
-                    System.Windows.Forms.MessageBox.Show("Обработка Завершена");
-                    //  progressBar.Value = 0;
-                    var Log = lg.GetLog();
-                    if (!string.IsNullOrWhiteSpace(Log))
+                    if (App.Current.Windows.OfType<MainWindow>().FirstOrDefault() is MainWindow)
                     {
-                        System.Windows.Forms.MessageBox.Show(Log);
+                        
+
+                        var progress = new Progress<int>(value => (App.Current.Windows.OfType<MainWindow>().FirstOrDefault()).progressBar.Value = value);
+                        var id = await worker.Work(progress, token, CreateDestination);
+                        //------------
+
+
+                        // _drivesViewModel.Load();
+                        System.Windows.Forms.MessageBox.Show("Обработка Завершена");
+                        //  progressBar.Value = 0;
+                        var Log = lg.GetLog();
+                        if (!string.IsNullOrWhiteSpace(Log))
+                        {
+                            System.Windows.Forms.MessageBox.Show(Log);
+                        }
                     }
+
+
+
+
                 }
                 catch (Exception er)
                 {
@@ -231,7 +243,7 @@ namespace XFilesArchive.UI.ViewModel
 
         private int CreateDestination()
         {
-            var cnf = new ConfigurationData() ;
+            var cnf = new ConfigurationData();
             var lg = new Logger();
 
             var driveCode = DriveCode;

@@ -12,6 +12,7 @@ namespace XFilesArchive.DataAccess
         static XFilesArchiveDataContext()
         {
             Database.SetInitializer<XFilesArchiveDataContext>(null);
+            
         }
 //new CreateDatabaseIfNotExists<XFilesArchiveDataContext>()
         public DbSet<ArchiveEntity> ArchiveEntities { get; set; }
@@ -23,6 +24,7 @@ namespace XFilesArchive.DataAccess
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            
             base.OnModelCreating(modelBuilder);
             modelBuilder.Configurations.Add(new ArchiveEntityMap());
             modelBuilder.Configurations.Add(new CategoryMap());
