@@ -1,20 +1,15 @@
 ﻿using Microsoft.Win32;
-using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using XFilesArchive.Infrastructure;
 using XFilesArchive.Infrastructure.DataManager;
-using XFilesArchive.Security;
 using XFilesArchive.UI.View;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel.Search;
@@ -23,9 +18,9 @@ namespace XFilesArchive.UI.ViewModel
 {
     public class MainNavigationViewModel : ViewModelBase
     {
+        #region Fields
         CancellationTokenSource cancelTokenSource;
         CancellationToken token;
-
         string DriveCode = "";
         string DriveTitle = "";
         string DriveLetter = "";
@@ -34,14 +29,13 @@ namespace XFilesArchive.UI.ViewModel
         SearchEngineViewModel _searchEngineViewModel;
         private MainViewModel _mainViewModel;
         private IMessageDialogService _messageDialogService;
+        #endregion
 
-
-
-
+        #region MainNavigationViewModel Constructor
         public MainNavigationViewModel(IEventAggregator eventAggregator
-            , IMessageDialogService messageDialogService
-            , SearchEngineViewModel searchEngineViewModel
-            , MainViewModel mainViewModel)
+               , IMessageDialogService messageDialogService
+               , SearchEngineViewModel searchEngineViewModel
+               , MainViewModel mainViewModel)
         {
             _mainViewModel = mainViewModel;
             _searchEngineViewModel = searchEngineViewModel;
@@ -49,6 +43,9 @@ namespace XFilesArchive.UI.ViewModel
             cancelTokenSource = new CancellationTokenSource();
             token = cancelTokenSource.Token;
             NewDestinationCommand = new Prism.Commands.DelegateCommand(OnNewDestinationExecute);
+
+            NewDestinationCommandX = new Prism.Commands.DelegateCommand(OnNewDestinationExecuteX);
+
             OpenAdminPanelCommand = new Prism.Commands.DelegateCommand(OnOpenAdminPanelExecute);
             CompareFileCommand = new Prism.Commands.DelegateCommand(OnCompareFileExecute);
             GoToMainPageCommand = new Prism.Commands.DelegateCommand(OnGoToMainPageExecute);
@@ -66,6 +63,9 @@ namespace XFilesArchive.UI.ViewModel
 
         }
 
+        #endregion
+
+        #region OnGoToMainPageExecute
         private async void OnGoToMainPageExecute()
         {
             //await _mainViewModel.LoadAsync();
@@ -80,6 +80,9 @@ namespace XFilesArchive.UI.ViewModel
             }
         }
 
+        #endregion
+
+        #region OnSearchExecute
         private async void OnSearchExecute()
         {
             _searchEngineViewModel.Load();
@@ -94,6 +97,9 @@ namespace XFilesArchive.UI.ViewModel
             }
         }
 
+        #endregion
+
+        #region OnCompareFileExecute
         private void OnCompareFileExecute()
         {
             OpenFileDialog myDialog = new OpenFileDialog();
@@ -132,6 +138,9 @@ namespace XFilesArchive.UI.ViewModel
             }
         }
 
+        #endregion
+
+        #region OnOpenAdminPanelExecute
         [PrincipalPermission(SecurityAction.Demand, Role = "Administrator")]
         private async void OnOpenAdminPanelExecute()
         {
@@ -146,13 +155,73 @@ namespace XFilesArchive.UI.ViewModel
                 await _messageDialogService.ShowInfoDialogAsync("Ошибка");
             }
         }
+        #endregion
 
+        #region OnNewDestinationExecute
         private void OnNewDestinationExecute()
         {
             ShowWizard();
         }
+        #endregion
 
+        #region OnNewDestinationExecuteX
+        private void OnNewDestinationExecuteX()
+        {
+            ShowWizardX();
+        }
+        #endregion
+
+        #region ShowWizardX
+        private async void ShowWizardX()
+        {
+            var _win = new AddDriveWizard();
+            _win.DataContext = new WizardData() { DriveCode = "2018_00", DriveLetter = @"e:\", MaxImagesInDirectory = 0 };
+            if (_win.ShowDialog() == true)
+            {
+                var cnf = new ConfigurationData();
+                var lg = new Logger();
+                try
+                {
+                    DriveCode = ((WizardData)_win.DataContext).DriveCode;
+                    DriveTitle = ((WizardData)_win.DataContext).DriveTitle;
+                    DriveLetter = ((WizardData)_win.DataContext).DriveLetter;
+                    MaxImagesInDirectory = ((WizardData)_win.DataContext).MaxImagesInDirectory;
+                    IsSecret = ((WizardData)_win.DataContext).IsSecret;
+                    var worker = new Worker();
+                    cancelTokenSource = new CancellationTokenSource();
+                    token = cancelTokenSource.Token;
+                    if (App.Current.Windows.OfType<MainWindow>().FirstOrDefault() is MainWindow)
+                    {
+                        System.Windows.Forms.MessageBox.Show("Обработка Начата");
+                        var progress = new Progress<int>(value => (App.Current.Windows.OfType<MainWindow>().FirstOrDefault()).progressBar.Value = value);
+                        var id = await worker.Work(progress, token, CreateDestinationX);
+                        var Log = lg.GetLog();
+                        if (!string.IsNullOrWhiteSpace(Log))
+                        {
+                            System.Windows.Forms.MessageBox.Show(Log);
+                        }
+                    }
+                }
+                catch (Exception er)
+                {
+                    System.Windows.Forms.MessageBox.Show(er.Message);
+                    if (!string.IsNullOrWhiteSpace(lg.GetLog()))
+                    {
+                        System.Windows.Forms.MessageBox.Show(lg.GetLog());
+                    }
+
+                }
+            }
+
+
+            var result = _win.DialogResult.Value;
+        }
+
+        #endregion
+
+        #region Commands
         public ICommand NewDestinationCommand { get; }
+        public ICommand NewDestinationCommandX { get; }
 
         public ICommand OpenAdminPanelCommand { get; }
 
@@ -160,8 +229,9 @@ namespace XFilesArchive.UI.ViewModel
 
         public ICommand SearchCommand { get; }
         public ICommand GoToMainPageCommand { get; }
+        #endregion
 
-
+        #region ShowWizard
         [PrincipalPermission(SecurityAction.Demand, Role = "Administrator")]
         public async void ShowWizard()
         {
@@ -201,7 +271,7 @@ namespace XFilesArchive.UI.ViewModel
 
                     if (App.Current.Windows.OfType<MainWindow>().FirstOrDefault() is MainWindow)
                     {
-                        
+
 
                         var progress = new Progress<int>(value => (App.Current.Windows.OfType<MainWindow>().FirstOrDefault()).progressBar.Value = value);
                         var id = await worker.Work(progress, token, CreateDestination);
@@ -241,6 +311,9 @@ namespace XFilesArchive.UI.ViewModel
 
         }
 
+        #endregion
+
+        #region CreateDestination
         private int CreateDestination()
         {
             var cnf = new ConfigurationData();
@@ -260,6 +333,47 @@ namespace XFilesArchive.UI.ViewModel
 
 
             int driveId = dm.CreateDrive(DriveLetter, DriveTitle, DriveCode, addParams);
+            if (driveId != 0)
+            {
+                dm.FillDirectoriesInfo(driveId, DriveLetter);
+                dm.FillFilesInfo(driveId, DriveLetter);
+                dm.ClearCash();
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show(dm.logger.GetLog());
+            }
+            return driveId;
+        }
+
+        #endregion
+
+        //*******************************************************************
+        private int CreateDestinationX()
+        {
+            var cnf = new ConfigurationData();
+            var lg = new Logger();
+            var driveCode = DriveCode;
+            var driveTitle = DriveTitle;
+            //TODO: Новый Алгоритм создания Расположения 
+            /*
+             1. Прочитать структуру в массив
+             2. Сформировать объект Расположение
+             3. Массовая вставка Данных bulk insert
+             4. Возможно придется добавить поле guid
+             5. Обновить информацию по сущностям. Фото, Медиа Инфа ...
+             
+             */
+
+            var fm = new FileManager(cnf, lg);
+            IDataManager dm = new DataManager(cnf, fm, lg, MaxImagesInDirectory);
+            string drvLetter = DriveLetter;
+            Dictionary<string, object> addParams = new Dictionary<string, object>();
+            addParams.Add("IsSecret", IsSecret);
+
+
+            int driveId = dm.CreateDrive(DriveLetter, DriveTitle, DriveCode, addParams);
+
             if (driveId != 0)
             {
                 dm.FillDirectoriesInfo(driveId, DriveLetter);

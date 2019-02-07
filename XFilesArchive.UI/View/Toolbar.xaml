@@ -24,6 +24,13 @@
 
                 </Button>
 
+
+                <Button  VerticalAlignment="Top" Height="32" Width="32" ToolTip="Создать расположение Новый вариант"   
+                         Command="{Binding NewDestinationCommandX}" >
+                    <ContentControl Content="{StaticResource NewDest}" Margin="0" />
+
+                </Button>
+
                 <Button VerticalAlignment="Top" ToolTip="Сравнить" Height="32" Width="32" Command="{Binding CompareFileCommand}">
                     <ContentControl Content="{StaticResource Compare}" Margin="0" />
                 </Button>

@@ -16,6 +16,10 @@
                 </MenuItem>
                 <MenuItem Header="Создать расположение"   
                          Command="{Binding NewDestinationCommand}"/>
+
+                <MenuItem Header="Создать расположение Новый вариант"   
+                         Command="{Binding NewDestinationCommandX}"/>
+                
                 <MenuItem Header="Сравнить"  Command="{Binding CompareFileCommand}"/>
 
                 <MenuItem Header="Администрирование" 

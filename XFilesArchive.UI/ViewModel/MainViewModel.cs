@@ -14,19 +14,12 @@ namespace XFilesArchive.UI.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private IEventAggregator _eventAggregator;
-
         public INavigationViewModel NavigationViewModel { get; }
-
         private IDetailViewModel _selectedDetailViewModel;
         private IMessageDialogService _messageDialogService;
-
         private IIndex<string, IDetailViewModel> _detailViewModelCreator;
-
-
         public ObservableCollection<IDetailViewModel> DetailViewModels { get; }
         private int nextNewItemId = 0;
-
-
 
 
         public IDetailViewModel SelectedDetailViewModel
