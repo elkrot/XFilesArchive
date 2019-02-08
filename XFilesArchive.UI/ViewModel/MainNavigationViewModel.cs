@@ -10,6 +10,7 @@ using System.Threading;
 using System.Windows.Input;
 using XFilesArchive.Infrastructure;
 using XFilesArchive.Infrastructure.DataManager;
+using XFilesArchive.Model;
 using XFilesArchive.UI.View;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel.Search;
@@ -362,7 +363,6 @@ namespace XFilesArchive.UI.ViewModel
              3. Массовая вставка Данных bulk insert
              4. Возможно придется добавить поле guid
              5. Обновить информацию по сущностям. Фото, Медиа Инфа ...
-             
              */
 
             var fm = new FileManager(cnf, lg);
@@ -370,15 +370,21 @@ namespace XFilesArchive.UI.ViewModel
             string drvLetter = DriveLetter;
             Dictionary<string, object> addParams = new Dictionary<string, object>();
             addParams.Add("IsSecret", IsSecret);
-
-
             int driveId = dm.CreateDrive(DriveLetter, DriveTitle, DriveCode, addParams);
+           
 
             if (driveId != 0)
             {
-                dm.FillDirectoriesInfo(driveId, DriveLetter);
-                dm.FillFilesInfo(driveId, DriveLetter);
-                dm.ClearCash();
+                var destList = new List<DestinationItem>();
+                var destMngr = new DestinationManager();
+                destList = destMngr.CreateDestinationList(DriveLetter);
+                //TODO: Создание Списка Сущностей в расположении
+                var dest = new Destination(driveId, destList);
+              /*  
+                 dm.FillDirectoriesInfo(driveId, DriveLetter);
+                 dm.FillFilesInfo(driveId, DriveLetter);
+                 dm.ClearCash(); 
+              */
             }
             else
             {

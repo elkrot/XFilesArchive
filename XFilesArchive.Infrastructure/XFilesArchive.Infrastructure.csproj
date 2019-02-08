@@ -59,6 +59,7 @@
     <Compile Include="ConfigurationData.cs" />
     <Compile Include="DataManager\DataManager.cs" />
     <Compile Include="DataManager\IDataManager.cs" />
+    <Compile Include="DestinationManager.cs" />
     <Compile Include="DriveX.cs" />
     <Compile Include="FileManager\FileManager.cs" />
     <Compile Include="FileManager\IFIleManager.cs" />
@@ -80,6 +81,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XFilesArchive.Model\XFilesArchive.Model.csproj">
+      <Project>{979ab583-300e-4e02-a45a-3503fc4b7416}</Project>
+      <Name>XFilesArchive.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

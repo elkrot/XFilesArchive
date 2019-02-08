@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="ArchiveEntity.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="Destination.cs" />
+    <Compile Include="DestinationItem.cs" />
     <Compile Include="Drive.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="LookupItem.cs" />
