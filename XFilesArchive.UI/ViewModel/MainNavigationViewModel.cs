@@ -375,11 +375,11 @@ namespace XFilesArchive.UI.ViewModel
 
             if (driveId != 0)
             {
-                var destList = new List<DestinationItem>();
+                
                 var destMngr = new DestinationManager();
-                destList = destMngr.CreateDestinationList(DriveLetter);
+               var result = destMngr.CreateDestinationList(DriveLetter);
                 //TODO: Создание Списка Сущностей в расположении
-                var dest = new Destination(driveId, destList);
+                var dest = new Destination(driveId, result.Result);
               /*  
                  dm.FillDirectoriesInfo(driveId, DriveLetter);
                  dm.FillFilesInfo(driveId, DriveLetter);
