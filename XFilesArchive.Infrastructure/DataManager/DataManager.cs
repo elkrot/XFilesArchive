@@ -430,6 +430,9 @@ values (@Thumbnail,@ImagePath,@ThumbnailPath,@ImageTitle,@HashCode);
                     return 0;
                 }
                 var hashCode = di.TotalSize.GetHashCode() ^ di.VolumeLabel.GetHashCode() ^ di.TotalFreeSpace.GetHashCode();
+
+                //TODO: Изменить Алгоритм Срочно!!!
+
                 var driveExist = IsDriveExist(hashCode, title);
                 if (driveExist > 0)
                 {

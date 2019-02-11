@@ -49,14 +49,20 @@ namespace XFilesArchive.Infrastructure
             var dInfo = new DirectoryInfo(destinationPath);
           
             list.Add(new DestinationItem() { UniqGuid = Guid.NewGuid(),  ParentGuid = parentGuid ,
-            EntityPath=dInfo.Root.Name ,EntityType = 0
+            EntityPath=dInfo.Root.Name ,EntityType = 1, Title = dInfo.FullName
             });
 
             foreach (var file in files)
             {
                 var fInfo = new FileInfo(file);
                 list.Add(new DestinationItem() { UniqGuid = Guid.NewGuid(), ParentGuid = parentGuid 
-                    , EntityExtension = fInfo.Extension,EntityType = 1
+                    , EntityExtension = fInfo.Extension
+                    , EntityType = 2
+                    , EntityPath = fInfo.DirectoryName
+                    , Title = fInfo.FullName
+                    , FileSize = fInfo.Length
+
+
                 });
             }
 
