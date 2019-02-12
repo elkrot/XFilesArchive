@@ -47,8 +47,9 @@ namespace XFilesArchive.Infrastructure
             var files = Directory.GetFiles(destinationPath, "*.*", SearchOption.TopDirectoryOnly);
 
             var dInfo = new DirectoryInfo(destinationPath);
-          
-            list.Add(new DestinationItem() { UniqGuid = Guid.NewGuid(),  ParentGuid = parentGuid ,
+
+            var newDirectoryGuid = Guid.NewGuid();
+            list.Add(new DestinationItem() { UniqGuid = newDirectoryGuid,  ParentGuid = parentGuid ,
             EntityPath=dInfo.Root.Name ,EntityType = 1, Title = dInfo.FullName
             });
 
@@ -68,7 +69,7 @@ namespace XFilesArchive.Infrastructure
 
             foreach (var directory in directories)
             {
-                FillDestinationItemsList(directory,ref list,parentGuid);
+                FillDestinationItemsList(directory,ref list, newDirectoryGuid);
             }
 
         }

@@ -2,6 +2,8 @@
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Security.Permissions;
@@ -378,8 +380,12 @@ namespace XFilesArchive.UI.ViewModel
                 
                 var destMngr = new DestinationManager();
                var result = destMngr.CreateDestinationList(DriveLetter);
+                BulkCopy(cnf.GetConnectionString(), result.Result);
                 //TODO: Создание Списка Сущностей в расположении
                 var dest = new Destination(driveId, result.Result);
+
+
+
               /*  
                  dm.FillDirectoriesInfo(driveId, DriveLetter);
                  dm.FillFilesInfo(driveId, DriveLetter);
@@ -392,6 +398,45 @@ namespace XFilesArchive.UI.ViewModel
             }
             return driveId;
         }
+  public void BulkCopy(string cs, IEnumerable<DestinationItem> items)
+    {
+        var table = new DataTable();
+            SqlConnection sc = new SqlConnection(cs);
+            sc.Open();
+        // read the table structure from the database
+        using (var adapter = new SqlDataAdapter($"SELECT TOP 0 * FROM ArchiveEntity", sc))
+        {
+            adapter.Fill(table);
+        };
+
+            foreach (var item in items)
+            {
+                var row = table.NewRow();
+                row["EntityExtension"] = item.EntityExtension;
+                row["EntityPath"] = item.EntityPath;
+                row["EntityType"] = item.EntityType;
+                row["FileSize"] = item.FileSize??0;
+                row["ParentGuid"] = item.ParentGuid.ToString();
+                row["Title"] = item.Title;
+                row["UniqGuid"] = item.UniqGuid.ToString();
+                row["CreatedDate"] = DateTime.Now;
+                
+                table.Rows.Add(row);
+            }
+
+
+
+
+        using (var bulk = new SqlBulkCopy(sc))
+        {
+            bulk.DestinationTableName = "ArchiveEntity";
+            bulk.WriteToServer(table);
+        }
+            sc.Close();
+    }
 
     }
-}
+
+
+
+  }
