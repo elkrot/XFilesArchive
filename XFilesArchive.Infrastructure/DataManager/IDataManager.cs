@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using XFilesArchive.Model;
 
 namespace XFilesArchive.Infrastructure.DataManager
 {
@@ -35,5 +36,6 @@ namespace XFilesArchive.Infrastructure.DataManager
 
         void SetFileSize(int archiveEntityKey, int fileSize);
         void SetFileSizeByKeys(int driveId);
+        void BulkCopy(string cs, IEnumerable<DestinationItem> items,int DriveId);
     }
 }

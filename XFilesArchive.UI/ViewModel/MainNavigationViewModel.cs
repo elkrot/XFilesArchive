@@ -373,24 +373,24 @@ namespace XFilesArchive.UI.ViewModel
             Dictionary<string, object> addParams = new Dictionary<string, object>();
             addParams.Add("IsSecret", IsSecret);
             int driveId = dm.CreateDrive(DriveLetter, DriveTitle, DriveCode, addParams);
-           
+
 
             if (driveId != 0)
             {
-                
+
                 var destMngr = new DestinationManager();
-               var result = destMngr.CreateDestinationList(DriveLetter);
-                BulkCopy(cnf.GetConnectionString(), result.Result);
+                var result = destMngr.CreateDestinationList(DriveLetter);
+                dm.BulkCopy(cnf.GetConnectionString(), result.Result, driveId);
                 //TODO: Создание Списка Сущностей в расположении
                 var dest = new Destination(driveId, result.Result);
 
 
 
-              /*  
-                 dm.FillDirectoriesInfo(driveId, DriveLetter);
-                 dm.FillFilesInfo(driveId, DriveLetter);
-                 dm.ClearCash(); 
-              */
+                /*  
+                   dm.FillDirectoriesInfo(driveId, DriveLetter);
+                   dm.FillFilesInfo(driveId, DriveLetter);
+                   dm.ClearCash(); 
+                */
             }
             else
             {
@@ -398,45 +398,12 @@ namespace XFilesArchive.UI.ViewModel
             }
             return driveId;
         }
-  public void BulkCopy(string cs, IEnumerable<DestinationItem> items)
-    {
-        var table = new DataTable();
-            SqlConnection sc = new SqlConnection(cs);
-            sc.Open();
-        // read the table structure from the database
-        using (var adapter = new SqlDataAdapter($"SELECT TOP 0 * FROM ArchiveEntity", sc))
-        {
-            adapter.Fill(table);
-        };
-
-            foreach (var item in items)
-            {
-                var row = table.NewRow();
-                row["EntityExtension"] = item.EntityExtension;
-                row["EntityPath"] = item.EntityPath;
-                row["EntityType"] = item.EntityType;
-                row["FileSize"] = item.FileSize??0;
-                row["ParentGuid"] = item.ParentGuid.ToString();
-                row["Title"] = item.Title;
-                row["UniqGuid"] = item.UniqGuid.ToString();
-                row["CreatedDate"] = DateTime.Now;
-                
-                table.Rows.Add(row);
-            }
 
 
-
-
-        using (var bulk = new SqlBulkCopy(sc))
-        {
-            bulk.DestinationTableName = "ArchiveEntity";
-            bulk.WriteToServer(table);
-        }
-            sc.Close();
-    }
+      
 
     }
 
 
 
-  }
+}

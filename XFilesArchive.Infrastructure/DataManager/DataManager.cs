@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using XFilesArchive.Infrastructure.Utilites;
+using XFilesArchive.Model;
 
 namespace XFilesArchive.Infrastructure.DataManager
 {
@@ -660,7 +661,7 @@ values (
         #endregion
 
         #region GetImageById
-        public Image GetImageById(int id)
+        public System.Drawing.Image GetImageById(int id)
         {
             #region Guard
             if (id <= 0) throw new ArgumentNullException(ERROR_ARGUMENT_EXCEPTION_MSG, nameof(id));
@@ -676,7 +677,7 @@ values (
                     command.Parameters.AddWithValue("imageKey", id);
                     connection.Open();
                     object obj = command.ExecuteScalar();
-                    return _fileManager.GetDataFromBinary<Image>((byte[])obj);
+                    return _fileManager.GetDataFromBinary<System.Drawing.Image>((byte[])obj);
 
                 }
             }
@@ -1127,5 +1128,58 @@ values (
                 throw new Exception("Ошибка в методе GetFiles");
             }
         }
+
+
+
+        #region BulkCopy
+       public void BulkCopy(string cs, IEnumerable<DestinationItem> items,int DriveId)
+        {
+            var table = new DataTable();
+            using (SqlConnection sc = new SqlConnection(cs))
+            {
+                sc.Open();
+                using (var adapter = new SqlDataAdapter($"SELECT TOP 0 * FROM ArchiveEntity", sc))
+                {
+                    adapter.Fill(table);
+                };
+
+                foreach (var item in items)
+                {
+                    var row = table.NewRow();
+                    row["EntityExtension"] = item.EntityExtension;
+                    row["EntityPath"] = item.EntityPath;
+                    row["EntityType"] = item.EntityType;
+                    row["FileSize"] = item.FileSize ?? 0;
+                    row["ParentGuid"] = item.ParentGuid.ToString();
+                    row["Title"] = item.Title;
+                    row["UniqGuid"] = item.UniqGuid.ToString();
+                    row["CreatedDate"] = DateTime.Now;
+                    row["DriveId"] = DriveId;
+                    table.Rows.Add(row);
+                }
+
+                using (var bulk = new SqlBulkCopy(sc))
+                {
+                    bulk.DestinationTableName = "ArchiveEntity";
+                    bulk.WriteToServer(table);
+                }
+
+                string sql = @"update a1 set a1.[ParentEntityKey] = a2.[ArchiveEntityKey]
+  FROM [HmeArhX].[dbo].[ArchiveEntity] a1
+  left join [HmeArhX].[dbo].[ArchiveEntity] a2 on a1.[ParentGuid] = a2.[UniqGuid]
+   where a1.[DriveId]= @DriveId";
+                SqlCommand command = new SqlCommand(sql, sc);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("DriveId", DriveId);
+                command.ExecuteNonQuery();
+
+
+                sc.Close();
+
+            }
+        }
+
+        #endregion
+ 
     }
 }
