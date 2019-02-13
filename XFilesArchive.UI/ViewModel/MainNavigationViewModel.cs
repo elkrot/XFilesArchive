@@ -358,14 +358,6 @@ namespace XFilesArchive.UI.ViewModel
             var lg = new Logger();
             var driveCode = DriveCode;
             var driveTitle = DriveTitle;
-            //TODO: Новый Алгоритм создания Расположения 
-            /*
-             1. Прочитать структуру в массив
-             2. Сформировать объект Расположение
-             3. Массовая вставка Данных bulk insert
-             4. Возможно придется добавить поле guid
-             5. Обновить информацию по сущностям. Фото, Медиа Инфа ...
-             */
 
             var fm = new FileManager(cnf, lg);
             IDataManager dm = new DataManager(cnf, fm, lg, MaxImagesInDirectory);
@@ -374,16 +366,15 @@ namespace XFilesArchive.UI.ViewModel
             addParams.Add("IsSecret", IsSecret);
             int driveId = dm.CreateDrive(DriveLetter, DriveTitle, DriveCode, addParams);
 
-
             if (driveId != 0)
             {
-
                 var destMngr = new DestinationManager();
                 var result = destMngr.CreateDestinationList(DriveLetter);
                 dm.BulkCopy(cnf.GetConnectionString(), result.Result, driveId);
                 //TODO: Создание Списка Сущностей в расположении
                 var dest = new Destination(driveId, result.Result);
-
+                //TODO: Добавление Медиа информации, если выбрана
+                //TODO: Добавление картинок, если выбрана
 
 
                 /*  

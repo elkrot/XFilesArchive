@@ -10,7 +10,8 @@ namespace XFilesArchive.Infrastructure
 {
     public class DestinationManager
     {
-        public MethodResult<List<DestinationItem>> CreateDestinationList(string destinationPath)
+        #region CreateDestinationList
+    public MethodResult<List<DestinationItem>> CreateDestinationList(string destinationPath)
         {
             var list =new List<DestinationItem>();
 
@@ -40,8 +41,10 @@ namespace XFilesArchive.Infrastructure
             }
             return result;
         }
-
-        private void FillDestinationItemsList(string destinationPath, ref List<DestinationItem> list, Guid parentGuid=default(Guid))
+        #endregion
+    
+        #region FillDestinationItemsList
+       private void FillDestinationItemsList(string destinationPath, ref List<DestinationItem> list, Guid parentGuid=default(Guid))
         {
             var directories = Directory.GetDirectories(destinationPath, "*.*", SearchOption.TopDirectoryOnly);
             var files = Directory.GetFiles(destinationPath, "*.*", SearchOption.TopDirectoryOnly);
@@ -73,5 +76,7 @@ namespace XFilesArchive.Infrastructure
             }
 
         }
-    }
+
+        #endregion
+     }
 }
