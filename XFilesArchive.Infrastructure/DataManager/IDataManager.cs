@@ -36,6 +36,6 @@ namespace XFilesArchive.Infrastructure.DataManager
 
         void SetFileSize(int archiveEntityKey, int fileSize);
         void SetFileSizeByKeys(int driveId);
-        void BulkCopy(string cs, IEnumerable<DestinationItem> items,int DriveId);
+        void BulkCopyArchiveEntity(string cs, IEnumerable<DestinationItem> items,int DriveId);
     }
 }

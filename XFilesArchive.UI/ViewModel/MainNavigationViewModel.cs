@@ -370,14 +370,22 @@ namespace XFilesArchive.UI.ViewModel
             {
                 var destMngr = new DestinationManager();
                 var result = destMngr.CreateDestinationList(DriveLetter);
-                dm.BulkCopy(cnf.GetConnectionString(), result.Result, driveId);
-                //TODO: Создание Списка Сущностей в расположении
+                dm.BulkCopyArchiveEntity(cnf.GetConnectionString(), result.Result, driveId);
                 var dest = new Destination(driveId, result.Result);
+                //TODO: Всю работу перенести в класс Destination
                 //TODO: Добавление Медиа информации, если выбрана
-                //TODO: Добавление картинок, если выбрана
+                //TODO: Добавление картинок, если выбрана , если надо сохранять в БД
+                //TODO: Изсменить размер поля Checksum, добавить в модель
 
-
-                /*  
+                /*  dm.CreateImage
+                 *  
+                 *   newImgPath = _fileManager.CopyImg(imagePath, targetDir);
+                 *  
+                 *  Bitmap bmp = _fileManager.GetThumb(imagePath);
+                string thumbPath = _fileManager.SaveThumb(targetDir, _configuration.GetThumbDirName(), bmp, imgInfo.Name);
+                imageData = _fileManager.GetImageData(bmp);
+                 *  
+                 *  
                    dm.FillDirectoriesInfo(driveId, DriveLetter);
                    dm.FillFilesInfo(driveId, DriveLetter);
                    dm.ClearCash(); 

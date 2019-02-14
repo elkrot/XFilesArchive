@@ -1132,7 +1132,7 @@ values (
 
 
         #region BulkCopy
-       public void BulkCopy(string cs, IEnumerable<DestinationItem> items,int DriveId)
+       public void BulkCopyArchiveEntity(string cs, IEnumerable<DestinationItem> items,int DriveId)
         {
             var table = new DataTable();
             using (SqlConnection sc = new SqlConnection(cs))
@@ -1155,6 +1155,15 @@ values (
                     row["UniqGuid"] = item.UniqGuid.ToString();
                     row["CreatedDate"] = DateTime.Now;
                     row["DriveId"] = DriveId;
+
+
+                    if (item.EntityType == 2)
+                    {
+                        // Перенести
+                        var checksum = Utilites.Security.ComputeMD5Checksum(item.EntityPath);
+                        row["Checksum"] = checksum;
+                    }
+
                     table.Rows.Add(row);
                 }
 
