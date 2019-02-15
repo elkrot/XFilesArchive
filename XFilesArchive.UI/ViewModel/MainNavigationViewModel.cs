@@ -358,38 +358,17 @@ namespace XFilesArchive.UI.ViewModel
             var lg = new Logger();
             var driveCode = DriveCode;
             var driveTitle = DriveTitle;
-
             var fm = new FileManager(cnf, lg);
             IDataManager dm = new DataManager(cnf, fm, lg, MaxImagesInDirectory);
             string drvLetter = DriveLetter;
             Dictionary<string, object> addParams = new Dictionary<string, object>();
             addParams.Add("IsSecret", IsSecret);
             int driveId = dm.CreateDrive(DriveLetter, DriveTitle, DriveCode, addParams);
-
             if (driveId != 0)
             {
-                var destMngr = new DestinationManager();
-                var result = destMngr.CreateDestinationList(DriveLetter);
-                dm.BulkCopyArchiveEntity(cnf.GetConnectionString(), result.Result, driveId);
-                var dest = new Destination(driveId, result.Result);
-                //TODO: Всю работу перенести в класс Destination
-                //TODO: Добавление Медиа информации, если выбрана
-                //TODO: Добавление картинок, если выбрана , если надо сохранять в БД
-                //TODO: Изсменить размер поля Checksum, добавить в модель
-
-                /*  dm.CreateImage
-                 *  
-                 *   newImgPath = _fileManager.CopyImg(imagePath, targetDir);
-                 *  
-                 *  Bitmap bmp = _fileManager.GetThumb(imagePath);
-                string thumbPath = _fileManager.SaveThumb(targetDir, _configuration.GetThumbDirName(), bmp, imgInfo.Name);
-                imageData = _fileManager.GetImageData(bmp);
-                 *  
-                 *  
-                   dm.FillDirectoriesInfo(driveId, DriveLetter);
-                   dm.FillFilesInfo(driveId, DriveLetter);
-                   dm.ClearCash(); 
-                */
+                //TODO: Определить Флаги и Другие параметры заполнения
+                var destMngr = new DestinationManager(new FillInfoParameters(DriveLetter,true, true, driveId),dm,fm,cnf );
+                destMngr.Execute();
             }
             else
             {

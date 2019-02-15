@@ -1155,13 +1155,9 @@ values (
                     row["UniqGuid"] = item.UniqGuid.ToString();
                     row["CreatedDate"] = DateTime.Now;
                     row["DriveId"] = DriveId;
-
-
                     if (item.EntityType == 2)
                     {
-                        // Перенести
-                        var checksum = Utilites.Security.ComputeMD5Checksum(item.EntityPath);
-                        row["Checksum"] = checksum;
+                        row["Checksum"] = item.Checksum;
                     }
 
                     table.Rows.Add(row);

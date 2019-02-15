@@ -1,29 +1,41 @@
-﻿using System;
+﻿using HomeArchiveX.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XFilesArchive.Infrastructure.DataManager;
 using XFilesArchive.Model;
 
 namespace XFilesArchive.Infrastructure
 {
     public class DestinationManager
     {
+        private FillInfoParameters _imgInfoParams;
+        private IDataManager _dm;
+        private IFIleManager _fm;
+        private ConfigurationData _cnf;
+
+
+        public DestinationManager( FillInfoParameters imgInfoParams
+            ,IDataManager dm, IFIleManager fm, ConfigurationData cnf)
+        {
+            _imgInfoParams = imgInfoParams;
+            _dm = dm;
+            _fm = fm;
+            _cnf = cnf;
+        }
+
         #region CreateDestinationList
-    public MethodResult<List<DestinationItem>> CreateDestinationList(string destinationPath)
+    public MethodResult<List<DestinationItem>> CreateDestinationList()
         {
             var list =new List<DestinationItem>();
-
-
             var result = new MethodResult<List<DestinationItem>>(list);
             try
             {
-
-                FillDestinationItemsList(destinationPath, ref list);
-           
+                FillDestinationItemsList(_imgInfoParams.DestinationPath, ref list);
             }
-          
             catch (UnauthorizedAccessException e)
             {
                 result.Success = false;
@@ -65,9 +77,9 @@ namespace XFilesArchive.Infrastructure
                     , EntityPath = fInfo.DirectoryName
                     , Title = fInfo.FullName
                     , FileSize = fInfo.Length
+                    , Checksum = Utilites.Security.ComputeMD5Checksum(fInfo.FullName)
 
-
-                });
+            });
             }
 
             foreach (var directory in directories)
@@ -77,6 +89,29 @@ namespace XFilesArchive.Infrastructure
 
         }
 
+
+
         #endregion
-     }
+
+        #region Execute
+        public void Execute()
+        {
+            var result = CreateDestinationList();
+
+            _dm.BulkCopyArchiveEntity(_cnf.GetConnectionString(), result.Result, _imgInfoParams.DriveId);
+
+            var dest = new Destination(_imgInfoParams.DriveId, result.Result);
+
+            if (_imgInfoParams.FillImages)
+            {
+                dest.FillImageInfo();
+            }
+            if (_imgInfoParams.FillMedia)
+            {
+                dest.FillMediaInfo();
+            }
+        }
+        #endregion
+
+    }
 }
