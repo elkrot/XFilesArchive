@@ -1184,7 +1184,82 @@ values (
             }
         }
 
+
+
+
+
+        public void BulkCopyImage(string cs, IEnumerable<ImageDto> items)
+        {
+            
+            using (SqlConnection sc = new SqlConnection(cs))
+            {
+                sc.Open();
+                #region  ArchiveEntity
+var ArchiveEntityTable = new DataTable();
+               
+                using (var adapter = new SqlDataAdapter($"SELECT TOP 0 * FROM Image", sc))
+                {
+                    adapter.Fill(ArchiveEntityTable);
+                };
+
+                foreach (var item in items)
+                {
+                    var row = ArchiveEntityTable.NewRow();
+                    row["UniqGuid"] = item.UniqGuid;
+                    row["HashCode"] = item.HashCode;
+                    row["ImagePath"] = item.ImagePath;
+                    row["ImageTitle"] = item.ImageTitle;
+                    row["Thumbnail"] = item.Thumbnail;
+                    row["ThumbnailPath"] = item.ThumbnailPath;
+                    row["CreatedDate"] = DateTime.Now;
+                    
+
+                    ArchiveEntityTable.Rows.Add(row);
+                }
+
+                using (var bulk = new SqlBulkCopy(sc))
+                {
+                    bulk.DestinationTableName = "Image";
+                    bulk.WriteToServer(ArchiveEntityTable);
+                }
+                #endregion
+
+                #region Image
+                var ImageTable = new DataTable();
+
+                using (var adapter = new SqlDataAdapter($"SELECT TOP 0 UniqGuid FROM Image", sc))
+                {
+                    adapter.Fill(ImageTable);
+                };
+
+                foreach (var item in items)
+                {
+                    var row = ImageTable.NewRow();
+                    row["UniqGuid"] = item.UniqGuid;
+
+
+                    ImageTable.Rows.Add(row);
+                }
+
+                using (var bulk = new SqlBulkCopy(sc))
+                {
+                    bulk.DestinationTableName = "##Image";
+                    bulk.WriteToServer(ImageTable);
+                }
+                #endregion
+                string sql = @"update ";
+                SqlCommand command = new SqlCommand(sql, sc);
+                command.Parameters.Clear();
+               // command.Parameters.AddWithValue("DriveId", DriveId);
+                //command.ExecuteNonQuery();
+
+
+                sc.Close();
+
+            }
+        }
+
         #endregion
- 
+
     }
 }

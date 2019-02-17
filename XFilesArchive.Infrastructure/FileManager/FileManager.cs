@@ -155,14 +155,7 @@ namespace XFilesArchive.Infrastructure
         #endregion
 
         #region Сохранить на диске Эскиз
-        /// <summary>
-        /// Сохранить на диске Эскиз
-        /// </summary>
-        /// <param name="targetRootDir">Корневая дирректоря программы</param>
-        /// <param name="thumbDir">Дирректория с эскизами</param>
-        /// <param name="bmp">Изображение</param>
-        /// <param name="thumbName">Наименование эскиза</param>
-        /// <returns></returns>
+       
         public string SaveThumb(string targetRootDir, string thumbDir, Bitmap bmp, string thumbName)
         {
 
@@ -202,6 +195,56 @@ namespace XFilesArchive.Infrastructure
 
             return result;
         }
+
+
+
+
+        public string SaveThumbTemp(string targetRootDir, string thumbDir, Bitmap bmp, string thumbName)
+        {
+
+            #region Guard
+            if (string.IsNullOrWhiteSpace(targetRootDir))
+                throw new ArgumentException(ERROR_ARGUMENT_EXCEPTION_MSG, nameof(targetRootDir));
+            if (string.IsNullOrWhiteSpace(thumbDir))
+                throw new ArgumentException(ERROR_ARGUMENT_EXCEPTION_MSG, nameof(thumbDir));
+            if (string.IsNullOrWhiteSpace(thumbName))
+                throw new ArgumentException(ERROR_ARGUMENT_EXCEPTION_MSG, nameof(thumbName));
+            if (bmp == null)
+                throw new ArgumentException(ERROR_ARGUMENT_EXCEPTION_MSG, nameof(bmp));
+            #endregion
+            string fullPath = "";
+            string result = "";
+
+            try
+            {
+                var dir_t = Path.Combine( targetRootDir, thumbDir);
+                if (!File.Exists(Path.Combine(dir_t, thumbName)))
+                {
+                    if (!Directory.Exists(dir_t))
+                    {
+                        Directory.CreateDirectory(dir_t);
+                    }
+                    fullPath = Path.Combine(dir_t, thumbName);
+                    bmp.Save(fullPath);
+                }
+                result = Path.Combine(targetRootDir, thumbDir, thumbName);
+            }
+            catch (Exception e)
+            {
+                _logger.Add(string.Format("Ошибка в методе SaveThumbTemp. {0}", e.Message));
+                throw new Exception("Ошибка в методе SaveThumbTemp");
+            }
+
+
+            return result;
+        }
+
+
+
+
+
+
+
         #endregion
 
         #region Является ли файл картинкой
@@ -212,11 +255,18 @@ namespace XFilesArchive.Infrastructure
         /// <returns></returns>
         public bool IsImage(string ext)
         {
+            if (ext == null) return false;
             string[] ar = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
             return ar.Contains(ext.ToLower());
         }
         #endregion
-
+        public bool IsMedia(string ext) {
+            if (ext == null) return false;
+            string[] ar = new[] 
+            { ".png", ".bmp", ".jpg", ".jpeg", ".gif", ".tiff" , ".mpeg4", ".avi", ".mov", ".mkv"
+            , ".mp4", ".wmv", ".mpg", "vob" ,".mp3", ".ogg", ".flac", ".wav" };
+            return ar.Contains(ext.ToLower());
+        }
         #region Заполнить информацию о папках
         /// <summary>
         /// Заполнить информацию о папках

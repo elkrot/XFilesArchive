@@ -47,9 +47,9 @@ namespace XFilesArchive.Model
 
         public int? Grade { get; set; }
 
-        public Guid UniqGuid { get; set; }
+        public Guid? UniqGuid { get; set; }
 
-        public Guid ParentGuid { get; set; }
+        public Guid? ParentGuid { get; set; }
         
         //virtual
         public virtual ICollection<ArchiveEntity> ArchiveEntities { get; set; }

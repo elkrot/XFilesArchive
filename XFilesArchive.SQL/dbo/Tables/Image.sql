@@ -6,6 +6,7 @@
     [ImageTitle]    NVARCHAR (100) NULL,
     [HashCode]      INT            NULL,
     [CreatedDate]   DATETIME2 (7)  CONSTRAINT [DF_Image_CreatedDate] DEFAULT (getdate()) NOT NULL,
+    [UniqGuid] UNIQUEIDENTIFIER NULL, 
     CONSTRAINT [PK_Image] PRIMARY KEY CLUSTERED ([ImageKey] ASC)
 );
 

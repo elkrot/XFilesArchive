@@ -29,7 +29,10 @@ namespace XFilesArchive.Model
         public Nullable<int> HashCode { get; set; }
 
         public System.DateTime CreatedDate { get; set; }
-        
+
+        public Guid? UniqGuid { get; set; }
+
+
         public virtual ICollection<ArchiveEntity> ArchiveEntities { get; set; }
     }
 }
