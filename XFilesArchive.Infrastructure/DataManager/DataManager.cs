@@ -795,7 +795,6 @@ values (
         }
         #endregion
 
-
         #region Получить Ключи файлов по ИД Диска 
         public int[] GetFilesByDestinationKey(int driveId = 0)
         {
@@ -846,9 +845,6 @@ values (
             }
         }
         #endregion
-
-
-
 
         #region GetDriveInfoById Описание диска по ИД
         public DriveInfo GetDriveInfoById(int id)
@@ -1014,8 +1010,8 @@ values (
         }
         #endregion
         //*********************
-
-        public void SetFileSizeByKeys(int driveId = 0)
+        #region SetFileSizeByKeys
+    public void SetFileSizeByKeys(int driveId = 0)
         {
             int[] keys = GetFilesByDestinationKey(driveId);
             foreach (var ArchiveEntityKey in keys)
@@ -1040,7 +1036,10 @@ values (
 
         }
 
-        public void SetFileSize(int archiveEntityKey, int fileSize)
+        #endregion
+
+        #region SetFileSize
+      public void SetFileSize(int archiveEntityKey, int fileSize)
         {
             #region Guard
             if (archiveEntityKey <= 0) throw new ArgumentNullException(ERROR_ARGUMENT_EXCEPTION_MSG, nameof(archiveEntityKey));
@@ -1070,7 +1069,11 @@ values (
             }
         }
 
-        public string[] CheckFilesByHashOrTitle(int fileSize, string checksum, string title)
+        #endregion
+
+
+        #region CheckFilesByHashOrTitle
+     public string[] CheckFilesByHashOrTitle(int fileSize, string checksum, string title)
         {
             #region Guard
             if (fileSize == 0) throw new ArgumentNullException(ERROR_ARGUMENT_EXCEPTION_MSG, nameof(fileSize));
@@ -1129,6 +1132,8 @@ values (
             }
         }
 
+        #endregion
+   
 
 
         #region BulkCopy
@@ -1227,7 +1232,7 @@ var ArchiveEntityTable = new DataTable();
                 #region Image
                 var ImageTable = new DataTable();
 
-                using (var adapter = new SqlDataAdapter($"SELECT TOP 0 UniqGuid FROM Image", sc))
+                using (var adapter = new SqlDataAdapter($"SELECT TOP 0 UniqGuid FROM [Image]", sc))
                 {
                     adapter.Fill(ImageTable);
                 };
@@ -1247,11 +1252,17 @@ var ArchiveEntityTable = new DataTable();
                     bulk.WriteToServer(ImageTable);
                 }
                 #endregion
-                string sql = @"update ";
+
+                string sql = @"
+insert into ImageToEntity(TargetEntityKey,ImageKey)
+select i.ImageKey ,a.ArchiveEntityKey
+from [Image] i 
+join ##Image m on i.UniqGuid = m.UniqGuid
+join [dbo].[ArchiveEntity] a on a.UniqGuid = m.UniqGuid ";
                 SqlCommand command = new SqlCommand(sql, sc);
-                command.Parameters.Clear();
+                //command.Parameters.Clear();
                // command.Parameters.AddWithValue("DriveId", DriveId);
-                //command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
 
 
                 sc.Close();

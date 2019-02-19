@@ -352,7 +352,9 @@ namespace XFilesArchive.UI.ViewModel
         #endregion
 
         //*******************************************************************
-        private int CreateDestinationX()
+
+        #region CreateDestinationX
+     private int CreateDestinationX()
         {
             var cnf = new ConfigurationData();
             var lg = new Logger();
@@ -377,6 +379,8 @@ namespace XFilesArchive.UI.ViewModel
             return driveId;
         }
 
+        #endregion
+   
 
       
 

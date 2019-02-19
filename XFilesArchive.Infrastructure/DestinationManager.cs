@@ -127,7 +127,9 @@ namespace XFilesArchive.Infrastructure
             }
         }
         #endregion
-        public void FillImageInfo(List<DestinationItem> items)
+
+        #region FillImageInfo
+       public void FillImageInfo(List<DestinationItem> items)
         {
             //TODO: Добавление картинок, если выбрана , если надо сохранять в БД
             /* 
@@ -147,52 +149,47 @@ namespace XFilesArchive.Infrastructure
             {
                 var fi = new FileInfo(item.Title);
                 string NewImgPath = "";
-
-
-                    if (!Directory.Exists(drivePathTmp))
-                    {
-                        Directory.CreateDirectory(drivePathTmp);
-                    }
-                    NewImgPath = Path.Combine(drivePathTmp, item.UniqGuid.ToString()+ fi.Extension);
-                    if (!File.Exists(NewImgPath))
-                    {
-                        File.Copy(item.Title, NewImgPath, true);
-                    }
-
-
+                if (!Directory.Exists(drivePathTmp))
+                {
+                    Directory.CreateDirectory(drivePathTmp);
+                }
+                NewImgPath = Path.Combine(drivePathTmp, item.UniqGuid.ToString() + fi.Extension);
+                if (!File.Exists(NewImgPath))
+                {
+                    File.Copy(item.Title, NewImgPath, true);
+                }
                 var NewThumbDirPath = Path.Combine(drivePathTmp, _cnf.GetThumbDirName());
-                var NewThumbPath = Path.Combine(NewThumbDirPath, item.UniqGuid.ToString()+ fi.Extension);
-                
+                var NewThumbPath = Path.Combine(NewThumbDirPath, item.UniqGuid.ToString() + fi.Extension);
                 // Создание эскиза
                 Bitmap bmp = _fm.GetThumb(item.Title);
-
                 if (!Directory.Exists(NewThumbDirPath))
                 {
                     Directory.CreateDirectory(NewThumbDirPath);
                 }
                 var imageInfo = new FileInfo(item.Title);
                 var imageData = _fm.GetImageData(bmp);
-                listImage.Add( new ImageDto() { HashCode= imageInfo.GetHashCode(),
-                UniqGuid =item.UniqGuid,
-                ImagePath = Path.Combine(baseDrivePath, item.UniqGuid.ToString() + fi.Extension),
-                ImageTitle = imageInfo.Name,
-                Thumbnail = imageData,
-                ThumbnailPath = Path.Combine(baseDrivePath, _cnf.GetThumbDirName(), item.UniqGuid.ToString() + fi.Extension)
+                listImage.Add(new ImageDto()
+                {
+                    HashCode = imageInfo.GetHashCode(),
+                    UniqGuid = item.UniqGuid,
+                    ImagePath = Path.Combine(baseDrivePath, item.UniqGuid.ToString() + fi.Extension),
+                    ImageTitle = imageInfo.Name,
+                    Thumbnail = imageData,
+                    ThumbnailPath = Path.Combine(baseDrivePath, _cnf.GetThumbDirName(), item.UniqGuid.ToString() + fi.Extension)
                 });
                 bmp.Save(NewThumbPath);
             }
-
+            // Сохранить в БД
             _dm.BulkCopyImage(_cnf.GetConnectionString(), listImage);
-            // После добавления в БД
+            // Скопировать в Темповую дирректорию
             Copy(drivePathTmp, _cnf.GetTargetImagePath());
+            // Удалить темповую дирректорию
             Directory.Delete(drivePathTmp);
-
-
         }
 
-
-
-
+        #endregion
+ 
+        #region Copy
         public static void Copy(string sourceDirectory, string targetDirectory)
         {
             DirectoryInfo diSource = new DirectoryInfo(sourceDirectory);
@@ -206,7 +203,7 @@ namespace XFilesArchive.Infrastructure
             Directory.CreateDirectory(target.FullName);
             foreach (FileInfo fi in source.GetFiles())
             {
-               
+
                 fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
             }
 
@@ -217,51 +214,8 @@ namespace XFilesArchive.Infrastructure
                 CopyAll(diSourceSubDir, nextTargetSubDir);
             }
         }
+        #endregion
 
-
-
-
-
-
-        private string CopyImg(string imgPath, string targetPath)
-        {
-            #region Guard
-            if (string.IsNullOrWhiteSpace(imgPath))
-                throw new ArgumentException(ERROR_ARGUMENT_EXCEPTION_MSG, nameof(imgPath));
-            if (string.IsNullOrWhiteSpace(targetPath))
-                throw new ArgumentException(ERROR_ARGUMENT_EXCEPTION_MSG, nameof(targetPath));
-            #endregion
-            var result = "";
-            try
-            {
-                var fi = new FileInfo(imgPath);
-                string NewimgPath = "";
-
-                if (_fm.IsImage(fi.Extension))
-                {
-                    // var dir = Path.Combine(_cnf.GetTargetImagePath(), targetPath);
-                    if (!Directory.Exists(targetPath))
-                    {
-                        Directory.CreateDirectory(targetPath);
-                    }
-                    NewimgPath = Path.Combine(targetPath, fi.Name);
-                    if (!File.Exists(Path.Combine(targetPath, fi.Name)))
-                    {
-                        File.Copy(imgPath, NewimgPath, true);
-                    }
-
-                }
-                result = string.IsNullOrWhiteSpace(NewimgPath) ? "" : Path.Combine(targetPath, fi.Name);
-            }
-            catch (Exception e)
-            {
-                _dm.logger.Add(string.Format("Ошибка в методе CopyImg. {0}", e.Message));
-                throw new Exception("Ошибка в методе CopyImg");
-            }
-
-
-            return result;
-        }
 
         public void FillMediaInfo(List<DestinationItem> items)
         {

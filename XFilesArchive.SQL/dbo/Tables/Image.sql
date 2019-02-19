@@ -10,3 +10,7 @@
     CONSTRAINT [PK_Image] PRIMARY KEY CLUSTERED ([ImageKey] ASC)
 );
 
+
+GO
+
+CREATE INDEX [IX_Image_UniqGuid] ON [dbo].[Image] ([UniqGuid])
