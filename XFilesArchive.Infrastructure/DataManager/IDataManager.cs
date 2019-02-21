@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using XFilesArchive.Model;
 
@@ -36,7 +37,8 @@ namespace XFilesArchive.Infrastructure.DataManager
 
         void SetFileSize(int archiveEntityKey, int fileSize);
         void SetFileSizeByKeys(int driveId);
-        void BulkCopyArchiveEntity(string cs, IEnumerable<DestinationItem> items,int DriveId);
-        void BulkCopyImage(string cs, IEnumerable<ImageDto> items);
+        void BulkCopyArchiveEntity( IEnumerable<DestinationItem> items,int DriveId);
+        void BulkCopyImage( IEnumerable<ImageDto> items);
+        void SetMinfo(Guid uniqGuid, byte[] bMinfo);
     }
 }

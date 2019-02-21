@@ -912,7 +912,6 @@ values (
             #region Guard
             if (id <= 0) throw new ArgumentNullException(ERROR_ARGUMENT_EXCEPTION_MSG, nameof(id));
             #endregion
-
             try
             {
                 using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString()))
@@ -1011,7 +1010,7 @@ values (
         #endregion
         //*********************
         #region SetFileSizeByKeys
-    public void SetFileSizeByKeys(int driveId = 0)
+        public void SetFileSizeByKeys(int driveId = 0)
         {
             int[] keys = GetFilesByDestinationKey(driveId);
             foreach (var ArchiveEntityKey in keys)
@@ -1037,9 +1036,8 @@ values (
         }
 
         #endregion
-
         #region SetFileSize
-      public void SetFileSize(int archiveEntityKey, int fileSize)
+        public void SetFileSize(int archiveEntityKey, int fileSize)
         {
             #region Guard
             if (archiveEntityKey <= 0) throw new ArgumentNullException(ERROR_ARGUMENT_EXCEPTION_MSG, nameof(archiveEntityKey));
@@ -1070,10 +1068,8 @@ values (
         }
 
         #endregion
-
-
         #region CheckFilesByHashOrTitle
-     public string[] CheckFilesByHashOrTitle(int fileSize, string checksum, string title)
+        public string[] CheckFilesByHashOrTitle(int fileSize, string checksum, string title)
         {
             #region Guard
             if (fileSize == 0) throw new ArgumentNullException(ERROR_ARGUMENT_EXCEPTION_MSG, nameof(fileSize));
@@ -1133,12 +1129,11 @@ values (
         }
 
         #endregion
-   
-
 
         #region BulkCopy
-       public void BulkCopyArchiveEntity(string cs, IEnumerable<DestinationItem> items,int DriveId)
+        public void BulkCopyArchiveEntity(IEnumerable<DestinationItem> items, int DriveId)
         {
+            var cs = _configuration.GetConnectionString();
             var table = new DataTable();
             using (SqlConnection sc = new SqlConnection(cs))
             {
@@ -1147,7 +1142,6 @@ values (
                 {
                     adapter.Fill(table);
                 };
-
                 foreach (var item in items)
                 {
                     var row = table.NewRow();
@@ -1164,16 +1158,13 @@ values (
                     {
                         row["Checksum"] = item.Checksum;
                     }
-
                     table.Rows.Add(row);
                 }
-
                 using (var bulk = new SqlBulkCopy(sc))
                 {
                     bulk.DestinationTableName = "ArchiveEntity";
                     bulk.WriteToServer(table);
                 }
-
                 string sql = @"update a1 set a1.[ParentEntityKey] = a2.[ArchiveEntityKey]
   FROM [HmeArhX].[dbo].[ArchiveEntity] a1
   left join [HmeArhX].[dbo].[ArchiveEntity] a2 on a1.[ParentGuid] = a2.[UniqGuid]
@@ -1182,26 +1173,19 @@ values (
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("DriveId", DriveId);
                 command.ExecuteNonQuery();
-
-
                 sc.Close();
-
             }
         }
 
-
-
-
-
-        public void BulkCopyImage(string cs, IEnumerable<ImageDto> items)
+        public void BulkCopyImage(IEnumerable<ImageDto> items)
         {
-            
+            var cs = _configuration.GetConnectionString();
             using (SqlConnection sc = new SqlConnection(cs))
             {
                 sc.Open();
                 #region  ArchiveEntity
-var ArchiveEntityTable = new DataTable();
-               
+                var ArchiveEntityTable = new DataTable();
+
                 using (var adapter = new SqlDataAdapter($"SELECT TOP 0 * FROM Image", sc))
                 {
                     adapter.Fill(ArchiveEntityTable);
@@ -1217,7 +1201,7 @@ var ArchiveEntityTable = new DataTable();
                     row["Thumbnail"] = item.Thumbnail;
                     row["ThumbnailPath"] = item.ThumbnailPath;
                     row["CreatedDate"] = DateTime.Now;
-                    
+
 
                     ArchiveEntityTable.Rows.Add(row);
                 }
@@ -1261,7 +1245,7 @@ join ##Image m on i.UniqGuid = m.UniqGuid
 join [dbo].[ArchiveEntity] a on a.UniqGuid = m.UniqGuid ";
                 SqlCommand command = new SqlCommand(sql, sc);
                 //command.Parameters.Clear();
-               // command.Parameters.AddWithValue("DriveId", DriveId);
+                // command.Parameters.AddWithValue("DriveId", DriveId);
                 command.ExecuteNonQuery();
 
 
@@ -1269,8 +1253,27 @@ join [dbo].[ArchiveEntity] a on a.UniqGuid = m.UniqGuid ";
 
             }
         }
-
         #endregion
+
+        #region SetMinfo
+        public void SetMinfo(Guid uniqGuid, byte[] bMinfo)
+        {
+            var cs = _configuration.GetConnectionString();
+            using (SqlConnection sc = new SqlConnection(cs))
+            {
+                sc.Open();
+                string sql = @"update ArchiveEntity set MFileInfo=@MFileInfo 
+                  where UniqGuid=@UniqGuid and EntityType=2";
+                SqlCommand command = new SqlCommand(sql, sc);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("MFileInfo", bMinfo);
+                command.Parameters.AddWithValue("UniqGuid", uniqGuid);
+                object obj = command.ExecuteNonQuery();
+                sc.Close();
+            }
+        }
+        #endregion
+
 
     }
 }

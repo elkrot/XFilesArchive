@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using XFilesArchive.Infrastructure.DataManager;
+using XFilesArchive.Infrastructure.Utilites;
 using XFilesArchive.Model;
 
 namespace XFilesArchive.Infrastructure
@@ -113,7 +114,7 @@ namespace XFilesArchive.Infrastructure
         {
             var result = CreateDestinationList();
 
-            _dm.BulkCopyArchiveEntity(_cnf.GetConnectionString(), result.Result, _imgInfoParams.DriveId);
+            _dm.BulkCopyArchiveEntity(result.Result, _imgInfoParams.DriveId);
 
             var dest = new Destination(_imgInfoParams.DriveId, result.Result);
 
@@ -180,7 +181,7 @@ namespace XFilesArchive.Infrastructure
                 bmp.Save(NewThumbPath);
             }
             // Сохранить в БД
-            _dm.BulkCopyImage(_cnf.GetConnectionString(), listImage);
+            _dm.BulkCopyImage( listImage);
             // Скопировать в Темповую дирректорию
             Copy(drivePathTmp, _cnf.GetTargetImagePath());
             // Удалить темповую дирректорию
@@ -216,10 +217,19 @@ namespace XFilesArchive.Infrastructure
         }
         #endregion
 
-
+        #region FillMediaInfo
         public void FillMediaInfo(List<DestinationItem> items)
         {
-            //TODO: Добавление Медиа информации, если выбрана
+            foreach (var item in items)
+            {
+                var mfi = MFIFactory.GetMediaFileInfoDictionary(item.EntityExtension, item.EntityPath);
+                var bMinfo = _fm.GetBinaryData<Dictionary<string, string>>(mfi);
+                _dm.SetMinfo(item.UniqGuid, bMinfo);
+
+                
+            }
         }
+        #endregion
+
     }
 }
