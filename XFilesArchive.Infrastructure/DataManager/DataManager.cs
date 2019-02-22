@@ -1183,40 +1183,10 @@ values (
             using (SqlConnection sc = new SqlConnection(cs))
             {
                 sc.Open();
-                #region  ArchiveEntity
-                var ArchiveEntityTable = new DataTable();
-
-                using (var adapter = new SqlDataAdapter($"SELECT TOP 0 * FROM Image", sc))
-                {
-                    adapter.Fill(ArchiveEntityTable);
-                };
-
-                foreach (var item in items)
-                {
-                    var row = ArchiveEntityTable.NewRow();
-                    row["UniqGuid"] = item.UniqGuid;
-                    row["HashCode"] = item.HashCode;
-                    row["ImagePath"] = item.ImagePath;
-                    row["ImageTitle"] = item.ImageTitle;
-                    row["Thumbnail"] = item.Thumbnail;
-                    row["ThumbnailPath"] = item.ThumbnailPath;
-                    row["CreatedDate"] = DateTime.Now;
-
-
-                    ArchiveEntityTable.Rows.Add(row);
-                }
-
-                using (var bulk = new SqlBulkCopy(sc))
-                {
-                    bulk.DestinationTableName = "Image";
-                    bulk.WriteToServer(ArchiveEntityTable);
-                }
-                #endregion
-
-                #region Image
+                #region  Image
                 var ImageTable = new DataTable();
 
-                using (var adapter = new SqlDataAdapter($"SELECT TOP 0 UniqGuid FROM [Image]", sc))
+                using (var adapter = new SqlDataAdapter($"SELECT TOP 0 * FROM Image", sc))
                 {
                     adapter.Fill(ImageTable);
                 };
@@ -1225,16 +1195,50 @@ values (
                 {
                     var row = ImageTable.NewRow();
                     row["UniqGuid"] = item.UniqGuid;
-
-
+                    row["HashCode"] = item.HashCode;
+                    row["ImagePath"] = item.ImagePath;
+                    row["ImageTitle"] = item.ImageTitle;
+                    row["Thumbnail"] = item.Thumbnail;
+                    row["ThumbnailPath"] = item.ThumbnailPath;
+                    row["CreatedDate"] = DateTime.Now;
                     ImageTable.Rows.Add(row);
                 }
 
                 using (var bulk = new SqlBulkCopy(sc))
                 {
-                    bulk.DestinationTableName = "##Image";
+                    bulk.DestinationTableName = "Image";
                     bulk.WriteToServer(ImageTable);
                 }
+                #endregion
+
+                #region ImageToEntity
+                var ImageUniqGuidTable = new DataTable();
+
+                
+
+                using (var adapter = new SqlDataAdapter($"SELECT TOP 0 UniqGuid FROM [Image]", sc))
+                {
+                    adapter.Fill(ImageTable);
+                };
+
+                foreach (var item in items)
+                {
+                    var row = ImageUniqGuidTable.NewRow();
+                    row["UniqGuid"] = item.UniqGuid;
+                    ImageUniqGuidTable.Rows.Add(row);
+                }
+
+                SqlCommand cmd = new SqlCommand(@"if object_id('tempdb..##ImageUniqGuid') is not null drop table ##ImageUniqGuid
+create table ##ImageUniqGuid (UniqGuid uniqueidentifier)", sc);
+                cmd.ExecuteNonQuery();
+                using (var bulk = new SqlBulkCopy(sc))
+                {
+                    bulk.DestinationTableName = "##ImageUniqGuid";
+                    bulk.WriteToServer(ImageTable);
+                }
+
+                cmd = new SqlCommand(@"if object_id('tempdb..##ImageUniqGuid') is not null drop table ##ImageUniqGuid", sc);
+                cmd.ExecuteNonQuery();
                 #endregion
 
                 string sql = @"
@@ -1244,13 +1248,10 @@ from [Image] i
 join ##Image m on i.UniqGuid = m.UniqGuid
 join [dbo].[ArchiveEntity] a on a.UniqGuid = m.UniqGuid ";
                 SqlCommand command = new SqlCommand(sql, sc);
-                //command.Parameters.Clear();
+                command.Parameters.Clear();
                 // command.Parameters.AddWithValue("DriveId", DriveId);
                 command.ExecuteNonQuery();
-
-
                 sc.Close();
-
             }
         }
         #endregion
