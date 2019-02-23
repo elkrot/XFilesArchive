@@ -1218,7 +1218,7 @@ values (
 
                 using (var adapter = new SqlDataAdapter($"SELECT TOP 0 UniqGuid FROM [Image]", sc))
                 {
-                    adapter.Fill(ImageTable);
+                    adapter.Fill(ImageUniqGuidTable);
                 };
 
                 foreach (var item in items)
@@ -1234,23 +1234,26 @@ create table ##ImageUniqGuid (UniqGuid uniqueidentifier)", sc);
                 using (var bulk = new SqlBulkCopy(sc))
                 {
                     bulk.DestinationTableName = "##ImageUniqGuid";
-                    bulk.WriteToServer(ImageTable);
+                    bulk.WriteToServer(ImageUniqGuidTable);
                 }
 
-                cmd = new SqlCommand(@"if object_id('tempdb..##ImageUniqGuid') is not null drop table ##ImageUniqGuid", sc);
-                cmd.ExecuteNonQuery();
+
                 #endregion
 
                 string sql = @"
 insert into ImageToEntity(TargetEntityKey,ImageKey)
-select i.ImageKey ,a.ArchiveEntityKey
+select a.ArchiveEntityKey,i.ImageKey 
 from [Image] i 
-join ##Image m on i.UniqGuid = m.UniqGuid
+join ##ImageUniqGuid m on i.UniqGuid = m.UniqGuid
 join [dbo].[ArchiveEntity] a on a.UniqGuid = m.UniqGuid ";
                 SqlCommand command = new SqlCommand(sql, sc);
                 command.Parameters.Clear();
                 // command.Parameters.AddWithValue("DriveId", DriveId);
                 command.ExecuteNonQuery();
+
+                cmd = new SqlCommand(@"if object_id('tempdb..##ImageUniqGuid') is not null drop table ##ImageUniqGuid", sc);
+                cmd.ExecuteNonQuery();
+
                 sc.Close();
             }
         }

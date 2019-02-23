@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[ArchiveEntity] (
     [ArchiveEntityKey] INT             IDENTITY (1, 1) NOT NULL,
     [ParentEntityKey]  INT             NULL,
-    [DriveId]          INT             NULL,
+    [DriveId]          INT             NOT NULL,
     [Title]            NVARCHAR (250)  NOT NULL,
     [EntityType]       TINYINT         NOT NULL,
     [EntityPath]       NVARCHAR (250)  NOT NULL,

@@ -58,7 +58,8 @@ namespace XFilesArchive.Infrastructure
         #endregion
 
         #region FillDestinationItemsList
-        private void FillDestinationItemsList(string destinationPath, ref List<DestinationItem> list, Guid parentGuid = default(Guid))
+        private void FillDestinationItemsList(string destinationPath, ref List<DestinationItem> list,
+            Guid parentGuid = default(Guid), Guid currentGuid = default(Guid))
         {
             var directories = Directory.GetDirectories(destinationPath, "*.*", SearchOption.TopDirectoryOnly);
             var files = Directory.GetFiles(destinationPath, "*.*", SearchOption.TopDirectoryOnly);
@@ -66,22 +67,24 @@ namespace XFilesArchive.Infrastructure
             var dInfo = new DirectoryInfo(destinationPath);
 
             var newDirectoryGuid = Guid.NewGuid();
-            list.Add(new DestinationItem()
-            {
-                UniqGuid = newDirectoryGuid,
-                ParentGuid = parentGuid,
-                EntityPath = dInfo.Root.Name,
-                EntityType = 1,
-                Title = dInfo.FullName
-            });
+          
+                list.Add(new DestinationItem()
+                {
+                    UniqGuid = newDirectoryGuid,
+                    ParentGuid = parentGuid,
+                    EntityPath = dInfo.Root.Name,
+                    EntityType = 1,
+                    Title = dInfo.FullName
+                });
 
+            #region AddFiles
             foreach (var file in files)
             {
                 var fInfo = new FileInfo(file);
                 list.Add(new DestinationItem()
                 {
                     UniqGuid = Guid.NewGuid(),
-                    ParentGuid = parentGuid
+                    ParentGuid = newDirectoryGuid
                     ,
                     EntityExtension = fInfo.Extension
                     ,
@@ -98,11 +101,12 @@ namespace XFilesArchive.Infrastructure
                 });
             }
 
+            #endregion
+
             foreach (var directory in directories)
             {
-                FillDestinationItemsList(directory, ref list, newDirectoryGuid);
+                FillDestinationItemsList(directory, ref list,  newDirectoryGuid);
             }
-
         }
 
 
@@ -185,11 +189,28 @@ namespace XFilesArchive.Infrastructure
             // Скопировать в Темповую дирректорию
             Copy(drivePathTmp, _cnf.GetTargetImagePath());
             // Удалить темповую дирректорию
-            Directory.Delete(drivePathTmp);
+            DeleteDirectory(tempDirectory);
         }
 
         #endregion
- 
+        public static void DeleteDirectory(string target_dir)
+        {
+            string[] files = Directory.GetFiles(target_dir);
+            string[] dirs = Directory.GetDirectories(target_dir);
+
+            foreach (string file in files)
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
+            }
+
+            foreach (string dir in dirs)
+            {
+                DeleteDirectory(dir);
+            }
+
+            Directory.Delete(target_dir, false);
+        }
         #region Copy
         public static void Copy(string sourceDirectory, string targetDirectory)
         {
@@ -222,7 +243,7 @@ namespace XFilesArchive.Infrastructure
         {
             foreach (var item in items)
             {
-                var mfi = MFIFactory.GetMediaFileInfoDictionary(item.EntityExtension, item.EntityPath);
+                var mfi = MFIFactory.GetMediaFileInfoDictionary(item.EntityExtension, item.Title );
                 var bMinfo = _fm.GetBinaryData<Dictionary<string, string>>(mfi);
                 _dm.SetMinfo(item.UniqGuid, bMinfo);
 
