@@ -18,14 +18,14 @@
 
                 </Button>
 
-                <Button  VerticalAlignment="Top" Height="32" Width="32" ToolTip="Создать расположение"   
+                <!--<Button  VerticalAlignment="Top" Height="32" Width="32" ToolTip="Создать расположение"   
                          Command="{Binding NewDestinationCommand}" >
                     <ContentControl Content="{StaticResource NewDest}" Margin="0" />
 
-                </Button>
+                </Button>-->
 
 
-                <Button  VerticalAlignment="Top" Height="32" Width="32" ToolTip="Создать расположение Новый вариант"   
+                <Button  VerticalAlignment="Top" Height="32" Width="32" ToolTip="Создать расположение "   
                          Command="{Binding NewDestinationCommandX}" >
                     <ContentControl Content="{StaticResource NewDest}" Margin="0" />
 

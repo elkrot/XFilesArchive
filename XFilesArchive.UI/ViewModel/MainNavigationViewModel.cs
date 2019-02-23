@@ -195,7 +195,7 @@ namespace XFilesArchive.UI.ViewModel
                     token = cancelTokenSource.Token;
                     if (App.Current.Windows.OfType<MainWindow>().FirstOrDefault() is MainWindow)
                     {
-                        System.Windows.Forms.MessageBox.Show("Обработка Начата");
+                        
                         var progress = new Progress<int>(value => (App.Current.Windows.OfType<MainWindow>().FirstOrDefault()).progressBar.Value = value);
                         var id = await worker.Work(progress, token, CreateDestinationX);
                         var Log = lg.GetLog();

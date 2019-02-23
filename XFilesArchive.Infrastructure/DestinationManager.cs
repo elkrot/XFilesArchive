@@ -187,7 +187,7 @@ namespace XFilesArchive.Infrastructure
             // Сохранить в БД
             _dm.BulkCopyImage( listImage);
             // Скопировать в Темповую дирректорию
-            Copy(drivePathTmp, _cnf.GetTargetImagePath());
+            Copy(drivePathTmp,Path.Combine( _cnf.GetTargetImagePath(), baseDrivePath));
             // Удалить темповую дирректорию
             DeleteDirectory(tempDirectory);
         }
