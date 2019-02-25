@@ -67,15 +67,15 @@ namespace XFilesArchive.Infrastructure
             var dInfo = new DirectoryInfo(destinationPath);
 
             var newDirectoryGuid = Guid.NewGuid();
-          
-                list.Add(new DestinationItem()
-                {
-                    UniqGuid = newDirectoryGuid,
-                    ParentGuid = parentGuid,
-                    EntityPath = dInfo.Root.Name,
-                    EntityType = 1,
-                    Title = dInfo.FullName
-                });
+
+            list.Add(new DestinationItem()
+            {
+                UniqGuid = newDirectoryGuid,
+                ParentGuid = parentGuid,
+                EntityPath = dInfo.Root.Name,
+                EntityType = 1,
+                Title = dInfo.FullName
+            });
 
             #region AddFiles
             foreach (var file in files)
@@ -105,7 +105,7 @@ namespace XFilesArchive.Infrastructure
 
             foreach (var directory in directories)
             {
-                FillDestinationItemsList(directory, ref list,  newDirectoryGuid);
+                FillDestinationItemsList(directory, ref list, newDirectoryGuid);
             }
         }
 
@@ -134,16 +134,8 @@ namespace XFilesArchive.Infrastructure
         #endregion
 
         #region FillImageInfo
-       public void FillImageInfo(List<DestinationItem> items)
+        public void FillImageInfo(List<DestinationItem> items)
         {
-            //TODO: Добавление картинок, если выбрана , если надо сохранять в БД
-            /* 
-             Создать временный каталог сохранить картинки
-             Сформировать Список картинок
-             Добавить Картинки в БД
-             Скопировать в основной каталог
-             */
-
             string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(tempDirectory);
             var listImage = new List<ImageDto>();
@@ -166,13 +158,21 @@ namespace XFilesArchive.Infrastructure
                 var NewThumbDirPath = Path.Combine(drivePathTmp, _cnf.GetThumbDirName());
                 var NewThumbPath = Path.Combine(NewThumbDirPath, item.UniqGuid.ToString() + fi.Extension);
                 // Создание эскиза
-                Bitmap bmp = _fm.GetThumb(item.Title);
-                if (!Directory.Exists(NewThumbDirPath))
+                byte[] imageData = new byte[0];
+                if (_imgInfoParams.SaveThumbnails)
                 {
-                    Directory.CreateDirectory(NewThumbDirPath);
+                    Bitmap bmp = _fm.GetThumb(item.Title);
+                    if (!Directory.Exists(NewThumbDirPath))
+                    {
+                        Directory.CreateDirectory(NewThumbDirPath);
+                    }
+                    bmp.Save(NewThumbPath);
+                    if (_imgInfoParams.SaveThumbnailsToDb)
+                    {
+                        imageData = _fm.GetImageData(bmp);
+                    }
                 }
                 var imageInfo = new FileInfo(item.Title);
-                var imageData = _fm.GetImageData(bmp);
                 listImage.Add(new ImageDto()
                 {
                     HashCode = imageInfo.GetHashCode(),
@@ -182,17 +182,19 @@ namespace XFilesArchive.Infrastructure
                     Thumbnail = imageData,
                     ThumbnailPath = Path.Combine(baseDrivePath, _cnf.GetThumbDirName(), item.UniqGuid.ToString() + fi.Extension)
                 });
-                bmp.Save(NewThumbPath);
+
             }
             // Сохранить в БД
-            _dm.BulkCopyImage( listImage);
+            _dm.BulkCopyImage(listImage);
             // Скопировать в Темповую дирректорию
-            Copy(drivePathTmp,Path.Combine( _cnf.GetTargetImagePath(), baseDrivePath));
+            Copy(drivePathTmp, Path.Combine(_cnf.GetTargetImagePath(), baseDrivePath));
             // Удалить темповую дирректорию
             DeleteDirectory(tempDirectory);
         }
 
         #endregion
+
+        #region DeleteDirectory
         public static void DeleteDirectory(string target_dir)
         {
             string[] files = Directory.GetFiles(target_dir);
@@ -211,6 +213,8 @@ namespace XFilesArchive.Infrastructure
 
             Directory.Delete(target_dir, false);
         }
+        #endregion
+
         #region Copy
         public static void Copy(string sourceDirectory, string targetDirectory)
         {
@@ -243,11 +247,11 @@ namespace XFilesArchive.Infrastructure
         {
             foreach (var item in items)
             {
-                var mfi = MFIFactory.GetMediaFileInfoDictionary(item.EntityExtension, item.Title );
+                var mfi = MFIFactory.GetMediaFileInfoDictionary(item.EntityExtension, item.Title);
                 var bMinfo = _fm.GetBinaryData<Dictionary<string, string>>(mfi);
                 _dm.SetMinfo(item.UniqGuid, bMinfo);
 
-                
+
             }
         }
         #endregion

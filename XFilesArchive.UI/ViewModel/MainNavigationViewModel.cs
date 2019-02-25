@@ -29,6 +29,11 @@ namespace XFilesArchive.UI.ViewModel
         string DriveLetter = "";
         int MaxImagesInDirectory = 0;
         byte IsSecret = 0;
+        byte SaveImages = 0;
+        byte SaveThumbnails = 0;
+        byte SaveThumbnailsToDb = 0;
+        byte SaveMedia = 0;
+
         SearchEngineViewModel _searchEngineViewModel;
         private MainViewModel _mainViewModel;
         private IMessageDialogService _messageDialogService;
@@ -256,7 +261,10 @@ namespace XFilesArchive.UI.ViewModel
                     DriveLetter = ((WizardData)_win.DataContext).DriveLetter;
                     MaxImagesInDirectory = ((WizardData)_win.DataContext).MaxImagesInDirectory;
                     IsSecret = ((WizardData)_win.DataContext).IsSecret;
-
+                    byte SaveImages = ((WizardData)_win.DataContext).SaveImages;
+                    byte SaveThumbnails = ((WizardData)_win.DataContext).SaveThumbnails;
+                    byte SaveThumbnailsToDb = ((WizardData)_win.DataContext).SaveThumbnailsToDb;
+                    byte SaveMedia = ((WizardData)_win.DataContext).SaveMedia;
                     //var fm = new FileManager(cnf, lg);
 
                     //IDataManager dm = new DataManager(cnf, fm, lg, MaxImagesInDirectory);
@@ -369,7 +377,8 @@ namespace XFilesArchive.UI.ViewModel
             if (driveId != 0)
             {
                 //TODO: Определить Флаги и Другие параметры заполнения
-                var destMngr = new DestinationManager(new FillInfoParameters(DriveLetter,true, true, driveId),dm,fm,cnf );
+                var destMngr = new DestinationManager(
+                    new FillInfoParameters(DriveLetter,(SaveImages==1), (SaveMedia==1),(SaveThumbnails==1),(SaveThumbnailsToDb==1), driveId),dm,fm,cnf );
                 destMngr.Execute();
             }
             else

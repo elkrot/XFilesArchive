@@ -22,7 +22,6 @@
                 Title="Добро пожаловать" 
                 Description="Этот помошник поможет создать описание дирректории." 
                 x:Name="InitPage" >
-
             </xctk:WizardPage>
             <xctk:WizardPage PageType="Interior"
                              Title="Страница 1"
@@ -33,6 +32,14 @@
                         <TextBox  Text="{Binding MaxImagesInDirectory}"/>
                         <CheckBox Content="Секретный"  Margin="10,0,10,0" Grid.Row="2" VerticalAlignment="Center" 
                                 IsChecked="{Binding IsSecret,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                        <CheckBox Content="Сохранять картинки"  Margin="10,0,10,0" Grid.Row="2" VerticalAlignment="Center" 
+                                IsChecked="{Binding SaveImages,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                        <CheckBox Content="Создавать эскизы"  Margin="10,0,10,0" Grid.Row="2" VerticalAlignment="Center" 
+                                IsChecked="{Binding SaveThumbnails,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                        <CheckBox Content="Сохранять эскизы в БД"  Margin="10,0,10,0" Grid.Row="2" VerticalAlignment="Center" 
+                                IsChecked="{Binding SaveThumbnailsToDb,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                        <CheckBox Content="Сохранять Медиа Информацию"  Margin="10,0,10,0" Grid.Row="2" VerticalAlignment="Center" 
+                                IsChecked="{Binding SaveMedia,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
                 </Grid>
             </xctk:WizardPage>

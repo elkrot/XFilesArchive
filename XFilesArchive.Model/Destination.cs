@@ -18,20 +18,26 @@ namespace XFilesArchive.Model
 
         public IEnumerable<DestinationItem> Items { get; }
 
-       
+
     }
 
-    public class FillInfoParameters {
-        public FillInfoParameters(string destinationPath, bool fillImages, bool fillMedia, int driveId)
+    public class FillInfoParameters
+    {
+        public FillInfoParameters(string destinationPath, bool fillImages, bool fillMedia, bool saveThumbnails,
+            bool saveThumbnailsToDb, int driveId)
         {
-          DestinationPath= destinationPath;
-          FillImages = fillImages;
-          FillMedia= fillMedia;
-          DriveId= driveId;
-    }
+            DestinationPath = destinationPath;
+            FillImages = fillImages;
+            FillMedia = fillMedia;
+            DriveId = driveId;
+            SaveThumbnailsToDb = saveThumbnailsToDb;
+            SaveThumbnails = saveThumbnails;
+        }
         public string DestinationPath { get; }
         public bool FillImages { get; }
         public bool FillMedia { get; }
+        public bool SaveThumbnails { get; }
+        public bool SaveThumbnailsToDb { get; }
         public int DriveId { get; }
 
     }
