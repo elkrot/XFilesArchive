@@ -119,7 +119,7 @@ namespace XFilesArchive.UI.ViewModel
             //    await MessageDialogService.ShowInfoDialogAsync("!!!");
             //    return;
             //}
-            var result = await MessageDialogService.ShowOKCancelDialogAsync("?", "title");
+            var result = await MessageDialogService.ShowOKCancelDialogAsync("Удалить расположение?", "Удаление информации о расположении");
             if (result == MessageDialogResult.OK)
             {
                 _repository.Remove(Drive.Model);

@@ -195,6 +195,10 @@ namespace XFilesArchive.UI.ViewModel
                     DriveLetter = ((WizardData)_win.DataContext).DriveLetter;
                     MaxImagesInDirectory = ((WizardData)_win.DataContext).MaxImagesInDirectory;
                     IsSecret = ((WizardData)_win.DataContext).IsSecret;
+                    SaveImages = ((WizardData)_win.DataContext).SaveImages;
+                    SaveThumbnails = ((WizardData)_win.DataContext).SaveThumbnails;
+                    SaveThumbnailsToDb = ((WizardData)_win.DataContext).SaveThumbnailsToDb;
+                    SaveMedia = ((WizardData)_win.DataContext).SaveMedia;
                     var worker = new Worker();
                     cancelTokenSource = new CancellationTokenSource();
                     token = cancelTokenSource.Token;

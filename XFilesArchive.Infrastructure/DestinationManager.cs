@@ -136,60 +136,64 @@ namespace XFilesArchive.Infrastructure
         #region FillImageInfo
         public void FillImageInfo(List<DestinationItem> items)
         {
-            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-            Directory.CreateDirectory(tempDirectory);
-            var listImage = new List<ImageDto>();
-            // Папка с описанием диска
-            var baseDrivePath = string.Format(@"drive{0}", _imgInfoParams.DriveId);
-            var drivePathTmp = Path.Combine(tempDirectory, baseDrivePath);
-            foreach (var item in items)
+            if (items.Count() > 0)
             {
-                var fi = new FileInfo(item.Title);
-                string NewImgPath = "";
-                if (!Directory.Exists(drivePathTmp))
-                {
-                    Directory.CreateDirectory(drivePathTmp);
-                }
-                NewImgPath = Path.Combine(drivePathTmp, item.UniqGuid.ToString() + fi.Extension);
-                if (!File.Exists(NewImgPath))
-                {
-                    File.Copy(item.Title, NewImgPath, true);
-                }
-                var NewThumbDirPath = Path.Combine(drivePathTmp, _cnf.GetThumbDirName());
-                var NewThumbPath = Path.Combine(NewThumbDirPath, item.UniqGuid.ToString() + fi.Extension);
-                // Создание эскиза
-                byte[] imageData = new byte[0];
-                if (_imgInfoParams.SaveThumbnails)
-                {
-                    Bitmap bmp = _fm.GetThumb(item.Title);
-                    if (!Directory.Exists(NewThumbDirPath))
-                    {
-                        Directory.CreateDirectory(NewThumbDirPath);
-                    }
-                    bmp.Save(NewThumbPath);
-                    if (_imgInfoParams.SaveThumbnailsToDb)
-                    {
-                        imageData = _fm.GetImageData(bmp);
-                    }
-                }
-                var imageInfo = new FileInfo(item.Title);
-                listImage.Add(new ImageDto()
-                {
-                    HashCode = imageInfo.GetHashCode(),
-                    UniqGuid = item.UniqGuid,
-                    ImagePath = Path.Combine(baseDrivePath, item.UniqGuid.ToString() + fi.Extension),
-                    ImageTitle = imageInfo.Name,
-                    Thumbnail = imageData,
-                    ThumbnailPath = Path.Combine(baseDrivePath, _cnf.GetThumbDirName(), item.UniqGuid.ToString() + fi.Extension)
-                });
 
+                string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                Directory.CreateDirectory(tempDirectory);
+                var listImage = new List<ImageDto>();
+                // Папка с описанием диска
+                var baseDrivePath = string.Format(@"drive{0}", _imgInfoParams.DriveId);
+                var drivePathTmp = Path.Combine(tempDirectory, baseDrivePath);
+                foreach (var item in items)
+                {
+                    var fi = new FileInfo(item.Title);
+                    string NewImgPath = "";
+                    if (!Directory.Exists(drivePathTmp))
+                    {
+                        Directory.CreateDirectory(drivePathTmp);
+                    }
+                    NewImgPath = Path.Combine(drivePathTmp, item.UniqGuid.ToString() + fi.Extension);
+                    if (!File.Exists(NewImgPath))
+                    {
+                        File.Copy(item.Title, NewImgPath, true);
+                    }
+                    var NewThumbDirPath = Path.Combine(drivePathTmp, _cnf.GetThumbDirName());
+                    var NewThumbPath = Path.Combine(NewThumbDirPath, item.UniqGuid.ToString() + fi.Extension);
+                    // Создание эскиза
+                    byte[] imageData = new byte[0];
+                    if (_imgInfoParams.SaveThumbnails)
+                    {
+                        Bitmap bmp = _fm.GetThumb(item.Title);
+                        if (!Directory.Exists(NewThumbDirPath))
+                        {
+                            Directory.CreateDirectory(NewThumbDirPath);
+                        }
+                        bmp.Save(NewThumbPath);
+                        if (_imgInfoParams.SaveThumbnailsToDb)
+                        {
+                            imageData = _fm.GetImageData(bmp);
+                        }
+                    }
+                    var imageInfo = new FileInfo(item.Title);
+                    listImage.Add(new ImageDto()
+                    {
+                        HashCode = imageInfo.GetHashCode(),
+                        UniqGuid = item.UniqGuid,
+                        ImagePath = Path.Combine(baseDrivePath, item.UniqGuid.ToString() + fi.Extension),
+                        ImageTitle = imageInfo.Name,
+                        Thumbnail = imageData,
+                        ThumbnailPath = Path.Combine(baseDrivePath, _cnf.GetThumbDirName(), item.UniqGuid.ToString() + fi.Extension)
+                    });
+
+                }
+                // Сохранить в БД
+                _dm.BulkCopyImage(listImage);
+                // Скопировать в Темповую дирректорию
+                Copy(drivePathTmp, Path.Combine(_cnf.GetTargetImagePath(), baseDrivePath));
+                // Удалить темповую дирректорию
+                DeleteDirectory(tempDirectory);
             }
-            // Сохранить в БД
-            _dm.BulkCopyImage(listImage);
-            // Скопировать в Темповую дирректорию
-            Copy(drivePathTmp, Path.Combine(_cnf.GetTargetImagePath(), baseDrivePath));
-            // Удалить темповую дирректорию
-            DeleteDirectory(tempDirectory);
         }
 
         #endregion
