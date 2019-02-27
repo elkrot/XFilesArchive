@@ -430,11 +430,34 @@ values (@Thumbnail,@ImagePath,@ThumbnailPath,@ImageTitle,@HashCode);
                     _logger.Add("Устройство не готово для чтения");
                     return 0;
                 }
-                var hashCode = di.TotalSize.GetHashCode() ^ di.VolumeLabel.GetHashCode() ^ di.TotalFreeSpace.GetHashCode();
 
-                //TODO: Изменить Алгоритм Срочно!!!
 
-                var driveExist = IsDriveExist(hashCode, title);
+
+                //TODO: Выделить определение хеша в инфраструктуру
+                int hashCode = 0 ;
+                if (di.DriveType == DriveType.CDRom)
+                {
+                    hashCode = di.TotalSize.GetHashCode() ^ di.VolumeLabel.GetHashCode() ^ di.TotalFreeSpace.GetHashCode();
+                }
+                else if (di.DriveType == DriveType.Fixed)
+                {
+                    hashCode = path.GetHashCode() ^ di.VolumeLabel.GetHashCode();
+                }
+                else if (di.DriveType == DriveType.Network)
+                {
+                    //TODO: Продумать расчет Хеша
+                    hashCode = path.GetHashCode() ^ di.VolumeLabel.GetHashCode();
+                }
+                else if (di.DriveType == DriveType.Removable)
+                {
+                    hashCode = path.GetHashCode() ^ di.VolumeLabel.GetHashCode();
+                }
+                else {
+                    _logger.Add("Расположение данного типа не поддерживается!");
+                    return 0;
+                }
+
+                    var driveExist = IsDriveExist(hashCode, title);
                 if (driveExist > 0)
                 {
                     _logger.Add("Диск с таким хешем или наименованием существует");

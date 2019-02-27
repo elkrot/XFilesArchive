@@ -328,6 +328,9 @@ namespace XFilesArchive.UI.ViewModel
 
         #endregion
 
+        //TODO: Добавить функцию очистки инфо(медиа, картинки)
+        //TODO: Добавить возможность сохранять сокращенную медиа инфу
+
         #region CreateDestination
         private int CreateDestination()
         {
