@@ -47,7 +47,8 @@
                 <StackPanel Orientation="Horizontal" Grid.Row="1"  Grid.Column="4" Margin="10" HorizontalAlignment="Right">
                 <Button Content="Сохранить" Command="{Binding SaveCommand}" Width="125" />
                 <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="125" />
-            </StackPanel>
+                    <Button Content="Удалить Все картинки" Command="{Binding DeleteAllImagesCommand}" Width="125" />
+                </StackPanel>
             
             </Grid>
         </StackPanel>

@@ -33,7 +33,7 @@ namespace XFilesArchive.UI.ViewModel
         }
 
         public ICommand  SelectedItemChangedCommand { get; }
-
+        public ICommand DeleteAllImagesCommand { get; }
         public DriveDetailViewModel(IDriveRepository repository, IEventAggregator eventAggregator
             , IMessageDialogService messageService,IAppLogger appLogger) : base(eventAggregator, messageService,appLogger)
 
@@ -50,7 +50,57 @@ namespace XFilesArchive.UI.ViewModel
             OnRemoveArchiveEntityCanExecute);
             CloseSearchDetailViewModelCommand = new DelegateCommand(OnCloseSearchDetailViewExecute);
             SelectedItemChangedCommand = new DelegateCommand<int?>(OnSelectedItemChangedExecute,OnSelectedItemChangedCanExecute);
+            DeleteAllImagesCommand = new DelegateCommand(OnDeleteAllImagesExecute, OnDeleteAllImagesCanExecute);
         }
+
+        private bool OnDeleteAllImagesCanExecute()
+        {
+            return true;
+        }
+
+        private void OnDeleteAllImagesExecute()
+        {
+            var result = MessageDialogService.ShowOKCancelDialog("Удаление информации об изображениях.", 
+                "Удалять информацию по сем картинкам в дааном расположении?");
+            if (result == MessageDialogResult.OK) {
+                /*
+             declare @driveId int=1
+declare @msg nvarchar(max)=''
+declare @m_ret int =0
+select imageKey into #images from [dbo].[ImageToEntity] where TargetEntityKey in(
+select [ArchiveEntityKey] from [dbo].[ArchiveEntity] where [DriveId] =@driveId
+)
+ BEGIN TRY   
+        BEGIN TRANSACTION 
+if (exists(select 1 from #images)) 
+begin
+delete from [dbo].[ImageToEntity] where [ImageKey] in(select imageKey from #images)
+delete from [dbo].[Image] where [ImageKey] in(select imageKey from #images)
+drop table #images
+end
+COMMIT TRAN  
+set @m_ret=1
+     END TRY 
+ BEGIN CATCH 
+         IF @@TRANCOUNT > 0 
+             ROLLBACK TRAN  
+      SELECT @msg= 
+         'Код ошибки - ('+rtrim(cast (ERROR_NUMBER() as char(10)))+') - '+ 
+         'State - ('+rtrim(cast(ERROR_STATE() as char(5)))+') - '+ 
+         'Сообщение - '+ERROR_MESSAGE() +  
+		 'Строка - '+rtrim(cast(ERROR_LINE()as char(5)))+
+		 'Процедура - '+rtrim(cast(ERROR_PROCEDURE()as char(50)))
+     END CATCH 
+ select @msg msg,@m_ret m_ret     
+             
+             */
+
+                //TODO: Удаление из БД
+                //TODO: Удаление в файловой системе
+            }
+
+        }
+
         public ICommand CloseSearchDetailViewModelCommand { get; private set; }
         private void OnCloseSearchDetailViewExecute()
         {
