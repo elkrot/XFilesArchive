@@ -16,6 +16,7 @@ using XFilesArchive.UI.ViewModel.Navigation;
 using XFilesArchive.UI.Wrapper;
 using System;
 using XFilesArchive.Infrastructure;
+using XFilesArchive.Infrastructure.DataManager;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -63,37 +64,15 @@ namespace XFilesArchive.UI.ViewModel
             var result = MessageDialogService.ShowOKCancelDialog("Удаление информации об изображениях.", 
                 "Удалять информацию по сем картинкам в дааном расположении?");
             if (result == MessageDialogResult.OK) {
-                /*
-             declare @driveId int=1
-declare @msg nvarchar(max)=''
-declare @m_ret int =0
-select imageKey into #images from [dbo].[ImageToEntity] where TargetEntityKey in(
-select [ArchiveEntityKey] from [dbo].[ArchiveEntity] where [DriveId] =@driveId
-)
- BEGIN TRY   
-        BEGIN TRANSACTION 
-if (exists(select 1 from #images)) 
-begin
-delete from [dbo].[ImageToEntity] where [ImageKey] in(select imageKey from #images)
-delete from [dbo].[Image] where [ImageKey] in(select imageKey from #images)
-drop table #images
-end
-COMMIT TRAN  
-set @m_ret=1
-     END TRY 
- BEGIN CATCH 
-         IF @@TRANCOUNT > 0 
-             ROLLBACK TRAN  
-      SELECT @msg= 
-         'Код ошибки - ('+rtrim(cast (ERROR_NUMBER() as char(10)))+') - '+ 
-         'State - ('+rtrim(cast(ERROR_STATE() as char(5)))+') - '+ 
-         'Сообщение - '+ERROR_MESSAGE() +  
-		 'Строка - '+rtrim(cast(ERROR_LINE()as char(5)))+
-		 'Процедура - '+rtrim(cast(ERROR_PROCEDURE()as char(50)))
-     END CATCH 
- select @msg msg,@m_ret m_ret     
-             
-             */
+                var cnf = new ConfigurationData();
+                var lg = new Logger();
+                var fm = new FileManager(cnf, lg);
+                IDataManager dm = new DataManager(cnf, fm, lg, 0);
+                var dmResult = dm.RemoveImagesFromDrive(this.Id);
+                if (dmResult.Success) {
+                    var path = "";
+                    fm.ClearDirectory(path);
+                }
 
                 //TODO: Удаление из БД
                 //TODO: Удаление в файловой системе

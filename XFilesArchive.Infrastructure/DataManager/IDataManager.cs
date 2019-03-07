@@ -40,5 +40,6 @@ namespace XFilesArchive.Infrastructure.DataManager
         void BulkCopyArchiveEntity( IEnumerable<DestinationItem> items,int DriveId);
         void BulkCopyImage( IEnumerable<ImageDto> items);
         void SetMinfo(Guid uniqGuid, byte[] bMinfo);
+        MethodResult<int> RemoveImagesFromDrive(int id);
     }
 }

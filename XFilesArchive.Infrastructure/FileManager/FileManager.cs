@@ -114,6 +114,11 @@ namespace XFilesArchive.Infrastructure
 
             return result;
         }
+
+        public void ClearDirectory(string path)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         #region Создать эскиз

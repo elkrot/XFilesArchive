@@ -434,7 +434,7 @@ values (@Thumbnail,@ImagePath,@ThumbnailPath,@ImageTitle,@HashCode);
 
 
                 //TODO: Выделить определение хеша в инфраструктуру
-                int hashCode = 0 ;
+                int hashCode = 0;
                 if (di.DriveType == DriveType.CDRom)
                 {
                     hashCode = di.TotalSize.GetHashCode() ^ di.VolumeLabel.GetHashCode() ^ di.TotalFreeSpace.GetHashCode();
@@ -452,12 +452,13 @@ values (@Thumbnail,@ImagePath,@ThumbnailPath,@ImageTitle,@HashCode);
                 {
                     hashCode = path.GetHashCode() ^ di.VolumeLabel.GetHashCode();
                 }
-                else {
+                else
+                {
                     _logger.Add("Расположение данного типа не поддерживается!");
                     return 0;
                 }
 
-                    var driveExist = IsDriveExist(hashCode, title);
+                var driveExist = IsDriveExist(hashCode, title);
                 if (driveExist > 0)
                 {
                     _logger.Add("Диск с таким хешем или наименованием существует");
@@ -1237,7 +1238,7 @@ values (
                 #region ImageToEntity
                 var ImageUniqGuidTable = new DataTable();
 
-                
+
 
                 using (var adapter = new SqlDataAdapter($"SELECT TOP 0 UniqGuid FROM [Image]", sc))
                 {
@@ -1300,6 +1301,91 @@ join [dbo].[ArchiveEntity] a on a.UniqGuid = m.UniqGuid ";
             }
         }
         #endregion
+        public MethodResult<int> RemoveImagesFromDrive(int id)
+        {
+            MethodResult<int> ret = new MethodResult<int>(0);
+
+            #region strsql
+            var strsql = @"
+declare @msg nvarchar(max)=''
+declare @m_ret int =0
+select imageKey into #images from [dbo].[ImageToEntity] where TargetEntityKey in(
+select [ArchiveEntityKey] from [dbo].[ArchiveEntity] where [DriveId] =@driveId
+)
+ BEGIN TRY   
+        BEGIN TRANSACTION 
+if (exists(select 1 from #images)) 
+begin
+delete from [dbo].[ImageToEntity] where [ImageKey] in(select imageKey from #images)
+delete from [dbo].[Image] where [ImageKey] in(select imageKey from #images)
+drop table #images
+end
+COMMIT TRAN  
+set @m_ret=1
+     END TRY 
+ BEGIN CATCH 
+         IF @@TRANCOUNT > 0 
+             ROLLBACK TRAN  
+      SELECT @msg= 
+         'Код ошибки - ('+rtrim(cast (ERROR_NUMBER() as char(10)))+') - '+ 
+         'State - ('+rtrim(cast(ERROR_STATE() as char(5)))+') - '+ 
+         'Сообщение - '+ERROR_MESSAGE() +  
+		 'Строка - '+rtrim(cast(ERROR_LINE()as char(5)))+
+		 'Процедура - '+rtrim(cast(ERROR_PROCEDURE()as char(50)))
+     END CATCH 
+ select @msg msg,@m_ret m_ret   ";
+            #endregion
+
+            var cs = _configuration.GetConnectionString();
+            using (SqlConnection sc = new SqlConnection(cs))
+            {
+                sc.Open();
+
+                SqlCommand command = new SqlCommand(strsql, sc);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("driveId", id);
+                try
+                {
+                    SqlDataReader reader = command.ExecuteReader();
+                    var m_ret = "";
+                    int m_reti = 0;
+                    var m_msg = "";
+                    while (reader.Read())
+                    {
+                        m_ret = reader.GetString(1);
+                        m_msg = reader.GetString(0);
+                    }
+
+                    if (int.TryParse(reader.GetString(1), out m_reti))
+                    {
+                        if (m_reti == 1) {
+                            ret.Success = true;
+                            ret.Result = 1;
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(m_ret)|| m_reti==0)
+                    {
+                        ret = new MethodResult<int>(0) { Success = false };
+                        ret.Messages.Add("Отсутствуют строки для удаленния");
+                        return ret;
+                    }
+
+                    if (int.TryParse(reader.GetString(1), out m_reti)) {
+
+                    }
+                    // if (reader.) return new MethodResult<int>(0) { Success = false};
+                }
+                catch (Exception e)
+                {
+                    _logger.Add(string.Format("Ошибка в методе RemoveImagesFromDrive. {0}", e.Message));
+                    ret.Messages.Add(string.Format("Ошибка в методе RemoveImagesFromDrive. {0}", e.Message));
+                    ret.Success = false;
+                }
+                sc.Close();
+            }
+            return ret;
+        }
+
 
 
     }
