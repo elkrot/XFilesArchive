@@ -192,32 +192,13 @@ namespace XFilesArchive.Infrastructure
                 // Скопировать в Темповую дирректорию
                 Copy(drivePathTmp, Path.Combine(_cnf.GetTargetImagePath(), baseDrivePath));
                 // Удалить темповую дирректорию
-                DeleteDirectory(tempDirectory);
+                _fm.DeleteDirectory(tempDirectory);
             }
         }
 
         #endregion
 
-        #region DeleteDirectory
-        public static void DeleteDirectory(string target_dir)
-        {
-            string[] files = Directory.GetFiles(target_dir);
-            string[] dirs = Directory.GetDirectories(target_dir);
-
-            foreach (string file in files)
-            {
-                File.SetAttributes(file, FileAttributes.Normal);
-                File.Delete(file);
-            }
-
-            foreach (string dir in dirs)
-            {
-                DeleteDirectory(dir);
-            }
-
-            Directory.Delete(target_dir, false);
-        }
-        #endregion
+       
 
         #region Copy
         public static void Copy(string sourceDirectory, string targetDirectory)

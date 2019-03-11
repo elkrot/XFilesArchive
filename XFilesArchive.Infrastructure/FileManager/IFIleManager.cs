@@ -31,6 +31,6 @@ namespace HomeArchiveX.Infrastructure
         byte[] GetBinaryData<T>(T obj);
         byte[] GetImageData(Bitmap bmp);
         T GetDataFromBinary<T>(byte[] data);
-
+        void DeleteDirectory(string tempDirectory);
     }
 }

@@ -383,7 +383,6 @@ namespace XFilesArchive.UI.ViewModel
             int driveId = dm.CreateDrive(DriveLetter, DriveTitle, DriveCode, addParams);
             if (driveId != 0)
             {
-                //TODO: Определить Флаги и Другие параметры заполнения
                 var destMngr = new DestinationManager(
                     new FillInfoParameters(DriveLetter,(SaveImages==1), (SaveMedia==1),(SaveThumbnails==1),(SaveThumbnailsToDb==1), driveId),dm,fm,cnf );
                 destMngr.Execute();

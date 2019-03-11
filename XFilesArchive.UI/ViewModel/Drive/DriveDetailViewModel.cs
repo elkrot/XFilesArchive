@@ -71,7 +71,7 @@ namespace XFilesArchive.UI.ViewModel
                 var dmResult = dm.RemoveImagesFromDrive(this.Id);
                 if (dmResult.Success) {
                     var path = "";
-                    fm.ClearDirectory(path);
+                    fm.DeleteDirectory(path);
                 }
 
                 //TODO: Удаление из БД

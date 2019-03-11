@@ -162,11 +162,7 @@ namespace XFilesArchive.UI.ViewModel.Search
             var condition = SearchCondition.Condition;
             //TODO : Select count
             //var searchItems = _repository.GetEntitiesByCondition(condition ,x=>(int?)x.ArchiveEntityKey,CurrentPage, PageLength);
-
             //SearchResult = new SearchResult(searchItems);
-
-          
-
         }
 
         private void AfterResultPageChanged(AfterResultPageChangeEventArgs args)
