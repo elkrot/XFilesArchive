@@ -223,7 +223,9 @@ namespace XFilesArchive.UI.ViewModel
             Drives.Clear();
             foreach (var item in lookup)
             {
-                Drives.Add(new NavigationItemViewModel(item.DriveId, item.Title, nameof(DriveDetailViewModel), _eventAggregator));
+                Drives.Add(new NavigationItemViewModel(item.DriveId,
+                     string.Format("({0}) {1}", item.DriveCode.TrimEnd(' '), item.Title.TrimEnd(' ')
+                        ), nameof(DriveDetailViewModel), _eventAggregator));
             }
         }
 
@@ -268,7 +270,9 @@ namespace XFilesArchive.UI.ViewModel
                 Drives.Clear();
                 foreach (var item in lookup)
                 {
-                    Drives.Add(new NavigationItemViewModel(item.DriveId, item.Title, nameof(DriveDetailViewModel), _eventAggregator));
+                    Drives.Add(new NavigationItemViewModel(
+                        item.DriveId, string.Format("({0}) {1}", item.DriveCode.TrimEnd(' '), item.Title.TrimEnd(' ')
+                        ), nameof(DriveDetailViewModel), _eventAggregator));
                 }
 
             }

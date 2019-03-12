@@ -17,6 +17,7 @@ using XFilesArchive.UI.Wrapper;
 using System;
 using XFilesArchive.Infrastructure;
 using XFilesArchive.Infrastructure.DataManager;
+using System.IO;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -62,7 +63,7 @@ namespace XFilesArchive.UI.ViewModel
         private void OnDeleteAllImagesExecute()
         {
             var result = MessageDialogService.ShowOKCancelDialog("Удаление информации об изображениях.", 
-                "Удалять информацию по сем картинкам в дааном расположении?");
+                "Удалять информацию по сем картинкам в даном расположении?");
             if (result == MessageDialogResult.OK) {
                 var cnf = new ConfigurationData();
                 var lg = new Logger();
@@ -70,7 +71,7 @@ namespace XFilesArchive.UI.ViewModel
                 IDataManager dm = new DataManager(cnf, fm, lg, 0);
                 var dmResult = dm.RemoveImagesFromDrive(this.Id);
                 if (dmResult.Success) {
-                    var path = "";
+                    var path = Path.Combine(cnf.GetTargetImagePath(),string.Format("drive{0}",Id));
                     fm.DeleteDirectory(path);
                 }
 

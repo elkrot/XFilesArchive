@@ -57,7 +57,7 @@ namespace XFilesArchive.Services.Lookups
                 
                     var skip = (index - 1) * length;
                     return await context.Drives.Where(where).OrderBy(orderby).Skip(skip).Take(length)
-                    .Select(x=>new DriveDto() { DriveId =x.DriveId,Title=x.Title}).ToListAsync<DriveDto>();
+                    .Select(x=>new DriveDto() { DriveId =x.DriveId,Title=x.Title,DriveCode = x.DriveCode,IsSecret =x.IsSecret}).ToListAsync<DriveDto>();
               
             }
         }
@@ -107,7 +107,8 @@ namespace XFilesArchive.Services.Lookups
             {
                 {
                     var skip = (index - 1) * length;
-                    return  context.Drives.Where(where).OrderBy(orderby).Skip(skip).Select(x => new DriveDto() { DriveId = x.DriveId, Title = x.Title }).Take(length).ToList();
+                    return  context.Drives.Where(where).OrderBy(orderby).Skip(skip).Select(x => new DriveDto()
+                    { DriveId = x.DriveId, Title = x.Title,DriveCode =x.DriveCode,IsSecret=x.IsSecret }).Take(length).ToList();
                 }
             }
         }

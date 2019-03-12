@@ -6,6 +6,21 @@
              xmlns:local="clr-namespace:XFilesArchive.UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
+    <UserControl.Resources>
+        <ControlTemplate TargetType="Button" x:Key="btTemplate">
+            <Border CornerRadius="25"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    Background="{TemplateBinding Background}"
+                    Height="{TemplateBinding Height}"
+                    Width="{TemplateBinding Width}" >
+                <ContentControl Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}" />
+            </Border>
+        </ControlTemplate>
+    </UserControl.Resources>
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto">
@@ -19,7 +34,8 @@
                 <ItemsControl  Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Drives}" >
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button Content="{Binding DisplayMember}" Command="{Binding OpenDetailViewCommand}"/>
+                            <!--Template="{StaticResource btTemplate}"-->
+                            <Button  Content="{Binding DisplayMember}" Command="{Binding OpenDetailViewCommand}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
