@@ -160,7 +160,7 @@ namespace XFilesArchive.Infrastructure
         #endregion
 
         #region Сохранить на диске Эскиз
-       
+
         public string SaveThumb(string targetRootDir, string thumbDir, Bitmap bmp, string thumbName)
         {
 
@@ -222,7 +222,7 @@ namespace XFilesArchive.Infrastructure
 
             try
             {
-                var dir_t = Path.Combine( targetRootDir, thumbDir);
+                var dir_t = Path.Combine(targetRootDir, thumbDir);
                 if (!File.Exists(Path.Combine(dir_t, thumbName)))
                 {
                     if (!Directory.Exists(dir_t))
@@ -265,9 +265,10 @@ namespace XFilesArchive.Infrastructure
             return ar.Contains(ext.ToLower());
         }
         #endregion
-        public bool IsMedia(string ext) {
+        public bool IsMedia(string ext)
+        {
             if (ext == null) return false;
-            string[] ar = new[] 
+            string[] ar = new[]
             { ".png", ".bmp", ".jpg", ".jpeg", ".gif", ".tiff" , ".mpeg4", ".avi", ".mov", ".mkv"
             , ".mp4", ".wmv", ".mpg", "vob" ,".mp3", ".ogg", ".flac", ".wav" };
             return ar.Contains(ext.ToLower());
@@ -544,11 +545,11 @@ namespace XFilesArchive.Infrastructure
 
             try
             {
-            using (MemoryStream stream = new MemoryStream(data))
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                return (T)formatter.Deserialize(stream);
-            }
+                using (MemoryStream stream = new MemoryStream(data))
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    return (T)formatter.Deserialize(stream);
+                }
             }
             catch (Exception e)
             {
@@ -558,27 +559,31 @@ namespace XFilesArchive.Infrastructure
 
         }
 
-      
+
 
         #endregion
         #region DeleteDirectory
         public void DeleteDirectory(string target_dir)
         {
-            string[] files = Directory.GetFiles(target_dir);
-            string[] dirs = Directory.GetDirectories(target_dir);
-
-            foreach (string file in files)
+            if (Directory.Exists(target_dir))
             {
-                File.SetAttributes(file, FileAttributes.Normal);
-                File.Delete(file);
-            }
 
-            foreach (string dir in dirs)
-            {
-                DeleteDirectory(dir);
-            }
+                string[] files = Directory.GetFiles(target_dir);
+                string[] dirs = Directory.GetDirectories(target_dir);
 
-            Directory.Delete(target_dir, false);
+                foreach (string file in files)
+                {
+                    File.SetAttributes(file, FileAttributes.Normal);
+                    File.Delete(file);
+                }
+
+                foreach (string dir in dirs)
+                {
+                    DeleteDirectory(dir);
+                }
+
+                Directory.Delete(target_dir, false);
+            }
         }
         #endregion
     }

@@ -60,7 +60,7 @@ namespace XFilesArchive.UI.ViewModel
             return true;
         }
 
-        private void OnDeleteAllImagesExecute()
+        private async void OnDeleteAllImagesExecute()
         {
             var result = MessageDialogService.ShowOKCancelDialog("Удаление информации об изображениях.", 
                 "Удалять информацию по сем картинкам в даном расположении?");
@@ -74,7 +74,8 @@ namespace XFilesArchive.UI.ViewModel
                     var path = Path.Combine(cnf.GetTargetImagePath(),string.Format("drive{0}",Id));
                     fm.DeleteDirectory(path);
                 }
-
+                await LoadAsync(Id);
+                await MessageDialogService.ShowInfoDialogAsync("Удаление выполнено!");
                 //TODO: Удаление из БД
                 //TODO: Удаление в файловой системе
             }

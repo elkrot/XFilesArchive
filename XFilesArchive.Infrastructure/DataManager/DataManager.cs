@@ -1347,33 +1347,30 @@ set @m_ret=1
                 try
                 {
                     SqlDataReader reader = command.ExecuteReader();
-                    var m_ret = "";
+                    
                     int m_reti = 0;
                     var m_msg = "";
                     while (reader.Read())
                     {
-                        m_ret = reader.GetString(1);
+                        m_reti = reader.GetInt32(1);
                         m_msg = reader.GetString(0);
                     }
 
-                    if (int.TryParse(reader.GetString(1), out m_reti))
-                    {
+                   
                         if (m_reti == 1) {
                             ret.Success = true;
                             ret.Result = 1;
                         }
-                    }
-                    if (string.IsNullOrWhiteSpace(m_ret)|| m_reti==0)
+                   
+                    if (m_reti==0)
                     {
                         ret = new MethodResult<int>(0) { Success = false };
                         ret.Messages.Add("Отсутствуют строки для удаленния");
                         return ret;
                     }
 
-                    if (int.TryParse(reader.GetString(1), out m_reti)) {
-
-                    }
-                    // if (reader.) return new MethodResult<int>(0) { Success = false};
+                   
+                   
                 }
                 catch (Exception e)
                 {
