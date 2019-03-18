@@ -35,7 +35,11 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <!--Template="{StaticResource btTemplate}"-->
-                            <Button  Content="{Binding DisplayMember}" Command="{Binding OpenDetailViewCommand}"/>
+                            <StackPanel>
+                                <TextBlock Text="{Binding DriveCode}"/>
+                                    <Button  Content="{Binding DisplayMember}" Command="{Binding OpenDetailViewCommand}"/>
+                            </StackPanel>
+                            
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

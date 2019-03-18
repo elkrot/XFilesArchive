@@ -31,7 +31,7 @@ namespace XFilesArchive.UI.ViewModel
         private ILookupDataService _lookupDataService;
         private ICategoryLookupDataService _categoryLookupDataService;
 
-        public ObservableCollection<NavigationItemViewModel> Drives { get; }
+        public ObservableCollection<NavigationDriveItemViewModel> Drives { get; }
 
         public ObservableCollection<NavigationItemViewModel> Categories { get; }
 
@@ -45,7 +45,7 @@ namespace XFilesArchive.UI.ViewModel
             _categoryLookupDataService = categoryLookupDataService;
             Categories = new ObservableCollection<NavigationItemViewModel>();
 
-            Drives = new ObservableCollection<NavigationItemViewModel>();
+            Drives = new ObservableCollection<NavigationDriveItemViewModel>();
             _eventAggregator.GetEvent<AfterSaveEvent>().Subscribe(AfterSaved);
             _eventAggregator.GetEvent<AfterDeletedEvent>().Subscribe(AfterDeleted);
 
@@ -73,7 +73,7 @@ namespace XFilesArchive.UI.ViewModel
             }
         }
 
-        private void AfterDetailDelited(ObservableCollection<NavigationItemViewModel> items
+        private void AfterDetailDelited(ObservableCollection<NavigationDriveItemViewModel> items
             , AfterDeletedEventArgs args)
         {
             var item = items.SingleOrDefault(t => t.Id == args.Id);
@@ -97,15 +97,17 @@ namespace XFilesArchive.UI.ViewModel
 
         }
 
-        private void AfterDetailSaved(ObservableCollection<NavigationItemViewModel> items
+        private void AfterDetailSaved(ObservableCollection<NavigationDriveItemViewModel> items
             , AfterDriveSavedEventArgs args)
         {
             var lookupItem = items.SingleOrDefault(l => l.Id == args.Id);
+
+
             if (lookupItem == null)
             {
-                items.Add(new NavigationItemViewModel(args.Id, args.DisplayMember,
+                items.Add(new NavigationDriveItemViewModel(args.Id, args.DisplayMember,
                     args.ViewModelName
-                    , _eventAggregator));
+                    , _eventAggregator, args.DriveCode.TrimEnd(' '), args.IsSecret));
             }
             else
             {
@@ -223,9 +225,9 @@ namespace XFilesArchive.UI.ViewModel
             Drives.Clear();
             foreach (var item in lookup)
             {
-                Drives.Add(new NavigationItemViewModel(item.DriveId,
-                     string.Format("({0}) {1}", item.DriveCode.TrimEnd(' '), item.Title.TrimEnd(' ')
-                        ), nameof(DriveDetailViewModel), _eventAggregator));
+                Drives.Add(new NavigationDriveItemViewModel(item.DriveId,
+                     string.Format("{0}", item.Title.TrimEnd(' ')
+                        ), nameof(DriveDetailViewModel), _eventAggregator, item.DriveCode.TrimEnd(' '), item.IsSecret));
             }
         }
 
@@ -270,9 +272,9 @@ namespace XFilesArchive.UI.ViewModel
                 Drives.Clear();
                 foreach (var item in lookup)
                 {
-                    Drives.Add(new NavigationItemViewModel(
-                        item.DriveId, string.Format("({0}) {1}", item.DriveCode.TrimEnd(' '), item.Title.TrimEnd(' ')
-                        ), nameof(DriveDetailViewModel), _eventAggregator));
+                    Drives.Add(new NavigationDriveItemViewModel(
+                        item.DriveId, string.Format("{0}",  item.Title.TrimEnd(' ')
+                        ), nameof(DriveDetailViewModel), _eventAggregator, item.DriveCode.TrimEnd(' '), item.IsSecret));
                 }
 
             }

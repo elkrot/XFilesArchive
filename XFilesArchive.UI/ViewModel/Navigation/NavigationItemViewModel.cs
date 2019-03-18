@@ -48,4 +48,36 @@ namespace XFilesArchive.UI.ViewModel
 
     }
 
+    public class NavigationDriveItemViewModel : NavigationItemViewModel
+    {
+        private string _driveCode;
+        private bool _isSecret;
+
+        public NavigationDriveItemViewModel(int id, string displayMember, string detailViewModelName, IEventAggregator eventAggregator
+            ,string DriveCode, Boolean IsSecret) 
+            : base(id, displayMember, detailViewModelName, eventAggregator)
+        {
+            _driveCode = DriveCode;
+            _isSecret = IsSecret;
+        }
+        public Boolean IsSecret
+        {
+            get { return _isSecret; }
+            set
+            {
+                _isSecret = value;
+                OnPropertyChanged();
+            }
+        }
+        public string DriveCode
+        {
+            get { return _driveCode; }
+            set
+            {
+                _driveCode = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
 }
