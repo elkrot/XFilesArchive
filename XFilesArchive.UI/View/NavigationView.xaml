@@ -8,17 +8,14 @@
              d:DesignHeight="300" d:DesignWidth="400">
     <UserControl.Resources>
         <ControlTemplate TargetType="Button" x:Key="btTemplate">
-            <Border CornerRadius="25"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    Background="{TemplateBinding Background}"
-                    Height="{TemplateBinding Height}"
-                    Width="{TemplateBinding Width}" >
-                <ContentControl Margin="{TemplateBinding Padding}"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Content="{TemplateBinding Content}" />
+            <Border>
+                <ContentControl Content="{StaticResource Secure}" />
             </Border>
+            <ControlTemplate.Triggers>
+                <DataTrigger Binding="{Binding IsSecret}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource Secure}"/>
+                </DataTrigger>
+            </ControlTemplate.Triggers>
         </ControlTemplate>
     </UserControl.Resources>
     <Grid>
@@ -35,9 +32,17 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <!--Template="{StaticResource btTemplate}"-->
-                            <StackPanel>
-                                <TextBlock Text="{Binding DriveCode}"/>
-                                    <Button  Content="{Binding DisplayMember}" Command="{Binding OpenDetailViewCommand}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        
+                                        Command="{Binding OpenDetailViewCommand}">
+                                    <StackPanel Orientation="Vertical"> 
+                                        <ContentControl Width="32" Height="32" Content="{StaticResource Secure}"/>
+                                        <TextBlock Text="{Binding DriveCode}"/>
+                                        <TextBlock Text="{Binding DisplayMember}"/>
+                                    </StackPanel>
+                                </Button>
+
                             </StackPanel>
                             
                         </DataTemplate>
