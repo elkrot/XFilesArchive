@@ -8,14 +8,14 @@
              d:DesignHeight="300" d:DesignWidth="400">
     <UserControl.Resources>
         <ControlTemplate TargetType="Button" x:Key="btTemplate">
-            <Border>
+           <Border>
                 <ContentControl Content="{StaticResource Secure}" />
-            </Border>
+            </Border> <!--
             <ControlTemplate.Triggers>
                 <DataTrigger Binding="{Binding IsSecret}" Value="True">
                     <Setter Property="Content" Value="{StaticResource Secure}"/>
                 </DataTrigger>
-            </ControlTemplate.Triggers>
+            </ControlTemplate.Triggers>-->
         </ControlTemplate>
     </UserControl.Resources>
     <Grid>
@@ -32,18 +32,26 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <!--Template="{StaticResource btTemplate}"-->
-                            <StackPanel Orientation="Horizontal">
+                            <Grid Width="Auto">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Path  Grid.Column="0" DataContext="{StaticResource Secure}">
+                                    
+
+                                </Path>
                                 <Button HorizontalAlignment="Center" VerticalAlignment="Center"
-                                        
+                                        Grid.Column="1"
                                         Command="{Binding OpenDetailViewCommand}">
                                     <StackPanel Orientation="Vertical"> 
-                                        <ContentControl Width="32" Height="32" Content="{StaticResource Secure}"/>
+                                        <!--<ContentControl Width="32" Height="32" Content="{StaticResource Secure}"/>-->
                                         <TextBlock Text="{Binding DriveCode}"/>
                                         <TextBlock Text="{Binding DisplayMember}"/>
                                     </StackPanel>
                                 </Button>
 
-                            </StackPanel>
+                            </Grid>
                             
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
