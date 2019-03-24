@@ -4,19 +4,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:XFilesArchive.UI.View"
+              xmlns:Ext="clr-namespace:Ext"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
     <UserControl.Resources>
-        <ControlTemplate TargetType="Button" x:Key="btTemplate">
-           <Border>
-                <ContentControl Content="{StaticResource Secure}" />
-            </Border> <!--
-            <ControlTemplate.Triggers>
-                <DataTrigger Binding="{Binding IsSecret}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource Secure}"/>
-                </DataTrigger>
-            </ControlTemplate.Triggers>-->
-        </ControlTemplate>
+
+        <!-- Resource dictionary entries should be defined here. -->
+        <LinearGradientBrush x:Key="ButtonNormalBackground" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#F3F3F3" Offset="0"/>
+            <GradientStop Color="#EBEBEB" Offset="0.5"/>
+            <GradientStop Color="#DDDDDD" Offset="0.5"/>
+            <GradientStop Color="#CDCDCD" Offset="1"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ButtonNormalBorder" Color="#FF707070"/>
+        <Style TargetType="{x:Type Button}" x:Key="ImageButton">
+
+
+            <Setter
+    Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Grid>
+                            <ContentControl Content="{Binding (Ext:E.Icon), RelativeSource={RelativeSource TemplatedParent}}"
+        />
+                            <TextBlock
+            Text="{TemplateBinding Content}"
+            HorizontalAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto"
@@ -37,15 +55,14 @@
                                     <ColumnDefinition Width="40"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Path  Grid.Column="0" DataContext="{StaticResource Secure}">
+                                <Button Ext:E.Icon="{StaticResource Secure}" Style="{DynamicResource ImageButton1}">1</Button>
                                     
 
-                                </Path>
                                 <Button HorizontalAlignment="Center" VerticalAlignment="Center"
                                         Grid.Column="1"
                                         Command="{Binding OpenDetailViewCommand}">
-                                    <StackPanel Orientation="Vertical"> 
-                                        <!--<ContentControl Width="32" Height="32" Content="{StaticResource Secure}"/>-->
+                                    <StackPanel Orientation="Vertical">
+                                        <ContentControl Width="32" Height="32" Content="{DynamicResource Secure}"/>
                                         <TextBlock Text="{Binding DriveCode}"/>
                                         <TextBlock Text="{Binding DisplayMember}"/>
                                     </StackPanel>
