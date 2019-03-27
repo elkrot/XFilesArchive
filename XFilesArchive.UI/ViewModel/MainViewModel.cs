@@ -11,6 +11,7 @@ using XFilesArchive.UI.View.Services;
 
 namespace XFilesArchive.UI.ViewModel
 {
+    //TODO: Сделать Выбор расположения
     public class MainViewModel : ViewModelBase
     {
         private IEventAggregator _eventAggregator;
