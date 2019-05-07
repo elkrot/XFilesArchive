@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <Include>
+    <?define ProductName="XFilesArchive"?>
+    <?define ProductVersion="1.0.0.0" ?>
+    <?define ProductCode="67AFB5A8-65BD-4465-AFF7-850EC56AD905"?>
+    <?define UpgradeCode="67AFB5A8-65BD-4465-AFF7-850EC56AD905"?>
+    <?define Manufacturer="ELKROT"?>
+  </Include>
+</Include>
