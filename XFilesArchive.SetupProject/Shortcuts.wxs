@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variables.wxi?>
+  <Fragment>
+
+    <DirectoryRef Id="ProgramFilesFolder">
+
+      <Component Id="ApplicationShortcutXFilesArchive" Guid="B34669AC-2BC0-4325-90A0-315A8717DE94">
+        <Shortcut Id="ShortcutXFilesArchive"
+             Name="XFilesArchive"
+             Description="$(var.ProductName)"
+             Target="[INSTALLFOLDER]XFilesArchive.UI.exe"
+             WorkingDirectory="INSTALLFOLDER"
+                  Directory="DesktopFolder"/>
+        <Condition>SHORTCUT_DESKTOP</Condition>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.ProductName)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+      
+      
+  
+    </DirectoryRef>
+
+  </Fragment>
+</Wix>

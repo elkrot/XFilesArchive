@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+    <Feature Id="ProductFeature" Title="Setup" Level="1" ConfigurableDirectory="INSTALLFOLDER">
+      <ComponentRef Id="ProductComponent" />
+      <ComponentRef Id="ApplicationShortcutXFilesArchive" />
+    </Feature>
+	</Fragment>
+</Wix>

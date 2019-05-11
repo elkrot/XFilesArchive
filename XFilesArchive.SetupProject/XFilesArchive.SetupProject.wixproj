@@ -13,18 +13,25 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
+    <Cultures>ru-RU</Cultures>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Features.wxs" />
+    <Compile Include="Files.wxs" />
     <Compile Include="Product.wxs" />
+    <Compile Include="Shortcuts.wxs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DatabaseUI.wxi" />
     <Content Include="error.bmp" />
+    <Content Include="License.rtf" />
+    <Content Include="Microsoft.Deployment.WindowsInstaller.dll" />
     <Content Include="Scripts\database.sql" />
+    <Content Include="SqlActionLibrary.dll" />
     <Content Include="success.bmp" />
     <Content Include="Variables.wxi" />
   </ItemGroup>

@@ -27,17 +27,62 @@
       <!-->net Framework 4.5.2 offline installer-->
       <PayloadGroup Id="NetFx452RedistPayload">
         <Payload Name="redist\NDP452-KB2901907-x86-x64-AllOS-ENU.exe"
-                 SourceFile="Resources\NDP452-KB2901907-x86-x64-AllOS-ENU.exe"/>
+                 SourceFile="$(var.SolutionDir)\XFilesArchive.Bootstrapper\Resources\NDP452-KB2901907-x86-x64-AllOS-ENU.exe"/>
       </PayloadGroup>
+      <!--<util:RegistrySearch Id="SqlInstanceKeyFoundSearch"
+                           Root="HKLM"
+                           Key="SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL"
+                           Value="SQLEXPRESSENGINE"
+                           Result="exists"
+                           Variable="SqlInstanceKeyFound"
+                           Win64="yes" />
+
+      <PackageGroup Id="SQLServerExpress">
+        <ExePackage Compressed="no"
+                    DisplayName="Installing SQL Server Express 2014"
+                    PerMachine="yes"
+                    Cache="yes"
+                    Vital="yes"
+                    Permanent="no"
+                    InstallCommand='/IACCEPTSQLSERVERLICENSETERMS /HIDECONSOLE /INSTANCEID="$(var.InstanceName)" /ACTION="Install" /FEATURES=SQLENGINE /HELP="False" /INDICATEPROGRESS="False" /QUIET="True" /QUIETSIMPLE="False" /ERRORREPORTING="False" /SQMREPORTING="False" /INSTANCENAME="$(var.InstanceName)" /AGTSVCSTARTUPTYPE="Manual" /ISSVCSTARTUPTYPE="Automatic" /ISSVCACCOUNT="NT AUTHORITY\NetworkService" /ASSVCSTARTUPTYPE="Automatic" /ASCOLLATION="Latin1_General_CI_AS" /ASDATADIR="Data" /ASLOGDIR="Log" /ASBACKUPDIR="Backup" /ASTEMPDIR="Temp" /ASCONFIGDIR="Config" /ASPROVIDERMSOLAP="1" /SQLSVCSTARTUPTYPE="Automatic" /FILESTREAMLEVEL="0" /ENABLERANU="True" /SQLCOLLATION="SQL_Latin1_General_CP1_CI_AS" /SQLSVCACCOUNT="NT AUTHORITY\NETWORK SERVICE" /ADDCURRENTUSERASSQLADMIN="True" /TCPENABLED="0" /NPENABLED="0" /BROWSERSVCSTARTUPTYPE="Disabled" /RSSVCSTARTUPTYPE="Automatic" /RSINSTALLMODE="FilesOnlyMode" /SECURITYMODE=SQL /SAPWD="tomsoN_admin_1032"'
+                    UninstallCommand='/Action=Uninstall /INSTANCENAME="$(var.InstanceName)" /FEATURES=SQLENGINE /QUIET="True" /HIDECONSOLE'
+                    InstallCondition="NOT SqlInstanceKeyFound"
+                    DownloadUrl="https://download.microsoft.com/download/1/5/6/156992E6-F7C7-4E55-833D-249BD2348138/ENU/x64/SQLEXPR_x64_ENU.exe"
+                    Name="SQLEXPR_x64_ENU.exe">
+          <RemotePayload CertificatePublicKey="B78FE7F6917E1BC5F4A9C77BA3D555A0E807B9E0" CertificateThumbprint="67B1757863E3EFF760EA9EBB02849AF07D3A8080" Description="Microsoft SQL Server 2014  Express SP1" Hash="0C90C147A1C2A550165C9301AE7A6C604E318E51" ProductName="Microsoft SQL Server 2014  Express SP1" Size="318752832" Version="12.1.4100.1" />
+        </ExePackage>
+
+      </PackageGroup>-->
+      <!--<util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\Net Framework Setup\NDP\v4\Full" Value="Version" Variable="Net4FullVersion" />
+      <util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\Net Framework Setup\NDP\v4\Full" Value="Version" Variable="Net4x64FullVersion" Win64="yes" />
 
       <Chain>
+        <ExePackage Id="Net45" Name="Microsoft .NET Framework 4.5.1 Setup" Cache="no" Compressed="yes" PerMachine="yes" Permanent="yes" Vital="yes" InstallCommand="/q"
+          SourceFile="NDP451-KB2859818-Web.exe"
+          DetectCondition="(Net4FullVersion = &quot;4.5.50938&quot;) AND (NOT VersionNT64 OR (Net4x64FullVersion = &quot;4.5.50938&quot;))"
+          InstallCondition="(VersionNT >= v6.0 OR VersionNT64 >= v6.0) AND (NOT (Net4FullVersion = &quot;4.5.50938&quot; OR Net4x64FullVersion = &quot;4.5.50938&quot;))"/>
+
+        <ExePackage Id="Net4Full" Name="Microsoft .NET Framework 4.0 Setup" Cache="no" Compressed="yes"
+                    PerMachine="yes" Permanent="yes" Vital="yes" InstallCommand="/q"
+          SourceFile="dotNetFx40_Full_setup.exe"
+          DetectCondition="Net4FullVersion AND (NOT VersionNT64 OR Net4x64FullVersion)"
+          InstallCondition="(VersionNT &lt; v6.0 OR VersionNT64 &lt; v6.0) AND (NOT (Net4FullVersion OR Net4x64FullVersion))"/> />
+
+        <RollbackBoundary />-->
+        <!--<ExePackage Id="Dependency1" SourceFile="Dependency_package_1.exe" />
+        <ExePackage Id="Dependency2" SourceFile="Dependency_package_2.exe" />
+
+        <RollbackBoundary />-->
+        
+        
         <!--Installs .Net Framework 4.5.2-->
-        <PackageGroupRef Id="NetFx452Redist" />
+        
 
         <!--Any other dependency executable or setup goes here-->
 
         <!--Installs Sample application using msi Setup from Project 7. Wix Simple Complete Setup With UI Image Banners.-->
-        <MsiPackage DisplayName="$(var.Name)" SourceFile="$(var.XFilesArchive.UI.TargetPath)" 
+      <Chain>
+        <MsiPackage DisplayName="$(var.Name)" SourceFile="$(var.SolutionDir)\XFilesArchive.SetupProject\bin\Debug\ru-ru\XFilesArchive.SetupProject.msi" 
                     DisplayInternalUI="yes" Compressed="yes" Vital="yes"/>
 
       </Chain>

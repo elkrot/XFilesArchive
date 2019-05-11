@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    
+      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+      <DirectoryRef Id="INSTALLFOLDER" FileSource="$(var.SolutionDir)\XFilesArchive.UI\bin\Debug\">
+        <Component Id="ProductComponent" Guid="b11556a2-e066-4393-af5c-9c9210187eb2" DiskId='1'>
+          <File Id='XFilesArchive' Name='XFilesArchive.UI.exe'/>
+          <File Id='Autofac' Name='Autofac.dll'/>
+        </Component>
+      </DirectoryRef>
+
+  </Fragment>
+</Wix>
