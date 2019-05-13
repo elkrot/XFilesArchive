@@ -21,15 +21,14 @@
           <File Id='MediaInfo' Name='MediaInfo.dll'/>
           <File Id='IdentityModel' Name='Microsoft.IdentityModel.dll'/>
           <File Id='Prism' Name='Prism.dll'/>
-          <File Id='Prism' Name='Prism.xml'/>
+          <File Id='Prism.xml' Name='Prism.xml'/>
           <File Id='ControlzEx' Name='ControlzEx.dll'/>
-          <File Id='Autofac' Name='Autofac.xml'/>
-          <File Id='Autofac' Name='Autofac.dll'/>
+          <File Id='Autofac.xml' Name='Autofac.xml'/>         
           <File Id='ActiveDirectoryObjectPicker' Name='ActiveDirectoryObjectPicker.dll'/>
           <File Id='Input.Toolkit' Name='System.Windows.Controls.Input.Toolkit.dll'/>
           <File Id='Layout.Toolkit' Name='System.Windows.Controls.Layout.Toolkit.dll'/>
           <File Id='Interactivity' Name='System.Windows.Interactivity.dll'/>
-          <File Id='taglib-sharp' Name='taglib-sharp.dll'/>
+          <File Id='taglibsharp' Name='taglib-sharp.dll'/>
           <File Id='WpfAnimatedGif' Name='WpfAnimatedGif.dll'/>
           <File Id='WPFToolkit' Name='WPFToolkit.dll'/>
           <File Id='Xceed.AvalonDock' Name='Xceed.Wpf.AvalonDock.dll'/>

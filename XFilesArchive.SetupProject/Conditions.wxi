@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <!--Проверить и вынести в отдельный файл-->
+  <PropertyRef Id="WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED"/>
+  <Condition Message="!(loc.DotNetFrameworkNeeded)">
+    <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED]]>
+  </Condition>
+
+  <Property Id="SQLSERVER_INSTANCE">
+    <RegistrySearch Id="SQLServerRegSearch" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft Sql Server\Instance Names\SQL" Type="raw" Name="SQLEXPRESS"/>
+  </Property>
+  <Condition Message="!(loc.MsSqlNeeded)">
+    <![CDATA[SQLSERVER_INSTANCE]]>
+  </Condition>
+  <!--Проверить и вынести в отдельный файл-->
+</Include>

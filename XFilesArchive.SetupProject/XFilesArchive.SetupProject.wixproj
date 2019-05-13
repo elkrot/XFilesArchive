@@ -26,6 +26,7 @@
     <Compile Include="Shortcuts.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Conditions.wxi" />
     <Content Include="DatabaseUI.wxi" />
     <Content Include="error.bmp" />
     <Content Include="License.rtf" />
