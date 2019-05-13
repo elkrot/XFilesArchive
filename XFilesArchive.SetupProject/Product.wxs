@@ -1,35 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
       xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension"
-     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+  xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <?include Variables.wxi?>
 
-  <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)" 
+
+
+  <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)"
            Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+
+
+
+
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />  
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLFOLDER" Name="$(var.ProductName)"/>
       </Directory>
     </Directory>
-    
+
     <Directory Id="DesktopFolder" Name="Desktop"/>
-    
+
     <FeatureRef Id="ProductFeature" />
+
+    <!--Проверить и вынести в отдельный файл-->
+    <PropertyRef Id="WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED"/>
+    <Condition Message="This application requires .NET Framework 4.5.2 Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED]]>
+    </Condition>
+
+    <Property Id="SQLSERVER_INSTANCE">
+      <RegistrySearch Id="SQLServerRegSearch" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft Sql Server\Instance Names\SQL" Type="raw" Name="SQLEXPRESS"/>
+    </Property>
+    <Condition Message="You don't have SQL Server installed.">
+      <![CDATA[SQLSERVER_INSTANCE]]>
+    </Condition>
+    <!--Проверить и вынести в отдельный файл-->
 
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER"/>
 
- <!--asasdada-->
+    <!--asasdada-->
 
     <UIRef Id="WixUI_Mondo" />
     <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
-     
-    
-	</Product>
+
+
+  </Product>
   <!--<?include DatabaseUI.wxi ?>-->
 
 
-	
+
 </Wix>

@@ -5,9 +5,52 @@
       <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
       <DirectoryRef Id="INSTALLFOLDER" FileSource="$(var.SolutionDir)\XFilesArchive.UI\bin\Debug\">
         <Component Id="ProductComponent" Guid="b11556a2-e066-4393-af5c-9c9210187eb2" DiskId='1'>
+          
           <File Id='XFilesArchive' Name='XFilesArchive.UI.exe'/>
           <File Id='Autofac' Name='Autofac.dll'/>
-        </Component>
+          <File Id='EntityFramework.SqlServer.xml' Name='EntityFramework.SqlServer.xml'/>
+          <File Id='Facebook' Name='Facebook.dll'/>
+          <File Id='Facebook.xml' Name='Facebook.xml'/>
+          <File Id='EntityFramework.SqlServer' Name='EntityFramework.SqlServer.dll'/>
+          <File Id='EntityFramework' Name='EntityFramework.dll'/>
+          <File Id='LinqKit.EntityFramework' Name='LinqKit.EntityFramework.dll'/>
+          <File Id='LinqKit.EntityFramework.xml' Name='LinqKit.EntityFramework.xml'/>
+          <File Id='LinqSpecs' Name='LinqSpecs.dll'/>
+          <File Id='MahApps.Metro' Name='MahApps.Metro.dll'/>
+          <File Id='MahApps.Metro.xml' Name='MahApps.Metro.xml'/>
+          <File Id='MediaInfo' Name='MediaInfo.dll'/>
+          <File Id='IdentityModel' Name='Microsoft.IdentityModel.dll'/>
+          <File Id='Prism' Name='Prism.dll'/>
+          <File Id='Prism' Name='Prism.xml'/>
+          <File Id='ControlzEx' Name='ControlzEx.dll'/>
+          <File Id='Autofac' Name='Autofac.xml'/>
+          <File Id='Autofac' Name='Autofac.dll'/>
+          <File Id='ActiveDirectoryObjectPicker' Name='ActiveDirectoryObjectPicker.dll'/>
+          <File Id='Input.Toolkit' Name='System.Windows.Controls.Input.Toolkit.dll'/>
+          <File Id='Layout.Toolkit' Name='System.Windows.Controls.Layout.Toolkit.dll'/>
+          <File Id='Interactivity' Name='System.Windows.Interactivity.dll'/>
+          <File Id='taglib-sharp' Name='taglib-sharp.dll'/>
+          <File Id='WpfAnimatedGif' Name='WpfAnimatedGif.dll'/>
+          <File Id='WPFToolkit' Name='WPFToolkit.dll'/>
+          <File Id='Xceed.AvalonDock' Name='Xceed.Wpf.AvalonDock.dll'/>
+          <File Id='Xceed.Aero' Name='Xceed.Wpf.AvalonDock.Themes.Aero.dll'/>
+          <File Id='Xceed.Metro' Name='Xceed.Wpf.AvalonDock.Themes.Metro.dll'/>
+          <File Id='Xceed.Themes.VS2010' Name='Xceed.Wpf.AvalonDock.Themes.VS2010.dll'/>
+          <File Id='Xceed.DataGrid' Name='Xceed.Wpf.DataGrid.dll'/>
+          <File Id='Xceed' Name='Xceed.Wpf.Toolkit.dll'/>
+          <File Id='DataAccess' Name='XFilesArchive.DataAccess.dll'/>
+          <File Id='DataAccess.config' Name='XFilesArchive.DataAccess.dll.config'/>
+          <File Id='Infrastructure' Name='XFilesArchive.Infrastructure.dll'/>
+          <File Id='Model' Name='XFilesArchive.Model.dll'/>
+          <File Id='Search' Name='XFilesArchive.Search.dll'/>
+          <File Id='Security' Name='XFilesArchive.Security.dll'/>
+          <File Id='Security.config' Name='XFilesArchive.Security.dll.config'/>
+          <File Id='Services' Name='XFilesArchive.Services.dll'/>
+          <File Id='Services.config' Name='XFilesArchive.Services.dll.config'/>
+          <File Id='UI.config' Name='XFilesArchive.UI.exe.config'/>
+          <File Id='EntityFramework.xml' Name='EntityFramework.xml'/>
+          
+                </Component>
       </DirectoryRef>
 
   </Fragment>
