@@ -2,7 +2,7 @@
 <Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     <!--Sql Custom Action-->
-    <Binary Id="CustomBinary" SourceFile="$(var.SolutionDir)XFilesArchive.SetupProject\SqlActionLibrary.dll"/>
+    <Binary Id="CustomBinary" SourceFile="$(var.SqlActionLibrary.TargetDir)SqlActionLibrary.CA.dll"/>
     <CustomAction Id="GetSqlServers" BinaryKey="CustomBinary" DllEntry="GetSqlServers" Execute="immediate" Return="check"/>
     <CustomAction Id="SqlConnect" BinaryKey="CustomBinary" DllEntry="SqlConnect" Execute="immediate"/>
 

@@ -6,11 +6,11 @@
     <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED]]>
   </Condition>
 
-  <Property Id="SQLSERVER_INSTANCE">
+  <!--<Property Id="SQLSERVER_INSTANCE">
     <RegistrySearch Id="SQLServerRegSearch" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft Sql Server\Instance Names\SQL" Type="raw" Name="SQLEXPRESS"/>
   </Property>
   <Condition Message="!(loc.MsSqlNeeded)">
     <![CDATA[SQLSERVER_INSTANCE]]>
-  </Condition>
+  </Condition>-->
   <!--Проверить и вынести в отдельный файл-->
 </Include>
