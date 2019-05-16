@@ -6,6 +6,7 @@
       <ComponentRef Id="ApplicationShortcutXFilesArchive" />
       <ComponentRef Id="SqlComponent1"/>
       <ComponentRef Id="SqlComponent2"/>
+      <ComponentRef Id='ProgramMenuDir' />
     </Feature>
 	</Fragment>
 </Wix>

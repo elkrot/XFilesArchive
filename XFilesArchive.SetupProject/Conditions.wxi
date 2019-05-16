@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-  <!--Проверить и вынести в отдельный файл-->
+  
   <PropertyRef Id="WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED"/>
   <Condition Message="!(loc.DotNetFrameworkNeeded)">
     <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED]]>
@@ -11,6 +11,27 @@
   </Property>
   <Condition Message="!(loc.MsSqlNeeded)">
     <![CDATA[SQLSERVER_INSTANCE]]>
+  </Condition>
+
+  <Property Id="SQLSERVER">
+    <RegistrySearch Id="SQLServer" Root="HKLM"
+                    Key="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL11.SQLEXPRESS"
+                    Win64="yes" Type="raw" Name="InstalledInstances"/>
+  </Property>
+
+  <Condition Message="You don't have SQL Server installed.">
+    <![CDATA[SQLSERVER <> SQLEXPRESS]]>
   </Condition>-->
-  <!--Проверить и вынести в отдельный файл-->
+  <Property Id="SQLEXPRVERSION14X64" Value="0">
+    <RegistrySearch Id="SqlExprVersion14x64"
+                    Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft SQL Server SQLServer2014"
+                    Name="Publisher"
+                    Root="HKLM"
+                    Type="raw"
+                    Win64="yes"/>
+  </Property>
+
+  <Condition Message="This application requires Microsoft SQL Server Express 2014. Please install the Microsoft SQL Server then run this installer again.">
+    <![CDATA[Installed OR (SQLEXPRVERSION14X64 = "Microsoft Corporation" AND (VersionNT < 602) AND VersionNT64) OR (VersionNT > 602) OR NOT (VersionNT64)]]>
+  </Condition>
 </Include>

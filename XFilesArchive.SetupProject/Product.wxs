@@ -13,9 +13,13 @@
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" />
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
-    
 
-    <Binary Id="database" SourceFile="$(sys.SOURCEFILEDIR)\Scripts\database.sql" />
+
+    <Icon Id="AppIco.ico" SourceFile="$(var.SolutionDir)XFilesArchive.UI\bin\Debug\AppIco.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="AppIco.ico" />
+
+
+    <Binary Id="database" SourceFile="$(var.SolutionDir)XFilesArchive.SQL\bin\Debug\XFilesArchive.SQL_Create.sql" />
     <Binary Id="success_bmp" SourceFile="$(sys.SOURCEFILEDIR)success.bmp" />
     <Binary Id="error_bmp" SourceFile="$(sys.SOURCEFILEDIR)error.bmp" />
         
@@ -40,6 +44,18 @@
         
         </Directory>
       </Directory>
+
+      <Directory Id="ProgramMenuFolder" Name="Programs">
+        <Directory Id="ProgramMenuDir" Name="XFilesArchive">
+          <Component Id="ProgramMenuDir" Guid="52C3DBC0-2BDD-4308-8CE7-166310EE6F2B">
+            <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
+            <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
+          </Component>
+        </Directory>
+      </Directory>
+
+      <Directory Id="DesktopFolder" Name="Desktop" />
+      
     </Directory>
 
     <util:User Id="SQLUser" Name="[DATABASE_USERNAME]" Password="[DATABASE_PASSWORD]" />
@@ -114,8 +130,21 @@
 <UIRef Id="WixUI_Common" />
     <!--<UIRef Id="WixUI_Mondo" />-->
     <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
-
-
+    
+    <WixVariable Id="WixUIBannerBmp" Value="path\banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="path\dialog.bmp" />
+    <WixVariable Id="WixUIExclamationIco" Value="path\exclamation.ico" />
+    <WixVariable Id="WixUIInfoIco" Value="path\information.ico" />
+    <WixVariable Id="WixUINewIco" Value="path\new.ico" />
+    <WixVariable Id="WixUIUpIco" Value="path\up.ico" />
+    <!--
+    WixUIBannerBmp 493 by 58 pixels, this bitmap will appear at the top of all but the first page of the installer.
+    WixUIDialogBmp 493 by 312 pixels, this bitmap will appear on the first page of the installer.
+    WixUIExclamationIco 32 by 32 pixels, exclamation mark icon.
+    WixUIInfoIco 32 by 32 pixels, information sign icon.
+    WixUINewIco 16 by 16 pixels, new folder icon.
+    WixUIUpIco 16 by 16 pixels, parent folder icon.
+    -->
   </Product>
   
   <?include DatabaseUI.wxi ?>
