@@ -30,6 +30,13 @@
     <Content Include="CustomActions.cs" />
     <Content Include="DatabaseUI.wxi" />
     <Content Include="error.bmp" />
+    <Content Include="Img\AppIco.ico" />
+    <Content Include="Img\banner493x58.bmp" />
+    <Content Include="Img\dialog494x312.bmp" />
+    <Content Include="Img\exclamation32x32.ico" />
+    <Content Include="Img\information32x32.ico" />
+    <Content Include="Img\new16x16.ico" />
+    <Content Include="Img\up16x16.ico" />
     <Content Include="License.rtf" />
     <Content Include="Scripts\database.sql" />
     <Content Include="success.bmp" />
@@ -41,6 +48,7 @@
     <EmbeddedResource Include="WixUI_ru-ru.wxl" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Img" />
     <Folder Include="Scripts" />
   </ItemGroup>
   <ItemGroup>

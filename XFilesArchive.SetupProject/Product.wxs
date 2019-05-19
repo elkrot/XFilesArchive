@@ -15,11 +15,13 @@
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
 
-    <Icon Id="AppIco.ico" SourceFile="$(var.SolutionDir)XFilesArchive.UI\bin\Debug\AppIco.ico"/>
+    <Icon Id="AppIco.ico" SourceFile="$(var.SolutionDir)XFilesArchive.SetupProject\Img\AppIco.ico"/>
     <Property Id="ARPPRODUCTICON" Value="AppIco.ico" />
 
 
-    <Binary Id="database" SourceFile="$(var.SolutionDir)XFilesArchive.SQL\bin\Debug\XFilesArchive.SQL_Create.sql" />
+    <!--<Binary Id="database" SourceFile="C:\GitRepositories\XFilesArchive\XFilesArchive.SetupProject\Scripts\database.sql" />-->
+    <Binary Id="database" SourceFile="$(var.SolutionDir)XFilesArchive.SQL\XFilesArchive.sql" />
+     <!--<Binary Id="database" SourceFile="$(var.SolutionDir)XFilesArchive.SQL\bin\Debug\XFilesArchive.SQL_Create.sql" />-->
     <Binary Id="success_bmp" SourceFile="$(sys.SOURCEFILEDIR)success.bmp" />
     <Binary Id="error_bmp" SourceFile="$(sys.SOURCEFILEDIR)error.bmp" />
         
@@ -131,19 +133,19 @@
     <!--<UIRef Id="WixUI_Mondo" />-->
     <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
     
-    <WixVariable Id="WixUIBannerBmp" Value="path\banner.bmp" />
-    <WixVariable Id="WixUIDialogBmp" Value="path\dialog.bmp" />
-    <WixVariable Id="WixUIExclamationIco" Value="path\exclamation.ico" />
-    <WixVariable Id="WixUIInfoIco" Value="path\information.ico" />
-    <WixVariable Id="WixUINewIco" Value="path\new.ico" />
-    <WixVariable Id="WixUIUpIco" Value="path\up.ico" />
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.SolutionDir)XFilesArchive.SetupProject\Img\banner493x58.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.SolutionDir)XFilesArchive.SetupProject\Img\dialog494x312.bmp" />
+    <WixVariable Id="WixUIExclamationIco" Value="$(var.SolutionDir)XFilesArchive.SetupProject\Img\exclamation32x32.ico" />
+    <WixVariable Id="WixUIInfoIco" Value="$(var.SolutionDir)XFilesArchive.SetupProject\Img\information32x32.ico" />
+    <WixVariable Id="WixUINewIco" Value="$(var.SolutionDir)XFilesArchive.SetupProject\Img\new16x16.ico" />
+    <WixVariable Id="WixUIUpIco" Value="$(var.SolutionDir)XFilesArchive.SetupProject\Img\up16x16.ico" />
     <!--
-    WixUIBannerBmp 493 by 58 pixels, this bitmap will appear at the top of all but the first page of the installer.
-    WixUIDialogBmp 493 by 312 pixels, this bitmap will appear on the first page of the installer.
-    WixUIExclamationIco 32 by 32 pixels, exclamation mark icon.
-    WixUIInfoIco 32 by 32 pixels, information sign icon.
-    WixUINewIco 16 by 16 pixels, new folder icon.
-    WixUIUpIco 16 by 16 pixels, parent folder icon.
+    WixUIBannerBmp 493 by 58 pixels,это растровое изображение будет отображаться в верхней части всех страниц, кроме первой страницы установщика.
+    WixUIDialogBmp 493 by 312 pixels, это растровое изображение появится на первой странице установщика.
+    WixUIExclamationIco 32 by 32 pixels, значок восклицательного знака.
+    WixUIInfoIco 32 by 32 pixels, значок информационного знака.
+    WixUINewIco 16 by 16 pixels, значок новой папки.
+    WixUIUpIco 16 by 16 pixels, значок родительской папки.
     -->
   </Product>
   
