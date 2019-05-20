@@ -3,5 +3,7 @@
 	<String Id="DotNetFrameworkNeeded">This application requires .NET Framework 4.5.2 Please install the .NET Framework then run this installer again.</String>
 <String Id="MsSqlNeeded">Требуется SQL Server Express.</String>
   <String Id="DowngradeErrorMessage">A newer version of [ProductName] is already installed.</String>
+  <String Id="SettingsDlg_TcpPortLabel">TCP Порт</String>
+  <String Id="SettingsDlg_Title">Дополнительные свойства</String>
   
 </WixLocalization>

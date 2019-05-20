@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <UI>
+      <Dialog Id="SettingsDlg" Width="370" Height="270" Title="!(loc.SettingsDlg_Title)" KeepModeless="yes">
+        <!-- Tcp Port -->
+        <Control
+                Id="TcpPortLabel" Text="!(loc.SettingsDlg_TcpPortLabel)" Type="Text"
+                X="10" Y="13" Height="18" Width="110" />
+        <Control
+                Id="SettingTcpPort" Property="TCPPORT" Text="[TCPPORT]" Type="Edit"
+                X="130" Y="10" Height="18" Width="80" />
+        <!-- Back / Forward / Cancel -->
+        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
+        <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)" />
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+          <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+        </Control>
+      </Dialog>
+    </UI>
+  </Fragment>
+</Wix>

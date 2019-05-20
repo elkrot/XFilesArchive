@@ -23,6 +23,7 @@
     <Compile Include="Features.wxs" />
     <Compile Include="Files.wxs" />
     <Compile Include="Product.wxs" />
+    <Compile Include="SettingsDlg.wxs" />
     <Compile Include="Shortcuts.wxs" />
   </ItemGroup>
   <ItemGroup>

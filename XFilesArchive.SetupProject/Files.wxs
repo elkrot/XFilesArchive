@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Fragment>
     
       <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
@@ -53,6 +54,15 @@
           <File Id='Services' Name='XFilesArchive.Services.dll'/>
           <File Id='Services.config' Name='XFilesArchive.Services.dll.config'/>
           <File Id='UI.config' Name='XFilesArchive.UI.exe.config'/>
+            <util:XmlFile
+Id="UpdateTcpPort"
+Action="setValue"
+File="[INSTALLFOLDER]XFilesArchive.UI.exe.config"
+SelectionLanguage="XPath"
+Permanent="yes"
+ElementPath="/configuration/appSettings/add[\[]@key='TcpPort'[\]]/@value"
+Value="[TCPPORT]" />
+          
           <File Id='EntityFramework.xml' Name='EntityFramework.xml'/>
           
                 </Component>

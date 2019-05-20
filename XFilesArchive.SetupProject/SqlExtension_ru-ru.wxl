@@ -21,4 +21,5 @@
   <String Id="UsernameTitle" Overridable="yes">Имя пользователя:</String>
   <String Id="PasswordTitle" Overridable="yes">Пароль:</String>
   <String Id="SqlConnectTitle" Overridable="yes">Проверить подключение</String>
+  
 </WixLocalization>
