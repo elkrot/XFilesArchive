@@ -29,6 +29,7 @@
         <Payload Name="redist\NDP452-KB2901907-x86-x64-AllOS-ENU.exe"
                  SourceFile="$(var.SolutionDir)\XFilesArchive.Bootstrapper\Resources\NDP452-KB2901907-x86-x64-AllOS-ENU.exe"/>
       </PayloadGroup>
+     
       <!--<util:RegistrySearch Id="SqlInstanceKeyFoundSearch"
                            Root="HKLM"
                            Key="SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL"

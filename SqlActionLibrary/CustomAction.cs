@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Collections;
 using System.Data;
 using System.Data.Sql;
@@ -138,5 +139,32 @@ namespace SqlActionLibrary
         }
 
         #endregion
+
+        internal static bool IsLocalDBInstalled()
+        {
+            // Start the child process.
+            Process p = new Process();
+            // Redirect the output stream of the child process.
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.FileName = "cmd.exe";
+            p.StartInfo.Arguments = "/C sqllocaldb info";
+            p.StartInfo.CreateNoWindow = true;
+            p.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            p.Start();
+            // Do not wait for the child process to exit before
+            // reading to the end of its redirected stream.
+            // p.WaitForExit();
+            // Read the output stream first and then wait.
+            string sOutput = p.StandardOutput.ReadToEnd();
+            p.WaitForExit();
+
+            //If LocalDb is not installed then it will return that 'sqllocaldb' is not recognized as an internal or external command operable program or batch file.
+            if (sOutput == null || sOutput.Trim().Length == 0 || sOutput.Contains("not recognized"))
+                return false;
+            if (sOutput.ToLower().Contains("mssqllocaldb")) //This is a defualt instance in local DB
+                return true;
+            return false;
+        }
     }
 }

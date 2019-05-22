@@ -30,7 +30,24 @@
                     Type="raw"
                     Win64="yes"/>
   </Property>
+  <Property Id="LOCALDB">
+    <RegistrySearch Id="SearchForLocalDB" Root="HKLM"
+                    Key="SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL11E.LOCALDB\MSSQLServer\CurrentVersion"
+                    Name="CurrentVersion"
+                    Type="raw" />
+  </Property>
 
+  <PackageGroup Id="LOCALDB">
+    <MsiPackage  Id="LOCALDB"
+                DisplayName="Microsoft SQL Server 2014"
+                Permanent="yes"
+                Visible="yes"
+                DisplayInternalUI="yes"
+                SourceFile=".\SqlLocalDB.msi"
+                InstallCondition="(LocalDBVersion &lt;= &quot;12.0&quot;)"
+    />
+  </PackageGroup>
+  
   <Condition Message="This application requires Microsoft SQL Server Express 2014. Please install the Microsoft SQL Server then run this installer again.">
     <![CDATA[Installed OR (SQLEXPRVERSION14X64 = "Microsoft Corporation" AND (VersionNT < 602) AND VersionNT64) OR (VersionNT > 602) OR NOT (VersionNT64)]]>
   </Condition>
