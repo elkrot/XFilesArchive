@@ -52,11 +52,12 @@
     <FeatureRef Id="ProductFeature" />
     
     <?include Includes/Conditions.wxi ?>
-
+    <?include Includes/WixUI.wxi ?>
+    
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER"/>
     <Property Id="TCPPORT" Value="25"/>
     
-    <UIRef Id="WixUI_InstallDir"/>
+    <!--<UIRef Id="WixUI_InstallDir"/>-->
     <UIRef Id="WixUI_Common" />
     <!--<UIRef Id="WixUI_Mondo" />-->
     

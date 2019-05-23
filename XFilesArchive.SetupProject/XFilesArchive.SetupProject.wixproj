@@ -25,7 +25,6 @@
     <Compile Include="Sources\Files.wxs" />
     <Compile Include="Sources\SettingsDlg.wxs" />
     <Compile Include="Sources\Shortcuts.wxs" />
-    <Compile Include="Sources\WixUI.wxs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Img\AppIco.ico" />
@@ -40,6 +39,7 @@
     <Content Include="Includes\Conditions.wxi" />
     <Content Include="Includes\DatabaseUI.wxi" />
     <Content Include="Includes\Variables.wxi" />
+    <Content Include="Includes\WixUI.wxi" />
     <Content Include="License.rtf" />
     <Content Include="Scripts\database.sql" />
   </ItemGroup>
