@@ -3,34 +3,24 @@
       xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
   xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <?include Variables.wxi?>
-
-
-
-  <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)"
-           Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+  <?include Includes/Variables.wxi?>
+  <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)"  Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
 
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" />
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
-
-
-    <Icon Id="AppIco.ico" SourceFile="$(var.SolutionDir)XFilesArchive.SetupProject\Img\AppIco.ico"/>
+    <!--<Icon Id="AppIco.ico" SourceFile="$(var.SolutionDir)XFilesArchive.SetupProject\Img\AppIco.ico"/>-->
+    <Icon Id="AppIco.ico" SourceFile="$(sys.SOURCEFILEDIR)Img\AppIco.ico"/>
     <Property Id="ARPPRODUCTICON" Value="AppIco.ico" />
 
-
-    <!--<Binary Id="database" SourceFile="C:\GitRepositories\XFilesArchive\XFilesArchive.SetupProject\Scripts\database.sql" />-->
     <Binary Id="database" SourceFile="$(var.SolutionDir)XFilesArchive.SQL\XFilesArchive.sql" />
-     <!--<Binary Id="database" SourceFile="$(var.SolutionDir)XFilesArchive.SQL\bin\Debug\XFilesArchive.SQL_Create.sql" />-->
-    <Binary Id="success_bmp" SourceFile="$(sys.SOURCEFILEDIR)success.bmp" />
-    <Binary Id="error_bmp" SourceFile="$(sys.SOURCEFILEDIR)error.bmp" />
-        
-          
+    <Binary Id="success_bmp" SourceFile="$(sys.SOURCEFILEDIR)Img\success.bmp" />
+    <Binary Id="error_bmp" SourceFile="$(sys.SOURCEFILEDIR)Img\error.bmp" />
+
+
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLFOLDER" Name="$(var.ProductName)">
-          
-           <!--Execute script-->
           <Component Id="SqlComponent1" Guid="8A65D42C-121F-4144-817A-B48099BCABFA" KeyPath="yes">
             <Condition><![CDATA[DATABASE_LOGON_TYPE <> "DatabaseAccount"]]></Condition>
             <sql:SqlDatabase Id="SqlDatabase1" Database="WPFCSHARP" Server="[DATABASE_SERVER]" CreateOnInstall="yes" CreateOnReinstall="no" CreateOnUninstall="no" DropOnInstall="no" DropOnReinstall="no" DropOnUninstall="no" ContinueOnError="no">
@@ -43,10 +33,8 @@
               <sql:SqlScript Id="Database2" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" BinaryKey="database" Sequence="1"></sql:SqlScript>
             </sql:SqlDatabase>
           </Component>
-        
         </Directory>
       </Directory>
-
       <Directory Id="ProgramMenuFolder" Name="Programs">
         <Directory Id="ProgramMenuDir" Name="XFilesArchive">
           <Component Id="ProgramMenuDir" Guid="52C3DBC0-2BDD-4308-8CE7-166310EE6F2B">
@@ -55,91 +43,24 @@
           </Component>
         </Directory>
       </Directory>
-
       <Directory Id="DesktopFolder" Name="Desktop" />
-      
     </Directory>
 
     <util:User Id="SQLUser" Name="[DATABASE_USERNAME]" Password="[DATABASE_PASSWORD]" />
-    
-    <!--<Directory Id="DesktopFolder" Name="Desktop"/>-->
-    
-    
-    <FeatureRef Id="ProductFeature" />
 
-    <?include Conditions.wxi ?>
+    <!--<Directory Id="DesktopFolder" Name="Desktop"/>-->
+    <FeatureRef Id="ProductFeature" />
+    
+    <?include Includes/Conditions.wxi ?>
 
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER"/>
     <Property Id="TCPPORT" Value="25"/>
     
-
-    
-    <UI Id="WixUI_InstallDir">
-      <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
-      <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
-      <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
-
-      <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
-      <Property Id="WixUI_Mode" Value="InstallDir" />
-
-      <DialogRef Id="BrowseDlg" />
-      <DialogRef Id="DiskCostDlg" />
-      <DialogRef Id="ErrorDlg" />
-      <DialogRef Id="FatalError" />
-      <DialogRef Id="FilesInUse" />
-      <DialogRef Id="MsiRMFilesInUse" />
-      <DialogRef Id="PrepareDlg" />
-      <DialogRef Id="ProgressDlg" />
-      <DialogRef Id="ResumeDlg" />
-      <DialogRef Id="UserExit" />
-
-      <Publish Dialog="BrowseDlg" Control="OK" Event="DoAction" Value="WixUIValidatePath" Order="3">1</Publish>
-      <Publish Dialog="BrowseDlg" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg" Order="4"><![CDATA[WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
-
-      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
-
-      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">NOT Installed</Publish>
-      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
-
-      <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
-      <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="SettingsDlg">LicenseAccepted = "1"</Publish>
-
-
-      <Publish Dialog="SettingsDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg"></Publish>
-      <Publish Dialog="SettingsDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg"></Publish>
-      
-      
-      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
-      <Publish Dialog="InstallDirDlg" Control="Next" Event="SetTargetPath" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
-      <Publish Dialog="InstallDirDlg" Control="Next" Event="DoAction" Value="WixUIValidatePath" Order="2">NOT WIXUI_DONTVALIDATEPATH</Publish>
-      <Publish Dialog="InstallDirDlg" Control="Next" Event="SpawnDialog" Value="InvalidDirDlg" Order="3"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
-      <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="DatabaseDlg" Order="4">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
-      <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Property="_BrowseProperty" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
-      <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
-
-      <Publish Dialog="DatabaseDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">Installed</Publish>
-      <Publish Dialog="DatabaseDlg" Control="Back" Event="NewDialog" Value="InstallDirDlg" Order="2">NOT Installed</Publish>
-      <Publish Dialog="DatabaseDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="2">1</Publish>
-
-      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="DatabaseDlg" Order="1">NOT Installed</Publish>
-      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed AND NOT PATCH</Publish>
-      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">Installed AND PATCH</Publish>
-
-      <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
-
-      <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-      <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-      <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
-
-      <Property Id="ARPNOMODIFY" Value="1" />
-    </UI>
-    
-    
-    <!--asasdada-->
-<UIRef Id="WixUI_Common" />
+    <UIRef Id="WixUI_InstallDir"/>
+    <UIRef Id="WixUI_Common" />
     <!--<UIRef Id="WixUI_Mondo" />-->
-    <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
     
+    <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
     <WixVariable Id="WixUIBannerBmp" Value="$(var.SolutionDir)XFilesArchive.SetupProject\Img\banner493x58.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="$(var.SolutionDir)XFilesArchive.SetupProject\Img\dialog494x312.bmp" />
     <WixVariable Id="WixUIExclamationIco" Value="$(var.SolutionDir)XFilesArchive.SetupProject\Img\exclamation32x32.ico" />
@@ -155,8 +76,8 @@
     WixUIUpIco 16 by 16 pixels, значок родительской папки.
     -->
   </Product>
-  
-  <?include DatabaseUI.wxi ?>
+
+  <?include Includes/DatabaseUI.wxi ?>
 
 
 

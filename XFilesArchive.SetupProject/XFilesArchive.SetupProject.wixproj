@@ -20,36 +20,39 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Features.wxs" />
-    <Compile Include="Files.wxs" />
     <Compile Include="Product.wxs" />
-    <Compile Include="SettingsDlg.wxs" />
-    <Compile Include="Shortcuts.wxs" />
+    <Compile Include="Sources\Features.wxs" />
+    <Compile Include="Sources\Files.wxs" />
+    <Compile Include="Sources\SettingsDlg.wxs" />
+    <Compile Include="Sources\Shortcuts.wxs" />
+    <Compile Include="Sources\WixUI.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Conditions.wxi" />
-    <Content Include="CustomActions.cs" />
-    <Content Include="DatabaseUI.wxi" />
-    <Content Include="error.bmp" />
     <Content Include="Img\AppIco.ico" />
     <Content Include="Img\banner493x58.bmp" />
     <Content Include="Img\dialog494x312.bmp" />
+    <Content Include="Img\error.bmp" />
     <Content Include="Img\exclamation32x32.ico" />
     <Content Include="Img\information32x32.ico" />
     <Content Include="Img\new16x16.ico" />
+    <Content Include="Img\success.bmp" />
     <Content Include="Img\up16x16.ico" />
+    <Content Include="Includes\Conditions.wxi" />
+    <Content Include="Includes\DatabaseUI.wxi" />
+    <Content Include="Includes\Variables.wxi" />
     <Content Include="License.rtf" />
     <Content Include="Scripts\database.sql" />
-    <Content Include="success.bmp" />
-    <Content Include="Variables.wxi" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SqlExtension_ru-ru.wxl" />
-    <EmbeddedResource Include="UtilExtension_ru-ru.wxl" />
-    <EmbeddedResource Include="WixUI_ru-ru.wxl" />
+    <EmbeddedResource Include="Localization\SqlExtension_ru-ru.wxl" />
+    <EmbeddedResource Include="Localization\UtilExtension_ru-ru.wxl" />
+    <EmbeddedResource Include="Localization\WixUI_ru-ru.wxl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Img" />
+    <Folder Include="Localization" />
+    <Folder Include="Includes" />
+    <Folder Include="Sources" />
     <Folder Include="Scripts" />
   </ItemGroup>
   <ItemGroup>
