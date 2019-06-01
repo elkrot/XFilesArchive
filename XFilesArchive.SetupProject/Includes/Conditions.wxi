@@ -22,14 +22,20 @@
   <Condition Message="You don't have SQL Server installed.">
     <![CDATA[SQLSERVER <> SQLEXPRESS]]>
   </Condition>-->
-  <Property Id="SQLEXPRVERSION14X64" Value="0">
+  
+  
+  
+  <!--<Property Id="SQLEXPRVERSION14X64" Value="0">
     <RegistrySearch Id="SqlExprVersion14x64"
                     Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft SQL Server SQLServer2014"
                     Name="Publisher"
                     Root="HKLM"
                     Type="raw"
                     Win64="yes"/>
-  </Property>
+  </Property>-->
+  
+  
+  
   <!--<Property Id="LOCALDB">
     <RegistrySearch Id="SearchForLocalDB" Root="HKLM"
                     Key="SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL11E.LOCALDB\MSSQLServer\CurrentVersion"
@@ -48,7 +54,7 @@
     />
   </PackageGroup>-->
   
-  <Condition Message="This application requires Microsoft SQL Server Express 2014. Please install the Microsoft SQL Server then run this installer again.">
+  <!--<Condition Message="This application requires Microsoft SQL Server Express 2014. Please install the Microsoft SQL Server then run this installer again.">
     <![CDATA[Installed OR (SQLEXPRVERSION14X64 = "Microsoft Corporation" AND (VersionNT < 602) AND VersionNT64) OR (VersionNT > 602) OR NOT (VersionNT64)]]>
-  </Condition>
+  </Condition>-->
 </Include>

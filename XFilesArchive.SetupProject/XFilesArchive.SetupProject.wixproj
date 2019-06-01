@@ -41,7 +41,9 @@
     <Content Include="Includes\Variables.wxi" />
     <Content Include="Includes\WixUI.wxi" />
     <Content Include="License.rtf" />
-    <Content Include="Scripts\database.sql" />
+    <Content Include="Scripts\XFilesArchive.sql" />
+    <Content Include="Scripts\XFilesArchive.SQL_Createx.sql" />
+    <Content Include="Scripts\XFilesArchive.SQL_Create.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization\SqlExtension_ru-ru.wxl" />

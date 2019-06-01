@@ -13,15 +13,16 @@
     <Icon Id="AppIco.ico" SourceFile="$(sys.SOURCEFILEDIR)Img\AppIco.ico"/>
     <Property Id="ARPPRODUCTICON" Value="AppIco.ico" />
 
-    <Binary Id="database" SourceFile="$(var.SolutionDir)XFilesArchive.SQL\XFilesArchive.sql" />
+    <!--<Binary Id="database" SourceFile="$(sys.SOURCEFILEDIR)Scripts\XFilesArchive.sql" />-->
     <Binary Id="success_bmp" SourceFile="$(sys.SOURCEFILEDIR)Img\success.bmp" />
     <Binary Id="error_bmp" SourceFile="$(sys.SOURCEFILEDIR)Img\error.bmp" />
 
 
     <Directory Id="TARGETDIR" Name="SourceDir">
+
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLFOLDER" Name="$(var.ProductName)">
-          <Component Id="SqlComponent1" Guid="8A65D42C-121F-4144-817A-B48099BCABFA" KeyPath="yes">
+          <!--<Component Id="SqlComponent1" Guid="8A65D42C-121F-4144-817A-B48099BCABFA" KeyPath="yes">
             <Condition><![CDATA[DATABASE_LOGON_TYPE <> "DatabaseAccount"]]></Condition>
             <sql:SqlDatabase Id="SqlDatabase1" Database="WPFCSHARP" Server="[DATABASE_SERVER]" CreateOnInstall="yes" CreateOnReinstall="no" CreateOnUninstall="no" DropOnInstall="no" DropOnReinstall="no" DropOnUninstall="no" ContinueOnError="no">
               <sql:SqlScript Id="Database1" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" BinaryKey="database" Sequence="1"></sql:SqlScript>
@@ -32,7 +33,13 @@
             <sql:SqlDatabase Id="SqlDatabase2" Database="WPFCSHARP" Server="[DATABASE_SERVER]" User="SQLUser" CreateOnInstall="yes" CreateOnReinstall="no" CreateOnUninstall="no" DropOnInstall="no" DropOnReinstall="no" DropOnUninstall="no" ContinueOnError="no">
               <sql:SqlScript Id="Database2" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" BinaryKey="database" Sequence="1"></sql:SqlScript>
             </sql:SqlDatabase>
-          </Component>
+          </Component>-->
+          <Directory Id="ImgFolder" Name="Img">
+            <Component Id="CreateImgFolder" Guid="{D30F8848-73D3-46F0-864E-622250CE2F43}">
+              <CreateFolder/>
+            </Component>
+
+          </Directory>
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder" Name="Programs">
@@ -43,24 +50,26 @@
           </Component>
         </Directory>
       </Directory>
+
       <Directory Id="DesktopFolder" Name="Desktop" />
+
     </Directory>
 
     <util:User Id="SQLUser" Name="[DATABASE_USERNAME]" Password="[DATABASE_PASSWORD]" />
 
     <!--<Directory Id="DesktopFolder" Name="Desktop"/>-->
     <FeatureRef Id="ProductFeature" />
-    
+
     <?include Includes/Conditions.wxi ?>
     <?include Includes/WixUI.wxi ?>
-    
+
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER"/>
     <Property Id="TCPPORT" Value="25"/>
-    
+
     <!--<UIRef Id="WixUI_InstallDir"/>-->
     <UIRef Id="WixUI_Common" />
     <!--<UIRef Id="WixUI_Mondo" />-->
-    
+
     <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
     <WixVariable Id="WixUIBannerBmp" Value="$(var.SolutionDir)XFilesArchive.SetupProject\Img\banner493x58.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="$(var.SolutionDir)XFilesArchive.SetupProject\Img\dialog494x312.bmp" />
@@ -78,7 +87,7 @@
     -->
   </Product>
 
-  <?include Includes/DatabaseUI.wxi ?>
+  <!--<?include Includes/DatabaseUI.wxi ?>-->
 
 
 

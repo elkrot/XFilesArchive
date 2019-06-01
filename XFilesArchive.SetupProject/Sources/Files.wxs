@@ -13,6 +13,15 @@
             <Shortcut Id="desktopXFilesArchive" Directory="DesktopFolder" Name="XFilesArchive"
                 WorkingDirectory='INSTALLDIR' Icon="XFilesArchive.UI.exe" IconIndex="0" Advertise="yes" />-->
             
+            <Shortcut Id="DesktopShortcut" Name="XFilesArchive" Description="Ярлык на рабочем 
+				столе" WorkingDirectory="INSTALLFOLDER" Directory="DesktopFolder" Advertise="yes"
+				Icon="AppIco.ico"></Shortcut>
+
+            <Shortcut Id="ProgramsMenuShortcut" Name="Запустить XFilesArchive"
+        Description="Запускает программу" WorkingDirectory="INSTALLFOLDER"
+        Directory="ProgramMenuDir" Advertise="yes" Icon="AppIco.ico"></Shortcut>
+            
+            
           </File>
           <File Id='Autofac' Name='Autofac.dll'/>
           <File Id='EntityFramework.SqlServer.xml' Name='EntityFramework.SqlServer.xml'/>
@@ -54,14 +63,14 @@
           <File Id='Services' Name='XFilesArchive.Services.dll'/>
           <File Id='Services.config' Name='XFilesArchive.Services.dll.config'/>
           <File Id='UI.config' Name='XFilesArchive.UI.exe.config'/>
-            <util:XmlFile
+            <!--<util:XmlFile
 Id="UpdateTcpPort"
 Action="setValue"
 File="[INSTALLFOLDER]XFilesArchive.UI.exe.config"
 SelectionLanguage="XPath"
 Permanent="yes"
 ElementPath="/configuration/appSettings/add[\[]@key='TcpPort'[\]]/@value"
-Value="[TCPPORT]" />
+Value="[TCPPORT]" />-->
           
           <File Id='EntityFramework.xml' Name='EntityFramework.xml'/>
           
