@@ -63,14 +63,14 @@
           <File Id='Services' Name='XFilesArchive.Services.dll'/>
           <File Id='Services.config' Name='XFilesArchive.Services.dll.config'/>
           <File Id='UI.config' Name='XFilesArchive.UI.exe.config'/>
-            <!--<util:XmlFile
+            <util:XmlFile
 Id="UpdateTcpPort"
 Action="setValue"
 File="[INSTALLFOLDER]XFilesArchive.UI.exe.config"
 SelectionLanguage="XPath"
 Permanent="yes"
 ElementPath="/configuration/appSettings/add[\[]@key='TcpPort'[\]]/@value"
-Value="[TCPPORT]" />-->
+Value="[TCPPORT]" />
           
           <File Id='EntityFramework.xml' Name='EntityFramework.xml'/>
           

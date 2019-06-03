@@ -4,8 +4,9 @@
     <Feature Id="ProductFeature" Title="Setup" Level="1" ConfigurableDirectory="INSTALLFOLDER">
       <ComponentRef Id="ProductComponent" />
       <ComponentRef Id="ApplicationShortcutXFilesArchive" />
-      <!--<ComponentRef Id="SqlComponent1"/>
-      <ComponentRef Id="SqlComponent2"/>-->
+      <ComponentRef Id="SqlComponent1"/>
+      <ComponentRef Id="SqlComponent2"/>
+      <ComponentRef Id="CreateImgFolder"/>
       <ComponentRef Id='ProgramMenuDir' />
     </Feature>
 	</Fragment>

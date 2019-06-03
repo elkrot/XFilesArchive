@@ -9,11 +9,11 @@
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" />
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
-    <!--<Icon Id="AppIco.ico" SourceFile="$(var.SolutionDir)XFilesArchive.SetupProject\Img\AppIco.ico"/>-->
     <Icon Id="AppIco.ico" SourceFile="$(sys.SOURCEFILEDIR)Img\AppIco.ico"/>
     <Property Id="ARPPRODUCTICON" Value="AppIco.ico" />
 
     <!--<Binary Id="database" SourceFile="$(sys.SOURCEFILEDIR)Scripts\XFilesArchive.sql" />-->
+        <Binary Id="database" SourceFile="$(sys.SOURCEFILEDIR)Scripts\XFilesArchive.SQL_Createx.sql" />
     <Binary Id="success_bmp" SourceFile="$(sys.SOURCEFILEDIR)Img\success.bmp" />
     <Binary Id="error_bmp" SourceFile="$(sys.SOURCEFILEDIR)Img\error.bmp" />
 
@@ -22,7 +22,7 @@
 
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLFOLDER" Name="$(var.ProductName)">
-          <!--<Component Id="SqlComponent1" Guid="8A65D42C-121F-4144-817A-B48099BCABFA" KeyPath="yes">
+          <Component Id="SqlComponent1" Guid="8A65D42C-121F-4144-817A-B48099BCABFA" KeyPath="yes">
             <Condition><![CDATA[DATABASE_LOGON_TYPE <> "DatabaseAccount"]]></Condition>
             <sql:SqlDatabase Id="SqlDatabase1" Database="WPFCSHARP" Server="[DATABASE_SERVER]" CreateOnInstall="yes" CreateOnReinstall="no" CreateOnUninstall="no" DropOnInstall="no" DropOnReinstall="no" DropOnUninstall="no" ContinueOnError="no">
               <sql:SqlScript Id="Database1" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" BinaryKey="database" Sequence="1"></sql:SqlScript>
@@ -33,12 +33,11 @@
             <sql:SqlDatabase Id="SqlDatabase2" Database="WPFCSHARP" Server="[DATABASE_SERVER]" User="SQLUser" CreateOnInstall="yes" CreateOnReinstall="no" CreateOnUninstall="no" DropOnInstall="no" DropOnReinstall="no" DropOnUninstall="no" ContinueOnError="no">
               <sql:SqlScript Id="Database2" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" BinaryKey="database" Sequence="1"></sql:SqlScript>
             </sql:SqlDatabase>
-          </Component>-->
+          </Component>
           <Directory Id="ImgFolder" Name="Img">
             <Component Id="CreateImgFolder" Guid="{D30F8848-73D3-46F0-864E-622250CE2F43}">
               <CreateFolder/>
             </Component>
-
           </Directory>
         </Directory>
       </Directory>
@@ -57,7 +56,6 @@
 
     <util:User Id="SQLUser" Name="[DATABASE_USERNAME]" Password="[DATABASE_PASSWORD]" />
 
-    <!--<Directory Id="DesktopFolder" Name="Desktop"/>-->
     <FeatureRef Id="ProductFeature" />
 
     <?include Includes/Conditions.wxi ?>
@@ -87,7 +85,7 @@
     -->
   </Product>
 
-  <!--<?include Includes/DatabaseUI.wxi ?>-->
+  <?include Includes/DatabaseUI.wxi ?>
 
 
 

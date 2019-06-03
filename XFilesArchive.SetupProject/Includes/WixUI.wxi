@@ -42,13 +42,13 @@
     <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="4">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
     
     <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Property="_BrowseProperty" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
-    <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
+    <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Event="SpawnDialog" Value="DatabaseDlg" Order="2">1</Publish>
 
-    <!--<Publish Dialog="DatabaseDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">Installed</Publish>
+    <Publish Dialog="DatabaseDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">Installed</Publish>
     <Publish Dialog="DatabaseDlg" Control="Back" Event="NewDialog" Value="InstallDirDlg" Order="2">NOT Installed</Publish>
-    <Publish Dialog="DatabaseDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="2">1</Publish>-->
+    <Publish Dialog="DatabaseDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="2">1</Publish>
 
-    <!--<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="DatabaseDlg" Order="1">NOT Installed</Publish>-->
+    <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="DatabaseDlg" Order="1">NOT Installed</Publish>
     <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed AND NOT PATCH</Publish>
     <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">Installed AND PATCH</Publish>
 
