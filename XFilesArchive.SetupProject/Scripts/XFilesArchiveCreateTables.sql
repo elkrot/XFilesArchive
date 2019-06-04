@@ -1,89 +1,30 @@
-﻿/*USE [master]
-GO
-/****** Object:  Database XFilesArchive    Script Date: 20.05.2019 0:21:32 ******/
-CREATE DATABASE XFilesArchive
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'HmeArhX', FILENAME = N'D:\db\HmeArhX.mdf' , SIZE = 1072896KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
- LOG ON 
-( NAME = N'HmeArhX_log', FILENAME = N'D:\db\HmeArhX_log.ldf' , SIZE = 92864KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+﻿USE [master]
 GO
 
-ALTER DATABASE XFilesArchive SET COMPATIBILITY_LEVEL = 110
+/****** REPLACE BEGIN******/
+IF EXISTS(SELECT name FROM sys.databases
+    WHERE name = 'XFilesArchive')
+    DROP DATABASE XFilesArchive
+GO
+
+CREATE DATABASE [XFilesArchive]
+GO
+
+ALTER DATABASE [XFilesArchive] SET COMPATIBILITY_LEVEL = 100
 GO
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
 begin
-EXEC XFilesArchive.[dbo].[sp_fulltext_database] @action = 'enable'
+EXEC [XFilesArchive].[dbo].[sp_fulltext_database] @action = 'enable'
 end
 GO
-ALTER DATABASE XFilesArchive SET ANSI_NULL_DEFAULT OFF 
+
+USE [XFilesArchive]
 GO
-ALTER DATABASE XFilesArchive SET ANSI_NULLS OFF 
+
+
+USE [XFilesArchive]
 GO
-ALTER DATABASE XFilesArchive SET ANSI_PADDING OFF 
-GO
-ALTER DATABASE XFilesArchive SET ANSI_WARNINGS OFF 
-GO
-ALTER DATABASE XFilesArchive SET ARITHABORT OFF 
-GO
-ALTER DATABASE XFilesArchive SET AUTO_CLOSE ON 
-GO
-ALTER DATABASE XFilesArchive SET AUTO_SHRINK OFF 
-GO
-ALTER DATABASE XFilesArchive SET AUTO_UPDATE_STATISTICS ON 
-GO
-ALTER DATABASE XFilesArchive SET CURSOR_CLOSE_ON_COMMIT OFF 
-GO
-ALTER DATABASE XFilesArchive SET CURSOR_DEFAULT  GLOBAL 
-GO
-ALTER DATABASE XFilesArchive SET CONCAT_NULL_YIELDS_NULL OFF 
-GO
-ALTER DATABASE XFilesArchive SET NUMERIC_ROUNDABORT OFF 
-GO
-ALTER DATABASE XFilesArchive SET QUOTED_IDENTIFIER OFF 
-GO
-ALTER DATABASE XFilesArchive SET RECURSIVE_TRIGGERS OFF 
-GO
-ALTER DATABASE XFilesArchive SET  DISABLE_BROKER 
-GO
-ALTER DATABASE XFilesArchive SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
-GO
-ALTER DATABASE XFilesArchive SET DATE_CORRELATION_OPTIMIZATION OFF 
-GO
-ALTER DATABASE XFilesArchive SET TRUSTWORTHY OFF 
-GO
-ALTER DATABASE XFilesArchive SET ALLOW_SNAPSHOT_ISOLATION OFF 
-GO
-ALTER DATABASE XFilesArchive SET PARAMETERIZATION SIMPLE 
-GO
-ALTER DATABASE XFilesArchive SET READ_COMMITTED_SNAPSHOT OFF 
-GO
-ALTER DATABASE XFilesArchive SET HONOR_BROKER_PRIORITY OFF 
-GO
-ALTER DATABASE XFilesArchive SET RECOVERY SIMPLE 
-GO
-ALTER DATABASE XFilesArchive SET  MULTI_USER 
-GO
-ALTER DATABASE XFilesArchive SET PAGE_VERIFY CHECKSUM  
-GO
-ALTER DATABASE XFilesArchive SET DB_CHAINING OFF 
-GO
-ALTER DATABASE XFilesArchive SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
-GO
-ALTER DATABASE XFilesArchive SET TARGET_RECOVERY_TIME = 0 SECONDS 
-GO
-ALTER DATABASE XFilesArchive SET DELAYED_DURABILITY = DISABLED 
-GO
-USE XFilesArchive
-GO
-/****** Object:  Table [dbo].[ArchiveEntity]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-*/
+
 CREATE TABLE [dbo].[ArchiveEntity](
 	[ArchiveEntityKey] [int] IDENTITY(1,1) NOT NULL,
 	[ParentEntityKey] [int] NULL,
@@ -108,13 +49,7 @@ CREATE TABLE [dbo].[ArchiveEntity](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Object:  Table [dbo].[Category]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 CREATE TABLE [dbo].[Category](
 	[CategoryKey] [int] IDENTITY(1,1) NOT NULL,
 	[CategoryTitle] [nvarchar](100) NULL,
@@ -127,11 +62,6 @@ CREATE TABLE [dbo].[Category](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[CategoryToEntity]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[CategoryToEntity](
 	[TargetEntityKey] [int] NOT NULL,
 	[CategoryKey] [int] NOT NULL,
@@ -142,13 +72,6 @@ CREATE TABLE [dbo].[CategoryToEntity](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-GO
-/****** Object:  Table [dbo].[Drive]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
 GO
 CREATE TABLE [dbo].[Drive](
 	[DriveId] [int] IDENTITY(1,1) NOT NULL,
@@ -165,13 +88,6 @@ CREATE TABLE [dbo].[Drive](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Object:  Table [dbo].[GeneralInfoAboutLevels]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[GeneralInfoAboutLevels](
 	[Level] [smallint] NOT NULL,
 	[Generic] [nvarchar](100) NULL,
@@ -186,11 +102,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Image]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 CREATE TABLE [dbo].[Image](
 	[ImageKey] [int] IDENTITY(1,1) NOT NULL,
 	[Thumbnail] [image] NULL,
@@ -207,11 +119,7 @@ CREATE TABLE [dbo].[Image](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[ImageToEntity]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 CREATE TABLE [dbo].[ImageToEntity](
 	[TargetEntityKey] [int] NOT NULL,
 	[ImageKey] [int] NOT NULL,
@@ -223,11 +131,7 @@ CREATE TABLE [dbo].[ImageToEntity](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[MediaInfoParameter]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 CREATE TABLE [dbo].[MediaInfoParameter](
 	[MediaInfoParameterId] [int] IDENTITY(1,1) NOT NULL,
 	[MediaInfoTypeId] [int] NOT NULL,
@@ -247,11 +151,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[MediaInfoType]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 CREATE TABLE [dbo].[MediaInfoType](
 	[MediaInfoTypeId] [int] NOT NULL,
 	[Title] [nvarchar](50) NULL,
@@ -262,11 +162,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Role]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 CREATE TABLE [dbo].[Role](
 	[RoleId] [int] IDENTITY(1,1) NOT NULL,
 	[RoleTitle] [nvarchar](30) NOT NULL,
@@ -276,11 +172,6 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-GO
-/****** Object:  Table [dbo].[Tag]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Tag](
 	[TagKey] [int] IDENTITY(1,1) NOT NULL,
@@ -293,11 +184,7 @@ CREATE TABLE [dbo].[Tag](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[TagToEntity]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 CREATE TABLE [dbo].[TagToEntity](
 	[TargetEntityKey] [int] NOT NULL,
 	[TagKey] [int] NOT NULL,
@@ -309,11 +196,7 @@ CREATE TABLE [dbo].[TagToEntity](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[TranslateTable]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 CREATE TABLE [dbo].[TranslateTable](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[LanguageCode] [nchar](5) NOT NULL,
@@ -326,11 +209,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[User]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 CREATE TABLE [dbo].[User](
 	[UserId] [int] IDENTITY(1,1) NOT NULL,
 	[Username] [nvarchar](50) NOT NULL,
@@ -345,11 +224,7 @@ CREATE TABLE [dbo].[User](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[UserToRole]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 CREATE TABLE [dbo].[UserToRole](
 	[UserId] [int] NOT NULL,
 	[RoleId] [int] NOT NULL,
@@ -361,7 +236,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Index [IX_ArchiveEntity_FileSize]    Script Date: 20.05.2019 0:21:32 ******/
+
 CREATE NONCLUSTERED INDEX [IX_ArchiveEntity_FileSize] ON [dbo].[ArchiveEntity]
 (
 	[FileSize] ASC
@@ -370,14 +245,14 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [IX_ArchiveEntity_FileSize_Title]    Script Date: 20.05.2019 0:21:32 ******/
+
 CREATE NONCLUSTERED INDEX [IX_ArchiveEntity_FileSize_Title] ON [dbo].[ArchiveEntity]
 (
 	[FileSize] ASC,
 	[Title] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_ArchiveEntity_Grade]    Script Date: 20.05.2019 0:21:32 ******/
+
 CREATE NONCLUSTERED INDEX [IX_ArchiveEntity_Grade] ON [dbo].[ArchiveEntity]
 (
 	[Grade] ASC
@@ -386,20 +261,19 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [IX_ArchiveEntity_Title]    Script Date: 20.05.2019 0:21:32 ******/
 CREATE NONCLUSTERED INDEX [IX_ArchiveEntity_Title] ON [dbo].[ArchiveEntity]
 (
 	[Title] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_ArchiveEntity_UniqGuid]    Script Date: 20.05.2019 0:21:32 ******/
+
 CREATE NONCLUSTERED INDEX [IX_ArchiveEntity_UniqGuid] ON [dbo].[ArchiveEntity]
 (
 	[UniqGuid] ASC
 )
 INCLUDE ( 	[ParentGuid]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_DriveId]    Script Date: 20.05.2019 0:21:32 ******/
+
 CREATE NONCLUSTERED INDEX [IX_DriveId] ON [dbo].[ArchiveEntity]
 (
 	[DriveId] ASC
@@ -408,7 +282,7 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [IX_Drive_DriveCode_Unique]    Script Date: 20.05.2019 0:21:32 ******/
+
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Drive_DriveCode_Unique] ON [dbo].[Drive]
 (
 	[DriveCode] ASC
@@ -417,7 +291,7 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [IX_Drive_Title_Unique]    Script Date: 20.05.2019 0:21:32 ******/
+
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Drive_Title_Unique] ON [dbo].[Drive]
 (
 	[Title] ASC
@@ -426,7 +300,7 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [IX_RoleTitleUnique_Column]    Script Date: 20.05.2019 0:21:32 ******/
+
 CREATE UNIQUE NONCLUSTERED INDEX [IX_RoleTitleUnique_Column] ON [dbo].[Role]
 (
 	[RoleTitle] ASC
@@ -435,7 +309,7 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [TagTitleUniq]    Script Date: 20.05.2019 0:21:32 ******/
+
 CREATE UNIQUE NONCLUSTERED INDEX [TagTitleUniq] ON [dbo].[Tag]
 (
 	[TagTitle] ASC
@@ -444,7 +318,7 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [IX_UserNameUnique]    Script Date: 20.05.2019 0:21:32 ******/
+
 CREATE UNIQUE NONCLUSTERED INDEX [IX_UserNameUnique] ON [dbo].[User]
 (
 	[Username] ASC
@@ -500,19 +374,12 @@ REFERENCES [dbo].[User] ([UserId])
 GO
 ALTER TABLE [dbo].[UserToRole] CHECK CONSTRAINT [FK_UserToRole_ToUser]
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteDrive]    Script Date: 20.05.2019 0:21:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 
 
 CREATE PROCEDURE [dbo].[DeleteDrive] 
 @DriveId int
 AS
 BEGIN
- 
-
 
 BEGIN TRANSACTION;
 

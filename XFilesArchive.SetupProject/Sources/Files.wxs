@@ -71,7 +71,23 @@ SelectionLanguage="XPath"
 Permanent="yes"
 ElementPath="/configuration/appSettings/add[\[]@key='TcpPort'[\]]/@value"
 Value="[TCPPORT]" />
-          
+
+  <util:XmlFile
+Id="UpdateConnectionString"
+Action="setValue"
+File="[INSTALLFOLDER]XFilesArchive.UI.exe.config"
+SelectionLanguage="XPath"
+Permanent="yes"
+ElementPath="/configuration/connectionStrings/add[\[]@name='XFilesArchiveDataContext'[\]]" Name="connectionString"
+Value="Data Source=[DATABASE_SERVER];Initial Catalog=XFilesArchive;Integrated Security=true;providerName=System.Data.EntityClient;" Sequence="5"/>
+
+
+
+
+        
+      
+    
+
           <File Id='EntityFramework.xml' Name='EntityFramework.xml'/>
           
                 </Component>
