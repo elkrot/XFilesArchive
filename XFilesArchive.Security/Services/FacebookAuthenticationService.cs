@@ -151,7 +151,7 @@ namespace XFilesArchive.Security.Services
             }
         }
 
-        public UserDto AuthenticateUser()
+        public UserDto AuthenticateUser(string _username="", string _clearTextPassword="")
         {
 
             Login();

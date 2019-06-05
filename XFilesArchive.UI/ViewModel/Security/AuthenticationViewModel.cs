@@ -14,6 +14,7 @@ using System.Windows.Controls;
 using XFilesArchive.Infrastructure;
 using System.Security.Claims;
 using XFilesArchive.Security.Services;
+using Prism.Commands;
 
 namespace XFilesArchive.UI.ViewModel.Security
 {
@@ -22,7 +23,7 @@ namespace XFilesArchive.UI.ViewModel.Security
     public class AuthenticationViewModel : IViewModel, INotifyPropertyChanged
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly DelegateCommand _loginCommand;
+        private readonly DelegateCommand<Tuple<string, PasswordBox>> _loginCommand;
         private readonly DelegateCommand _winLoginCommand;
         private readonly DelegateCommand _fbLoginCommand;
         private readonly DelegateCommand _logoutCommand;
@@ -34,22 +35,31 @@ namespace XFilesArchive.UI.ViewModel.Security
         public AuthenticationViewModel(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
-            _loginCommand = new DelegateCommand(Login, CanLogin);
+            _loginCommand = new DelegateCommand<Tuple<string, PasswordBox>>(Login, CanLogin);
             _winLoginCommand = new DelegateCommand(WinLogin, WinCanLogin);
             _fbLoginCommand = new DelegateCommand(FbLogin, FbCanLogin);
             _logoutCommand = new DelegateCommand(Logout, CanLogout);
-            _showViewCommand = new DelegateCommand(ShowView, null);
-            _createAdminCommand = new DelegateCommand(CreateAdmin, null);
+            _showViewCommand = new DelegateCommand(ShowView, CanShowView);
+            _createAdminCommand = new DelegateCommand(CreateAdmin, CanCreateAdmin);
             var cmdArgs = Environment.GetCommandLineArgs();
-            Username = "Admin";
+            _username = "Admin";
         }
 
-        private bool FbCanLogin(object obj)
+
+        private bool CanShowView()
+        {
+            return true;
+        }
+        private bool CanCreateAdmin()
+        {
+            return true;
+        }
+        private bool FbCanLogin()
         {
             return true;
         }
 
-        private void FbLogin(object obj)
+        private void FbLogin()
         {
             var fbLogin = new FacebookLoginWindow();
             fbLogin.ShowDialog();
@@ -57,12 +67,12 @@ namespace XFilesArchive.UI.ViewModel.Security
 
         }
 
-        private bool WinCanLogin(object obj)
+        private bool WinCanLogin()
         {
             return true;
         }
 
-        private void WinLogin(object obj)
+        private void WinLogin()
         {
             var service = new WindowsAuthenticationService();
             var user = service.AuthenticateUser();
@@ -100,7 +110,7 @@ namespace XFilesArchive.UI.ViewModel.Security
         #endregion
 
         #region Commands
-        public DelegateCommand LoginCommand { get { return _loginCommand; } }
+        public DelegateCommand<Tuple<string, PasswordBox>> LoginCommand { get { return _loginCommand; } }
 
         public DelegateCommand WinLoginCommand { get { return _winLoginCommand; } }
 
@@ -115,13 +125,18 @@ namespace XFilesArchive.UI.ViewModel.Security
         #endregion
 
         #region CreateAdmin
-        private void CreateAdmin(object parameter)
+        private void CreateAdmin()
         {
             try
             {
-                //  var adminRole = _authenticationService.GetRole("Administrator");
+                 var adminRole = _authenticationService.GetRole("Administrator");
+                if (adminRole == null) {
+                    adminRole = new Role() { RoleTitle = "Administrator" };
+                }
 
-                _authenticationService.NewUser("Admin", "", "Pa$$w0rd", new HashSet<Role>() { new Role() { RoleTitle = "Administrator" } });
+
+
+                _authenticationService.NewUser("Admin", "", "Pa$$w0rd", new HashSet<Role>() { adminRole });
                 Status = "Создан пользователь Admin";
             }
             catch (Exception ex)
@@ -133,20 +148,21 @@ namespace XFilesArchive.UI.ViewModel.Security
         #endregion
 
         #region Login
-        private void Login(object parameter)
+        private void Login(Tuple<string, PasswordBox> parameters)
         {
-            PasswordBox passwordBox = parameter as PasswordBox;
-            string clearTextPassword = passwordBox.Password;
-
+            //PasswordBox passwordBox = parameter as PasswordBox;
+            //string clearTextPassword = passwordBox.Password;
+            string clearTextPassword = parameters.Item2.Password;
+            string username = parameters.Item1;
             //Username, clearTextPassword
             try
             {
-
-                UserDto user = _authenticationService.AuthenticateUser();
+                
+                UserDto user = _authenticationService.AuthenticateUser(username, clearTextPassword);
                 Action resetAction = () =>
                 {
                     Username = string.Empty; //reset
-                    passwordBox.Password = string.Empty; //reset
+                   // passwordBox.Password = string.Empty; //reset
                 };
                 Auth(user, resetAction);
 
@@ -200,7 +216,7 @@ namespace XFilesArchive.UI.ViewModel.Security
 
             if (IsAuthenticated)
             {
-                ShowView(null);
+                ShowView();
             }
         }
 
@@ -212,7 +228,7 @@ namespace XFilesArchive.UI.ViewModel.Security
         #endregion
 
         #region Logout
-        private void Logout(object parameter)
+        private void Logout()
         {
             CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
             if (customPrincipal != null)
@@ -226,7 +242,7 @@ namespace XFilesArchive.UI.ViewModel.Security
             }
         }
 
-        private bool CanLogout(object parameter)
+        private bool CanLogout()
         {
             return IsAuthenticated;
         }
@@ -238,7 +254,7 @@ namespace XFilesArchive.UI.ViewModel.Security
         }
 
         #region ShowView
-        private void ShowView(object parameter)
+        private void ShowView()
         {
             try
             {

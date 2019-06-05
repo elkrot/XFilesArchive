@@ -48,5 +48,10 @@ namespace XFilesArchive.Security.Repositories
 
             await SaveAsync();
         }
+
+        internal Role GetRole(string roleTitle)
+        {
+           return Context.Set<Role>().Where(x => x.RoleTitle == roleTitle).FirstOrDefault();
+        }
     }
 }

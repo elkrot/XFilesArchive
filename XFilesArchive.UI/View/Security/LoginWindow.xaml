@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XFilesArchive.UI.View.Security"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-
+xmlns:con="clr-namespace:XFilesArchive.UI.Converters"
         mc:Ignorable="d"
         Title="LoginWindow" Height="300" Width="300"
-                      FocusManager.FocusedElement="{Binding ElementName=passwordBox}">
+                      FocusManager.FocusedElement="{Binding ElementName=passwordBox}"
+                      ResizeMode="NoResize">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
 
+        <con:MultiTuplePasswordBoxConverter x:Key="MultiTuple"></con:MultiTuplePasswordBoxConverter>
+        
     </Window.Resources>
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
@@ -29,9 +32,9 @@
         <TextBlock Text="{Binding AuthenticatedUser}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                FontSize="14" HorizontalAlignment="Right" TextWrapping="Wrap" FontWeight="Bold"
                Margin="2,2,2,2"/>
-        <TextBlock Text="Имя пользователя:" Grid.Row="1" Grid.Column="0" Padding="20,10,20,10"/>
+        <TextBlock Text="Имя пользователя:" Grid.Row="1" Grid.Column="0" Padding="20,10,20,10" />
         <TextBlock Text="Пароль:" Grid.Row="2" Grid.Column="0" Padding="20,10,20,10" />
-        <TextBox Text="{Binding Username}" Grid.Row="1" Grid.Column="1" Margin="10,10,10,10"/>
+        <TextBox Text="{Binding Username}" Grid.Row="1" Grid.Column="1" Margin="10,10,10,10" x:Name="userName" />
         <PasswordBox x:Name="passwordBox" Grid.Row="2" Grid.Column="1"  Margin="10,10,10,10">
             <PasswordBox.InputBindings>
                 <KeyBinding Command="{Binding LoginCommand, Mode=OneTime}" CommandParameter="{Binding ElementName=passwordBox}" Key="Enter"/>
@@ -40,7 +43,15 @@
 
         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" >
             <Button Content="Вход" Command="{Binding LoginCommand, Mode=OneTime}" HorizontalAlignment="Stretch" Height="30"
-            CommandParameter="{Binding ElementName=passwordBox}" Style="{StaticResource AccentedSquareButtonStyle}"/>
+            Style="{StaticResource AccentedSquareButtonStyle}">
+                <Button.CommandParameter>
+
+                    <MultiBinding Converter="{StaticResource MultiTuple}">
+                        <Binding Path="Text" ElementName="userName"/>
+                        <Binding ElementName="passwordBox"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
 
         <Button Content="Вход Windows" Command="{Binding WinLoginCommand, Mode=OneTime}" HorizontalAlignment="Stretch" Height="30"
             Style="{StaticResource AccentedSquareButtonStyle}"/>
@@ -48,6 +59,8 @@
         <Button Content="Вход Facebook" Command="{Binding FbLoginCommand, Mode=OneTime}" HorizontalAlignment="Stretch" Height="30"
             Style="{StaticResource AccentedSquareButtonStyle}"/>
 
+            <Button Content="Создать УЗ Администратора" Command="{Binding CreateAdminCommand, Mode=OneTime}" HorizontalAlignment="Stretch" Height="30"
+            Style="{StaticResource AccentedSquareButtonStyle}"/>
             <!--<Button Content="TestAD"  HorizontalAlignment="Stretch" Height="30"
             Style="{StaticResource AccentedSquareButtonStyle}" Click="Button_Click"/>-->
         </StackPanel>

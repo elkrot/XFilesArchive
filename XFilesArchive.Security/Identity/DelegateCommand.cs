@@ -3,19 +3,19 @@ using System.Windows.Input;
 
 namespace XFilesArchive.Security
 {
-    public class DelegateCommand : ICommand
+    public class DelegateCommandX : ICommand
     {
         private readonly Predicate<object> _canExecute;
         private readonly Action<object> _execute;
 
         public event EventHandler CanExecuteChanged;
 
-        public DelegateCommand(Action<object> execute)
+        public DelegateCommandX(Action<object> execute)
           : this(execute, null)
         {
         }
 
-        public DelegateCommand(Action<object> execute, Predicate<object> canExecute)
+        public DelegateCommandX(Action<object> execute, Predicate<object> canExecute)
         {
             _execute = execute;
             _canExecute = canExecute;

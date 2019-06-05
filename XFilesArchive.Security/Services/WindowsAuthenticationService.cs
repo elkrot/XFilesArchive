@@ -13,7 +13,7 @@ namespace XFilesArchive.Security.Services
 {
     public class WindowsAuthenticationService : IAuthenticationService
     {
-        public UserDto AuthenticateUser()
+        public UserDto AuthenticateUser(string _username="", string _clearTextPassword="")
         {
 
             //var x = Thread.CurrentPrincipal.Identity.Name;

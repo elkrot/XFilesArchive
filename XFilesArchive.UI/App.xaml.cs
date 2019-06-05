@@ -74,7 +74,7 @@ namespace XFilesArchive.UI
                 base.OnStartup(e);
 
                 //Show the login view
-                AuthenticationViewModel viewModel = new AuthenticationViewModel(new AuthenticationService("",""));
+                AuthenticationViewModel viewModel = new AuthenticationViewModel(new AuthenticationService());
                 LoginWindow loginWindow = new LoginWindow(viewModel);
                 loginWindow.Show();
                 base.OnStartup(e);

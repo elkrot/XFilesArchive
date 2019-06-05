@@ -10,31 +10,29 @@ namespace XFilesArchive.Security
 {
     public interface IAuthenticationService
     {
-        UserDto AuthenticateUser();
+        UserDto AuthenticateUser(string _username, string _clearTextPassword);
         MethodResult<int> NewUser(string username, string email, string password, HashSet<Role> roles);
         Role GetRole(string RoleTitle);
     }
 
     public class AuthenticationService : IAuthenticationService
     {
-        string _username;
-        string _clearTextPassword;
-        public AuthenticationService(string username, string clearTextPassword)
+ 
+        public AuthenticationService()
         {
-            _username = username;
-            _clearTextPassword = clearTextPassword;
+
         }
         #region AuthenticateUser
-        public UserDto AuthenticateUser()
+        public UserDto AuthenticateUser(string _username, string _clearTextPassword)
         {
 
             using (var context = new SecurityContext())
             {
-                var repo =new UserRepository(context);
+                var repo = new UserRepository(context);
                 var CashedPassword = Infrastructure.Utilites.Security.CalculateHash(_clearTextPassword, _username);
 
                 User userData = repo.Find(u => u.Username.Equals(_username)
-                && u.Password.Equals(CashedPassword),null).FirstOrDefault();
+                && u.Password.Equals(CashedPassword), null).FirstOrDefault();
 
                 if (userData == null)
                     throw new UnauthorizedAccessException("Доступ запрещен. Отредактируйте учетные данные.");
@@ -60,8 +58,8 @@ namespace XFilesArchive.Security
             using (var context = new SecurityContext())
             {
                 var repo = new UserRepository(context);
-               
-                return repo.Find(x => x.UserId == id,null).FirstOrDefault();
+
+                return repo.Find(x => x.UserId == id, null).FirstOrDefault();
             }
         }
         #endregion
@@ -73,11 +71,26 @@ namespace XFilesArchive.Security
             using (var context = new SecurityContext())
             {
                 var repo = new UserRepository(context);
-                User user = repo.Find(x => x.Username == username,null).FirstOrDefault();
+                User user = repo.Find(x => x.Username == username, null).FirstOrDefault();
 
                 if (user == null)
                 {
-                    user = new User(username, email, roles);
+                    HashSet<Role> _roles = new HashSet<Role>();
+
+                    foreach (var ro in roles)
+                    {
+                        var _role = repo.GetRole(ro.RoleTitle);
+                        if (_role == null)
+                        {
+                            _role = new Role() { RoleTitle = ro.RoleTitle };
+                        }
+                        _roles.Add(_role);
+                    }
+
+
+
+
+                    user = new User(username, email, _roles);
                     user.Password = Infrastructure.Utilites.Security.CalculateHash(password, user.Username);
                     repo.Add(user);
                 }
@@ -98,11 +111,11 @@ namespace XFilesArchive.Security
             using (var context = new SecurityContext())
             {
                 var repo = new RoleRepository(context);
-                Role role = repo.Find(x => x.RoleTitle == RoleTitle,null).FirstOrDefault();
+                Role role = repo.Find(x => x.RoleTitle == RoleTitle, null).FirstOrDefault();
 
                 if (role == null)
                 {
-                    role = new Role() { RoleTitle=RoleTitle};
+                    role = new Role() { RoleTitle = RoleTitle };
                     repo.Add(role);
                     repo.Save();
                 }
@@ -124,7 +137,7 @@ namespace XFilesArchive.Security
             using (var context = new SecurityContext())
             {
                 var repo = new UserRepository(context);
-                User user = repo.Find(x => x.Username == username,null).FirstOrDefault();
+                User user = repo.Find(x => x.Username == username, null).FirstOrDefault();
 
                 if (user != null)
                 {
@@ -142,11 +155,11 @@ namespace XFilesArchive.Security
 
         #endregion
 
-  
+
     }
 
     #region UserDto
-  public class UserDto
+    public class UserDto
     {
         public UserDto(string username, string email, string[] roles)
         {
@@ -175,4 +188,4 @@ namespace XFilesArchive.Security
     }
 
     #endregion
-  }
+}
