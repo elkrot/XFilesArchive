@@ -37,7 +37,15 @@ xmlns:con="clr-namespace:XFilesArchive.UI.Converters"
         <TextBox Text="{Binding Username}" Grid.Row="1" Grid.Column="1" Margin="10,10,10,10" x:Name="userName" />
         <PasswordBox x:Name="passwordBox" Grid.Row="2" Grid.Column="1"  Margin="10,10,10,10">
             <PasswordBox.InputBindings>
-                <KeyBinding Command="{Binding LoginCommand, Mode=OneTime}" CommandParameter="{Binding ElementName=passwordBox}" Key="Enter"/>
+                <KeyBinding Command="{Binding LoginCommand, Mode=OneTime}" 
+                             Key="Enter">
+                    <KeyBinding.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiTuple}">
+                            <Binding Path="Text" ElementName="userName"/>
+                            <Binding ElementName="passwordBox"/>
+                        </MultiBinding>
+                    </KeyBinding.CommandParameter>
+                </KeyBinding>
             </PasswordBox.InputBindings>
         </PasswordBox>
 
