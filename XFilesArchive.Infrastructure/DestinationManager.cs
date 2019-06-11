@@ -74,7 +74,7 @@ namespace XFilesArchive.Infrastructure
                 ParentGuid = parentGuid,
                 EntityPath = dInfo.Root.Name,
                 EntityType = 1,
-                Title = dInfo.FullName
+                Title = dInfo.Name
             });
 
             #region AddFiles
@@ -92,7 +92,7 @@ namespace XFilesArchive.Infrastructure
                     ,
                     EntityPath = fInfo.DirectoryName
                     ,
-                    Title = fInfo.FullName
+                    Title = fInfo.Name
                     ,
                     FileSize = fInfo.Length
                     ,
