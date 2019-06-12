@@ -27,10 +27,10 @@ namespace XFilesArchive.Security.Services
         public FacebookAuthenticationService(WebBrowser FbBro)
         {
             _FbBro = FbBro;
-            _client_id = "893528717423936";
+            _client_id = "-------------";
             _redirect_uri = "https://www.facebook.com/connect/login_success.html";
             FbBro.Navigated += FbBro_Navigated;
-            _client_secret = "28a4f9e18f7925c455498ddd538afbc7";
+            _client_secret = "--------------";
         }
 
         #region GetLoginUrl
