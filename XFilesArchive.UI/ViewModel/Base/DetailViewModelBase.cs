@@ -137,7 +137,7 @@ namespace XFilesArchive.UI.ViewModel
 
         protected abstract void OnSaveExecute();
 
-        protected virtual void RaiseDetailSavedEvent(int modelId, string displayMember)
+        protected virtual void RaiseDetailSavedEvent(int modelId, string displayMember, string driveCode="", bool? isSecret = false)
         {
             EventAggregator.GetEvent<AfterSaveEvent>().Publish(new AfterDriveSavedEventArgs
             {
@@ -146,6 +146,8 @@ namespace XFilesArchive.UI.ViewModel
                 DisplayMember = displayMember
                 ,
                 ViewModelName = this.GetType().Name
+                , DriveCode = driveCode
+                , IsSecret = (bool)isSecret
             });
         }
 

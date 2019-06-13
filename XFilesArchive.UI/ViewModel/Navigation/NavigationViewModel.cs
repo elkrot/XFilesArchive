@@ -105,13 +105,17 @@ namespace XFilesArchive.UI.ViewModel
 
             if (lookupItem == null)
             {
-                items.Add(new NavigationDriveItemViewModel(args.Id, args.DisplayMember,
-                    args.ViewModelName
-                    , _eventAggregator, args.DriveCode.TrimEnd(' '), args.IsSecret));
+                if (args.DriveCode != null)
+                {
+                    items.Add(new NavigationDriveItemViewModel(args.Id, args.DisplayMember,
+                        args.ViewModelName
+                        , _eventAggregator, args.DriveCode?.TrimEnd(' ') ?? "", args.IsSecret));
+                }
             }
             else
             {
                 lookupItem.DisplayMember = args.DisplayMember;
+                lookupItem.DriveCode = args.DriveCode;
             }
         }
 

@@ -115,6 +115,7 @@ namespace XFilesArchive.UI.ViewModel
             //}
 
             await Task.Factory.StartNew(() => { });
+            //TODO: Разобраться
         }
 
         private bool OnRemoveArchiveEntityCanExecute()
@@ -198,7 +199,7 @@ namespace XFilesArchive.UI.ViewModel
 
                 HasChanges = _repository.HasChanges();
                 Id = Drive.DriveId;
-                RaiseDetailSavedEvent(Drive.DriveId, $"{Drive.Title}");
+                RaiseDetailSavedEvent(Drive.DriveId, $"{Drive.Title}",Drive.DriveCode,Drive.IsSecret);
             });
         }
 
