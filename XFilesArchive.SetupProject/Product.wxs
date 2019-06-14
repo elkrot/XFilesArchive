@@ -22,25 +22,6 @@
 
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLFOLDER" Name="$(var.ProductName)">
-          <!--<Component Id="SqlComponent1" Guid="8A65D42C-121F-4144-817A-B48099BCABFA" KeyPath="yes">
-            <Condition><![CDATA[DATABASE_LOGON_TYPE <> "DatabaseAccount"]]></Condition>
-            <sql:SqlDatabase Id="SqlDatabase1" Database="WPFCSHARP" Server="[DATABASE_SERVER]" 
-                             CreateOnInstall="yes" CreateOnReinstall="no" CreateOnUninstall="no" 
-                             DropOnInstall="no" DropOnReinstall="no" DropOnUninstall="no" ContinueOnError="no">
-              <sql:SqlScript Id="Database1" ExecuteOnInstall="yes" ExecuteOnReinstall="no" 
-                             ExecuteOnUninstall="no" BinaryKey="database" Sequence="1"></sql:SqlScript>
-            </sql:SqlDatabase>
-          </Component>
-          <Component Id="SqlComponent2" Guid="4FFE2197-1999-4E46-9B70-D0A1C731A8F6" KeyPath="yes">
-            <Condition><![CDATA[DATABASE_LOGON_TYPE = "DatabaseAccount"]]></Condition>
-            <sql:SqlDatabase Id="SqlDatabase2" Database="WPFCSHARP" Server="[DATABASE_SERVER]" 
-                             User="SQLUser" CreateOnInstall="yes" CreateOnReinstall="no" 
-                             CreateOnUninstall="no" DropOnInstall="no" DropOnReinstall="no" 
-                             DropOnUninstall="no" ContinueOnError="no">
-              <sql:SqlScript Id="Database2" ExecuteOnInstall="yes" ExecuteOnReinstall="no" 
-                             ExecuteOnUninstall="no" BinaryKey="database" Sequence="1"></sql:SqlScript>
-            </sql:SqlDatabase>
-          </Component>-->
 
           <Component Id="SqlComponent" Guid="4FFE2197-1999-4E46-9B70-D0A1C731A8F6" KeyPath="yes">
             <!--<Condition><![CDATA[DATABASE_LOGON_TYPE <> "DatabaseAccount"]]></Condition>-->
