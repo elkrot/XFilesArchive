@@ -200,6 +200,7 @@ namespace XFilesArchive.UI.ViewModel
                 HasChanges = _repository.HasChanges();
                 Id = Drive.DriveId;
                 RaiseDetailSavedEvent(Drive.DriveId, $"{Drive.Title}",Drive.DriveCode,Drive.IsSecret);
+                Drive.AcceptChanges();
             });
         }
 

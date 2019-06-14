@@ -22,7 +22,7 @@ namespace XFilesArchive.UI.Wrapper
             Model = model;
             _originalValues = new Dictionary<string, object>();
             _trackingObjects = new List<IValidatableTrackingObject>();
-           InitializeComplexProperties(model);
+            InitializeComplexProperties(model);
             InitializeCollectionProperties(model);
             Validate();
         }

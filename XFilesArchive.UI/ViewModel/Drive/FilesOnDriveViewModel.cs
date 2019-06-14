@@ -330,6 +330,7 @@ namespace XFilesArchive.UI.ViewModel
                 HasChanges = _repository.HasChanges();
                 Id = ArchiveEntity.ArchiveEntityKey;
                 RaiseDetailSavedEvent(ArchiveEntity.ArchiveEntityKey, $"{ArchiveEntity.Title}");
+                ArchiveEntity.AcceptChanges();
             });
 
         }
