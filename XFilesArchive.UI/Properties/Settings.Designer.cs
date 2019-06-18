@@ -25,9 +25,9 @@ namespace XFilesArchive.UI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::XFilesArchive.UI.AppConfig Config {
+        public global::XFilesArchive.Infrastructure.AppConfig Config {
             get {
-                return ((global::XFilesArchive.UI.AppConfig)(this["Config"]));
+                return ((global::XFilesArchive.Infrastructure.AppConfig)(this["Config"]));
             }
             set {
                 this["Config"] = value;
