@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <Fragment>
+    <WixVariable Id="WixMbaPrereqPackageId" Value="Netfx461Full" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="NetfxLicense.rtf" />
+
+    <util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\Net Framework Setup\NDP\v4\Full" Value="Version" Variable="Netfx461FullVersion" Format="raw" Result="value"/>
+    <util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\Net Framework Setup\NDP\v4\Full" Value="Version" Variable="Netfx461x64FullVersion" Win64="yes" Format="raw" Result="value"/>
+
+    <PackageGroup Id="Netfx461Full">
+      <ExePackage DisplayName="Microsoft .NET Framework 461" Name="Prerequisites\NDP461KB3102436x86x64AllOSENU.exe" Id="Netfx461Full" 
+                  Cache="no" Compressed="no" Permanent="yes" PerMachine="yes" Vital="yes" 
+                  SourceFile="$(var.msiRepository)\$(var.track)\Prerequisites\NDP461KB3102436x86x64AllOSENU.exe"
+                  DownloadUrl="$(var.NetfxUrl)"
+                  InstallCommand="$(var.NetfxCmd)"
+                  DetectCondition=" (Netfx461FullVersion=&quot;4.6.01055&quot; OR Netfx461x64FullVersion=&quot;4.6.01055&quot;)">
+      </ExePackage>
+    </PackageGroup>
+  </Fragment>
+</Wix>
