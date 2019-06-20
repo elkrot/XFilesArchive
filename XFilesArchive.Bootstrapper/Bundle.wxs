@@ -10,26 +10,28 @@
 <?define Eula = "Resources\eula.rtf" ?>
 <!-- UpgradeCode must be unique and not changed once the first version of the program is installed. -->
 <?define UpgradeCode = "c096ca50-2db9-4c61-9802-110afbb3a769" ?>
+<?define NetFx461MinRelease = 394254 ?>
+<?define NetFx461WebLink = http://go.microsoft.com/fwlink/?LinkId=671728 ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
      xmlns:bal="http://schemas.microsoft.com/wix/BalExtension" 
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
     <Bundle Name="$(var.Name)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Version="$(var.Version)" IconSourceFile="$(var.Logo)">
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
+      <bal:WixStandardBootstrapperApplication LicenseFile="$(var.Eula)" LogoFile="$(var.Logo)" SuppressOptionsUI ="yes" SuppressRepair="yes"/>
+    </BootstrapperApplicationRef>
 
-      <!--Bootstrapper UI with EULA and logo-->
-      <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
-        <bal:WixStandardBootstrapperApplication LicenseFile="$(var.Eula)" LogoFile="$(var.Logo)"
-                                                SuppressOptionsUI ="yes" SuppressRepair="yes"/>
-        <!--<Payload  Name="BootstrapperCore.config"  SourceFile="$(var.MyMBA.TargetDir)\TestUX.BootstrapperCore.config"/>
-        <Payload  SourceFile="$(var.MyMBA.TargetPath)"/>-->
-      </BootstrapperApplicationRef>
-
-      <!-->net Framework 4.5.2 offline installer-->
-      <Chain ParallelCache="yes">
+      <!--<Chain ParallelCache="yes">
         <PackageGroupRef Id='Netfx461Full' />
 
-      </Chain>
-     
+      </Chain>-->
+      
+      
+          <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
+
+      <bal:Condition Message="This product requires .NET Framework 4.6.1, please install it from &lt;a href=&quot;$(var.NetFx461WebLink)&quot;&gt;$(var.NetFx461WebLink)&lt;/a&gt;.">
+        <![CDATA[NETFRAMEWORK45 >= $(var.NetFx461MinRelease)]]>
+      </bal:Condition>
       <!--<util:RegistrySearch Id="SqlInstanceKeyFoundSearch"
                            Root="HKLM"
                            Key="SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL"
