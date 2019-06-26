@@ -23,6 +23,9 @@
             
             
           </File>
+          <File Id='UI.config' Name='XFilesArchive.UI.exe.config'/>
+          
+          
           <File Id='Autofac' Name='Autofac.dll'/>
           <File Id='EntityFramework.SqlServer.xml' Name='EntityFramework.SqlServer.xml'/>
           <File Id='Facebook' Name='Facebook.dll'/>
@@ -62,7 +65,8 @@
           <File Id='Security.config' Name='XFilesArchive.Security.dll.config'/>
           <File Id='Services' Name='XFilesArchive.Services.dll'/>
           <File Id='Services.config' Name='XFilesArchive.Services.dll.config'/>
-          <File Id='UI.config' Name='XFilesArchive.UI.exe.config'/>
+          <File Id='EntityFramework.xml' Name='EntityFramework.xml'/>
+         
             <util:XmlFile
 Id="UpdateTcpPort"
 Action="setValue"
@@ -91,7 +95,7 @@ Value="Data Source=[DATABASE_SERVER];Initial Catalog=XFilesArchive;Integrated Se
         Value="Data Source=[DATABASE_SERVER];Initial Catalog=XFilesArchive;Integrated Security=true" Sequence="5"/>
 
 
-          <File Id='EntityFramework.xml' Name='EntityFramework.xml'/>
+          
           
                 </Component>
       </DirectoryRef>

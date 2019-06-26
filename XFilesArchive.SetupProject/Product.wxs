@@ -32,6 +32,10 @@
                              ExecuteOnUninstall="no" BinaryKey="CreateTables" Sequence="1"></sql:SqlScript>
             </sql:SqlDatabase>
           </Component>
+
+          <Directory Id="loc" Name="loc" />
+
+          <Directory Id="lib" Name="lib" />
           
           
           <Directory Id="ImgFolder" Name="Img">
