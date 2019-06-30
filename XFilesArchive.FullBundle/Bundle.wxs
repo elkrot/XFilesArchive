@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?define Name = "XFilesArchive.Bootstrapper" ?>
+<!-- The manufacturer, for setup package publisher and folder info -->
+<?define Manufacturer = "ELKROT" ?>
+<!-- The version number of this setup package-->
+<?define Version = "1.0.0" ?>
+<!-- Bundle logo-->
+<?define Logo = "Resources\logo.ico" ?>
+<!-- Bundle EULA rtf document-->
+<?define Eula = "Resources\eula.rtf" ?>
+<!-- UpgradeCode must be unique and not changed once the first version of the program is installed. -->
+<?define UpgradeCode = "39f7d23e-db1d-4ef3-b5e6-dbb9f0d5fd22" ?>
+<?define NetFx461MinRelease = 394254 ?>
+<?define NetFx461WebLink = http://go.microsoft.com/fwlink/?LinkId=671728 ?>
+<?define InstanceName = "MSSQL12.SQLEXPRESS2" ?>
+<?define SqlPassword = "Pa$$w0rd2019" ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Bundle Name="$(var.Name)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Version="$(var.Version)" IconSourceFile="$(var.Logo)">
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
+      <bal:WixStandardBootstrapperApplication LicenseFile="$(var.Eula)" LogoFile="$(var.Logo)" SuppressOptionsUI ="yes" SuppressRepair="yes"/>
+    </BootstrapperApplicationRef>
+
+
+    <PayloadGroup Id="NetFx461RedistPayload">
+      <Payload Name="redist\NDP461-KB3102436-x86-x64-AllOS-ENU.exe"
+           SourceFile="C:\GitRepositories\repo\NDP461-KB3102436-x86-x64-AllOS-ENU.exe"/>
+    </PayloadGroup>
+
+    <util:RegistrySearch Id="SqlInstanceKeyFoundSearch"
+                            Root="HKLM"
+                            Key="SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL"
+                            Value="SQLEXPRESS"
+                            Result="exists"
+                            Variable="SqlInstanceKeyFound"
+                            Win64="yes" />
+
+
+    <Chain>
+      <PackageGroupRef Id = "SQLServerExpress" />
+      <PackageGroupRef Id="NetFx461Redist"/>
+      <MsiPackage DisplayName="$(var.Name)" SourceFile="$(var.SolutionDir)\XFilesArchive.SetupProject\bin\Debug\ru-ru\XFilesArchive.SetupProject.msi"
+                  DisplayInternalUI="yes" Compressed="yes" Vital="yes"/>
+
+    </Chain>
+
+
+
+
+
+  </Bundle>
+
+  <Fragment>
+
+    <PackageGroup Id="SQLServerExpress">
+      <ExePackage Compressed="no"
+                  DisplayName="Installing SQL Server Express 2014"
+                  PerMachine="yes"
+                  Cache="yes"
+                  Vital="yes"
+                  Permanent="no"
+                  InstallCommand='/IACCEPTSQLSERVERLICENSETERMS /HIDECONSOLE /INSTANCEID="$(var.InstanceName)" /ACTION="Install" /FEATURES=SQLENGINE /HELP="False" /INDICATEPROGRESS="False" /QUIET="True" /QUIETSIMPLE="False" /ERRORREPORTING="False" /SQMREPORTING="False" /INSTANCENAME="$(var.InstanceName)" /AGTSVCSTARTUPTYPE="Manual" /ISSVCSTARTUPTYPE="Automatic" /ISSVCACCOUNT="NT AUTHORITY\NetworkService" /ASSVCSTARTUPTYPE="Automatic" /ASCOLLATION="Latin1_General_CI_AS" /ASDATADIR="Data" /ASLOGDIR="Log" /ASBACKUPDIR="Backup" /ASTEMPDIR="Temp" /ASCONFIGDIR="Config" /ASPROVIDERMSOLAP="1" /SQLSVCSTARTUPTYPE="Automatic" /FILESTREAMLEVEL="0" /ENABLERANU="True" /SQLCOLLATION="SQL_Latin1_General_CP1_CI_AS" /SQLSVCACCOUNT="NT AUTHORITY\NETWORK SERVICE" /ADDCURRENTUSERASSQLADMIN="True" /TCPENABLED="0" /NPENABLED="0" /BROWSERSVCSTARTUPTYPE="Disabled" /RSSVCSTARTUPTYPE="Automatic" /RSINSTALLMODE="FilesOnlyMode" /SECURITYMODE=SQL /SAPWD="$(var.SqlPassword)"'
+                  UninstallCommand='/Action=Uninstall /INSTANCENAME="$(var.InstanceName)" /FEATURES=SQLENGINE /QUIET="True" /HIDECONSOLE'
+                  InstallCondition="NOT SqlInstanceKeyFound"
+                  SourceFile="C:\GitRepositories\repo\SQLEXPR_x64_ENU.exe"
+                  Name="SQLEXPR_x64_ENU.exe"
+                   >
+      </ExePackage>
+      
+    </PackageGroup>
+  </Fragment>
+</Wix>

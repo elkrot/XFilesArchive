@@ -1,11 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-  
-  <PropertyRef Id="WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED"/>
-  <Condition Message="!(loc.DotNetFrameworkNeeded)">
-    <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED]]>
-  </Condition>
+ 
+  <!--NET 4.6.1-->
+    <PropertyRef Id="WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED" />
+    <Condition Message="$(var.ProductName) requires .NET Framework 4.6.1 or higher.">
+      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED]]>
+    </Condition>
 
+  
+  
+  <!-- SQLExpress -->
+
+
+<Property Id="SQLEXPRVERSION14X86" Value="0">
+  <RegistrySearch Id="SqlExprVersion14x86"
+                    Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft SQL Server SQLServer2014"
+                    Name="Publisher"
+                    Root="HKLM"
+                    Type="raw"
+                  Win64="no"/>
+</Property>
+
+ <Condition Message="This application requires Microsoft SQL Server Express 2014. Please install the Microsoft SQL Server then run this installer again.">
+  <![CDATA[Installed OR (SQLEXPRVERSION14X86 = "Microsoft Corporation" AND (VersionNT < 602) AND NOT VersionNT64) OR (VersionNT > 602) OR (VersionNT64)]]>
+</Condition>
+
+<Property Id="SQLEXPRVERSION14X64" Value="0">
+  <RegistrySearch Id="SqlExprVersion14x64"
+                  Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft SQL Server SQLServer2014"
+                  Name="Publisher"
+                  Root="HKLM"
+                  Type="raw"
+                  Win64="yes"/>
+</Property>
+
+<Condition Message="This application requires Microsoft SQL Server Express 2014. Please install the Microsoft SQL Server then run this installer again.">
+  <![CDATA[Installed OR (SQLEXPRVERSION14X64 = "Microsoft Corporation" AND (VersionNT < 602) AND VersionNT64) OR (VersionNT > 602) OR NOT (VersionNT64)]]>
+</Condition>
+
+<Property Id="SQLEXPRVERSION16X86" Value="0">
+  <RegistrySearch Id="SqlExprVersion16x86"
+                  Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft SQL Server SQLServer2016"
+                  Name="Publisher"
+                  Root="HKLM"
+                  Type="raw"
+                  Win64="no"/>
+</Property>
+
+<Condition Message="This application requires Microsoft SQL Server Express 2016. Please install the Microsoft SQL Server then run this installer again.">
+  <![CDATA[Installed OR (SQLEXPRVERSION16X86 = "Microsoft Corporation" AND (VersionNT > 602) AND NOT VersionNT64) OR (VersionNT < 602) OR (VersionNT64)]]>
+</Condition>
+
+<Property Id="SQLEXPRVERSION16X64" Value="0">
+  <RegistrySearch Id="SqlExprVersion16x64"
+                  Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft SQL Server SQLServer2016"
+                  Name="Publisher"
+                  Root="HKLM"
+                  Type="raw"
+                  Win64="yes"/>
+</Property>
+
+<Condition Message="This application requires Microsoft SQL Server Express 2016. Please install the Microsoft SQL Server then run this installer again.">
+  <![CDATA[Installed OR (SQLEXPRVERSION16X64 = "Microsoft Corporation" AND (VersionNT > 602) AND VersionNT64) OR (VersionNT < 602) OR NOT (VersionNT64)]]>
+  </Condition>
+  
   <!--<Property Id="SQLSERVER_INSTANCE">
     <RegistrySearch Id="SQLServerRegSearch" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft Sql Server\Instance Names\SQL" Type="raw" Name="SQLEXPRESS"/>
   </Property>

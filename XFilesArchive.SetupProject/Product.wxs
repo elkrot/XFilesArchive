@@ -6,12 +6,19 @@
   <?include Includes/Variables.wxi?>
   <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)"  Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
 
+
+
+    
+    
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" />
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
     <Icon Id="AppIco.ico" SourceFile="$(sys.SOURCEFILEDIR)Img\AppIco.ico"/>
     <Property Id="ARPPRODUCTICON" Value="AppIco.ico" />
+    
 
+    
+    
     <!--<Binary Id="database" SourceFile="$(sys.SOURCEFILEDIR)Scripts\XFilesArchive.sql" />-->
     <Binary Id="CreateTables" SourceFile="$(sys.SOURCEFILEDIR)Scripts\CreateTables.sql" />
     <Binary Id="success_bmp" SourceFile="$(sys.SOURCEFILEDIR)Img\success.bmp" />
