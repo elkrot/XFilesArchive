@@ -48,7 +48,8 @@
     </Bundle>
 
 <Fragment>
-  
+   <Condition Message="This install package only supports 64-bit
+> operating systems."><![CDATA[(VersionNT64>=601)]]></Condition>
       <PackageGroup Id="SQLServerExpressWeb">
         <ExePackage Compressed="no"
                     DisplayName="Installing SQL Server Express 2014"
