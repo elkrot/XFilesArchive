@@ -15,7 +15,7 @@
         <TreeView x:Name="CategoriesTreeView" 
                    
                   ItemsSource="{Binding Path=NavigationItems}"
-                  SelectedValuePath="CategoryKey">
+                  SelectedValuePath="CategoryKey"  >
 
             <!--<i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectedItemChanged">

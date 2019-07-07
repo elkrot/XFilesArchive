@@ -16,19 +16,19 @@
         </Grid.RowDefinitions>
 
         <TabControl Grid.Row="0" >
-        <TabItem>
+        <TabItem Background="#FF1B1B1B">
                 <TabItem.Header>
                     <StackPanel>
                         <TextBlock >Инфа  файла</TextBlock>
                     </StackPanel>
                 </TabItem.Header>
-                <Grid>
+                <Grid Background="#FF1B1B1B">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     
-                    <StackPanel>
+                    <StackPanel Background="#FF1B1B1B">
                         <Slider Maximum="10" Minimum="0" Value="{Binding ArchiveEntity.Grade}" TickFrequency="1"
                     TickPlacement="BottomRight"></Slider>
                         <TextBox Text="{Binding ArchiveEntity.Title,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -37,18 +37,18 @@
                         <TextBlock Text="{Binding ArchiveEntity.FileInfo[FullName]}" />
                     </StackPanel>
 
-                <view:MediaInfoView DataContext="{Binding ArchiveEntity}" Grid.Row="1" Margin="0,10,0,0"/>
+                <view:MediaInfoView DataContext="{Binding ArchiveEntity}" Grid.Row="1" Margin="0,10,0,0" Background="#FF1B1B1B"/>
 
             </Grid>
         </TabItem>
 
             <!-- Метки,Категории -->
 
-            <TabItem >
+            <TabItem Background="#FF323131">
             <TabItem.Header>
                 <StackPanel><TextBlock >Метки,Категории</TextBlock></StackPanel>
             </TabItem.Header>
-                <Grid ShowGridLines="False">
+                <Grid ShowGridLines="False" Background="#FF323131" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="*"/>
@@ -60,17 +60,19 @@
                     </Grid.RowDefinitions>
                     
                 <toolkit:AutoCompleteBox ItemsSource="{Binding TagsItems}" VerticalAlignment="Top" Name="TagValue" Width="300" Height="30" Margin="10"/>
-                        <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top">
+                    <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top"  Background="#FF323131">
                             <Button Content="+" Command="{Binding AddTagCommand}" CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
                             <Button Content="*" Command="{Binding MultyAddTagCommand}" CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
                         </StackPanel>
                         <view:TagsView Grid.Column="2" RemoveItem="{Binding Path = DataContext.DeleteTagCommand, ElementName=rootFileEdit}" Margin="0,10,0,0"/>
-                    <TreeView x:Name="CategoriesTreeView" ItemsSource="{Binding Path=CategoryNavigationViewModel.NavigationItems}"
-                  SelectedValuePath="CategoryKey" Grid.Row="1">
+                    <TreeView x:Name="CategoriesTreeView" 
+                              ItemsSource="{Binding Path=CategoryNavigationViewModel.NavigationItems}"
+                  SelectedValuePath="CategoryKey" Grid.Row="1" Background="#FF323131">
+                        
                         <TreeView.ItemTemplate >
                             <HierarchicalDataTemplate ItemsSource="{Binding Path=NavigationItems}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding ImagePath}" Width="50" Margin="0"/>
+                                <StackPanel Orientation="Horizontal"  Background="#FF323131">
+                                    <!--<Image Source="{Binding ImagePath}" Width="50" Margin="0"/>-->
                                     <TextBlock Text="{Binding DisplayValue}" />
                                 </StackPanel>
                             </HierarchicalDataTemplate>
@@ -85,13 +87,13 @@
                             </ContextMenu>
                         </TreeView.ContextMenu>
                     </TreeView>
-                    <StackPanel Grid.Row="1" Grid.Column="1">
+                    <StackPanel Grid.Row="1" Grid.Column="1"  Background="#FF323131">
                         <Button Content="+" Command="{Binding AddCategoryCommand}" CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}" />
                         <Button Content="*" Command="{Binding MultyAddCategoryCommand}" CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"/>
                     </StackPanel>
                     <view:CategoryToEntitiesView RemoveItem="{Binding Path = DataContext.DeleteCategoryToEntityCommand, ElementName=rootFileEdit}"                 
                                                  Margin="0,10,0,0" Grid.Column="2" Grid.Row="1"/>
-                    <Grid >
+                    <Grid  Background="#FF323131">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="34*"  />
                             <ColumnDefinition Width="11*"/>
@@ -102,13 +104,14 @@
     </Grid>
     <!--DataContext="{Binding ArchiveEntity}"-->
             </TabItem>
-        <TabItem >
+            <TabItem Background="#FF474646" >
                 <TabItem.Header>
                     <StackPanel>
                         <TextBlock >Картинки</TextBlock>
                     </StackPanel>
                 </TabItem.Header>
-                <Grid>
+                
+                <Grid Background="#FF474646">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="*"/>
@@ -119,17 +122,17 @@
                     <view:ImagesView 
                                RemoveItem="{Binding Path = DataContext.DeleteImageCommand, 
                         ElementName=rootFileEdit}"       
-                                     Margin="0,10,0,0" Height="Auto" Grid.Row="1"/>
+                                     Margin="0,10,0,0" Height="Auto" Grid.Row="1" Background="#FF474646"/>
 
                 </Grid>
         </TabItem>
-        <TabItem>
+            <TabItem Background="#FF6C6A6A">
                 <TabItem.Header>
                     <StackPanel>
                         <TextBlock >Описание</TextBlock>
                     </StackPanel>
                 </TabItem.Header>
-                <StackPanel>
+                <StackPanel Background="#FF6C6A6A">
 
                     <xctk:RichTextBox x:Name="_richTextBox" Grid.Row="1" Margin="10" Padding="10" 
                                      Text="{Binding ArchiveEntity.Description,Mode=TwoWay,

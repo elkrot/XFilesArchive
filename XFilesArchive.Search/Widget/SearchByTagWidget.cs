@@ -20,7 +20,7 @@ namespace XFilesArchive.Search.Widget
         public void AddQuery(string TagTitle)
         {
 
-            var specification = new AdHocSpecification<ArchiveEntity>(x => x.Tags.Where(t => t.TagTitle == TagTitle).Count() > 0);
+            var specification = new AdHocSpecification<ArchiveEntity>(x => x.Tags.Any(t => t.TagTitle == TagTitle));
             AddItem(new SearchWidgetItem()
             {
                 Title = string.Format(@"{0}", TagTitle)

@@ -9,7 +9,7 @@ namespace XFilesArchive.Search.Widget
         public void AddQuery(int CategoryKey,string title)
         {
 
-            var specification = new AdHocSpecification<ArchiveEntity>(x => x.Categories.Where(t => t.CategoryKey == CategoryKey).Count() > 0);
+            var specification = new AdHocSpecification<ArchiveEntity>(x => x.Categories.Any(t => t.CategoryKey == CategoryKey));
             AddItem(new SearchWidgetItem()
             {
                 Title = string.Format(@"{0}", title)
