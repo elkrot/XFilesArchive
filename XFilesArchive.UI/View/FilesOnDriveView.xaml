@@ -9,6 +9,15 @@
              mc:Ignorable="d" 
              xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
              d:DesignHeight="550" d:DesignWidth="600" Name="rootFileEdit">
+    <UserControl.Resources>
+        <SolidColorBrush Color="#FF323131"  x:Key="CategoryBackgroundColor"/>
+        <Style TargetType="TreeView">
+            <Setter Property="Background" Value="#FF323131" />
+            <Setter Property="Button.Foreground" Value="White" />
+            <Setter Property="Button.FontFamily" Value="Andy" />
+        </Style>
+    </UserControl.Resources>
+    
     <Grid ShowGridLines="False">
         <Grid.RowDefinitions>
         <RowDefinition Height="*"/>
@@ -44,11 +53,11 @@
 
             <!-- Метки,Категории -->
 
-            <TabItem Background="#FF323131">
+            <TabItem Background="{StaticResource CategoryBackgroundColor}">
             <TabItem.Header>
                 <StackPanel><TextBlock >Метки,Категории</TextBlock></StackPanel>
             </TabItem.Header>
-                <Grid ShowGridLines="False" Background="#FF323131" >
+                <Grid ShowGridLines="False" Background="{StaticResource CategoryBackgroundColor}" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="*"/>
@@ -67,11 +76,11 @@
                         <view:TagsView Grid.Column="2" RemoveItem="{Binding Path = DataContext.DeleteTagCommand, ElementName=rootFileEdit}" Margin="0,10,0,0"/>
                     <TreeView x:Name="CategoriesTreeView" 
                               ItemsSource="{Binding Path=CategoryNavigationViewModel.NavigationItems}"
-                  SelectedValuePath="CategoryKey" Grid.Row="1" Background="#FF323131">
+                  SelectedValuePath="CategoryKey" Grid.Row="1" Background="{StaticResource CategoryBackgroundColor}">
                         
                         <TreeView.ItemTemplate >
                             <HierarchicalDataTemplate ItemsSource="{Binding Path=NavigationItems}">
-                                <StackPanel Orientation="Horizontal"  Background="#FF323131">
+                                <StackPanel Orientation="Horizontal"  Background="{StaticResource CategoryBackgroundColor}">
                                     <!--<Image Source="{Binding ImagePath}" Width="50" Margin="0"/>-->
                                     <TextBlock Text="{Binding DisplayValue}" />
                                 </StackPanel>
