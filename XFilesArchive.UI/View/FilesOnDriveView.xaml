@@ -11,11 +11,154 @@
              d:DesignHeight="550" d:DesignWidth="600" Name="rootFileEdit">
     <UserControl.Resources>
         <SolidColorBrush Color="#FF323131"  x:Key="CategoryBackgroundColor"/>
-   
-        <Style TargetType="TreeView" x:Key="CategoriesTreeViewStyle">
-            <Setter Property="Background" Value="Red" />
-            <Setter Property="Foreground" Value="Red" />
-            <Setter Property="FontFamily" Value="Andy" />
+        <!--<Style  TargetType="{x:Type TabControl}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabControl}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TabPanel   Grid.Row="0"
+             Panel.ZIndex="1"             Margin="0,0,4,-1" 
+             IsItemsHost="True"
+             Background="#EDEDED" />
+                                <Border 
+             Grid.Row="1"
+             BorderBrush="Transparent" 
+             CornerRadius="0, 12, 12, 12" >
+
+                                    <ContentPresenter ContentSource="SelectedContent" />
+
+                                </Border>
+
+                        </Grid>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <Style TargetType="{x:Type TabItem}">
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+
+                        <Grid>
+
+                            <Border 
+
+             Name="Border"
+
+             Background="Transparent"
+
+             BorderBrush="Transparent" 
+
+             BorderThickness="0" 
+
+             CornerRadius="0" >
+
+
+
+                                <ContentPresenter x:Name="ContentSite"
+
+               VerticalAlignment="Center"
+
+               HorizontalAlignment="Center"
+
+               ContentSource="Header"
+
+               Margin="12,2,12,2"/>
+
+                            </Border>
+
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+
+                                <Setter Property="TextElement.Foreground" 
+
+                                        TargetName="ContentSite" Value="Blue" />
+
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="False">
+
+                                <Setter Property="TextElement.Foreground" 
+
+                                        TargetName="ContentSite" Value="Black" />
+
+                            </Trigger>
+
+                            <Trigger Property="IsSelected" Value="True">
+
+                                <Setter Property="TextElement.FontWeight"
+
+                                           TargetName="ContentSite" Value="Bold"/>
+
+                                <Setter Property="TextElement.Foreground" 
+
+                                            TargetName="ContentSite" Value="Blue"/>
+
+ 
+
+                            </Trigger>
+
+                            <Trigger Property="IsSelected" Value="False">
+
+                                <Setter Property="TextElement.FontWeight" 
+
+                                             TargetName="ContentSite" Value="Normal"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>-->
+        <Style TargetType="{x:Type TabItem}" >
+           
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TabItem">
+                            <Border Name="Border" BorderThickness="1,1,1,0" 
+                                    BorderBrush="Gainsboro" CornerRadius="0,0,0,0" Margin="2,0">
+                                <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="12,2" TextBlock.Foreground="Red"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                                <Setter Property="TabItem.FontWeight"
+                                           TargetName="ContentSite" Value="Bold"/>
+                                <Setter Property="TabItem.Foreground" 
+                                            TargetName="ContentSite" Value="Blue"/>
+                            </Trigger>
+                                <Trigger Property="IsSelected" Value="False">
+                                   
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            
         </Style>
     </UserControl.Resources>
     
@@ -26,19 +169,19 @@
         </Grid.RowDefinitions>
 
         <TabControl Grid.Row="0" >
-        <TabItem Background="#FF1B1B1B">
+        <TabItem>
                 <TabItem.Header>
-                    <StackPanel>
-                        <TextBlock >Инфа  файла</TextBlock>
-                    </StackPanel>
+                    
+                        <TextBlock>Инфа  файла</TextBlock>
+                    
                 </TabItem.Header>
-                <Grid Background="#FF1B1B1B">
+                <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     
-                    <StackPanel Background="#FF1B1B1B">
+                    <StackPanel >
                         <Slider Maximum="10" Minimum="0" Value="{Binding ArchiveEntity.Grade}" TickFrequency="1"
                     TickPlacement="BottomRight"></Slider>
                         <TextBox Text="{Binding ArchiveEntity.Title,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -54,11 +197,11 @@
 
             <!-- Метки,Категории -->
 
-            <TabItem Background="{StaticResource CategoryBackgroundColor}">
+            <TabItem >
             <TabItem.Header>
                 <StackPanel><TextBlock >Метки,Категории</TextBlock></StackPanel>
             </TabItem.Header>
-                <Grid ShowGridLines="False" Background="{StaticResource CategoryBackgroundColor}" >
+                <Grid ShowGridLines="False"  >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="*"/>
@@ -71,12 +214,12 @@
                     
                 <toolkit:AutoCompleteBox ItemsSource="{Binding TagsItems}" VerticalAlignment="Top" 
                                          Name="TagValue" Width="300" Height="30" Margin="10"/>
-                    <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top"  Background="#FF323131">
+                    <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top"  >
                             <Button Content="+" Command="{Binding AddTagCommand}" CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
                             <Button Content="*" Command="{Binding MultyAddTagCommand}" CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
                         </StackPanel>
                         <view:TagsView Grid.Column="2" RemoveItem="{Binding Path = DataContext.DeleteTagCommand, ElementName=rootFileEdit}" Margin="0,10,0,0"/>
-                    <TreeView x:Name="CategoriesTreeView" Style="{StaticResource CategoriesTreeViewStyle}"
+                    <TreeView x:Name="CategoriesTreeView"
                               ItemsSource="{Binding Path=CategoryNavigationViewModel.NavigationItems}"
                   SelectedValuePath="CategoryKey" Grid.Row="1" Background="{StaticResource CategoryBackgroundColor}">
                         
@@ -98,7 +241,7 @@
                             </ContextMenu>
                         </TreeView.ContextMenu>
                     </TreeView>
-                    <StackPanel Grid.Row="1" Grid.Column="1"  Background="#FF323131">
+                    <StackPanel Grid.Row="1" Grid.Column="1" >
                         <Button Content="+" Command="{Binding AddCategoryCommand}" CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}" />
                         <Button Content="*" Command="{Binding MultyAddCategoryCommand}" CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"/>
                     </StackPanel>
@@ -115,14 +258,14 @@
     </Grid>
     <!--DataContext="{Binding ArchiveEntity}"-->
             </TabItem>
-            <TabItem Background="#FF474646" >
+            <TabItem  >
                 <TabItem.Header>
                     <StackPanel>
                         <TextBlock >Картинки</TextBlock>
                     </StackPanel>
                 </TabItem.Header>
                 
-                <Grid Background="#FF474646">
+                <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="*"/>
@@ -137,13 +280,13 @@
 
                 </Grid>
         </TabItem>
-            <TabItem Background="#FF6C6A6A">
+            <TabItem >
                 <TabItem.Header>
                     <StackPanel>
                         <TextBlock >Описание</TextBlock>
                     </StackPanel>
                 </TabItem.Header>
-                <StackPanel Background="#FF6C6A6A">
+                <StackPanel >
 
                     <xctk:RichTextBox x:Name="_richTextBox" Grid.Row="1" Margin="10" Padding="10" 
                                      Text="{Binding ArchiveEntity.Description,Mode=TwoWay,
