@@ -196,21 +196,25 @@ namespace XFilesArchive.UI.ViewModel
 
         #endregion
 
+        public bool CanShowSecret { get {
+                CustomPrincipal wp = Thread.CurrentPrincipal as CustomPrincipal;
+                if (wp == null)
+                    return false;
+                else
+                return wp.IsInRole(@"Administrator");
 
+            } }
 
 
 
         public async Task LoadAsync()
         {
-            CustomPrincipal wp = Thread.CurrentPrincipal as CustomPrincipal;
-            if (wp != null)
-            {
+
 
                IEnumerable<DriveDto> lookup;
-                if (wp.IsInRole(@"Administrator") == true)
+                if (CanShowSecret)
                 {
-                    itemsCount = _lookupDataService
-               .GetDrivesCountByCondition(x => x.Title.Contains(FilterText), x => x.DriveCode
+               itemsCount = _lookupDataService.GetDrivesCountByCondition(x => x.Title.Contains(FilterText), x => x.DriveCode
                , false, 1, int.MaxValue);
                lookup = await _lookupDataService.GetDrivesByConditionAsync(x => x.Title.Contains(FilterText), 
                x => x.DriveCode, false, CurrentPage, PageLength);
@@ -233,27 +237,25 @@ namespace XFilesArchive.UI.ViewModel
                      string.Format("{0}", item.Title.TrimEnd(' ')
                         ), nameof(DriveDetailViewModel), _eventAggregator, item.DriveCode.TrimEnd(' '), item.IsSecret));
             }
-        }
+        
 
-            var categoryLookup = await _categoryLookupDataService.GetCategoryLookupAsync();
-            Categories.Clear();
-            foreach (var item in categoryLookup)
-            {
-                //Categories.Add(new NavigationItemViewModel(item.Id,
-                //item.DisplayMember, nameof(CategoryDetailViewModel), _eventAggregator));
-            }
+            //var categoryLookup = await _categoryLookupDataService.GetCategoryLookupAsync();
+            //Categories.Clear();
+            //foreach (var item in categoryLookup)
+            //{
+            //    //Categories.Add(new NavigationItemViewModel(item.Id,
+            //    //item.DisplayMember, nameof(CategoryDetailViewModel), _eventAggregator));
+            //}
 
 
         }
 
         public void Load()
         {
-            CustomPrincipal wp = Thread.CurrentPrincipal as CustomPrincipal;
-            if (wp != null)
-            {
+
                 IEnumerable<DriveDto> lookup;
 
-                if (wp.IsInRole(@"Administrator") == true)
+                if (CanShowSecret)
                 {
                     itemsCount = _lookupDataService
                .GetDrivesCountByCondition(x => x.Title.Contains(FilterText), x => x.DriveCode
@@ -281,7 +283,7 @@ namespace XFilesArchive.UI.ViewModel
                         ), nameof(DriveDetailViewModel), _eventAggregator, item.DriveCode.TrimEnd(' '), item.IsSecret));
                 }
 
-            }
+            
             //var categoryLookup =  _categoryLookupDataService.GetCategoryLookup();
             //Categories.Clear();
             //foreach (var item in categoryLookup)

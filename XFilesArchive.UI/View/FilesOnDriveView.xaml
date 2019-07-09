@@ -11,10 +11,11 @@
              d:DesignHeight="550" d:DesignWidth="600" Name="rootFileEdit">
     <UserControl.Resources>
         <SolidColorBrush Color="#FF323131"  x:Key="CategoryBackgroundColor"/>
-        <Style TargetType="TreeView">
-            <Setter Property="Background" Value="#FF323131" />
-            <Setter Property="Button.Foreground" Value="White" />
-            <Setter Property="Button.FontFamily" Value="Andy" />
+   
+        <Style TargetType="TreeView" x:Key="CategoriesTreeViewStyle">
+            <Setter Property="Background" Value="Red" />
+            <Setter Property="Foreground" Value="Red" />
+            <Setter Property="FontFamily" Value="Andy" />
         </Style>
     </UserControl.Resources>
     
@@ -68,13 +69,14 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     
-                <toolkit:AutoCompleteBox ItemsSource="{Binding TagsItems}" VerticalAlignment="Top" Name="TagValue" Width="300" Height="30" Margin="10"/>
+                <toolkit:AutoCompleteBox ItemsSource="{Binding TagsItems}" VerticalAlignment="Top" 
+                                         Name="TagValue" Width="300" Height="30" Margin="10"/>
                     <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top"  Background="#FF323131">
                             <Button Content="+" Command="{Binding AddTagCommand}" CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
                             <Button Content="*" Command="{Binding MultyAddTagCommand}" CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
                         </StackPanel>
                         <view:TagsView Grid.Column="2" RemoveItem="{Binding Path = DataContext.DeleteTagCommand, ElementName=rootFileEdit}" Margin="0,10,0,0"/>
-                    <TreeView x:Name="CategoriesTreeView" 
+                    <TreeView x:Name="CategoriesTreeView" Style="{StaticResource CategoriesTreeViewStyle}"
                               ItemsSource="{Binding Path=CategoryNavigationViewModel.NavigationItems}"
                   SelectedValuePath="CategoryKey" Grid.Row="1" Background="{StaticResource CategoryBackgroundColor}">
                         
@@ -102,14 +104,14 @@
                     </StackPanel>
                     <view:CategoryToEntitiesView RemoveItem="{Binding Path = DataContext.DeleteCategoryToEntityCommand, ElementName=rootFileEdit}"                 
                                                  Margin="0,10,0,0" Grid.Column="2" Grid.Row="1"/>
-                    <Grid  Background="#FF323131">
+                    <!--<Grid >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="34*"  />
                             <ColumnDefinition Width="11*"/>
                             <ColumnDefinition Width="40"/>
                             <ColumnDefinition Width="45*"  />
                         </Grid.ColumnDefinitions>
-                </Grid>
+                </Grid>-->
     </Grid>
     <!--DataContext="{Binding ArchiveEntity}"-->
             </TabItem>
