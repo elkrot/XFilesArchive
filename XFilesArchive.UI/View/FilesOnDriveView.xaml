@@ -28,128 +28,92 @@
              Grid.Row="1"
              BorderBrush="Transparent" 
              CornerRadius="0, 12, 12, 12" >
-
                                     <ContentPresenter ContentSource="SelectedContent" />
-
                                 </Border>
-
                         </Grid>
-
-                    </ControlTemplate>
-
+                   </ControlTemplate>
                 </Setter.Value>
-
             </Setter>
-
         </Style>
 
         <Style TargetType="{x:Type TabItem}">
-
             <Setter Property="Template">
-
                 <Setter.Value>
-
                     <ControlTemplate TargetType="{x:Type TabItem}">
-
                         <Grid>
-
                             <Border 
-
              Name="Border"
-
              Background="Transparent"
-
              BorderBrush="Transparent" 
-
              BorderThickness="0" 
-
              CornerRadius="0" >
 
-
-
                                 <ContentPresenter x:Name="ContentSite"
-
                VerticalAlignment="Center"
-
                HorizontalAlignment="Center"
-
                ContentSource="Header"
-
                Margin="12,2,12,2"/>
-
                             </Border>
 
                         </Grid>
 
                         <ControlTemplate.Triggers>
-
                             <Trigger Property="IsMouseOver" Value="True">
-
                                 <Setter Property="TextElement.Foreground" 
-
                                         TargetName="ContentSite" Value="Blue" />
-
                             </Trigger>
-
                             <Trigger Property="IsMouseOver" Value="False">
-
                                 <Setter Property="TextElement.Foreground" 
-
                                         TargetName="ContentSite" Value="Black" />
-
                             </Trigger>
 
                             <Trigger Property="IsSelected" Value="True">
-
                                 <Setter Property="TextElement.FontWeight"
-
                                            TargetName="ContentSite" Value="Bold"/>
 
                                 <Setter Property="TextElement.Foreground" 
-
-                                            TargetName="ContentSite" Value="Blue"/>
-
- 
-
+                                           TargetName="ContentSite" Value="Blue"/>
                             </Trigger>
 
                             <Trigger Property="IsSelected" Value="False">
-
                                 <Setter Property="TextElement.FontWeight" 
-
                                              TargetName="ContentSite" Value="Normal"/>
-
                             </Trigger>
-
                         </ControlTemplate.Triggers>
-
                     </ControlTemplate>
-
                 </Setter.Value>
-
             </Setter>
 
         </Style>-->
+
+        
+        
         <Style TargetType="{x:Type TabItem}" >
            
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="TabItem">
-                            <Border Name="Border" BorderThickness="1,1,1,0" 
-                                    BorderBrush="Gainsboro" CornerRadius="0,0,0,0" Margin="2,0">
+                            <Border x:Name="Border" BorderThickness="1,1,1,0" 
+                                    BorderBrush="Gainsboro" CornerRadius="0,0,0,0" Margin="0,0">
                                 <ContentPresenter x:Name="ContentSite"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
                                         ContentSource="Header"
-                                        Margin="12,2" TextBlock.Foreground="Red"/>
+                                        Margin="12,2" />
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
                                     <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
                                 <Setter Property="TabItem.FontWeight"
                                            TargetName="ContentSite" Value="Bold"/>
-                                <Setter Property="TabItem.Foreground" 
-                                            TargetName="ContentSite" Value="Blue"/>
+                                <Setter Property="TextBox.Foreground" 
+                                            TargetName="ContentSite" Value="White"/>
+
+                                <Setter TargetName="Border"
+                                Property="BorderThickness"
+                                Value="2,2,2,0" />
+                                    
+                                    
                             </Trigger>
                                 <Trigger Property="IsSelected" Value="False">
                                    
@@ -168,14 +132,15 @@
         <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TabControl Grid.Row="0" >
+        <TabControl Grid.Row="0" Margin="10">
         <TabItem>
                 <TabItem.Header>
-                    
-                        <TextBlock>Инфа  файла</TextBlock>
+
+                    <TextBlock Foreground="White">Инфа  файла</TextBlock>
                     
                 </TabItem.Header>
-                <Grid >
+                <Border BorderThickness="0,2,0,0" BorderBrush="Aqua">
+            <Grid Margin="20" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -190,18 +155,22 @@
                         <TextBlock Text="{Binding ArchiveEntity.FileInfo[FullName]}" />
                     </StackPanel>
 
-                <view:MediaInfoView DataContext="{Binding ArchiveEntity}" Grid.Row="1" Margin="0,10,0,0" Background="#FF1B1B1B"/>
+                <view:MediaInfoView DataContext="{Binding ArchiveEntity}"
+                                    Grid.Row="1" Margin="0,10,0,0"/>
 
             </Grid>
-        </TabItem>
+                 
+                </Border>
+               </TabItem>
 
             <!-- Метки,Категории -->
 
             <TabItem >
             <TabItem.Header>
-                <StackPanel><TextBlock >Метки,Категории</TextBlock></StackPanel>
+                    <StackPanel>
+                        <TextBlock Foreground="White">Метки,Категории</TextBlock></StackPanel>
             </TabItem.Header>
-                <Grid ShowGridLines="False"  >
+                <Grid ShowGridLines="False"   Margin="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="*"/>
@@ -215,17 +184,21 @@
                 <toolkit:AutoCompleteBox ItemsSource="{Binding TagsItems}" VerticalAlignment="Top" 
                                          Name="TagValue" Width="300" Height="30" Margin="10"/>
                     <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top"  >
-                            <Button Content="+" Command="{Binding AddTagCommand}" CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
-                            <Button Content="*" Command="{Binding MultyAddTagCommand}" CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
+                            <Button Content="+" Command="{Binding AddTagCommand}" 
+                                    CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
+                            <Button Content="*" Command="{Binding MultyAddTagCommand}" 
+                                    CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
                         </StackPanel>
-                        <view:TagsView Grid.Column="2" RemoveItem="{Binding Path = DataContext.DeleteTagCommand, ElementName=rootFileEdit}" Margin="0,10,0,0"/>
+                        <view:TagsView Grid.Column="2" 
+                                       RemoveItem="{Binding Path = DataContext.DeleteTagCommand, 
+                            ElementName=rootFileEdit}" Margin="0,10,0,0"/>
                     <TreeView x:Name="CategoriesTreeView"
                               ItemsSource="{Binding Path=CategoryNavigationViewModel.NavigationItems}"
-                  SelectedValuePath="CategoryKey" Grid.Row="1" Background="{StaticResource CategoryBackgroundColor}">
+                  SelectedValuePath="CategoryKey" Grid.Row="1" >
                         
                         <TreeView.ItemTemplate >
                             <HierarchicalDataTemplate ItemsSource="{Binding Path=NavigationItems}">
-                                <StackPanel Orientation="Horizontal"  Background="{StaticResource CategoryBackgroundColor}">
+                                <StackPanel Orientation="Horizontal" >
                                     <!--<Image Source="{Binding ImagePath}" Width="50" Margin="0"/>-->
                                     <TextBlock Text="{Binding DisplayValue}" />
                                 </StackPanel>
@@ -235,17 +208,21 @@
                             <ContextMenu>
                                 <!--{Binding CategoriesTreeView.SelectedValue}-->
                                 <MenuItem Header="Добавить" Command="{Binding AddNewCategoryCommand}" 
-                                          CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                    AncestorType={x:Type ContextMenu}}, 
                                     Path=PlacementTarget.SelectedValue}"/>
                                 <MenuItem Header="Удалить"/>
                             </ContextMenu>
                         </TreeView.ContextMenu>
                     </TreeView>
                     <StackPanel Grid.Row="1" Grid.Column="1" >
-                        <Button Content="+" Command="{Binding AddCategoryCommand}" CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}" />
-                        <Button Content="*" Command="{Binding MultyAddCategoryCommand}" CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"/>
+                        <Button Content="+" Command="{Binding AddCategoryCommand}" 
+                                CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}" />
+                        <Button Content="*" Command="{Binding MultyAddCategoryCommand}" 
+                                CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"/>
                     </StackPanel>
-                    <view:CategoryToEntitiesView RemoveItem="{Binding Path = DataContext.DeleteCategoryToEntityCommand, ElementName=rootFileEdit}"                 
+                    <view:CategoryToEntitiesView 
+                        RemoveItem="{Binding Path = DataContext.DeleteCategoryToEntityCommand, ElementName=rootFileEdit}"                 
                                                  Margin="0,10,0,0" Grid.Column="2" Grid.Row="1"/>
                     <!--<Grid >
                         <Grid.ColumnDefinitions>
@@ -261,11 +238,11 @@
             <TabItem  >
                 <TabItem.Header>
                     <StackPanel>
-                        <TextBlock >Картинки</TextBlock>
+                        <TextBlock  Foreground="White">Картинки</TextBlock>
                     </StackPanel>
                 </TabItem.Header>
-                
-                <Grid>
+
+                <Grid  Margin="20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="*"/>
@@ -276,17 +253,17 @@
                     <view:ImagesView 
                                RemoveItem="{Binding Path = DataContext.DeleteImageCommand, 
                         ElementName=rootFileEdit}"       
-                                     Margin="0,10,0,0" Height="Auto" Grid.Row="1" Background="#FF474646"/>
+                                     Margin="0,10,0,0" Height="Auto" Grid.Row="1" />
 
                 </Grid>
         </TabItem>
             <TabItem >
                 <TabItem.Header>
                     <StackPanel>
-                        <TextBlock >Описание</TextBlock>
+                        <TextBlock Foreground="White">Описание</TextBlock>
                     </StackPanel>
                 </TabItem.Header>
-                <StackPanel >
+                <StackPanel  Margin="20">
 
                     <xctk:RichTextBox x:Name="_richTextBox" Grid.Row="1" Margin="10" Padding="10" 
                                      Text="{Binding ArchiveEntity.Description,Mode=TwoWay,
