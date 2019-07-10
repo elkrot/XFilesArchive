@@ -8,7 +8,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
     <UserControl.Resources>
-        
+        <Style TargetType="{x:Type TextBox}" x:Key="PgNum">
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            
+        </Style>
     </UserControl.Resources>
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto"
@@ -53,18 +59,18 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Grid.Row="2" >
-                    <Button Command="{Binding FirstPageCommand}" Width="40" Height="40">
-                        <ContentControl Content="{StaticResource First}" Margin="0" />
+                    <Button Command="{Binding FirstPageCommand}" Width="40" Height="40" HorizontalAlignment="Left" >
+                        <ContentControl Content="{StaticResource First}" Margin="5"/>
                     </Button>
                     <Button Command="{Binding PrevPageCommand}" Width="40"  Height="40">
                         <ContentControl Content="{StaticResource Previous}"   />
                     </Button>
-                    <TextBox Width="40" Height="40" Text="{Binding CurrentPage,UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Width="40" Height="40" Style="{StaticResource PgNum}" Text="{Binding CurrentPage,UpdateSourceTrigger=PropertyChanged}"/>
                     <Button Command="{Binding NextPageCommand}" Width="40" Height="40">
                         <ContentControl Content="{StaticResource Next}" Margin="0" />
                     </Button>
-                    <Button Command="{Binding LastPageCommand}" Width="40" Height="40">
-                        <ContentControl Content="{StaticResource Last}" Margin="0" />
+                    <Button Command="{Binding LastPageCommand}" Width="40" Height="40" >
+                        <ContentControl Content="{StaticResource Last}" Padding="-5,0,0,0" VerticalAlignment="Top"/>
                     </Button>
                 </StackPanel>
             </Grid>

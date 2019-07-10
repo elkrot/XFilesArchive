@@ -86,15 +86,40 @@
 
         </Style>-->
 
-        
-        
+        <Style x:Key="{x:Type TabControl}" TargetType="{x:Type TabControl}">
+            <Setter Property="BorderThickness" Value="0,3,0,0"/>
+            <Setter Property="BorderBrush" Value="#1585B5"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabControl">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border BorderThickness="1,0,1,1" BorderBrush="#D0CEBF" Grid.Row="1">
+                                <Border BorderThickness="{TemplateBinding BorderThickness}" 
+                BorderBrush="{TemplateBinding BorderBrush}">
+                                    <Border Background="{TemplateBinding Background}">
+                                        <ContentPresenter ContentSource="SelectedContent"/>
+                                    </Border>
+                                </Border>
+                            </Border>
+                            <TabPanel Grid.Row="0" IsItemsHost="true"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style TargetType="{x:Type TabItem}" >
            
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="TabItem">
                             <Border x:Name="Border" BorderThickness="1,1,1,0" 
-                                    BorderBrush="Gainsboro" CornerRadius="0,0,0,0" Margin="0,0">
+                                    BorderBrush="Gainsboro" CornerRadius="3,6,0,0" Margin="0,0">
                                 <ContentPresenter x:Name="ContentSite"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
@@ -103,7 +128,7 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                                <Setter TargetName="Border" Property="Background" Value="#1585B5" />
                                 <Setter Property="TabItem.FontWeight"
                                            TargetName="ContentSite" Value="Bold"/>
                                 <Setter Property="TextBox.Foreground" 
@@ -118,7 +143,12 @@
                                 <Trigger Property="IsSelected" Value="False">
                                    
                                 </Trigger>
-                            </ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#63AECE" />
+                                
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
@@ -134,12 +164,13 @@
 
         <TabControl Grid.Row="0" Margin="10">
         <TabItem>
+            
                 <TabItem.Header>
 
                     <TextBlock Foreground="White">Инфа  файла</TextBlock>
                     
                 </TabItem.Header>
-                <Border BorderThickness="0,2,0,0" BorderBrush="Aqua">
+                <Border >
             <Grid Margin="20" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -149,10 +180,10 @@
                     <StackPanel >
                         <Slider Maximum="10" Minimum="0" Value="{Binding ArchiveEntity.Grade}" TickFrequency="1"
                     TickPlacement="BottomRight"></Slider>
-                        <TextBox Text="{Binding ArchiveEntity.Title,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Text="{Binding ArchiveEntity.FileInfo[Length]}" />
-                        <TextBlock Text="{Binding ArchiveEntity.FileInfo[Extension]}" />
-                        <TextBlock Text="{Binding ArchiveEntity.FileInfo[FullName]}" />
+                            <TextBox Text="{Binding ArchiveEntity.Title,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock  Foreground="White" Text="{Binding ArchiveEntity.FileInfo[Length]}" />
+                            <TextBlock  Foreground="White" Text="{Binding ArchiveEntity.FileInfo[Extension]}" />
+                            <TextBlock  Foreground="White" Text="{Binding ArchiveEntity.FileInfo[FullName]}" />
                     </StackPanel>
 
                 <view:MediaInfoView DataContext="{Binding ArchiveEntity}"
