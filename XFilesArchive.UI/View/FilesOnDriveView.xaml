@@ -174,10 +174,14 @@
                         </TreeView.ContextMenu>
                     </TreeView>
                     <StackPanel Grid.Row="1" Grid.Column="1" >
-                        <Button Content="+" Command="{Binding AddCategoryCommand}" 
-                                CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}" />
-                        <Button Content="*" Command="{Binding MultyAddCategoryCommand}" 
-                                CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"/>
+                        <Button Command="{Binding AddCategoryCommand}"  Width="40" Height="40"
+                                CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}">
+                            <ContentControl Content="{StaticResource Add}" RenderTransformOrigin="0.5, 0.5"/>
+                        </Button>
+                        <Button Command="{Binding MultyAddCategoryCommand}" 
+                                CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}">
+                            <ContentControl Content="{StaticResource MultyAdd}" Margin="5" RenderTransformOrigin="0.1, 0.1"/>
+                        </Button>
                     </StackPanel>
                     <view:CategoryToEntitiesView 
                         RemoveItem="{Binding Path = DataContext.DeleteCategoryToEntityCommand, ElementName=rootFileEdit}"                 
@@ -234,10 +238,14 @@
         </TabItem>
     </TabControl>
     <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" 
-                    VerticalAlignment="Bottom" Height="40" Width="Auto" Grid.Row="1">
-        <Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="5" Width="100"/>
+                    VerticalAlignment="Bottom" Height="60" Width="Auto" Grid.Row="1">
+            <Button Command="{Binding SaveCommand}" Margin="5" Width="40" Height="40">
+                <ContentControl Content="{StaticResource Save}" />
+            </Button>
         <!--<Button Content="Отменить" Command="{Binding ResetCommand}" Margin="5" Width="100"/>-->
-        <Button Content="Удалить" Command="{Binding DeleteCommand}" Margin="5" Width="100"/>
+            <Button Command="{Binding DeleteCommand}" Margin="5" Width="40"  Height="40">
+                <ContentControl Content="{StaticResource Remove}"/>
+            </Button>
     </StackPanel>
     </Grid>
 </UserControl>
