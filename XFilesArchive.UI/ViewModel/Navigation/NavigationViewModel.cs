@@ -8,7 +8,7 @@ using XFilesArchive.Services.Lookups;
 using XFilesArchive.Security;
 using System.Threading;
 using System.Collections.Generic;
-
+using System;
 
 namespace XFilesArchive.UI.ViewModel
 {
@@ -48,6 +48,9 @@ namespace XFilesArchive.UI.ViewModel
             Drives = new ObservableCollection<NavigationDriveItemViewModel>();
             _eventAggregator.GetEvent<AfterSaveEvent>().Subscribe(AfterSaved);
             _eventAggregator.GetEvent<AfterDeletedEvent>().Subscribe(AfterDeleted);
+            _eventAggregator.GetEvent<ShowHiddenEvent>().Subscribe(OnShowHidden);
+            
+
 
             FirstPageCommand = new Prism.Commands.DelegateCommand(FirstPageCommandExecute);
             PrevPageCommand = new Prism.Commands.DelegateCommand(PrevPageCommandExecute);
@@ -58,7 +61,11 @@ namespace XFilesArchive.UI.ViewModel
             _filterText = "";
         }
 
-
+        private void OnShowHidden()
+        {
+            CanShowHidden=!CanShowHidden;
+            Load();
+        }
 
         private void AfterDeleted(AfterDeletedEventArgs args)
         {
@@ -195,15 +202,21 @@ namespace XFilesArchive.UI.ViewModel
 
 
         #endregion
+        private bool _canShowHidden;
+       public bool CanShowHidden { get {
+                //        CustomPrincipal wp = Thread.CurrentPrincipal as CustomPrincipal;
+                //        if (wp == null)
+                //            return false;
+                //        else
+                //        return wp.IsInRole(@"Administrator");
 
-        public bool CanShowSecret { get {
-                CustomPrincipal wp = Thread.CurrentPrincipal as CustomPrincipal;
-                if (wp == null)
-                    return false;
-                else
-                return wp.IsInRole(@"Administrator");
-
-            } }
+                
+                return _canShowHidden;
+            }
+            set {
+                _canShowHidden = value;
+            }
+        }
 
 
 
@@ -212,7 +225,7 @@ namespace XFilesArchive.UI.ViewModel
 
 
                IEnumerable<DriveDto> lookup;
-                if (CanShowSecret)
+                if (CanShowHidden)
                 {
                itemsCount = _lookupDataService.GetDrivesCountByCondition(x => x.Title.Contains(FilterText), x => x.DriveCode
                , false, 1, int.MaxValue);
@@ -255,7 +268,7 @@ namespace XFilesArchive.UI.ViewModel
 
                 IEnumerable<DriveDto> lookup;
 
-                if (CanShowSecret)
+                if (CanShowHidden)
                 {
                     itemsCount = _lookupDataService
                .GetDrivesCountByCondition(x => x.Title.Contains(FilterText), x => x.DriveCode

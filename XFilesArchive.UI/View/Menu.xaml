@@ -29,6 +29,7 @@
 
                 <MenuItem Header="Поиск" Command="{Binding SearchCommand}"/>
 
+                <MenuItem Header="Включть скрытые" Command="{Binding ShowHiddenCommand}"/>
 
             </MenuItem>
             

@@ -21,12 +21,6 @@
                           CanContentScroll="True"  Margin="10"  VerticalAlignment="Top" HorizontalAlignment="Left"  >
                     <ListBox x:Name="imageListView" ItemsSource="{Binding Images}" 
                              Grid.Column="0" Height="Auto" Width="250" MaxHeight="400">
-                        <!--<i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectedIndexChanged">
-                                <i:InvokeCommandAction Command="{Binding DataContextChangedCommand}" CommandParameter="{Binding ElementName=imageListView, 
-                          Path=SelectedValue}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>-->
 
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -52,7 +46,7 @@
                 <StackPanel Grid.Column="1" >
                     <Viewbox Stretch="Uniform"  Margin="10"  VerticalAlignment="Top" HorizontalAlignment="Left"  >
                         <StackPanel  Height="Auto" MinWidth="300" Width="Auto"  MinHeight="380">
-                            <Border BorderThickness="1" BorderBrush="#FF2D23F7" Margin="10" Height="Auto" >
+                            <Border BorderThickness="0" BorderBrush="#FF2D23F7" Margin="10" Height="Auto" >
                                 <ScrollViewer>
                                     <Image Margin="10,10,10,9" x:Name="image" gif:ImageBehavior.RepeatBehavior="Forever" 
                                                    gif:ImageBehavior.AnimatedSource="{Binding ElementName=imageListView,Path=SelectedItem.ImagePath }" />

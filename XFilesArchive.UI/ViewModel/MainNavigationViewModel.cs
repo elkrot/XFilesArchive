@@ -13,6 +13,7 @@ using System.Windows.Input;
 using XFilesArchive.Infrastructure;
 using XFilesArchive.Infrastructure.DataManager;
 using XFilesArchive.Model;
+using XFilesArchive.UI.Event;
 using XFilesArchive.UI.View;
 using XFilesArchive.UI.View.Services;
 using XFilesArchive.UI.ViewModel.Search;
@@ -37,6 +38,7 @@ namespace XFilesArchive.UI.ViewModel
         SearchEngineViewModel _searchEngineViewModel;
         private MainViewModel _mainViewModel;
         private IMessageDialogService _messageDialogService;
+        private IEventAggregator _eventAggregator;
         #endregion
 
         #region MainNavigationViewModel Constructor
@@ -45,6 +47,7 @@ namespace XFilesArchive.UI.ViewModel
                , SearchEngineViewModel searchEngineViewModel
                , MainViewModel mainViewModel)
         {
+            _eventAggregator = eventAggregator;
             _mainViewModel = mainViewModel;
             _searchEngineViewModel = searchEngineViewModel;
             _messageDialogService = messageDialogService;
@@ -69,9 +72,22 @@ namespace XFilesArchive.UI.ViewModel
             //        Debug.WriteLine("accessed");
             // MessageBox.Show(principalPerm.ToString());
 
+            SearchCommand = new Prism.Commands.DelegateCommand(OnSearchExecute);
+            ShowHiddenCommand = new Prism.Commands.DelegateCommand(OnShowHiddenExecute);
+        }
+
+        private void OnShowHiddenExecute()
+        {
+            _eventAggregator.GetEvent<ShowHiddenEvent>().Publish();
         }
 
         #endregion
+
+
+
+
+
+
 
         #region OnGoToMainPageExecute
         private async void OnGoToMainPageExecute()
@@ -241,6 +257,8 @@ namespace XFilesArchive.UI.ViewModel
 
         public ICommand SearchCommand { get; }
         public ICommand GoToMainPageCommand { get; }
+        public ICommand ShowHiddenCommand { get; }
+        
         #endregion
 
         #region ShowWizard
