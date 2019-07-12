@@ -7,6 +7,7 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:converters="clr-namespace:XFilesArchive.UI.Converters"
              mc:Ignorable="d" 
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
              d:DesignHeight="550" d:DesignWidth="600" Name="rootFileEdit">
     <UserControl.Resources>
@@ -142,10 +143,23 @@
                 <toolkit:AutoCompleteBox ItemsSource="{Binding TagsItems}" VerticalAlignment="Top" 
                                          Name="TagValue" Width="300" Height="30" Margin="10"/>
                     <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top"  >
-                            <Button Content="+" Command="{Binding AddTagCommand}" 
-                                    CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
-                            <Button Content="*" Command="{Binding MultyAddTagCommand}" 
-                                    CommandParameter="{Binding ElementName=TagValue,Path=Text}"/>
+                        <Button  Command="{Binding AddTagCommand}" 
+                                    CommandParameter="{Binding ElementName=TagValue,Path=Text}">
+                            <ContentControl Content="{StaticResource Add}">
+                                <ContentControl.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.4" ScaleY="0.4" />
+                                </ContentControl.LayoutTransform>
+                            </ContentControl>
+
+                        </Button>
+                        <Button  Command="{Binding MultyAddTagCommand}" 
+                                    CommandParameter="{Binding ElementName=TagValue,Path=Text}">
+                            <ContentControl Content="{StaticResource MultyAdd}">
+                                <ContentControl.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.4" ScaleY="0.4" />
+                                </ContentControl.LayoutTransform>
+                            </ContentControl>
+                        </Button>
                         </StackPanel>
                         <view:TagsView Grid.Column="2" 
                                        RemoveItem="{Binding Path = DataContext.DeleteTagCommand, 
@@ -174,13 +188,26 @@
                         </TreeView.ContextMenu>
                     </TreeView>
                     <StackPanel Grid.Row="1" Grid.Column="1" >
-                        <Button Command="{Binding AddCategoryCommand}"  Width="40" Height="40"
-                                CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}">
-                            <ContentControl Content="{StaticResource Add}" RenderTransformOrigin="0.5, 0.5"/>
+                        <Button Command="{Binding AddCategoryCommand}" 
+                                CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"
+                                Width="45" Height="45"
+                                Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}">
+                            <ContentControl Content="{StaticResource Add}">
+                                <ContentControl.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.4" ScaleY="0.4" />
+                                </ContentControl.LayoutTransform>
+                            </ContentControl>
+                            
                         </Button>
                         <Button Command="{Binding MultyAddCategoryCommand}" 
-                                CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}">
-                            <ContentControl Content="{StaticResource MultyAdd}" Margin="5" RenderTransformOrigin="0.1, 0.1"/>
+                                CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"
+                                Width="45" Height="45" 
+                                Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}">
+                            <ContentControl Content="{StaticResource MultyAdd}">
+                                <ContentControl.LayoutTransform>                                    
+                                        <ScaleTransform ScaleX="0.3" ScaleY="0.3" />                                    
+                                </ContentControl.LayoutTransform>
+                            </ContentControl>
                         </Button>
                     </StackPanel>
                     <view:CategoryToEntitiesView 
@@ -204,7 +231,9 @@
 
                 </Grid.RowDefinitions>
 
-                <Button Command="{Binding OpenFileDialogCommand}" Width="Auto" Grid.Row="0">Добавить</Button>
+                <Button Command="{Binding OpenFileDialogCommand}" Width="Auto" Grid.Row="0">
+                        
+                    </Button>
                     <view:ImagesView 
                                RemoveItem="{Binding Path = DataContext.DeleteImageCommand, 
                         ElementName=rootFileEdit}"       
@@ -239,12 +268,30 @@
     </TabControl>
     <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" 
                     VerticalAlignment="Bottom" Height="60" Width="Auto" Grid.Row="1">
+            <StackPanel>
+                <iconPacks:PackIconMaterial Kind="EmoticonCool" />
+                <iconPacks:PackIconMaterial Kind="EmoticonCool" />
+                <iconPacks:PackIconMaterialLight Kind="Heart" />
+                <iconPacks:PackIconFontAwesome Kind="FontAwesomeBrands" />
+                <iconPacks:PackIconOcticons Kind="MarkGithub" />
+                <iconPacks:PackIconOcticons Kind="MarkGithub" />
+                <iconPacks:PackIconModern Kind="ThumbsUp" />
+                <iconPacks:PackIconEntypo Kind="EmojiHappy" />
+                <iconPacks:PackIconSimpleIcons Kind="StackOverflow" />
+
+            </StackPanel>
             <Button Command="{Binding SaveCommand}" Margin="5" Width="40" Height="40">
-                <ContentControl Content="{StaticResource Save}" />
+                <ContentControl Content="{StaticResource Save}" >
+                    <ContentControl.LayoutTransform>
+                        <ScaleTransform ScaleX="0.4" ScaleY="0.4" />
+                    </ContentControl.LayoutTransform>
+                </ContentControl>
             </Button>
         <!--<Button Content="Отменить" Command="{Binding ResetCommand}" Margin="5" Width="100"/>-->
             <Button Command="{Binding DeleteCommand}" Margin="5" Width="40"  Height="40">
-                <ContentControl Content="{StaticResource Remove}"/>
+                <ContentControl Content="{StaticResource Remove}">
+
+                </ContentControl>
             </Button>
     </StackPanel>
     </Grid>
