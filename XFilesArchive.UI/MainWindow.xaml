@@ -7,10 +7,11 @@
         xmlns:view="clr-namespace:XFilesArchive.UI.View"
                        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                       xmlns:prop="clr-namespace:XFilesArchive.UI.Properties"
-                      
+        
        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
          xmlns:viewModel="clr-namespace:XFilesArchive.UI.ViewModel"
         mc:Ignorable="d"
+                      GlowBrush="{DynamicResource AccentColorBrush}"
         Icon="/XFilesArchive.UI;component/appico.ico"
     Width="{local:SettingBinding MainWindow.Width}"
     Height="{local:SettingBinding MainWindow.Height}"
@@ -18,6 +19,19 @@
     Left="{local:SettingBinding MainWindow.Left}"
     WindowState="{local:SettingBinding MainWindow.WindowState}"
     Title="{x:Static prop:Resources.MainWindowTitle}">
+
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Content="settings" />
+            <Button>
+                <StackPanel Orientation="Horizontal">
+                   
+                    <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="deploy cupcakes" />
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
     <!--Title="{x:Static prop:Resources.MainWindowTitle}"-->
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:DriveDetailViewModel}">

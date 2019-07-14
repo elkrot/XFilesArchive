@@ -7,12 +7,11 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:converters="clr-namespace:XFilesArchive.UI.Converters"
              mc:Ignorable="d" 
-             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
              d:DesignHeight="550" d:DesignWidth="600" Name="rootFileEdit">
     <UserControl.Resources>
         <SolidColorBrush Color="#FF323131"  x:Key="CategoryBackgroundColor"/>
-       
+
 
         <Style x:Key="{x:Type TabControl}" TargetType="{x:Type TabControl}">
             <Setter Property="BorderThickness" Value="0,3,0,0"/>
@@ -42,20 +41,20 @@
         </Style>
 
         <Style TargetType="{x:Type TabItem}" >
-           
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="TabItem">
-                            <Border x:Name="Border" BorderThickness="1,1,1,0" 
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="Border" BorderThickness="1,1,1,0" 
                                     BorderBrush="Gainsboro" CornerRadius="3,6,0,0" Margin="0,0">
-                                <ContentPresenter x:Name="ContentSite"
+                            <ContentPresenter x:Name="ContentSite"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
                                         ContentSource="Header"
                                         Margin="12,2" />
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
                                 <Setter TargetName="Border" Property="Background" Value="#1585B5" />
                                 <Setter Property="TabItem.FontWeight"
                                            TargetName="ContentSite" Value="Bold"/>
@@ -65,70 +64,71 @@
                                 <Setter TargetName="Border"
                                 Property="BorderThickness"
                                 Value="2,2,2,0" />
-                                    
-                                    
+
+
                             </Trigger>
-                                <Trigger Property="IsSelected" Value="False">
-                                   
-                                </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+
+                            </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="Border" Property="Background" Value="#63AECE" />
-                                
+
                             </Trigger>
 
                         </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
         </Style>
     </UserControl.Resources>
-    
+
     <Grid ShowGridLines="False">
         <Grid.RowDefinitions>
-        <RowDefinition Height="*"/>
-        <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TabControl Grid.Row="0" Margin="10">
-        <TabItem>
-            
+            <TabItem>
+
                 <TabItem.Header>
 
                     <TextBlock Foreground="White">Инфа  файла</TextBlock>
-                    
+
                 </TabItem.Header>
                 <Border >
-            <Grid Margin="20" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    
-                    <StackPanel >
-                        <Slider Maximum="10" Minimum="0" Value="{Binding ArchiveEntity.Grade}" TickFrequency="1"
+                    <Grid Margin="20" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel >
+                            <Slider Maximum="10" Minimum="0" Value="{Binding ArchiveEntity.Grade}" TickFrequency="1"
                     TickPlacement="BottomRight"></Slider>
                             <TextBox Text="{Binding ArchiveEntity.Title,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock  Foreground="White" Text="{Binding ArchiveEntity.FileInfo[Length]}" />
+                            <TextBlock  Foreground="White" Text="{Binding ArchiveEntity.FileInfo[Length]}" />
                             <TextBlock  Foreground="White" Text="{Binding ArchiveEntity.FileInfo[Extension]}" />
                             <TextBlock  Foreground="White" Text="{Binding ArchiveEntity.FileInfo[FullName]}" />
-                    </StackPanel>
+                        </StackPanel>
 
-                <view:MediaInfoView DataContext="{Binding ArchiveEntity}"
+                        <view:MediaInfoView DataContext="{Binding ArchiveEntity}"
                                     Grid.Row="1" Margin="0,10,0,0"/>
 
-            </Grid>
-                 
+                    </Grid>
+
                 </Border>
-               </TabItem>
+            </TabItem>
 
             <!-- Метки,Категории -->
 
             <TabItem >
-            <TabItem.Header>
+                <TabItem.Header>
                     <StackPanel>
-                        <TextBlock Foreground="White">Метки,Категории</TextBlock></StackPanel>
-            </TabItem.Header>
+                        <TextBlock Foreground="White">Метки,Категории</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid ShowGridLines="False"   Margin="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
@@ -139,17 +139,20 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    
-                <toolkit:AutoCompleteBox ItemsSource="{Binding TagsItems}" VerticalAlignment="Top" 
+
+                    <toolkit:AutoCompleteBox ItemsSource="{Binding TagsItems}" VerticalAlignment="Top" 
                                          Name="TagValue" Width="300" Height="30" Margin="10"/>
                     <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top"  >
                         <Button  Command="{Binding AddTagCommand}" 
                                     CommandParameter="{Binding ElementName=TagValue,Path=Text}">
-                            <ContentControl Content="{StaticResource Add}">
+                           <ContentControl Content="{StaticResource Add}">
                                 <ContentControl.LayoutTransform>
                                     <ScaleTransform ScaleX="0.4" ScaleY="0.4" />
                                 </ContentControl.LayoutTransform>
                             </ContentControl>
+
+
+
 
                         </Button>
                         <Button  Command="{Binding MultyAddTagCommand}" 
@@ -160,14 +163,14 @@
                                 </ContentControl.LayoutTransform>
                             </ContentControl>
                         </Button>
-                        </StackPanel>
-                        <view:TagsView Grid.Column="2" 
+                    </StackPanel>
+                    <view:TagsView Grid.Column="2" 
                                        RemoveItem="{Binding Path = DataContext.DeleteTagCommand, 
                             ElementName=rootFileEdit}" Margin="0,10,0,0"/>
                     <TreeView x:Name="CategoriesTreeView"
                               ItemsSource="{Binding Path=CategoryNavigationViewModel.NavigationItems}"
                   SelectedValuePath="CategoryKey" Grid.Row="1" >
-                        
+
                         <TreeView.ItemTemplate >
                             <HierarchicalDataTemplate ItemsSource="{Binding Path=NavigationItems}">
                                 <StackPanel Orientation="Horizontal" >
@@ -197,15 +200,15 @@
                                     <ScaleTransform ScaleX="0.4" ScaleY="0.4" />
                                 </ContentControl.LayoutTransform>
                             </ContentControl>
-                            
+
                         </Button>
                         <Button Command="{Binding MultyAddCategoryCommand}" 
                                 CommandParameter="{Binding ElementName=CategoriesTreeView,Path=SelectedValue}"
                                 Width="45" Height="45" 
                                 Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}">
                             <ContentControl Content="{StaticResource MultyAdd}">
-                                <ContentControl.LayoutTransform>                                    
-                                        <ScaleTransform ScaleX="0.3" ScaleY="0.3" />                                    
+                                <ContentControl.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.3" ScaleY="0.3" />
                                 </ContentControl.LayoutTransform>
                             </ContentControl>
                         </Button>
@@ -213,9 +216,9 @@
                     <view:CategoryToEntitiesView 
                         RemoveItem="{Binding Path = DataContext.DeleteCategoryToEntityCommand, ElementName=rootFileEdit}"                 
                                                  Margin="0,10,0,0" Grid.Column="2" Grid.Row="1"/>
-                   
-    </Grid>
-    
+
+                </Grid>
+
             </TabItem>
             <TabItem  >
                 <TabItem.Header>
@@ -225,14 +228,14 @@
                 </TabItem.Header>
 
                 <Grid  Margin="20">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="*"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
 
-                </Grid.RowDefinitions>
+                    </Grid.RowDefinitions>
 
-                <Button Command="{Binding OpenFileDialogCommand}" Width="Auto" Grid.Row="0">
-                        
+                    <Button Command="{Binding OpenFileDialogCommand}" Width="Auto" Grid.Row="0">
+
                     </Button>
                     <view:ImagesView 
                                RemoveItem="{Binding Path = DataContext.DeleteImageCommand, 
@@ -240,7 +243,7 @@
                                      Margin="0,10,0,0" Height="Auto" Grid.Row="1" />
 
                 </Grid>
-        </TabItem>
+            </TabItem>
             <TabItem >
                 <TabItem.Header>
                     <StackPanel>
@@ -253,22 +256,22 @@
                                      Text="{Binding ArchiveEntity.Description,Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged}" 
                                      ScrollViewer.VerticalScrollBarVisibility="Auto">
-                    <xctk:RichTextBox.TextFormatter>
+                        <xctk:RichTextBox.TextFormatter>
                             <converters:Utf8XamlFormatter />
-                    </xctk:RichTextBox.TextFormatter>
-                    <xctk:RichTextBoxFormatBarManager.FormatBar>
-                        <xctk:RichTextBoxFormatBar />
-                    </xctk:RichTextBoxFormatBarManager.FormatBar>
-                </xctk:RichTextBox>
+                        </xctk:RichTextBox.TextFormatter>
+                        <xctk:RichTextBoxFormatBarManager.FormatBar>
+                            <xctk:RichTextBoxFormatBar />
+                        </xctk:RichTextBoxFormatBarManager.FormatBar>
+                    </xctk:RichTextBox>
                     <!--<TextBox Text="{Binding ArchiveEntity.Description,Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged}" ></TextBox>-->
 
                 </StackPanel>
-        </TabItem>
-    </TabControl>
-    <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" 
+            </TabItem>
+        </TabControl>
+        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" 
                     VerticalAlignment="Bottom" Height="60" Width="Auto" Grid.Row="1">
-            <StackPanel>
+            <!--<StackPanel>
                 <iconPacks:PackIconMaterial Kind="EmoticonCool" />
                 <iconPacks:PackIconMaterial Kind="EmoticonCool" />
                 <iconPacks:PackIconMaterialLight Kind="Heart" />
@@ -279,7 +282,7 @@
                 <iconPacks:PackIconEntypo Kind="EmojiHappy" />
                 <iconPacks:PackIconSimpleIcons Kind="StackOverflow" />
 
-            </StackPanel>
+            </StackPanel>-->
             <Button Command="{Binding SaveCommand}" Margin="5" Width="40" Height="40">
                 <ContentControl Content="{StaticResource Save}" >
                     <ContentControl.LayoutTransform>
@@ -287,12 +290,12 @@
                     </ContentControl.LayoutTransform>
                 </ContentControl>
             </Button>
-        <!--<Button Content="Отменить" Command="{Binding ResetCommand}" Margin="5" Width="100"/>-->
+            <!--<Button Content="Отменить" Command="{Binding ResetCommand}" Margin="5" Width="100"/>-->
             <Button Command="{Binding DeleteCommand}" Margin="5" Width="40"  Height="40">
                 <ContentControl Content="{StaticResource Remove}">
 
                 </ContentControl>
             </Button>
-    </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>
