@@ -45,9 +45,25 @@
                            Text="{Binding Drive.DriveId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="1"  Grid.Column="4" Margin="10" HorizontalAlignment="Right">
-                <Button Content="Сохранить" Command="{Binding SaveCommand}" Width="125" />
-                <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="125" />
-                    <Button Content="Удалить Все картинки" Command="{Binding DeleteAllImagesCommand}" Width="125" />
+                    <Button Command="{Binding SaveCommand}" Width="45" Height="45">
+                        <ContentControl Content="{StaticResource Save}">
+                            <ContentControl.LayoutTransform>
+                                <ScaleTransform ScaleX="0.4" ScaleY="0.4" />
+                            </ContentControl.LayoutTransform>
+                        </ContentControl>
+                    </Button>
+                    <Button 
+                    Command="{Binding DeleteCommand}" Width="45" Height="45">
+                        <ContentControl Content="{StaticResource Remove}"/>
+                    </Button>
+                    <Button 
+                        Command="{Binding DeleteAllImagesCommand}" Width="45" Height="45" >
+                        <ContentControl Content="{StaticResource MultyRemove}">
+                            <ContentControl.LayoutTransform>
+                                <ScaleTransform ScaleX="0.4" ScaleY="0.4" />
+                            </ContentControl.LayoutTransform>
+                        </ContentControl>
+                    </Button>
                 </StackPanel>
             
             </Grid>

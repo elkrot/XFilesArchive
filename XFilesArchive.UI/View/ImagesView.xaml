@@ -53,11 +53,21 @@
                                 </ScrollViewer>
                                         <!--Path=ImageToEntities[0].Image.ImagePath-->
                             </Border>
-                            <Button Click="Button_Click" >Просмотр</Button>
-                            <Button Width="74" Height="30" Margin="3" 
+                            <Button Click="Button_Click"  Width="45" Height="45" >
+                                <ContentControl Content="{StaticResource View}">
+                                    <ContentControl.LayoutTransform>
+                                        <ScaleTransform ScaleX="0.6" ScaleY="0.6" />
+                                    </ContentControl.LayoutTransform>
+                                </ContentControl>
+                                
+                            </Button>
+                            <Button  Margin="3" 
                                     Command="{Binding Path=RemoveItem, ElementName=imageViewControl}" 
                                     CommandParameter="{Binding ElementName=imageListView,Path=SelectedItem.ImageKey}"
-                                >Удалить</Button>
+                                    Width="45" Height="45"
+                                >
+                                <ContentControl Content="{StaticResource Remove}"/>
+                            </Button>
                         </StackPanel>
                     </Viewbox>
 
