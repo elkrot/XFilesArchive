@@ -145,7 +145,8 @@
                     <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top"  >
                         <Button  Command="{Binding AddTagCommand}" 
                                     CommandParameter="{Binding ElementName=TagValue,Path=Text}">
-                           <ContentControl Content="{StaticResource Add}">
+                           
+                           <ContentControl  Content="{StaticResource Add}">
                                 <ContentControl.LayoutTransform>
                                     <ScaleTransform ScaleX="0.4" ScaleY="0.4" />
                                 </ContentControl.LayoutTransform>
