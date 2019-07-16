@@ -235,7 +235,8 @@
 
                     </Grid.RowDefinitions>
 
-                    <Button Command="{Binding OpenFileDialogCommand}" Width="35" Height="35"  Grid.Row="0">
+                    <Button Command="{Binding OpenFileDialogCommand}" 
+                            Width="35" Height="35"  Grid.Row="0">
                         <ContentControl Content="{StaticResource Add}">
                             <ContentControl.LayoutTransform>
                                 <ScaleTransform ScaleX="0.2" ScaleY="0.2" />

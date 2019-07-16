@@ -9,7 +9,7 @@
             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              d:DesignHeight="445" d:DesignWidth="920"
              Name="imageViewControl">
-    <Border BorderBrush="#FF1A5AB8" BorderThickness="1" Height="Auto"   >
+    <Border Height="Auto"   >
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" CanContentScroll="True">
             <Grid Width="Auto" Height="Auto">
                 <Grid.ColumnDefinitions>
@@ -30,7 +30,7 @@
                         <ListBox.ItemTemplate>
 
                             <DataTemplate>
-                                <Border BorderBrush="#FF165FDE">
+                                <Border >
 
                                         
                                         <Image Source="{Binding Path=ThumbnailPath}" Width="150" Height="150"/>
@@ -46,10 +46,10 @@
                 <StackPanel Grid.Column="1" >
                     <Viewbox Stretch="Uniform"  Margin="10"  VerticalAlignment="Top" HorizontalAlignment="Left"  >
                         <StackPanel  Height="Auto" MinWidth="300" Width="Auto"  MinHeight="380">
-                            <Border BorderThickness="0" BorderBrush="#FF2D23F7" Margin="10" Height="Auto" >
+                            <Border BorderThickness="0"  Margin="10" Height="Auto" >
                                 <ScrollViewer>
                                     <Image Margin="10,10,10,9" x:Name="image" gif:ImageBehavior.RepeatBehavior="Forever" 
-                                                   gif:ImageBehavior.AnimatedSource="{Binding ElementName=imageListView,Path=SelectedItem.ImagePath }" />
+                                    gif:ImageBehavior.AnimatedSource="{Binding ElementName=imageListView,Path=SelectedItem.ImagePath }" />
                                 </ScrollViewer>
                                         <!--Path=ImageToEntities[0].Image.ImagePath-->
                             </Border>

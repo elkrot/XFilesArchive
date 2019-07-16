@@ -22,15 +22,15 @@ namespace XFilesArchive.UI
             Main.Content = new DrivePage(viewModel);
         }
 
-        //void HelpCanExecute(object sender, CanExecuteRoutedEventArgs e)
-        //{
-        //    e.CanExecute = true;
-        //}
-        //void HelpExecuted(object sender, ExecutedRoutedEventArgs e)
-        //{
-        //    // ShowWizard();
-        //    System.Diagnostics.Process.Start("notepad.exe");
-        //}
+        void HelpCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+        void HelpExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            // ShowWizard();
+            System.Diagnostics.Process.Start("notepad.exe");
+        }
 
 
     }

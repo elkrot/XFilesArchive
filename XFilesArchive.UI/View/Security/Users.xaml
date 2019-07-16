@@ -11,14 +11,14 @@
              d:DesignHeight="300" d:DesignWidth="300"
              x:Name="_users">
     <Grid x:Name="UsersGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
             <xcdg:DataGridControl x:Name="_dataGrid" 
                             MaxHeight="400"
-                            ItemsSource="{Binding UsersCollection}"  >
+                            ItemsSource="{Binding UsersCollection}" VerticalAlignment="Top" >
                 <xcdg:DataGridControl.View>
                     <xcdg:TableflowView FixedColumnCount="1" />
                 </xcdg:DataGridControl.View>
@@ -38,12 +38,16 @@
 
             </xcdg:DataGridControl.Columns>
             </xcdg:DataGridControl>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <StackPanel Grid.Column="1" Orientation="Vertical">
             <Button Content="+" Command="{Binding AddNewUserCommand}"/>
-            <Button Content="-" Command="{Binding RemoveUserCommand}" CommandParameter="{Binding ElementName=_dataGrid,Path=CurrentItem}"/>
-            <Button Content="p" Command="{Binding ChangePasswordCommand}"  CommandParameter="{Binding ElementName=_dataGrid,Path=CurrentItem}"/>
-            <Button Content="W"  Command="{Binding SetWindowsAuthenticationCommand}" CommandParameter="{Binding ElementName=_dataGrid,Path=CurrentItem}"/>
-            <Button Content="f"  Command="{Binding SetFacebookAuthenticationCommand}" CommandParameter="{Binding ElementName=_dataGrid,Path=CurrentItem}"/>
+            <Button Content="-" Command="{Binding RemoveUserCommand}" 
+                    CommandParameter="{Binding ElementName=_dataGrid,Path=CurrentItem}"/>
+            <Button Content="p" Command="{Binding ChangePasswordCommand}"  
+                    CommandParameter="{Binding ElementName=_dataGrid,Path=CurrentItem}"/>
+            <Button Content="W"  Command="{Binding SetWindowsAuthenticationCommand}" 
+                    CommandParameter="{Binding ElementName=_dataGrid,Path=CurrentItem}"/>
+            <Button Content="f"  Command="{Binding SetFacebookAuthenticationCommand}" 
+                    CommandParameter="{Binding ElementName=_dataGrid,Path=CurrentItem}"/>
         </StackPanel>
     </Grid>
 </UserControl>

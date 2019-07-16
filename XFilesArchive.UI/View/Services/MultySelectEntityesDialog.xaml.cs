@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace XFilesArchive.UI.View.Services
     /// <summary>
     /// Логика взаимодействия для MultySelectEntityesDialog.xaml
     /// </summary>
-    public partial class MultySelectEntityesDialog : Window
+    public partial class MultySelectEntityesDialog : MetroWindow
     {
         public MultySelectEntityesDialog()
         {
@@ -26,7 +27,7 @@ namespace XFilesArchive.UI.View.Services
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
+            this. DialogResult = true;
         }
     }
 }

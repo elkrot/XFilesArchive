@@ -46,10 +46,10 @@
 
                 </Button>
                 <!--Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"-->
-                <Button VerticalAlignment="Top" ToolTip="Справка"  Command="Help" Height="32" Width="32" >
+                <!--<Button VerticalAlignment="Top" ToolTip="Справка"  Command="Help" Height="32" Width="32" >
 
                     <ContentControl Content="{StaticResource Help}" Margin="0" />
-                </Button>
+                </Button>-->
                 <Button VerticalAlignment="Top" ToolTip="Поиск" Command="{Binding SearchCommand}" Height="32" Width="32">
                     <ContentControl 
                         Content="{StaticResource Search}" Margin="0" />
