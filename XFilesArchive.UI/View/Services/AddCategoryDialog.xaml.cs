@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace XFilesArchive.UI.View.Services
     /// <summary>
     /// Логика взаимодействия для AddCategoryDialog.xaml
     /// </summary>
-    public partial class AddCategoryDialog : Window
+    public partial class AddCategoryDialog : MetroWindow
     {
         public AddCategoryDialog()
         {
