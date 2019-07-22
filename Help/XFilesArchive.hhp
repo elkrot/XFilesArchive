@@ -2,7 +2,9 @@
 Compatibility=1.1 or later
 Compiled file=XFilesArchive.chm
 Contents file=Table of Contents.hhc
+Default topic=main.html
 Display compile progress=No
+Index file=Index.hhk
 Language=0x422 Украинский (Украина)
 
 

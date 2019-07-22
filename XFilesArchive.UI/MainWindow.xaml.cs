@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using System.Security.Permissions;
+using System.Windows.Forms;
 using System.Windows.Input;
 using XFilesArchive.UI.View;
 using XFilesArchive.UI.ViewModel;
@@ -29,7 +30,8 @@ namespace XFilesArchive.UI
         void HelpExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             // ShowWizard();
-            System.Diagnostics.Process.Start("notepad.exe");
+            Help.ShowHelp(null, "XFilesArchive.chm", HelpNavigator.TopicId, "1234");
+            //System.Diagnostics.Process.Start("notepad.exe");
         }
 
 
